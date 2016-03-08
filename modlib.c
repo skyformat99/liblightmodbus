@@ -4,13 +4,13 @@ uint16_t MODBUSSwapEndian( uint16_t Data )
 {
     //Change big-endian to little-endian and vice versa
 
-    unsigned char Swap;
+    uint8_t Swap;
 
 	//Create 2 bytes long union
     union Conversion
     {
         uint16_t Data;
-        unsigned char Bytes[2];
+        uint8_t Bytes[2];
     } Conversion;
 
 	//Swap bytes
@@ -28,7 +28,7 @@ uint16_t MODBUSCRC16( uint16_t *Data, uint16_t Length )
 
 	uint16_t CRC = 0xFFFF;
 	uint16_t i;
-	unsigned char j;
+	uint8_t j;
 
 	for ( i = 0; i < Length; i++ )
 	{
