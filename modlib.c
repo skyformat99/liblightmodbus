@@ -43,7 +43,7 @@ uint16_t MODBUSCRC16( uint16_t *Data, uint16_t Length )
     			CRC >>= 1; //Shift to right and xor
     			CRC ^= 0xA001;
     		}
-    		else                            // Else LSB is not set
+    		else
     			CRC >>= 1;
 		}
 	}
