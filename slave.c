@@ -2,10 +2,12 @@
 
 uint8_t MODBUSAddress; //Address of device
 uint16_t *MODBUSRegisters; //Pointer to slave-side modbus registers
-uint16_t MODBUSRegisterCout; //Count of slave-side modbus registers
+uint16_t MODBUSRegisterCount; //Count of slave-side modbus registers
 
 void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 {
+	//Parse and interpret given modbus frame on slave-side
+
 	//Init parser union
 	union MODBUSParser Parser;
 	memcpy( Parser.Frame, Frame, FrameLength );
