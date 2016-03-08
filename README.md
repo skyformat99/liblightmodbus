@@ -1,4 +1,5 @@
 # Modlib
+[![Build Status](https://travis-ci.org/Jacajack/modlib.svg?branch=master)](https://travis-ci.org/Jacajack/modlib)
 
 Modlib is a very lightweight modbus library.<br>
 Library is targeted to run on AVR devices, but it should also work on PC.
@@ -18,4 +19,4 @@ Library is targeted to run on AVR devices, but it should also work on PC.
  - **Master** device sends a **frame** to **slave** device - this is known as `request`
  - **Slave** processes received **frame** and responds to **Master** with another frame - this part is known as `response`
 
-That means functions containing `request` in their names either format request on master side or interpret it on slave side. It works pretty much the same with `response`. 
+That means functions containing `request` in their names either format request on master side or interpret it on slave side. It works pretty much the same with `response`.
