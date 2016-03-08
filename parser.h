@@ -55,7 +55,7 @@ union MODBUSParser
         uint8_t BytesCount;
         uint16_t Values[128];
         uint16_t CRC;
-    } Request16; //Write single holding register
+    } Request16; //Write multiple holding registers
 
     struct __attribute__( ( __packed__ ) )
     {
@@ -64,5 +64,5 @@ union MODBUSParser
         uint16_t FirstRegister;
         uint16_t RegisterCount;
         uint16_t CRC;
-    } Response16; //Write single holding register
+    } Response16; //Write multiple holding registers
 };
