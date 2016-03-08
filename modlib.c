@@ -21,3 +21,31 @@ uint16_t MODBUSSwapEndian( uint16_t Data )
 
     return Conversion.Data;
 }
+
+uint16_t CRC16( uint16_t *Data, uint16_t Length )
+{
+	//Calculate CRC16 checksum using given data and length
+
+	uint16_t CRC = 0xFFFF;
+	uint16_t i;
+	unsigned char j;
+
+	for ( i = 0; i < Length; i++ )
+	{
+		CRC ^= Data[i]; //XOR current data byte with CRC value
+
+		for ( j = 8; j != 0; j-- )
+		{
+			//For each bit
+			//Is least-significant-bit is set?
+    		if ( ( CRC & 0x0001 ) != 0 )
+			{
+    			CRC >>= 1; //Shift to right and xor
+    			CRC ^= 0xA001;
+    		}
+    		else                            // Else LSB is not set
+    			CRC >>= 1;
+		}
+	}
+	return CRC;
+}
