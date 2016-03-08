@@ -1,0 +1,2 @@
+#Ignore object files created during compilation process
+*.o
