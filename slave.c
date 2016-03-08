@@ -1,4 +1,5 @@
 #include "slave.h"
+#include <stdio.h>
 
 uint8_t MODBUSAddress; //Address of device
 uint16_t *MODBUSRegisters; //Pointer to slave-side modbus registers
@@ -21,13 +22,21 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	{
 		case 3: //Read multiple holding register
 
+			//Update frame length
+			FrameLength = 8;
+
 			//Check frame CRC
-			if ( MODBUSCRC16( Parser.Frame, 6 ) != Parser.Request03.CRC ) return; //EXCEPTION (in future)
+			if ( MODBUSCRC16( Parser.Frame, FrameLength - 2 ) != Parser.Request03.CRC ) return; //EXCEPTION (in future)
+
+			printf( "CRC is ok\n" ); //*DEBUG*
 
 			//Swap endianness of longer members (but not CRC)
 			Parser.Request03.FirstRegister = MODBUSSwapEndian( Parser.Request03.FirstRegister );
 			Parser.Request03.RegisterCount = MODBUSSwapEndian( Parser.Request03.RegisterCount );
 
+			if ( Parser.Request03.FirstRegister >= MODBUSRegisterCount || Parser.Request03.FirstRegister + Parser.Request03.RegisterCount > MODBUSRegisterCount ) return; //EXCEPTION (in future)
+
+			//FORMAT RESPONSE HERE
 			break;
 
 		case 6: //Write single holding register
