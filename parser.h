@@ -2,7 +2,7 @@
 
 union MODBUSParser
 {
-    char Frame[256];
+    uint8_t Frame[256];
 
     struct __attribute__( ( __packed__ ) )
     {
