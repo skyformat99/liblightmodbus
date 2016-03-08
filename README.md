@@ -8,9 +8,9 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 **Note: Library doesn't have its functionality yet, although everything is planned, and is going to be coded as soon as possible.**
 
 ## Features
- - [ ] Parsing frames using unions - that makes processing really fast
+ - [x] Parsing frames using unions - that makes processing really fast
  - [ ] Support for all functions according data registers
- - [ ] Support for reading and writing discrete input registers and coils
+ - [ ] Support for reading and writing discrete input registers and coils (upcoming)
  - [ ] Library can be used on master side as well as on slave side
  - [ ] Code is written in pure C, and features things like dynamic memory allocation for minimized resources used
  - [ ] Exceptions handling
