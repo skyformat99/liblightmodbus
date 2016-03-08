@@ -32,7 +32,7 @@ uint16_t MODBUSCRC16( uint8_t *Data, uint16_t Length )
 
 	for ( i = 0; i < Length; i++ )
 	{
-		CRC ^= Data[i]; //XOR current data byte with CRC value
+		CRC ^= (uint16_t) Data[i]; //XOR current data byte with CRC value
 
 		for ( j = 8; j != 0; j-- )
 		{
