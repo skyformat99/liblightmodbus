@@ -54,6 +54,8 @@ void MODBUSRequest03( union MODBUSParser *Parser )
 		return;
 	}
 
+
+
 	//---- Response ----
 	//Frame length is (with CRC): 5 + ( ( *Parser ).Request03.RegisterCount << 1 )
 	//5 bytes of data and each register * 2b ( 1 + 1 + 1 + 2x + 2 )
@@ -112,11 +114,12 @@ void MODBUSRequest06( union MODBUSParser *Parser )
 	//Write register
 	MODBUSSlave.Registers[( *Parser ).Request06.Register] = ( *Parser ).Request06.Value;
 
+
+
 	//---- Response ----
 	//Frame length is (with CRC): 8
 	//8 bytes of data ( 1 + 1 + 2 + 2 + 2 )
 
-	uint8_t i = 0;
 	FrameLength = 8;
 	union MODBUSParser *Builder = malloc( FrameLength ); //Allocate memory for builder union
 	MODBUSSlave.Response.Frame = realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
@@ -125,8 +128,8 @@ void MODBUSRequest06( union MODBUSParser *Parser )
 	//Set up basic response data
 	( *Builder ).Response06.Address = MODBUSSlave.Address;
 	( *Builder ).Response06.Function = ( *Parser ).Request06.Function;
-	( *Builder ).Response06.Register = ( *Parser ).Request06.Register;
-	( *Builder ).Response06.Value = ( *Parser ).Request06.Value;
+	( *Builder ).Response06.Register = MODBUSSwapEndian( ( *Parser ).Request06.Register );
+	( *Builder ).Response06.Value = MODBUSSwapEndian( ( *Parser ).Request06.Value );
 
 	//Calculate CRC
 	( *Builder ).Response06.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
@@ -186,7 +189,35 @@ void MODBUSRequest16( union MODBUSParser *Parser )
 	for ( i = 0; i < ( *Parser ).Request16.RegisterCount; i++ )
 		MODBUSSlave.Registers[( *Parser ).Request16.FirstRegister + i] = ( *Parser ).Request16.Values[i];
 
-	//FORMAT RESPONSE HERE
+
+
+	//---- Response ----
+	//Frame length is (with CRC): 8
+	//8 bytes of data ( 1 + 1 + 2 + 2 + 2 )
+
+	FrameLength = 8;
+	union MODBUSParser *Builder = malloc( FrameLength ); //Allocate memory for builder union
+	MODBUSSlave.Response.Frame = realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
+	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
+
+	//Set up basic response data
+	( *Builder ).Response16.Address = MODBUSSlave.Address;
+	( *Builder ).Response16.Function = ( *Parser ).Request16.Function;
+	( *Builder ).Response16.FirstRegister = MODBUSSwapEndian( ( *Parser ).Request16.FirstRegister );
+	( *Builder ).Response16.RegisterCount = MODBUSSwapEndian( ( *Parser ).Request16.RegisterCount );
+
+	//Calculate CRC
+	( *Builder ).Response16.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+
+	//Copy result from union to frame pointer
+	memcpy( MODBUSSlave.Response.Frame, ( *Builder ).Frame, FrameLength );
+
+	//Set frame length - frame is ready
+	MODBUSSlave.Response.Length = FrameLength;
+
+	//Free union memory
+	free( Builder );
+
 	printf( "OK\n" ); //*DEBUG*
 }
 
