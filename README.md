@@ -12,18 +12,30 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 #### Master
  - [ ] Parsing frames using unions - that makes processing really fast
  - [ ] Building frames using unions
- - [ ] Support for all functions according data registers
+ - [ ] Support for all functions operating on data registers
+ - - [ ] 03
+ - - [ ] 06
+ - - [ ] 16
  - [ ] Support for reading and writing discrete input registers and coils (upcoming)
  - [ ] Exceptions handling
+ - - [ ] 03
+ - - [ ] 06
+ - - [ ] 16
  - [ ] Extended functionality
  - [ ] Full master side support
 
 #### Slave
  - [x] Parsing frames using unions - that makes processing really fast
  - [x] Building frames using unions
- - [ ] Support for all functions according data registers
+ - [ ] Support for all functions operating on data registers
+ - - [x] 03
+ - - [x] 06
+ - - [ ] 16
  - [ ] Support for reading and writing discrete input registers and coils (upcoming)
  - [x] Exceptions handling
+ - - [x] 03
+ - - [x] 06
+ - - [x] 16
  - [ ] Extended functionality
  - [ ] Full slave side support
 
