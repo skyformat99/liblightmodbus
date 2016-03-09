@@ -5,23 +5,28 @@ uint8_t MODBUSAddress; //Address of device
 uint16_t *MODBUSRegisters; //Pointer to slave-side modbus registers
 uint16_t MODBUSRegisterCount; //Count of slave-side modbus registers
 
-uint8_t MODBUSException( uint8_t *Frame, uint8_t Function, uint8_t ExceptionCode )
+MODBUSResponseStatus MODBUSSlaveResponse; //Name contains "slave", beacuse on master side "MODBUSResponse" is data received
+
+
+void MODBUSException( uint8_t Function, uint8_t ExceptionCode )
 {
 	//Generates modbus exception frame in allocated memory frame
 	//Returns generated frame length
 
 	union MODBUSException *Exception = malloc( 5 );
-	Frame = malloc( 5 );
+	MODBUSSlaveResponse.Frame = realloc( MODBUSSlaveResponse.Frame, 5 );
+	memset( MODBUSSlaveResponse.Frame, 0, 5 );
 
 	( *Exception ).Exception.Address = MODBUSAddress;
-	( *Exception ).Exception.Function = 128 + Function;
+	( *Exception ).Exception.Function = ( 1 << 7 ) | Function;
 	( *Exception ).Exception.ExceptionCode = ExceptionCode;
 	( *Exception ).Exception.CRC = MODBUSCRC16( ( *Exception ).Frame, 3 );
 
-	memcpy( Frame, ( *Exception ).Frame, 5 );
-	free( Exception );
+	memcpy( MODBUSSlaveResponse.Frame, ( *Exception ).Frame, 5 );
 
-	return 5;
+	MODBUSSlaveResponse.Length = 5;
+
+	free( Exception );
 }
 
 void MODBUSRequest03( union MODBUSParser *Parser )
@@ -113,10 +118,14 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	//It is even worse, compiler won't warn you, when you are outside the range
 	//It works, and it uses much less memory, so I guess a bit of risk is fine in this case
 	//If something goes wrong, this can be changed back
+	//Also, user needs to free memory alocated for frame himself!
 	union MODBUSParser *Parser;
 	Parser = malloc( FrameLength );
 	memcpy( ( *Parser ).Frame, Frame, FrameLength );
-	//User needs to free memory alocated for frame himself!
+
+	//Reset response frame status
+	MODBUSSlaveResponse.Length = 0;
+
 
 	//If frame is not broadcasted and address doesn't match skip parsing
 	if ( ( *Parser ).Base.Address != MODBUSAddress && ( *Parser ).Base.Address != 0 )
@@ -140,8 +149,19 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 			break;
 
 		default:
+			//Illegal function exception
+			MODBUSException( ( *Parser ).Base.Function, 0x01 );
 			break;
 	}
 
 	free( Parser );
+}
+
+void MODBUSSlaveInit( )
+{
+	//Very basic init of slave side
+
+	//Reset response frame status
+	MODBUSSlaveResponse.Length = 0;
+	MODBUSSlaveResponse.Frame = malloc( 8 );
 }
