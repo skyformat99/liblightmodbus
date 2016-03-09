@@ -9,35 +9,61 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 
 ## Roadmap
 
-#### Master
+#### Master - not supported yet
  - [ ] Parsing frames using unions - that makes processing really fast
  - [ ] Building frames using unions
- - [ ] Support for all functions operating on data registers
- - - [ ] 03
- - - [ ] 06
- - - [ ] 16
- - [ ] Support for reading and writing discrete input registers and coils (upcoming)
- - [ ] Exceptions handling
- - - [ ] 03
- - - [ ] 06
- - - [ ] 16
- - [ ] Extended functionality
- - [ ] Full master side support
 
-#### Slave
+
+ - [ ] Basic support for all functions operating on data registers
+ - [ ] **Full support for all functions operating on data registers**
+ - [ ] Extended support for all functions operating on data registers
+ - [ ] Even more extended support for all functions operating on data registers
+
+
+ - [ ] Exceptions handling (basic support)
+ - [ ] **Exceptions handling (full support)**
+ - [ ] Exceptions handling (extended support)
+ - [ ] Exceptions handling (even more extended support)
+
+
+ - [ ] Basic master side support
+ - [ ] **Full master side support**
+ - [ ] Extended master side support
+ - [ ] Even more extended maser side support
+
+#### Slave - basic support currently
  - [x] Parsing frames using unions - that makes processing really fast
  - [x] Building frames using unions
- - [ ] Support for all functions operating on data registers
- - - [x] 03
- - - [x] 06
- - - [ ] 16
- - [ ] Support for reading and writing discrete input registers and coils (upcoming)
- - [x] Exceptions handling
- - - [x] 03
- - - [x] 06
- - - [x] 16
- - [ ] Extended functionality
- - [ ] Full slave side support
+
+
+ - [x] Basic support for all functions operating on data registers
+ - [ ] **Full support for all functions operating on data registers**
+ - [ ] Extended support for all functions operating on data registers
+ - [ ] Even more extended support for all functions operating on data registers
+
+
+ - [x] Exceptions handling (basic support)
+ - [ ] **Exceptions handling (full support)**
+ - [ ] Exceptions handling (extended support)
+ - [ ] Exceptions handling (even more extended support)
+
+
+ - [x] Basic slave side support
+ - [ ] **Full slave side support**
+ - [ ] Extended slave side support
+ - [ ] Even more extended slave side support
+
+*Basic support includes request and response processing for function codes:<br>
+3, 6, 16*
+
+*Full support includes request and response processing for function codes:<br>
+1, 2, 4, 5, 15*
+
+*Extended support includes request and response processing for function codes:<br>
+7, 8, 17, 20, 21, 22, 23, 43, *
+
+*Even more extended support includes request and response processing for function codes:<br>
+11, 12, 24*
 
 ## Communication process
  - **Master** device sends a **frame** to **slave** device - this is known as `request`
