@@ -7,13 +7,25 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 
 **Note: Library doesn't have its functionality yet, although everything is planned, and is going to be coded as soon as possible.**
 
-## Features
- - [x] Parsing frames using unions - that makes processing really fast
+## Roadmap
+
+#### Master
+ - [ ] Parsing frames using unions - that makes processing really fast
+ - [ ] Building frames using unions
  - [ ] Support for all functions according data registers
  - [ ] Support for reading and writing discrete input registers and coils (upcoming)
- - [ ] Library can be used on master side as well as on slave side
- - [ ] Code is written in pure C, and features things like dynamic memory allocation for minimized resources used
  - [ ] Exceptions handling
+ - [ ] Extended functionality
+ - [ ] Full master side support
+
+#### Slave
+ - [x] Parsing frames using unions - that makes processing really fast
+ - [x] Building frames using unions
+ - [ ] Support for all functions according data registers
+ - [ ] Support for reading and writing discrete input registers and coils (upcoming)
+ - [x] Exceptions handling
+ - [ ] Extended functionality
+ - [ ] Full slave side support
 
 ## Communication process
  - **Master** device sends a **frame** to **slave** device - this is known as `request`
