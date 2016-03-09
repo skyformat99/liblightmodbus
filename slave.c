@@ -1,5 +1,5 @@
 #include "slave.h"
-#include <stdio.h>
+#include <stdio.h> //*DEBUG*
 
 MODBUSSlaveStatus MODBUSSlave; //Slave configuration
 
@@ -9,7 +9,9 @@ void MODBUSException( uint8_t Function, uint8_t ExceptionCode )
 	//Returns generated frame length
 
 	//Allocate memory for union
-	union MODBUSException *Exception = malloc( 5 );
+	union MODBUSException *Exception = malloc( sizeof( MODBUSException ) );
+
+	//Reallocate frame memory
 	MODBUSSlave.Response.Frame = realloc( MODBUSSlave.Response.Frame, 5 );
 	memset( MODBUSSlave.Response.Frame, 0, 5 );
 
@@ -52,7 +54,35 @@ void MODBUSRequest03( union MODBUSParser *Parser )
 		return;
 	}
 
-	//FORMAT RESPONSE HERE
+	//---- Response ----
+	//Frame length is (with CRC): 5 + ( ( *Parser ).Request03.RegisterCount << 1 )
+	//5 bytes of data and each register * 2b
+
+	uint8_t i = 0;
+	FrameLength = 5 + ( ( *Parser ).Request03.RegisterCount << 1 );
+	union MODBUSParser *Builder = malloc( sizeof( ( *Builder ).Response03 ) ); //Allocate memory for builder union
+	MODBUSSlave.Response.Frame = realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
+	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
+
+	//Set up basic response data
+	( *Builder ).Response03.Address = MODBUSSlave.Address;
+	( *Builder ).Response03.Function = ( *Parser ).Request03.Function;
+	( *Builder ).Response03.BytesCount = ( *Parser ).Request03.RegisterCount << 1;
+
+	//Copy registers to response frame
+	for ( i = 0; i < ( *Parser ).Request03.RegisterCount; i++ )
+		( *Builder ).Response03.Values[i] = MODBUSSwapEndian( MODBUSSlave.Registers[( *Parser ).Request03.FirstRegister + i] );
+
+	//Calculate CRC
+	( *Builder ).Response03.Values[( *Parser ).Request03.RegisterCount] = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+
+	//Copy result from union to frame pointer
+	memcpy( MODBUSSlave.Response.Frame, ( *Builder ).Frame, FrameLength );
+
+	//Set frame length - frame is ready
+	MODBUSSlave.Response.Length = FrameLength;
+	free( Builder ); //Free union memory
+
 	printf( "OK\n" ); //*DEBUG*
 }
 
