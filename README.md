@@ -48,7 +48,7 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 1, 2, 4, 5, 15*
 
 *Extended support includes request and response processing for function codes:<br>
-7, 8, 17, 20, 21, 22, 23, 43, *
+7, 8, 17, 20, 21, 22, 23, 43*
 
 *Even more extended support includes request and response processing for function codes:<br>
 11, 12, 24*
