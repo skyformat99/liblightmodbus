@@ -1,5 +1,4 @@
 #include "slave.h"
-#include <stdio.h> //*DEBUG*
 
 MODBUSSlaveStatus MODBUSSlave; //Slave configuration
 
@@ -217,8 +216,6 @@ void MODBUSRequest16( union MODBUSParser *Parser )
 
 	//Free union memory
 	free( Builder );
-
-	printf( "OK\n" ); //*DEBUG*
 }
 
 void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
