@@ -5,9 +5,23 @@ uint8_t MODBUSAddress; //Address of device
 uint16_t *MODBUSRegisters; //Pointer to slave-side modbus registers
 uint16_t MODBUSRegisterCount; //Count of slave-side modbus registers
 
-void MODBUSException( uint8_t ExceptionCode, uint8_t *Frame )
+uint8_t MODBUSException( uint8_t *Frame, uint8_t Function, uint8_t ExceptionCode )
 {
+	//Generates modbus exception frame in allocated memory frame
+	//Returns generated frame length
 
+	union MODBUSException *Exception = malloc( 5 );
+	Frame = malloc( 5 );
+
+	( *Exception ).Exception.Address = MODBUSAddress;
+	( *Exception ).Exception.Function = 128 + Function;
+	( *Exception ).Exception.ExceptionCode = ExceptionCode;
+	( *Exception ).Exception.CRC = MODBUSCRC16( ( *Exception ).Frame, 3 );
+
+	memcpy( Frame, ( *Exception ).Frame, 5 );
+	free( Exception );
+
+	return 5;
 }
 
 void MODBUSRequest03( union MODBUSParser *Parser )
@@ -105,7 +119,11 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	//User needs to free memory alocated for frame himself!
 
 	//If frame is not broadcasted and address doesn't match skip parsing
-	if ( ( *Parser ).Base.Address != MODBUSAddress && ( *Parser ).Base.Address != 0 ) return;
+	if ( ( *Parser ).Base.Address != MODBUSAddress && ( *Parser ).Base.Address != 0 )
+	{
+		free( Parser );
+		return;
+	}
 
 	switch( ( *Parser ).Base.Function )
 	{
@@ -120,5 +138,10 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 		case 16: //Write multiple holding registers
 			MODBUSRequest16( Parser );
 			break;
+
+		default:
+			break;
 	}
+
+	free( Parser );
 }

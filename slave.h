@@ -1,5 +1,6 @@
 #include "modlib.h"
 #include "parser.h"
+#include "exception.h"
 
 //Variables definitions
 extern uint8_t MODBUSAddress; //Address of device
