@@ -1,12 +1,7 @@
 #include "slave.h"
 #include <stdio.h>
 
-uint8_t MODBUSAddress; //Address of device
-uint16_t *MODBUSRegisters; //Pointer to slave-side modbus registers
-uint16_t MODBUSRegisterCount; //Count of slave-side modbus registers
-
-MODBUSResponseStatus MODBUSSlaveResponse; //Name contains "slave", beacuse on master side "MODBUSResponse" is data received
-
+MODBUSSlaveStatus MODBUSSlave; //Slave configuration
 
 void MODBUSException( uint8_t Function, uint8_t ExceptionCode )
 {
@@ -15,20 +10,20 @@ void MODBUSException( uint8_t Function, uint8_t ExceptionCode )
 
 	//Allocate memory for union
 	union MODBUSException *Exception = malloc( 5 );
-	MODBUSSlaveResponse.Frame = realloc( MODBUSSlaveResponse.Frame, 5 );
-	memset( MODBUSSlaveResponse.Frame, 0, 5 );
+	MODBUSSlave.Response.Frame = realloc( MODBUSSlave.Response.Frame, 5 );
+	memset( MODBUSSlave.Response.Frame, 0, 5 );
 
 	//Setup exception frame
-	( *Exception ).Exception.Address = MODBUSAddress;
+	( *Exception ).Exception.Address = MODBUSSlave.Address;
 	( *Exception ).Exception.Function = ( 1 << 7 ) | Function;
 	( *Exception ).Exception.ExceptionCode = ExceptionCode;
 	( *Exception ).Exception.CRC = MODBUSCRC16( ( *Exception ).Frame, 3 );
 
 	//Copy result from union to frame pointer
-	memcpy( MODBUSSlaveResponse.Frame, ( *Exception ).Frame, 5 );
+	memcpy( MODBUSSlave.Response.Frame, ( *Exception ).Frame, 5 );
 
 	//Set frame length - frame is ready
-	MODBUSSlaveResponse.Length = 5;
+	MODBUSSlave.Response.Length = 5;
 
 	//Free memory used for union
 	free( Exception );
@@ -50,7 +45,7 @@ void MODBUSRequest03( union MODBUSParser *Parser )
 	( *Parser ).Request03.RegisterCount = MODBUSSwapEndian( ( *Parser ).Request03.RegisterCount );
 
 	//Check if register is in valid range
-	if ( ( *Parser ).Request03.FirstRegister >= MODBUSRegisterCount || ( *Parser ).Request03.FirstRegister + ( *Parser ).Request03.RegisterCount > MODBUSRegisterCount )
+	if ( ( *Parser ).Request03.FirstRegister >= MODBUSSlave.RegisterCount || ( *Parser ).Request03.FirstRegister + ( *Parser ).Request03.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
 		MODBUSException( 0x03, 0x02 );
@@ -77,7 +72,7 @@ void MODBUSRequest06( union MODBUSParser *Parser )
 	( *Parser ).Request06.Value = MODBUSSwapEndian( ( *Parser ).Request06.Value );
 
 	//Check if register is in valid range
-	if ( ( *Parser ).Request06.Register >= MODBUSRegisterCount )
+	if ( ( *Parser ).Request06.Register >= MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
 		MODBUSException( 0x06, 0x02 );
@@ -85,7 +80,7 @@ void MODBUSRequest06( union MODBUSParser *Parser )
 	}
 
 	//Write register
-	MODBUSRegisters[( *Parser ).Request06.Register] = ( *Parser ).Request06.Value;
+	MODBUSSlave.Registers[( *Parser ).Request06.Register] = ( *Parser ).Request06.Value;
 
 	//FORMAT RESPONSE HERE
 	printf( "OK\n" ); //*DEBUG*
@@ -125,7 +120,7 @@ void MODBUSRequest16( union MODBUSParser *Parser )
 	}
 
 	//Check if registers are in valid range
-	if ( ( *Parser ).Request16.FirstRegister >= MODBUSRegisterCount || ( *Parser ).Request16.FirstRegister + ( *Parser ).Request16.RegisterCount > MODBUSRegisterCount )
+	if ( ( *Parser ).Request16.FirstRegister >= MODBUSSlave.RegisterCount || ( *Parser ).Request16.FirstRegister + ( *Parser ).Request16.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
 		MODBUSException( 0x10, 0x02 );
@@ -134,7 +129,7 @@ void MODBUSRequest16( union MODBUSParser *Parser )
 
 	//Write values to registers
 	for ( i = 0; i < ( *Parser ).Request16.RegisterCount; i++ )
-		MODBUSRegisters[( *Parser ).Request16.FirstRegister + i] = ( *Parser ).Request16.Values[i];
+		MODBUSSlave.Registers[( *Parser ).Request16.FirstRegister + i] = ( *Parser ).Request16.Values[i];
 
 	//FORMAT RESPONSE HERE
 	printf( "OK\n" ); //*DEBUG*
@@ -156,11 +151,11 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	memcpy( ( *Parser ).Frame, Frame, FrameLength );
 
 	//Reset response frame status
-	MODBUSSlaveResponse.Length = 0;
+	MODBUSSlave.Response.Length = 0;
 
 
 	//If frame is not broadcasted and address doesn't match skip parsing
-	if ( ( *Parser ).Base.Address != MODBUSAddress && ( *Parser ).Base.Address != 0 )
+	if ( ( *Parser ).Base.Address != MODBUSSlave.Address && ( *Parser ).Base.Address != 0 )
 	{
 		free( Parser );
 		return;
@@ -192,11 +187,11 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 void MODBUSSlaveInit( uint8_t Address, uint16_t *Registers, uint16_t RegisterCount )
 {
 	//Very basic init of slave side
-	MODBUSAddress = Address;
-	MODBUSRegisters = Registers;
-	MODBUSRegisterCount = RegisterCount;
+	MODBUSSlave.Address = Address;
+	MODBUSSlave.Registers = Registers;
+	MODBUSSlave.RegisterCount = RegisterCount;
 
 	//Reset response frame status
-	MODBUSSlaveResponse.Length = 0;
-	MODBUSSlaveResponse.Frame = malloc( 8 );
+	MODBUSSlave.Response.Length = 0;
+	MODBUSSlave.Response.Frame = malloc( 8 );
 }
