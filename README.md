@@ -16,20 +16,20 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 
 ## Roadmap
 #### Master - not supported yet
-| Support Type  | Data registers | Exceptions handling | Master side Support |
-|---------------|:--------------:|:-------------------:|:-------------------:|
-|Basic          | &#10008;       | &#10008;            | &#10008;            |
-|Full           | &#10008;       | &#10008;            | &#10008;            |
-|Extended       | &#10008;       | &#10008;            | &#10008;            |
-|Super extended | &#10008;		 | &#10008;            | &#10008;            |
+| Support Type  | Parsing / responding | Exceptions handling | Master side Support |
+|---------------|:--------------------:|:-------------------:|:-------------------:|
+|Basic          | &#10008;             | &#10008;            | &#10008;            |
+|Full           | &#10008;             | &#10008;            | &#10008;            |
+|Extended       | &#10008;             | &#10008;            | &#10008;            |
+|Super extended | &#10008;		       | &#10008;            | &#10008;            |
 
 #### Slave - basic support currently
-| Support Type  | Data registers | Exceptions handling | Slave side Support |
-|---------------|:--------------:|:-------------------:|:------------------:|
-|Basic          | &#10004;       | &#10004;            | &#10004;           |
-|Full           | &#10008;       | &#10008;            | &#10008;           |
-|Extended       | &#10008;       | &#10008;            | &#10008;           |
-|Super extended | &#10008; 		 | &#10008;            | &#10008;           |  
+| Support Type  | Parsing / responding | Exceptions handling | Slave side Support |
+|---------------|:--------------------:|:-------------------:|:------------------:|
+|Basic          | &#10004;             | &#10004;            | &#10004;           |
+|Full           | &#10008;             | &#10008;            | &#10008;           |
+|Extended       | &#10008;             | &#10008;            | &#10008;           |
+|Super extended | &#10008; 	           | &#10008;            | &#10008;           |  
 
 
 *Basic support includes request and response processing for function codes:<br>
