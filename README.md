@@ -16,7 +16,7 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 
 ## Roadmap
 #### Master - not supported yet
-| Support Type  | Parsing / responding | Exceptions handling | Master side Support |
+| Support type  | Parsing / responding | Exceptions handling | Master side support |
 |---------------|:--------------------:|:-------------------:|:-------------------:|
 |Basic          | &#10008;             | &#10008;            | &#10008;            |
 |Full           | &#10008;             | &#10008;            | &#10008;            |
@@ -24,7 +24,7 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 |Super extended | &#10008;		       | &#10008;            | &#10008;            |
 
 #### Slave - basic support currently
-| Support Type  | Parsing / responding | Exceptions handling | Slave side Support |
+| Support type  | Parsing / responding | Exceptions handling | Slave side support |
 |---------------|:--------------------:|:-------------------:|:------------------:|
 |Basic          | &#10004;             | &#10004;            | &#10004;           |
 |Full           | &#10008;             | &#10008;            | &#10008;           |
