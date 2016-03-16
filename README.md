@@ -7,39 +7,30 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 
 **Note: Library doesn't have its functionality yet, although everything is planned, and is going to be coded as soon as possible.**
 
-## Roadmap
+## Features
+- Parsing frames using unions - that makes processing really fast
+- Building frames using unions
+- CRC checking
+- Lightweight and easy to use
+- For currently supported functions see roadmap below
 
+## Roadmap
 #### Master - not supported yet
- - [ ] Parsing frames using unions - that makes processing really fast
- - [ ] Building frames using unions
- - [ ] Basic support for all functions operating on data registers
- - [ ] **Full support for all functions operating on data registers**
- - [ ] Extended support for all functions operating on data registers
- - [ ] Even more extended support for all functions operating on data registers
- - [ ] Exceptions handling (basic support)
- - [ ] **Exceptions handling (full support)**
- - [ ] Exceptions handling (extended support)
- - [ ] Exceptions handling (even more extended support)
- - [ ] Basic master side support
- - [ ] **Full master side support**
- - [ ] Extended master side support
- - [ ] Even more extended maser side support
+| Support Type  | Data registers | Exceptions handling | Master side Support |
+|---------------|:--------------:|:-------------------:|:-------------------:|
+|Basic          | &#10008;       | &#10008;            | &#10008;            |
+|Full           | &#10008;       | &#10008;            | &#10008;            |
+|Extended       | &#10008;       | &#10008;            | &#10008;            |
+|Super extended | &#10008;		 | &#10008;            | &#10008;            |
 
 #### Slave - basic support currently
- - [x] Parsing frames using unions - that makes processing really fast
- - [x] Building frames using unions
- - [x] Basic support for all functions operating on data registers
- - [ ] **Full support for all functions operating on data registers**
- - [ ] Extended support for all functions operating on data registers
- - [ ] Even more extended support for all functions operating on data registers
- - [x] Exceptions handling (basic support)
- - [ ] **Exceptions handling (full support)**
- - [ ] Exceptions handling (extended support)
- - [ ] Exceptions handling (even more extended support)
- - [x] Basic slave side support
- - [ ] **Full slave side support**
- - [ ] Extended slave side support
- - [ ] Even more extended slave side support
+| Support Type  | Data registers | Exceptions handling | Slave side Support |
+|---------------|:--------------:|:-------------------:|:------------------:|
+|Basic          | &#10004;       | &#10004;            | &#10004;           |
+|Full           | &#10008;       | &#10008;            | &#10008;           |
+|Extended       | &#10008;       | &#10008;            | &#10008;           |
+|Super extended | &#10008; 		 | &#10008;            | &#10008;           |  
+
 
 *Basic support includes request and response processing for function codes:<br>
 3, 6, 16*
@@ -50,7 +41,7 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 *Extended support includes request and response processing for function codes:<br>
 7, 8, 17, 20, 21, 22, 23, 43*
 
-*Even more extended support includes request and response processing for function codes:<br>
+*Super extended support includes request and response processing for function codes:<br>
 11, 12, 24*
 
 ## Communication process
