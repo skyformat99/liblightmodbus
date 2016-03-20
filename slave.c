@@ -128,7 +128,7 @@ void MODBUSRequest06( union MODBUSParser *Parser )
 	( *Builder ).Response06.Address = MODBUSSlave.Address;
 	( *Builder ).Response06.Function = ( *Parser ).Request06.Function;
 	( *Builder ).Response06.Register = MODBUSSwapEndian( ( *Parser ).Request06.Register );
-	( *Builder ).Response06.Value = MODBUSSwapEndian( ( *Parser ).Request06.Value );
+	( *Builder ).Response06.Value = MODBUSSwapEndian( MODBUSSlave.Registers[( *Parser ).Request06.Register] );
 
 	//Calculate CRC
 	( *Builder ).Response06.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
