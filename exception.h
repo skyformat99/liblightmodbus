@@ -1,3 +1,5 @@
+#define _MODBUS_EXCEPTION
+
 //Exception generator union
 
 union MODBUSException

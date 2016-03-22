@@ -1,5 +1,6 @@
-//This parser is incomplete yet!
+#define _MODBUS_PARSER
 
+//This parser is incomplete yet! (basic version currently)
 union MODBUSParser
 {
     uint8_t Frame[256];

@@ -1,8 +1,16 @@
+#ifndef _MODLIB
 #include "modlib.h"
-#include "parser.h"
-#include "exception.h"
-#include "slave/types.h"
+#endif
 
+#ifndef _MODBUS_PARSER
+#include "parser.h"
+#endif
+
+#ifndef _MODBUS_EXCEPTION
+#include "exception.h"
+#endif
+
+#include "slave/types.h"
 #include "slave/basic.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
