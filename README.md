@@ -15,10 +15,10 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 - For currently supported functions see roadmap below
 
 ## Roadmap
-#### Master - basic support currently, to be improved
+#### Master - almost basic support currently, to be improved
 | Support type  | Parsing / requesting | Exceptions handling | Master side support |
 |---------------|:--------------------:|:-------------------:|:-------------------:|
-|Basic          | &#10004;             | &#10004;            | &#10004;            |
+|Basic          | Only parsing now     | &#10004;            | &#10004;            |
 |Full           | &#10008;             | &#10008;            | &#10008;            |
 |Extended       | &#10008;             | &#10008;            | &#10008;            |
 |Super extended | &#10008;		       | &#10008;            | &#10008;            |
