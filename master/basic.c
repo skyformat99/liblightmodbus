@@ -7,9 +7,33 @@
 //Use external master configuration
 extern MODBUSMasterStatus MODBUSMaster;
 
+void MODBUSResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+{
+	//Parse slave response to request 03 (read multiple holding registers)
+
+	//Update frame length
+	uint8_t i = 0;
+	uint8_t FrameLength = 5 + ( *Parser ).Response03.BytesCount;
+
+	//Check frame CRC
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response03.Values[ ( *Parser ).Response03.BytesCount >> 1 ] ) return;
+
+	MODBUSMaster.Data = realloc( MODBUSMaster.Data, ( ( *Parser ).Response03.BytesCount >> 1 ) * sizeof( MODBUSData ) );
+
+	for ( i = 0; i < ( ( *Parser ).Response03.BytesCount >> 1 ); i++ )
+	{
+		MODBUSMaster.Data[i].Address = ( *Parser ).Base.Address;
+		MODBUSMaster.Data[i].DataType = Register;
+		MODBUSMaster.Data[i].Register = MODBUSSwapEndian( ( *RequestParser ).Request03.FirstRegister ) + i;
+		MODBUSMaster.Data[i].Value = MODBUSSwapEndian( ( *Parser ).Response03.Values[i] );
+	}
+
+	MODBUSMaster.DataLength = ( *Parser ).Response03.BytesCount >> 1;
+}
+
 void MODBUSResponse06( union MODBUSParser *Parser )
 {
-	//Parse slave response to request 06 (read multiple holding registers)
+	//Parse slave response to request 06 (write single holding register)
 
 	//Update frame length
 	uint8_t FrameLength = 8;
@@ -34,7 +58,7 @@ void MODBUSResponse06( union MODBUSParser *Parser )
 	MODBUSMaster.DataLength = 1;
 }
 
-uint8_t MODBUSParseResponseBasic( union MODBUSParser *Parser )
+uint8_t MODBUSParseResponseBasic( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse response frame returned by slave using basic parsing functions
 	//If 0 is returned everything is ok, and response is parsed
@@ -44,7 +68,7 @@ uint8_t MODBUSParseResponseBasic( union MODBUSParser *Parser )
 	switch( ( *Parser ).Base.Function )
 	{
 		case 3: //Read multiple holding registers
-			//MODBUSResponse03( Parser );
+			MODBUSResponse03( Parser, RequestParser );
 			return 0;
 			break;
 
