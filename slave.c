@@ -110,7 +110,7 @@ void MODBUSRequest06( union MODBUSParser *Parser )
 	{
 		//Illegal data address exception
 		MODBUSException( 0x06, 0x02 );
-		returgn;
+		return;
 	}
 
 	//Write register
