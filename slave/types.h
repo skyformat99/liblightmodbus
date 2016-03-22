@@ -1,3 +1,5 @@
+//Declarations for slave types
+
 typedef struct
 {
 	uint8_t Length; //Length of frame, if it's equal to 0, frame is not ready
