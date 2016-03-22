@@ -6,7 +6,8 @@ LD = ld
 
 all: obj/modlib.o master-full slave-full FORCE
 
-debug: obj/modlib.o master-base slave-basic FORCE
+#This target makes as many files as possible (because of development some files don't exist yet)
+most: obj/modlib.o master-base slave-basic FORCE
 
 obj/modlib.o: modlib.c modlib.h FORCE
 	$(CC) -c modlib.c -o obj/modlib.o
