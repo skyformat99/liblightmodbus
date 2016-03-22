@@ -7,25 +7,15 @@ void MODBUSParseException( union MODBUSParser *Parser )
 {
 	//Parse exception frame and write data to MODBUSMaster structure
 
-	//Allocate memory for exception parser
-	union MODBUSException *Exception = malloc( sizeof( union MODBUSException ) );
-	memcpy( ( *Exception ).Frame, ( *Parser ).Frame, sizeof( union MODBUSException ) );
-
 	//Check CRC
-	if ( MODBUSCRC16( ( *Exception ).Frame, 3 ) != ( *Exception ).Exception.CRC )
-	{
-		free( Exception );
-		return;
-	}
+	if ( MODBUSCRC16( ( *Parser ).Frame, 3 ) != ( *Parser ).Exception.CRC ) return;
 
 	//Copy data
-	MODBUSMaster.Exception.Address = ( *Exception ).Exception.Address;
-	MODBUSMaster.Exception.Function = ( *Exception ).Exception.Function;
-	MODBUSMaster.Exception.Code = ( *Exception ).Exception.ExceptionCode;
+	MODBUSMaster.Exception.Address = ( *Parser ).Exception.Address;
+	MODBUSMaster.Exception.Function = ( *Parser ).Exception.Function;
+	MODBUSMaster.Exception.Code = ( *Parser ).Exception.ExceptionCode;
 
 	MODBUSMaster.Error = 1;
-
-	free( Exception );
 }
 
 void MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength )

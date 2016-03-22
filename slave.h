@@ -6,10 +6,6 @@
 #include "parser.h"
 #endif
 
-#ifndef _MODBUS_EXCEPTION
-#include "exception.h"
-#endif
-
 #include "slave/types.h"
 #include "slave/basic.h"
 

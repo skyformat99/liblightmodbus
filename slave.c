@@ -9,7 +9,7 @@ void MODBUSException( uint8_t Function, uint8_t ExceptionCode )
 	//Returns generated frame length
 
 	//Allocate memory for union
-	union MODBUSException *Exception = malloc( sizeof( MODBUSException ) );
+	union MODBUSParser *Exception = malloc( 5 );
 
 	//Reallocate frame memory
 	MODBUSSlave.Response.Frame = realloc( MODBUSSlave.Response.Frame, 5 );

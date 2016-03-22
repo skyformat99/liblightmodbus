@@ -6,10 +6,6 @@
 #include "parser.h"
 #endif
 
-#ifndef _MODBUS_EXCEPTION
-#include "exception.h"
-#endif
-
 #include "master/types.h"
 #include <stdio.h> /*DEBUG*/
 
