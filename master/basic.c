@@ -12,11 +12,24 @@ void MODBUSResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestPa
 	//Parse slave response to request 03 (read multiple holding registers)
 
 	//Update frame length
-	uint8_t i = 0;
 	uint8_t FrameLength = 5 + ( *Parser ).Response03.BytesCount;
+	uint8_t DataOK = 1;
+	uint8_t i = 0;
 
 	//Check frame CRC
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response03.Values[ ( *Parser ).Response03.BytesCount >> 1 ] ) return;
+
+	//Check between data sent to slave and received from slave
+	DataOK &= ( ( *Parser ).Response03.Address == ( *RequestParser ).Request03.Address );
+	DataOK &= ( ( *Parser ).Response03.Function == ( *RequestParser ).Request03.Function );
+	DataOK &= ( ( *Parser ).Response03.BytesCount == ( *RequestParser ).Request03.RegisterCount ) << 1;
+
+	if ( !DataOK )
+	{
+		MODBUSMaster.Error = 1;
+		MODBUSMaster.Finished = 1;
+		return;
+	}
 
 	MODBUSMaster.Data = realloc( MODBUSMaster.Data, ( ( *Parser ).Response03.BytesCount >> 1 ) * sizeof( MODBUSData ) );
 
@@ -29,17 +42,32 @@ void MODBUSResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestPa
 	}
 
 	MODBUSMaster.DataLength = ( *Parser ).Response03.BytesCount >> 1;
+	MODBUSMaster.Finished = 1;
 }
 
-void MODBUSResponse06( union MODBUSParser *Parser )
+void MODBUSResponse06( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 06 (write single holding register)
 
 	//Update frame length
 	uint8_t FrameLength = 8;
+	uint8_t DataOK = 1;
 
 	//Check frame CRC
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response06.CRC ) return;
+
+	//Check between data sent to slave and received from slave
+	DataOK &= ( ( *Parser ).Response06.Address == ( *RequestParser ).Request06.Address );
+	DataOK &= ( ( *Parser ).Response06.Function == ( *RequestParser ).Request06.Function );
+	DataOK &= ( ( *Parser ).Response06.Register == ( *RequestParser ).Request06.Register );
+	DataOK &= ( ( *Parser ).Response06.Value == ( *RequestParser ).Request06.Value );
+
+	if ( !DataOK )
+	{
+		MODBUSMaster.Error = 1;
+		MODBUSMaster.Finished = 1;
+		return;
+	}
 
 	//Swap endianness
 	( *Parser ).Response06.Register = MODBUSSwapEndian( ( *Parser ).Response06.Register );
@@ -56,6 +84,28 @@ void MODBUSResponse06( union MODBUSParser *Parser )
 
 	//Set up data length - response successfully parsed
 	MODBUSMaster.DataLength = 1;
+	MODBUSMaster.Finished = 1;
+}
+
+void MODBUSResponse16( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+{
+	//Parse slave response to request 16 (write multiple holding register)
+
+	//Update frame length
+	uint8_t FrameLength = 8;
+	uint8_t DataOK = 1;
+
+	//Check frame CRC
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response16.CRC ) return;
+
+	//Check between data sent to slave and received from slave
+	DataOK &= ( ( *Parser ).Response16.Address == ( *RequestParser ).Request16.Address );
+	DataOK &= ( ( *Parser ).Response16.Function == ( *RequestParser ).Request16.Function );
+	DataOK &= ( ( *Parser ).Response16.FirstRegister == ( *RequestParser ).Request16.FirstRegister );
+	DataOK &= ( ( *Parser ).Response16.RegisterCount == ( *RequestParser ).Request16.RegisterCount );
+
+	MODBUSMaster.Error = !DataOK;
+	MODBUSMaster.Finished = 1;
 }
 
 uint8_t MODBUSParseResponseBasic( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
@@ -73,12 +123,12 @@ uint8_t MODBUSParseResponseBasic( union MODBUSParser *Parser, union MODBUSParser
 			break;
 
 		case 6: //Write single holding register
-			MODBUSResponse06( Parser );
+			MODBUSResponse06( Parser, RequestParser );
 			return 0;
 			break;
 
 		case 16: //Write multiple holding registers
-			//MODBUSResponse16( Parser );
+			MODBUSResponse16( Parser, RequestParser );
 			return 0;
 			break;
 
