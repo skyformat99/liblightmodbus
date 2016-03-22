@@ -42,6 +42,9 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	//It works, and it uses much less memory, so I guess a bit of risk is fine in this case
 	//If something goes wrong, this can be changed back
 	//Also, user needs to free memory alocated for frame himself!
+
+	uint8_t ParseSuccess = 0;
+
 	union MODBUSParser *Parser;
 	Parser = malloc( FrameLength );
 	memcpy( ( *Parser ).Frame, Frame, FrameLength );
@@ -57,7 +60,10 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	}
 
 	if ( MODBUS_SLAVE_BASIC )
-		MODBUSParseRequestBasic( Parser );
+		ParseSuccess += MODBUSParseRequestBasic( Parser );
+
+	if ( ParseSuccess > 0 )
+		MODBUSException( ( *Parser ).Base.Function, 0x01 );
 
 	free( Parser );
 }
