@@ -22,7 +22,7 @@ void MODBUSResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestPa
 	//Check between data sent to slave and received from slave
 	DataOK &= ( ( *Parser ).Response03.Address == ( *RequestParser ).Request03.Address );
 	DataOK &= ( ( *Parser ).Response03.Function == ( *RequestParser ).Request03.Function );
-	DataOK &= ( ( *Parser ).Response03.BytesCount == ( *RequestParser ).Request03.RegisterCount ) << 1;
+	DataOK &= ( ( *Parser ).Response03.BytesCount == MODBUSSwapEndian( ( *RequestParser ).Request03.RegisterCount ) << 1 );
 
 	if ( !DataOK )
 	{
