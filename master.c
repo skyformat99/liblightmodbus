@@ -18,7 +18,7 @@ void MODBUSParseException( union MODBUSParser *Parser )
 	MODBUSMaster.Error = 1;
 }
 
-void MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength )
+void MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *RequestFrame, uint8_t RequestFrameLength )
 {
 	//This function parses response from master
 	//Calling it will lead to losing all data and exceptions stored in MODBUSMaster (space will be reallocated)
@@ -26,6 +26,10 @@ void MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength )
 	//Allocate memory for union and copy frame to it
 	union MODBUSParser *Parser = malloc( FrameLength );
 	memcpy( ( *Parser ).Frame,  Frame, FrameLength );
+
+	//Allocate memory for request union and copy frame to it
+	union MODBUSParser *RequestParser = malloc( RequestFrameLength );
+	memcpy( ( *RequestParser ).Frame,  RequestFrame, RequestFrameLength );
 
 	//Check if frame is exception response
 	if ( ( *Parser ).Base.Function & 128 )
@@ -35,11 +39,12 @@ void MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength )
 	else
 	{
 		if ( MODBUS_MASTER_BASIC )
-			MODBUSParseResponseBasic( Parser );
+			MODBUSParseResponseBasic( Parser, RequestParser );
 	}
 
 	//Free used memory
 	free( Parser );
+	free( RequestParser );
 }
 
 void MODBUSMasterInit( )
