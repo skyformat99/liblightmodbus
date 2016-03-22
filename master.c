@@ -31,6 +31,13 @@ void MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *RequestF
 	union MODBUSParser *RequestParser = malloc( RequestFrameLength );
 	memcpy( ( *RequestParser ).Frame,  RequestFrame, RequestFrameLength );
 
+	//Reset output registers before parsing frame
+	MODBUSMaster.DataLength = 0;
+	MODBUSMaster.Error = 0;
+	MODBUSMaster.Exception.Address = 0;
+	MODBUSMaster.Exception.Function = 0;
+	MODBUSMaster.Exception.Code = 0;
+
 	//Check if frame is exception response
 	if ( ( *Parser ).Base.Function & 128 )
 	{
