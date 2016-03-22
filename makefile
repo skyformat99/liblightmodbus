@@ -7,7 +7,7 @@ LD = ld
 all: obj/modlib.o master-full slave-full FORCE
 
 #This target makes as many files as possible (because of development some files don't exist yet)
-most: obj/modlib.o master-base slave-basic FORCE
+most: obj/modlib.o master-basic slave-basic FORCE
 
 obj/modlib.o: modlib.c modlib.h FORCE
 	$(CC) -c modlib.c -o obj/modlib.o
@@ -18,7 +18,7 @@ obj/modlib.o: modlib.c modlib.h FORCE
 master-base: master.c master.h parser.h FORCE
 	$(CC) -c master.c -o obj/master-base.o
 
-master-basic: master.c master.h parser.h master-base master/basic.c master/basic.h FORCE
+master-basic: master.c master.h parser.h master/basic.c master/basic.h FORCE
 	$(CC) -c master.c -DMODBUS_MASTER_BASIC=1 -o obj/master-base.o
 	$(CC) -c master/basic.c -o obj/master/basic.o
 	$(LD) -r obj/master-base.o obj/master/basic.o -o obj/master-basic.o
