@@ -1,6 +1,5 @@
 #include "../modlib.h"
 #include "../parser.h"
-#include "../exception.h"
 #include "types.h"
 
 #include "basic.h"
