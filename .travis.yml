@@ -1,4 +1,4 @@
 install: true
 language: c
 compiler: gcc
-script: make all
+script: make debug
