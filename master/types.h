@@ -8,6 +8,7 @@ typedef enum
 typedef struct
 {
 	uint8_t Address; //Device address
+	uint8_t Function; //Function called, in which exception occured
 	uint8_t Code; //Exception code
 } MODBUSExceptionLog; //Parsed exception data
 
