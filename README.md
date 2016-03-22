@@ -16,7 +16,7 @@ Library is targeted to run on AVR devices, but it should also work on PC.
 
 ## Roadmap
 #### Master - support on its way!
-| Support type  | Parsing / responding | Exceptions handling | Master side support |
+| Support type  | Parsing / requesting | Exceptions handling | Master side support |
 |---------------|:--------------------:|:-------------------:|:-------------------:|
 |Basic          | &#10008;             | &#10004;            | &#10008;            |
 |Full           | &#10008;             | &#10008;            | &#10008;            |
