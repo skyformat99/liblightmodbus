@@ -5,7 +5,7 @@
 
 #include "slave/basic.h"
 
-//Enabling modules in compilation process
+//Enabling modules in compilation process (use makefile to automate this process)
 #ifndef MODBUS_SLAVE_BASIC
 #define MODBUS_SLAVE_BASIC 0
 #endif

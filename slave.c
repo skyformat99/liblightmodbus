@@ -1,6 +1,7 @@
 #include "slave.h"
 
-MODBUSSlaveStatus MODBUSSlave; //Slave configuration
+ //Slave configuration
+MODBUSSlaveStatus MODBUSSlave;
 
 void MODBUSException( uint8_t Function, uint8_t ExceptionCode )
 {
