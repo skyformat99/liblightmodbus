@@ -1,4 +1,9 @@
-install: true
+sudo: required
 language: c
-compiler: gcc
-script: make all
+before_install:
+  - sudo apt-get update
+install:
+  - sudo apt-get install gcc-avr binutils-avr avr-libc
+script:
+  - make all
+  - make -f makefile-avr all
