@@ -4,7 +4,7 @@
 CC = gcc
 LD = ld
 
-all: obj/modlib.o master-full slave-full FORCE
+all: most FORCE
 
 #This target makes as many files as possible (because of development some files don't exist yet)
 most: obj/modlib.o master-basic slave-basic FORCE
@@ -43,10 +43,10 @@ slave-full: slave-basic slave/full.c slave/full.h
 
 #### Utilities
 
-clean:
-	rm -rf obj
-
-FORCE:
+FORCE: clean
 	mkdir obj
 	mkdir obj/slave
 	mkdir obj/master
+
+clean:
+	rm -rf obj
