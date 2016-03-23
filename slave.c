@@ -63,7 +63,7 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 		ParseSuccess += MODBUSParseRequestBasic( Parser );
 
 	if ( ParseSuccess > 0 )
-		MODBUSException( ( *Parser ).Base.Function, 0x01 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( ( *Parser ).Base.Function, 0x01 );
 
 	free( Parser );
 }

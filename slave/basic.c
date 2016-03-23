@@ -26,10 +26,9 @@ void MODBUSRequest03( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request03.FirstRegister >= MODBUSSlave.RegisterCount || ( *Parser ).Request03.FirstRegister + ( *Parser ).Request03.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
-		MODBUSException( 0x03, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( 0x03, 0x02 );
 		return;
 	}
-
 
 
 	//---- Response ----
@@ -76,7 +75,7 @@ void MODBUSRequest06( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request06.CRC ) return; //EXCEPTION (in future)
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request06.CRC ) return;
 
 	//Swap endianness of longer members (but not CRC)
 	( *Parser ).Request06.Register = MODBUSSwapEndian( ( *Parser ).Request06.Register );
@@ -86,13 +85,12 @@ void MODBUSRequest06( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request06.Register >= MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
-		MODBUSException( 0x06, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( 0x06, 0x02 );
 		return;
 	}
 
 	//Write register
 	MODBUSSlave.Registers[( *Parser ).Request06.Register] = ( *Parser ).Request06.Value;
-
 
 	//---- Response ----
 	//Frame length is (with CRC): 8
@@ -136,13 +134,13 @@ void MODBUSRequest16( union MODBUSParser *Parser )
 
 	//Check frame CRC
 	//Shifting is used instead of dividing for optimisation on smaller devices (AVR)
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request16.Values[( *Parser ).Request16.BytesCount >> 1] ) return; //EXCEPTION (in future)
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request16.Values[( *Parser ).Request16.BytesCount >> 1] ) return;
 
 	//Check if bytes or registers count isn't 0
 	if ( ( *Parser ).Request16.BytesCount == 0 || ( *Parser ).Request16.RegisterCount == 0 )
 	{
 		//Illegal data value error
-		MODBUSException( 0x10, 0x03 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( 0x10, 0x03 );
 		return;
 	}
 
@@ -154,7 +152,7 @@ void MODBUSRequest16( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request16.RegisterCount != ( ( *Parser ).Request16.BytesCount >> 1 ) )
 	{
 		//Illegal data value error
-		MODBUSException( 0x10, 0x03 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( 0x10, 0x03 );
 		return;
 	}
 
@@ -162,14 +160,13 @@ void MODBUSRequest16( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request16.FirstRegister >= MODBUSSlave.RegisterCount || ( *Parser ).Request16.FirstRegister + ( *Parser ).Request16.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
-		MODBUSException( 0x10, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( 0x10, 0x02 );
 		return; //EXCEPTION (in future)
 	}
 
 	//Write values to registers
 	for ( i = 0; i < ( *Parser ).Request16.RegisterCount; i++ )
 		MODBUSSlave.Registers[( *Parser ).Request16.FirstRegister + i] = ( *Parser ).Request16.Values[i];
-
 
 
 	//---- Response ----
