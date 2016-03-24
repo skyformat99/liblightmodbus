@@ -1,7 +1,13 @@
 # Modlib
-[![Build Status](https://travis-ci.org/Jacajack/modlib.svg?branch=master)](https://travis-ci.org/Jacajack/modlib)
 
-Modlib is a very lightweight modbus library.<br>
+[![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
+[![Travis CI](https://img.shields.io/travis/Jacajack/modlib.svg?style=flat-square)](https://travis-ci.org/Jacajack/modlib)
+[![Coverage Status](https://coveralls.io/repos/github/Jacajack/modlib/badge.svg?branch=master)](https://coveralls.io/github/Jacajack/modlib?branch=master)
+
+Latest release:
+[![Travis CI](https://img.shields.io/travis/Jacajack/modlib/v0.1-beta.svg?style=flat-square)](https://travis-ci.org/Jacajack/modlib)
+
+Modlib is a very lightweight Modbus library.<br>
 Library is targeted to run on AVR devices, but it should also work on PC.
 
 
@@ -12,7 +18,7 @@ For more detailed information check out [wiki](https://github.com/Jacajack/modli
 ## Features
 - Parsing frames using unions - that makes processing really fast
 - Building frames using unions
-- CRC checking
+- CRC16 checking
 - Lightweight and easy to use
 - For currently supported functions see roadmap below
 
@@ -23,7 +29,7 @@ For more detailed information check out [wiki](https://github.com/Jacajack/modli
 |Basic          | Only parsing now     | &#10004;            | &#10004;            |
 |Full           | &#10008;             | &#10008;            | &#10008;            |
 |Extended       | &#10008;             | &#10008;            | &#10008;            |
-|Super extended | &#10008;		       | &#10008;            | &#10008;            |
+|Super extended | &#10008;             | &#10008;            | &#10008;            |
 
 #### Slave - basic support currently
 | Support type  | Parsing / responding | Exceptions handling | Slave side support |
