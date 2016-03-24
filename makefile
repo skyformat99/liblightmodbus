@@ -86,9 +86,9 @@ slave-basic: slave.c slave.h parser.h slave/types.h slave/basic.c slave/basic.h 
 
 #### Utilities
 FORCE: clean
-	mkdir obj
-	mkdir obj/slave
-	mkdir obj/master
+	-mkdir obj
+	-mkdir obj/slave
+	-mkdir obj/master
 
 clean:
-	rm -rf obj
+	-rm -rf obj
