@@ -10,4 +10,4 @@ script:
     - make avr
     - make check
 after_success:
-    - coveralls --verbose -n -i test
+    - cd test && coveralls --verbose

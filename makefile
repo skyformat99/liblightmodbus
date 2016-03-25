@@ -57,12 +57,6 @@ check: FORCE
 	cd test && $(CC) $(CFLAGS) --coverage -c test.c
 	cd test && $(CC) $(CFLAGS) --coverage test.o modlib.o master.o slave.o mbasic.o sbasic.o -o test
 	cd test && ./test
-	cd test && gcov master.c
-	cd test && gcov slave.c
-	cd test && gcov mbasic.c
-	cd test && gcov sbasic.c
-	cd test && gcov modlib.c
-	cd test && gcov test.c
 
 debug: obj/modlib.o master-basic slave-basic FORCE #Same as 'all', without removing temp files
 
