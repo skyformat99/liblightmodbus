@@ -1,3 +1,7 @@
 #Ignore object files created during compilation process
 *.o
 obj
+*.gcno
+*.gcda
+*.gcov
+test/test
