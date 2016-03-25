@@ -60,7 +60,6 @@ check: FORCE
 	cd test/ && $(CC) $(CFLAGS) --coverage -c test.c
 	cd test/ && $(CC) $(CFLAGS) --coverage test.o modlib.o master.o slave.o mbasic.o sbasic.o -o test
 	cd test/ && ./test
-	cd test/ && rm -rf modlib
 
 debug: obj/modlib.o master-basic slave-basic FORCE #Same as 'all', without removing temp files
 
@@ -116,3 +115,4 @@ clean:
 	-rm -rf test/*.gcov
 	-rm -rf test/*.gcno
 	-rm -rf test/*.gcda
+	-rm -rf test/modlib
