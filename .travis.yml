@@ -10,4 +10,4 @@ script:
     - make avr
     - make check
 after_success:
-    - coveralls --verbose -i test
+    - coveralls --verbose -i test/mbasic.gcno -i test/sbasic.gcno -i test/slave.gcno -i test/master.gcno -i test/modlib.gcno -i test/test.gcno
