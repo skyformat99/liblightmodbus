@@ -49,14 +49,20 @@ check: FORCE
 	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml --exclude .gitattributes --exclude .gitignore --exclude README.md --exclude LICENSE ../modlib test
 	mv test/modlib/master/basic.c test/modlib/master/mbasic.c
 	mv test/modlib/slave/basic.c test/modlib/slave/sbasic.c
-	cd test/ && $(CC) $(CFLAGS) --coverage -c modlib/master/mbasic.c
-	cd test/ && $(CC) $(CFLAGS) --coverage -c modlib/slave/sbasic.c
-	cd test/ && $(CC) $(CFLAGS) --coverage -DMODBUS_MASTER_BASIC=1 -c modlib/master.c
-	cd test/ &&$(CC) $(CFLAGS) --coverage -DMODBUS_SLAVE_BASIC=1 -c modlib/slave.c
-	cd test/ && $(CC) $(CFLAGS) --coverage -c modlib/modlib.c
-	cd test/ && $(CC) $(CFLAGS) --coverage -c test.c
-	cd test/ && $(CC) $(CFLAGS) --coverage test.o modlib.o master.o slave.o mbasic.o sbasic.o -o test
-	cd test/ && ./test
+	cd test && $(CC) $(CFLAGS) --coverage -c modlib/master/mbasic.c
+	cd test && $(CC) $(CFLAGS) --coverage -c modlib/slave/sbasic.c
+	cd test && $(CC) $(CFLAGS) --coverage -DMODBUS_MASTER_BASIC=1 -c modlib/master.c
+	cd test &&$(CC) $(CFLAGS) --coverage -DMODBUS_SLAVE_BASIC=1 -c modlib/slave.c
+	cd test && $(CC) $(CFLAGS) --coverage -c modlib/modlib.c
+	cd test && $(CC) $(CFLAGS) --coverage -c test.c
+	cd test && $(CC) $(CFLAGS) --coverage test.o modlib.o master.o slave.o mbasic.o sbasic.o -o test
+	cd test && ./test
+	cd test && gcov master.c
+	cd test && gcov slave.c
+	cd test && gcov mbasic.c
+	cd test && gcov sbasic.c
+	cd test && gcov modlib.c
+	cd test && gcov test.c
 
 debug: obj/modlib.o master-basic slave-basic FORCE #Same as 'all', without removing temp files
 
@@ -109,5 +115,6 @@ clean:
 	-rm -rf test/*.gcov
 	-rm -rf test/*.gcno
 	-rm -rf test/*.gcda
+	-rm -rf test/*.o
 	-rm -rf test/modlib
 	-rm -rf test/test
