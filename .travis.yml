@@ -1,9 +1,13 @@
 sudo: required
 language: c
 before_install:
-  - sudo apt-get update
+    - sudo apt-get update
 install:
-  - sudo apt-get install gcc-avr binutils-avr avr-libc
+    - sudo apt-get install gcc-avr binutils-avr avr-libc
+    - pip install --user cpp-coveralls
 script:
-  - make all
-  - make avr
+    - make all
+    - make avr
+    - make check
+after_success:
+    - coveralls --include test

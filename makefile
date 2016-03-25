@@ -45,6 +45,23 @@ all: debug FORCE #Same as 'debug' currently, but removes temporary files
 	$(LD) $(LDFLAGS) -r obj/modlib.o obj/master.o obj/slave.o -o obj/modlib-full.o
 	echo "modlib-full.o: modlib.o, master.o and slave.o linked together" >> obj/versions.txt
 
+check: FORCE
+	#$(CC) $(CFLAGS) -DMODBUS_MASTER_BASIC=1 -DMODBUS_SLAVE_BASIC=1 test/test.c modlib.c master.c slave.c slave/basic.c master/basic.c -o test/test
+	#$(CC) $(CFLAGS) test/test.c obj/modlib-full.o -o test/test
+	-mkdir test/obj
+	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml --exclude .gitattributes --exclude .gitignore --exclude README.md --exclude LICENSE ../modlib test
+	mv test/modlib/master/basic.c test/modlib/master/mbasic.c
+	mv test/modlib/slave/basic.c test/modlib/slave/sbasic.c
+	cd test/ && $(CC) $(CFLAGS) --coverage -c modlib/master/mbasic.c
+	cd test/ && $(CC) $(CFLAGS) --coverage -c modlib/slave/sbasic.c
+	cd test/ && $(CC) $(CFLAGS) --coverage -DMODBUS_MASTER_BASIC=1 -c modlib/master.c
+	cd test/ &&$(CC) $(CFLAGS) --coverage -DMODBUS_SLAVE_BASIC=1 -c modlib/slave.c
+	cd test/ && $(CC) $(CFLAGS) --coverage -c modlib/modlib.c
+	cd test/ && $(CC) $(CFLAGS) --coverage -c test.c
+	cd test/ && $(CC) $(CFLAGS) --coverage test.o modlib.o master.o slave.o mbasic.o sbasic.o -o test
+	cd test/ && ./test
+	cd test/ && rm -rf modlib
+
 debug: obj/modlib.o master-basic slave-basic FORCE #Same as 'all', without removing temp files
 
 
@@ -92,3 +109,10 @@ FORCE: clean
 
 clean:
 	-rm -rf obj
+	-rm -rf *.gcno
+	-rm -rf *.gcda
+	-rm -rf *.gcov
+	-rm -rf test/modlib
+	-rm -rf test/*.gcov
+	-rm -rf test/*.gcno
+	-rm -rf test/*.gcda
