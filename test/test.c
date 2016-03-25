@@ -1,5 +1,10 @@
 #include "test.h"
 
+/*
+This is really simple test suite, it covers ~50% of library code
+In future, when request-creating functions are implemented, this will test much more of modlib code
+*/
+
 uint16_t Registers[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
 //uint8_t Frame[256] = { 0x20, 0x10, 0x00, 0x03, 0x00, 0x02, 0x04, 0xFA, 0xFB, 0xEA, 0xEB }; //R16
 //uint8_t FrameLength = 11; //R16
@@ -77,6 +82,9 @@ int main( )
 		TermRGB( 4, 1, 0 );
 		printf( "\t - ex addr: 0x%x, fun: 0x%x, code: 0x%x\n\r", MODBUSMaster.Exception.Address, MODBUSMaster.Exception.Function, MODBUSMaster.Exception.Code );
 	}
+
+	//Reset terminal colors
+	printf( "\x1b[0m" );
 
 	return 0;
 }
