@@ -46,9 +46,6 @@ all: debug FORCE #Same as 'debug' currently, but removes temporary files
 	echo "modlib-full.o: modlib.o, master.o and slave.o linked together" >> obj/versions.txt
 
 check: FORCE
-	#$(CC) $(CFLAGS) -DMODBUS_MASTER_BASIC=1 -DMODBUS_SLAVE_BASIC=1 test/test.c modlib.c master.c slave.c slave/basic.c master/basic.c -o test/test
-	#$(CC) $(CFLAGS) test/test.c obj/modlib-full.o -o test/test
-	-mkdir test/obj
 	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml --exclude .gitattributes --exclude .gitignore --exclude README.md --exclude LICENSE ../modlib test
 	mv test/modlib/master/basic.c test/modlib/master/mbasic.c
 	mv test/modlib/slave/basic.c test/modlib/slave/sbasic.c
@@ -108,11 +105,9 @@ FORCE: clean
 
 clean:
 	-rm -rf obj
-	-rm -rf *.gcno
-	-rm -rf *.gcda
-	-rm -rf *.gcov
 	-rm -rf test/modlib
 	-rm -rf test/*.gcov
 	-rm -rf test/*.gcno
 	-rm -rf test/*.gcda
 	-rm -rf test/modlib
+	-rm -rf test/test
