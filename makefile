@@ -50,14 +50,14 @@ check: FORCE
 	cd test && $(CC) $(CFLAGS) --coverage -c modlib/master/mbasic.c
 	cd test && $(CC) $(CFLAGS) --coverage -c modlib/slave/sbasic.c
 	cd test && $(CC) $(CFLAGS) --coverage -DMODBUS_MASTER_BASIC=1 -c modlib/master.c
-	cd test &&$(CC) $(CFLAGS) --coverage -DMODBUS_SLAVE_BASIC=1 -c modlib/slave.c
+	cd test && $(CC) $(CFLAGS) --coverage -DMODBUS_SLAVE_BASIC=1 -c modlib/slave.c
 	cd test && $(CC) $(CFLAGS) --coverage -c modlib/modlib.c
 	cd test && $(CC) $(CFLAGS) --coverage -c test.c
 	cd test && $(CC) $(CFLAGS) --coverage test.o modlib.o master.o slave.o mbasic.o sbasic.o -o test
 
 run:
 	cd test && ./test
-	
+
 debug: obj/modlib.o master-basic slave-basic FORCE #Same as 'all', without removing temp files
 
 
