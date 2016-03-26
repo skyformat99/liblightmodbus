@@ -46,7 +46,9 @@ all: debug FORCE #Same as 'debug' currently, but removes temporary files
 	echo "modlib-full.o: modlib.o, master.o and slave.o linked together" >> obj/versions.txt
 
 check: FORCE
-	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml --exclude .gitattributes --exclude .gitignore --exclude README.md --exclude LICENSE ../modlib test
+	-mkdir test/modlib
+	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml \
+	--exclude .gitattributes --exclude .gitignore --exclude README.md --exclude LICENSE . test/modlib
 	cd test && $(CC) $(CFLAGS) --coverage -c modlib/master/mbasic.c
 	cd test && $(CC) $(CFLAGS) --coverage -c modlib/slave/sbasic.c
 	cd test && $(CC) $(CFLAGS) --coverage -DMODBUS_MASTER_BASIC=1 -c modlib/master.c
