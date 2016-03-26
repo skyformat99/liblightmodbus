@@ -11,5 +11,5 @@ script:
     - make check
 after_success:
     - make run
-    - cd test && coveralls --verbose
+    - cd test && coveralls --verbose --exclude test.*
     - make clean
