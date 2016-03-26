@@ -7,6 +7,41 @@
 //Use external master configuration
 extern MODBUSMasterStatus MODBUSMaster;
 
+uint8_t MODBUSBuildRequest03( uint8_t Address, uint16_t FirstRegister, uint16_t RegisterCount )
+{
+	//Build request03 frame, to send it so slave
+
+	//Set frame length
+	uint8_t FrameLength = 8;
+
+	//Set output frame length to 0 (in case of interrupts)
+	MODBUSMaster.Request.Length = 0;
+
+	//Allocate memory for frame builder
+	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+
+	//Reallocate memory for final frame
+	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+
+	( *Builder ).Base.Address = Address;
+	( *Builder ).Base.Function = 3;
+	( *Builder ).Request03.FirstRegister = MODBUSSwapEndian( FirstRegister );
+	( *Builder ).Request03.RegisterCount = MODBUSSwapEndian( RegisterCount );
+
+	//Calculate CRC
+	( *Builder ).Request03.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+
+	//Copy frame from builder to output structure
+	memcpy( MODBUSMaster.Request.Frame, ( *Builder ).Frame, FrameLength );
+
+	//Free used memory
+	free( Builder );
+
+	MODBUSMaster.Request.Length = FrameLength;
+
+	return 0;
+}
+
 uint8_t MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value )
 {
 	//Build request06 frame, to send it so slave
