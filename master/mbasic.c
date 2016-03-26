@@ -14,6 +14,9 @@ void MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value )
 	//Set frame length
 	uint8_t FrameLength = 8;
 
+	//Set output frame length to 0 (in case of interrupts)
+	MODBUSMaster.Request.Length = 0;
+
 	//Allocate memory for frame builder
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
 
