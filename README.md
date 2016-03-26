@@ -15,6 +15,8 @@ Latest release:
 Modlib is a very lightweight Modbus library.<br>
 Library is targeted to run on AVR devices, but it should also work on PC.
 
+*(in fact, it is being tested on PC)*
+
 
 For more detailed information check out [wiki](https://github.com/Jacajack/modlib/wiki).
 
