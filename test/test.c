@@ -10,8 +10,8 @@ uint16_t Registers[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
 //uint8_t FrameLength = 11; //R16
 //uint8_t Frame[256] = { 0x20, 0x03, 0x00, 0x02, 0x00, 0x04 }; //R03
 //uint8_t FrameLength = 6; //R03
-uint8_t Frame[256] = { 0x20, 0x06, 0x00, 0x02, 0x00, 0x04 }; //R06
-uint8_t FrameLength = 6; //R06
+//uint8_t Frame[256] = { 0x20, 0x06, 0x00, 0x02, 0x00, 0x04 }; //R06
+//uint8_t FrameLength = 6; //R06
 
 void TermRGB( unsigned char R, unsigned char G, unsigned char B )
 {
@@ -35,6 +35,7 @@ int main( )
 	TermRGB( 4, 2, 0 );
 	printf( "Test started...\n" );
 
+  /*
 	TermRGB( 3, 3, 0 );
 	printf( "Calculate CRC of given frame... %x\n", MODBUSCRC16( Frame, FrameLength ) );
 	Frame[FrameLength] = MODBUSCRC16( Frame, FrameLength ) & 0xFF;
@@ -44,6 +45,9 @@ int main( )
 	printf( "Dump the frame:\n" );
 	for ( i = 0; i < FrameLength + 2; i++ )
 		printf( "%x%s", Frame[i], ( i == FrameLength + 1 ) ? "\n" : ", " );
+  */
+
+  MODBUSBuildRequest06( 0x20, 0x04, 0x54 );
 
 	TermRGB( 2, 4, 2 );
 	printf( "Dump registers:\n" );
@@ -54,7 +58,7 @@ int main( )
 	printf( "Let slave parse frame...\n" );
 
 	TermRGB( 0, 3, 4 );
-	MODBUSParseRequest( Frame, FrameLength + 2 );
+	MODBUSParseRequest( MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
 
 	TermRGB( 0, 2, 4 );
 	printf( "Dump registers:\n" );
@@ -69,7 +73,7 @@ int main( )
 	TermRGB( 0, 2, 4 );
 	printf( "Let master process response...\n" );
 
-	MODBUSParseResponse( MODBUSSlave.Response.Frame, MODBUSSlave.Response.Length, Frame, FrameLength + 2 );
+	MODBUSParseResponse( MODBUSSlave.Response.Frame, MODBUSSlave.Response.Length, MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
 
 	TermRGB( 0, 3, 4 );
 	printf( "Error - %d\n\rFinished - %d\n\r", MODBUSMaster.Error, MODBUSMaster.Finished );

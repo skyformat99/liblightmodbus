@@ -1,3 +1,5 @@
+#include <inttypes.h>
+
 //Declarations for master types
 
 typedef enum

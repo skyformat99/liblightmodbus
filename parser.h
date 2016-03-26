@@ -1,3 +1,5 @@
+#include <inttypes.h>
+
 #define _MODBUS_PARSER
 
 //This parser is incomplete yet! (basic version currently)

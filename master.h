@@ -1,3 +1,5 @@
+#include <inttypes.h>
+
 #ifndef _MODLIB
 #include "modlib.h"
 #endif

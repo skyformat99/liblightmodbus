@@ -9,10 +9,10 @@ void MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
 	//Returns generated frame length
 
 	//Allocate memory for union
-	union MODBUSParser *Exception = malloc( 5 );
+	union MODBUSParser *Exception = (union MODBUSParser *) malloc( 5 );
 
 	//Reallocate frame memory
-	MODBUSSlave.Response.Frame = realloc( MODBUSSlave.Response.Frame, 5 );
+	MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, 5 );
 	memset( MODBUSSlave.Response.Frame, 0, 5 );
 
 	//Setup exception frame
@@ -44,8 +44,7 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 
 	uint8_t ParseSuccess = 0;
 
-	union MODBUSParser *Parser;
-	Parser = malloc( FrameLength );
+	union MODBUSParser *Parser = (union MODBUSParser *) malloc( FrameLength );
 	memcpy( ( *Parser ).Frame, Frame, FrameLength );
 
 	//Reset response frame status
@@ -76,5 +75,5 @@ void MODBUSSlaveInit( uint8_t Address, uint16_t *Registers, uint16_t RegisterCou
 
 	//Reset response frame status
 	MODBUSSlave.Response.Length = 0;
-	MODBUSSlave.Response.Frame = malloc( 8 );
+	MODBUSSlave.Response.Frame = (uint8_t *) malloc( 8 );
 }

@@ -39,8 +39,8 @@ void MODBUSParseRequest03( union MODBUSParser *Parser )
 	{
 		uint8_t i = 0;
 		FrameLength = 5 + ( ( *Parser ).Request03.RegisterCount << 1 );
-		union MODBUSParser *Builder = malloc( FrameLength ); //Allocate memory for builder union
-		MODBUSSlave.Response.Frame = realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
+		union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
+		MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
 		memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 		//Set up basic response data
@@ -99,8 +99,8 @@ void MODBUSParseRequest06( union MODBUSParser *Parser )
 	if ( ( *Parser ).Base.Address != 0 )
 	{
 		FrameLength = 8;
-		union MODBUSParser *Builder = malloc( FrameLength ); //Allocate memory for builder union
-		MODBUSSlave.Response.Frame = realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
+		union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
+		MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
 		memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 		//Set up basic response data
@@ -161,7 +161,7 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 	{
 		//Illegal data address error
 		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x02 );
-		return; //EXCEPTION (in future)
+		return;
 	}
 
 	//Write values to registers
@@ -176,8 +176,8 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 	if ( ( *Parser ).Base.Address != 0 )
 	{
 		FrameLength = 8;
-		union MODBUSParser *Builder = malloc( FrameLength ); //Allocate memory for builder union
-		MODBUSSlave.Response.Frame = realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
+		union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
+		MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
 		memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 		//Set up basic response data

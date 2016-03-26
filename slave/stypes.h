@@ -1,3 +1,5 @@
+#include <inttypes.h>
+
 //Declarations for slave types
 
 typedef struct
@@ -8,8 +10,8 @@ typedef struct
 
 typedef struct
 {
-	uint8_t Address;
-	uint16_t *Registers;
-	uint16_t RegisterCount;
-	MODBUSResponseStatus Response;
+	uint8_t Address; //Slave address
+	uint16_t *Registers; //Slave holding registers
+	uint16_t RegisterCount; //Slave register count
+	MODBUSResponseStatus Response; //Slave response formatting status
 } MODBUSSlaveStatus; //Type containing slave device configuration data

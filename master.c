@@ -24,11 +24,11 @@ void MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *RequestF
 	//Calling it will lead to losing all data and exceptions stored in MODBUSMaster (space will be reallocated)
 
 	//Allocate memory for union and copy frame to it
-	union MODBUSParser *Parser = malloc( FrameLength );
+	union MODBUSParser *Parser = (union MODBUSParser *) malloc( FrameLength );
 	memcpy( ( *Parser ).Frame,  Frame, FrameLength );
 
 	//Allocate memory for request union and copy frame to it
-	union MODBUSParser *RequestParser = malloc( RequestFrameLength );
+	union MODBUSParser *RequestParser = (union MODBUSParser *) malloc( RequestFrameLength );
 	memcpy( ( *RequestParser ).Frame,  RequestFrame, RequestFrameLength );
 
 	//Reset output registers before parsing frame
@@ -57,8 +57,8 @@ void MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *RequestF
 void MODBUSMasterInit( )
 {
 	//Very basic init of master side
-	MODBUSMaster.Request.Frame = malloc( 8 );
+	MODBUSMaster.Request.Frame = (uint8_t *) malloc( 8 );
 	MODBUSMaster.Request.Length = 0;
-	MODBUSMaster.Data = malloc( sizeof( MODBUSData ) );
+	MODBUSMaster.Data = (MODBUSData *) malloc( sizeof( MODBUSData ) );
 	MODBUSMaster.DataLength = 0;
 }
