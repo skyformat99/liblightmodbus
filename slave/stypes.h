@@ -1,3 +1,5 @@
+#define _SLAVETYPES
+
 #include <inttypes.h>
 
 //Declarations for slave types

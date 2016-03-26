@@ -1,3 +1,5 @@
+#define _SLAVEBASE
+
 #include <inttypes.h>
 
 #ifndef _MODLIB

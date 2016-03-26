@@ -1,3 +1,5 @@
+#define _MASTERTYPES
+
 #include <inttypes.h>
 
 //Declarations for master types

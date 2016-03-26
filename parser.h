@@ -1,6 +1,6 @@
-#include <inttypes.h>
-
 #define _MODBUS_PARSER
+
+#include <inttypes.h>
 
 //This parser is incomplete yet! (basic version currently)
 union MODBUSParser

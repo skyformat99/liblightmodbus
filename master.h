@@ -1,3 +1,5 @@
+#define _MASTERBASE
+
 #include <inttypes.h>
 
 #ifndef _MODLIB

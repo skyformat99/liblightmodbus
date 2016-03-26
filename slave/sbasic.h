@@ -1,3 +1,5 @@
+#define _SLAVEBASIC
+
 #include <inttypes.h>
 
 //Basic parser
