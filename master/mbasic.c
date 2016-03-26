@@ -7,7 +7,7 @@
 //Use external master configuration
 extern MODBUSMasterStatus MODBUSMaster;
 
-void MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value )
+uint8_t MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value )
 {
 	//Build request06 frame, to send it so slave
 
@@ -38,6 +38,49 @@ void MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value )
 	free( Builder );
 
 	MODBUSMaster.Request.Length = FrameLength;
+
+	return 0;
+}
+
+uint8_t MODBUSBuildRequest16( uint8_t Address, uint16_t FirstRegister, uint16_t RegisterCount, uint16_t *Values )
+{
+	//Build request16 frame, to send it so slave
+
+	//Set frame length
+	uint8_t FrameLength = 9 + ( RegisterCount << 1 );
+	uint8_t i = 0;
+
+	//Set output frame length to 0 (in case of interrupts)
+	MODBUSMaster.Request.Length = 0;
+
+	if ( RegisterCount > 123 ) return 1;
+
+	//Allocate memory for frame builder
+	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+
+	//Reallocate memory for final frame
+	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+
+	( *Builder ).Base.Address = Address;
+	( *Builder ).Base.Function = 16;
+	( *Builder ).Request16.FirstRegister = MODBUSSwapEndian( FirstRegister );
+	( *Builder ).Request16.RegisterCount = MODBUSSwapEndian( RegisterCount );
+	( *Builder ).Request16.BytesCount = RegisterCount << 1;
+
+	for ( i = 0; i < RegisterCount; i++ )
+		( *Builder ).Request16.Values[i] = MODBUSSwapEndian( Values[i] );
+
+	( *Builder ).Request16.Values[RegisterCount] = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+
+	//Copy frame from builder to output structure
+	memcpy( MODBUSMaster.Request.Frame, ( *Builder ).Frame, FrameLength );
+
+	//Free used memory
+	free( Builder );
+
+	MODBUSMaster.Request.Length = FrameLength;
+
+	return 0;
 }
 
 void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
