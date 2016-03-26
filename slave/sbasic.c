@@ -126,7 +126,7 @@ void MODBUSParseRequest03( union MODBUSParser *Parser )
 	( *Parser ).Request03.RegisterCount = MODBUSSwapEndian( ( *Parser ).Request03.RegisterCount );
 
 	//Check if register is in valid range
-	if ( ( *Parser ).Request03.FirstRegister >= MODBUSSlave.RegisterCount || ( *Parser ).Request03.FirstRegister + ( *Parser ).Request03.RegisterCount > MODBUSSlave.RegisterCount )
+	if ( ( *Parser ).Request03.FirstRegister >= MODBUSSlave.RegisterCount || (uint32_t) ( *Parser ).Request03.FirstRegister + (uint32_t) ( *Parser ).Request03.RegisterCount > (uint32_t) MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
 		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x03, 0x02 );
@@ -208,7 +208,7 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 		return;
 	}
 
-	if ( ( *Parser ).Request16.FirstRegister >= MODBUSSlave.RegisterCount || ( ( (uint32_t) ( *Parser ).Request16.FirstRegister + (uint32_t) ( *Parser ).Request16.RegisterCount ) > (uint32_t) MODBUSSlave.RegisterCount ) )
+	if ( ( *Parser ).Request16.FirstRegister >= MODBUSSlave.RegisterCount || (uint32_t) ( *Parser ).Request16.FirstRegister + (uint32_t) ( *Parser ).Request16.RegisterCount > (uint32_t) MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
 		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x02 );
