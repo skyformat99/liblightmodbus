@@ -40,7 +40,6 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	//Allowable frame array size in union is 256, but here I'm only allocating amount of frame length
 	//It is even worse, compiler won't warn you, when you are outside the range
 	//It works, and it uses much less memory, so I guess a bit of risk is fine in this case
-	//If something goes wrong, this can be changed back
 	//Also, user needs to free memory alocated for frame himself!
 
 	uint8_t ParseSuccess = 0;
