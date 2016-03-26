@@ -23,15 +23,15 @@ For more detailed information check out [wiki](https://github.com/Jacajack/modli
 - For currently supported functions see roadmap below
 
 ## Roadmap
-#### Master - almost basic support currently, to be improved
+#### Master - basic support currently, full incoming
 | Support type  | Parsing / requesting | Exceptions handling | Master side support |
 |---------------|:--------------------:|:-------------------:|:-------------------:|
-|Basic          | Only parsing now     | &#10004;            | &#10004;            |
+|Basic          | &#10004;             | &#10004;            | &#10004;            |
 |Full           | &#10008;             | &#10008;            | &#10008;            |
 |Extended       | &#10008;             | &#10008;            | &#10008;            |
 |Super extended | &#10008;             | &#10008;            | &#10008;            |
 
-#### Slave - basic support currently
+#### Slave - basic support currently, full incoming
 | Support type  | Parsing / responding | Exceptions handling | Slave side support |
 |---------------|:--------------------:|:-------------------:|:------------------:|
 |Basic          | &#10004;             | &#10004;            | &#10004;           |
