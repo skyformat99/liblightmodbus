@@ -1,8 +1,8 @@
 #include "../modlib.h"
 #include "../parser.h"
-#include "types.h"
+#include "mtypes.h"
 
-#include "basic.h"
+#include "mbasic.h"
 
 //Use external master configuration
 extern MODBUSMasterStatus MODBUSMaster;

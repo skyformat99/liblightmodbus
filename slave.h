@@ -6,8 +6,8 @@
 #include "parser.h"
 #endif
 
-#include "slave/types.h"
-#include "slave/basic.h"
+#include "slave/stypes.h"
+#include "slave/sbasic.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
 #ifndef MODBUS_SLAVE_BASIC

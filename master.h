@@ -6,10 +6,8 @@
 #include "parser.h"
 #endif
 
-#include "master/types.h"
-#include <stdio.h> /*DEBUG*/
-
-#include "master/basic.h"
+#include "master/mtypes.h"
+#include "master/mbasic.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
 #ifndef MODBUS_MASTER_BASIC

@@ -47,8 +47,6 @@ all: debug FORCE #Same as 'debug' currently, but removes temporary files
 
 check: FORCE
 	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml --exclude .gitattributes --exclude .gitignore --exclude README.md --exclude LICENSE ../modlib test
-	mv test/modlib/master/basic.c test/modlib/master/mbasic.c
-	mv test/modlib/slave/basic.c test/modlib/slave/sbasic.c
 	cd test && $(CC) $(CFLAGS) --coverage -c modlib/master/mbasic.c
 	cd test && $(CC) $(CFLAGS) --coverage -c modlib/slave/sbasic.c
 	cd test && $(CC) $(CFLAGS) --coverage -DMODBUS_MASTER_BASIC=1 -c modlib/master.c
@@ -68,30 +66,30 @@ obj/modlib.o: modlib.c modlib.h FORCE
 
 
 #### Master
-master-base: master.c master.h parser.h FORCE
+master-base: master.c master.h parser.h master/mtypes.h FORCE
 	$(CC) $(CFLAGS) -c master.c -o obj/master-base.o
 	mv obj/master-base.o obj/master.o
 	echo "master.o: base" >> obj/versions.txt
 
-master-basic: master.c master.h parser.h master/basic.c master/basic.h FORCE
+master-basic: master.c master.h parser.h master/mtypes.h master/mbasic.c master/mbasic.h FORCE
 	$(CC) $(CFLAGS) -c master.c -DMODBUS_MASTER_BASIC=1 -o obj/master-base.o
-	$(CC) $(CFLAGS) -c master/basic.c -o obj/master/basic.o
-	$(LD) $(LDFLAGS) -r obj/master-base.o obj/master/basic.o -o obj/master-basic.o
+	$(CC) $(CFLAGS) -c master/mbasic.c -o obj/master/mbasic.o
+	$(LD) $(LDFLAGS) -r obj/master-base.o obj/master/mbasic.o -o obj/master-basic.o
 	rm -rf obj/master-base.o
 	mv obj/master-basic.o obj/master.o
 	echo "master.o: basic" >> obj/versions.txt
 
 
 #### Slave
-slave-base: slave.c slave.h parser.h slave/types.h FORCE
+slave-base: slave.c slave.h parser.h slave/stypes.h FORCE
 	$(CC) $(CFLAGS) -c slave.c -o obj/slave-base.o
 	mv obj/slave-base.o obj/slave.o
 	echo "slave.o: base" >> obj/versions.txt
 
-slave-basic: slave.c slave.h parser.h slave/types.h slave/basic.c slave/basic.h FORCE
+slave-basic: slave.c slave.h parser.h slave/stypes.h slave/sbasic.c slave/sbasic.h FORCE
 	$(CC) $(CFLAGS) -c slave.c -DMODBUS_SLAVE_BASIC=1 -o obj/slave-base.o
-	$(CC) $(CFLAGS) -c slave/basic.c -o obj/slave/basic.o
-	$(LD) $(LDFLAGS) -r obj/slave-base.o obj/slave/basic.o -o obj/slave-basic.o
+	$(CC) $(CFLAGS) -c slave/sbasic.c -o obj/slave/sbasic.o
+	$(LD) $(LDFLAGS) -r obj/slave-base.o obj/slave/sbasic.o -o obj/slave-basic.o
 	rm -rf obj/slave-base.o
 	mv obj/slave-basic.o obj/slave.o
 	echo "slave.o: basic" >> obj/versions.txt
