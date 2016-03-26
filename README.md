@@ -51,9 +51,3 @@ For more detailed information check out [wiki](https://github.com/Jacajack/modli
 
 *Super extended support includes request and response processing for function codes:<br>
 11, 12, 24*
-
-## Communication process
- - **Master** device sends a **frame** to **slave** device - this is known as `request`
- - **Slave** processes received **frame** and responds to **Master** with another frame - this part is known as `response`
-
-That means functions containing `request` in their names either format request on master side or interpret it on slave side. It works pretty much the same with `response`.
