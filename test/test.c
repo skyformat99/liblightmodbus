@@ -1,8 +1,7 @@
 #include "test.h"
 
 /*
-This is really simple test suite, it covers ~50% of library code
-In future, when request-creating functions are implemented, this will test much more of modlib code
+This is really simple test suite, it covers ~95% of library code
 */
 
 uint16_t Registers[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
