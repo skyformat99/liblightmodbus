@@ -210,7 +210,7 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 
 	//Write values to registers
 	for ( i = 0; i < ( *Parser ).Request16.RegisterCount; i++ )
-		MODBUSSlave.Registers[( *Parser ).Request16.FirstRegister + i] = ( *Parser ).Request16.Values[i];
+		MODBUSSlave.Registers[( *Parser ).Request16.FirstRegister + i] = MODBUSSwapEndian( ( *Parser ).Request16.Values[i] );
 
 	//Respond
 	MODBUSBuildResponse16( Parser );
