@@ -57,10 +57,17 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 		return;
 	}
 
-	if ( MODBUS_SLAVE_BASIC )
-		ParseSuccess += MODBUSParseRequestBasic( Parser );
+	switch ( MODBUS_SLAVE_SUPPORT )
+	{
+		case 0: //Only base - no parsing
+			break;
 
-	if ( ParseSuccess > 0 )
+		case 1: //Basic support - basic parser
+			ParseSuccess += MODBUSParseRequestBasic( Parser );
+			break;
+	}
+
+	if ( ParseSuccess > MODBUS_SLAVE_SUPPORT - 1 )
 		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( ( *Parser ).Base.Function, 0x01 );
 
 	free( Parser );
