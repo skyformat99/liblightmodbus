@@ -10,4 +10,6 @@ script:
     - make avr
     - make check
 after_success:
+    - make run
     - cd test && coveralls --verbose
+    - make clean
