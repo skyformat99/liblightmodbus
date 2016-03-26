@@ -4,5 +4,6 @@ obj
 *.gcno
 *.gcda
 *.gcov
+*.gch
 test/test
 test/modlib
