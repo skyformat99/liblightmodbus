@@ -15,10 +15,10 @@ void MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value )
 	uint8_t FrameLength = 8;
 
 	//Allocate memory for frame builder
-	union MODBUSParser *Builder = malloc( FrameLength );
+	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
 
 	//Reallocate memory for final frame
-	MODBUSMaster.Request.Frame = realloc( MODBUSMaster.Request.Frame, FrameLength );
+	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 6;
@@ -61,7 +61,7 @@ void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *Requ
 		return;
 	}
 
-	MODBUSMaster.Data = realloc( MODBUSMaster.Data, ( ( *Parser ).Response03.BytesCount >> 1 ) * sizeof( MODBUSData ) );
+	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, ( ( *Parser ).Response03.BytesCount >> 1 ) * sizeof( MODBUSData ) );
 
 	for ( i = 0; i < ( ( *Parser ).Response03.BytesCount >> 1 ); i++ )
 	{
@@ -104,7 +104,7 @@ void MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *Requ
 	( *Parser ).Response06.Value = MODBUSSwapEndian( ( *Parser ).Response06.Value );
 
 	//Set up new data table
-	MODBUSMaster.Data = realloc( MODBUSMaster.Data, 1 );
+	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, sizeof( MODBUSData ) );
 	MODBUSMaster.Data[0].Address = ( *Parser ).Base.Address;
 	MODBUSMaster.Data[0].DataType = Register;
 	MODBUSMaster.Data[0].Register = ( *Parser ).Response06.Register;
