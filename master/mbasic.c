@@ -37,7 +37,7 @@ void MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value )
 	MODBUSMaster.Request.Length = FrameLength;
 }
 
-void MODBUSResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 03 (read multiple holding registers)
 
@@ -75,7 +75,7 @@ void MODBUSResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestPa
 	MODBUSMaster.Finished = 1;
 }
 
-void MODBUSResponse06( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+void MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 06 (write single holding register)
 
@@ -117,7 +117,7 @@ void MODBUSResponse06( union MODBUSParser *Parser, union MODBUSParser *RequestPa
 	MODBUSMaster.Finished = 1;
 }
 
-void MODBUSResponse16( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+void MODBUSParseResponse16( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 16 (write multiple holding register)
 
@@ -148,17 +148,17 @@ uint8_t MODBUSParseResponseBasic( union MODBUSParser *Parser, union MODBUSParser
 	switch( ( *Parser ).Base.Function )
 	{
 		case 3: //Read multiple holding registers
-			MODBUSResponse03( Parser, RequestParser );
+			MODBUSParseResponse03( Parser, RequestParser );
 			return 0;
 			break;
 
 		case 6: //Write single holding register
-			MODBUSResponse06( Parser, RequestParser );
+			MODBUSParseResponse06( Parser, RequestParser );
 			return 0;
 			break;
 
 		case 16: //Write multiple holding registers
-			MODBUSResponse16( Parser, RequestParser );
+			MODBUSParseResponse16( Parser, RequestParser );
 			return 0;
 			break;
 

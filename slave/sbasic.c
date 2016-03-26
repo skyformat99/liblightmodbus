@@ -7,7 +7,7 @@
 //Use external slave configuration
 extern MODBUSSlaveStatus MODBUSSlave;
 
-void MODBUSRequest03( union MODBUSParser *Parser )
+void MODBUSParseRequest03( union MODBUSParser *Parser )
 {
 	//Read multiple holding registers
 	//Using data from union pointer
@@ -26,7 +26,7 @@ void MODBUSRequest03( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request03.FirstRegister >= MODBUSSlave.RegisterCount || ( *Parser ).Request03.FirstRegister + ( *Parser ).Request03.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( 0x03, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x03, 0x02 );
 		return;
 	}
 
@@ -66,7 +66,7 @@ void MODBUSRequest03( union MODBUSParser *Parser )
 	}
 }
 
-void MODBUSRequest06( union MODBUSParser *Parser )
+void MODBUSParseRequest06( union MODBUSParser *Parser )
 {
 	//Write single holding register
 	//Using data from union pointer
@@ -85,7 +85,7 @@ void MODBUSRequest06( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request06.Register >= MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( 0x06, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x06, 0x02 );
 		return;
 	}
 
@@ -123,7 +123,7 @@ void MODBUSRequest06( union MODBUSParser *Parser )
 	}
 }
 
-void MODBUSRequest16( union MODBUSParser *Parser )
+void MODBUSParseRequest16( union MODBUSParser *Parser )
 {
 	//Write multiple holding registers
 	//Using data from union pointer
@@ -140,7 +140,7 @@ void MODBUSRequest16( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request16.BytesCount == 0 || ( *Parser ).Request16.RegisterCount == 0 )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( 0x10, 0x03 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x03 );
 		return;
 	}
 
@@ -152,7 +152,7 @@ void MODBUSRequest16( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request16.RegisterCount != ( ( *Parser ).Request16.BytesCount >> 1 ) )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( 0x10, 0x03 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x03 );
 		return;
 	}
 
@@ -160,7 +160,7 @@ void MODBUSRequest16( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request16.FirstRegister >= MODBUSSlave.RegisterCount || ( *Parser ).Request16.FirstRegister + ( *Parser ).Request16.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSException( 0x10, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x02 );
 		return; //EXCEPTION (in future)
 	}
 
@@ -210,17 +210,17 @@ uint8_t MODBUSParseRequestBasic( union MODBUSParser *Parser )
 	switch( ( *Parser ).Base.Function )
 	{
 		case 3: //Read multiple holding registers
-			MODBUSRequest03( Parser );
+			MODBUSParseRequest03( Parser );
 			return 0;
 			break;
 
 		case 6: //Write single holding register
-			MODBUSRequest06( Parser );
+			MODBUSParseRequest06( Parser );
 			return 0;
 			break;
 
 		case 16: //Write multiple holding registers
-			MODBUSRequest16( Parser );
+			MODBUSParseRequest16( Parser );
 			return 0;
 			break;
 
