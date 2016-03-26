@@ -5,7 +5,7 @@
 [![Coveralls](https://img.shields.io/coveralls/Jacajack/modlib.svg?style=flat-square)]()
 
 Latest release:
-[![Travis CI](https://img.shields.io/travis/Jacajack/modlib/v0.1-beta.svg?style=flat-square)](https://travis-ci.org/Jacajack/modlib)
+[![Travis CI](https://img.shields.io/travis/Jacajack/modlib/v0.5-beta.svg?style=flat-square)](https://travis-ci.org/Jacajack/modlib)
 
 Modlib is a very lightweight Modbus library.<br>
 Library is targeted to run on AVR devices, but it should also work on PC.
