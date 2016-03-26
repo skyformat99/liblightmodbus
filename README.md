@@ -1,11 +1,16 @@
 # Modlib
 
+Current:
+
 [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 [![Travis CI](https://img.shields.io/travis/Jacajack/modlib.svg?style=flat-square)](https://travis-ci.org/Jacajack/modlib)
 [![Coveralls](https://img.shields.io/coveralls/Jacajack/modlib.svg?style=flat-square)]()
 
 Latest release:
+
+[![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 [![Travis CI](https://img.shields.io/travis/Jacajack/modlib/v0.5-beta.svg?style=flat-square)](https://travis-ci.org/Jacajack/modlib)
+[![Coveralls](https://img.shields.io/coveralls/Jacajack/modlib/v0.5-beta.svg?style=flat-square)]()
 
 Modlib is a very lightweight Modbus library.<br>
 Library is targeted to run on AVR devices, but it should also work on PC.
