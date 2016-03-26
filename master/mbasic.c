@@ -10,6 +10,7 @@ extern MODBUSMasterStatus MODBUSMaster;
 uint8_t MODBUSBuildRequest03( uint8_t Address, uint16_t FirstRegister, uint16_t RegisterCount )
 {
 	//Build request03 frame, to send it so slave
+	//Read multiple holding registers
 
 	//Set frame length
 	uint8_t FrameLength = 8;
@@ -45,6 +46,7 @@ uint8_t MODBUSBuildRequest03( uint8_t Address, uint16_t FirstRegister, uint16_t 
 uint8_t MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value )
 {
 	//Build request06 frame, to send it so slave
+	//Write single holding register
 
 	//Set frame length
 	uint8_t FrameLength = 8;
@@ -80,6 +82,7 @@ uint8_t MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value
 uint8_t MODBUSBuildRequest16( uint8_t Address, uint16_t FirstRegister, uint16_t RegisterCount, uint16_t *Values )
 {
 	//Build request16 frame, to send it so slave
+	//Write multiple holding registers
 
 	//Set frame length
 	uint8_t FrameLength = 9 + ( RegisterCount << 1 );
@@ -120,7 +123,8 @@ uint8_t MODBUSBuildRequest16( uint8_t Address, uint16_t FirstRegister, uint16_t 
 
 void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
-	//Parse slave response to request 03 (read multiple holding registers)
+	//Parse slave response to request 03
+	//Read multiple holding registers
 
 	//Update frame length
 	uint8_t FrameLength = 5 + ( *Parser ).Response03.BytesCount;
@@ -135,6 +139,7 @@ void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *Requ
 	DataOK &= ( ( *Parser ).Response03.Function == ( *RequestParser ).Request03.Function );
 	DataOK &= ( ( *Parser ).Response03.BytesCount == MODBUSSwapEndian( ( *RequestParser ).Request03.RegisterCount ) << 1 );
 
+	//If data is bad abort parsing, and set error flag
 	if ( !DataOK )
 	{
 		MODBUSMaster.Error = 1;
@@ -142,8 +147,10 @@ void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *Requ
 		return;
 	}
 
+	//Allocate memory for MODBUSData structures array
 	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, ( ( *Parser ).Response03.BytesCount >> 1 ) * sizeof( MODBUSData ) );
 
+	//Copy received data to output structures array
 	for ( i = 0; i < ( ( *Parser ).Response03.BytesCount >> 1 ); i++ )
 	{
 		MODBUSMaster.Data[i].Address = ( *Parser ).Base.Address;
@@ -152,6 +159,8 @@ void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *Requ
 		MODBUSMaster.Data[i].Value = MODBUSSwapEndian( ( *Parser ).Response03.Values[i] );
 	}
 
+	//Set up data length - response successfully parsed
+	MODBUSMaster.Error = !DataOK;
 	MODBUSMaster.DataLength = ( *Parser ).Response03.BytesCount >> 1;
 	MODBUSMaster.Finished = 1;
 }
@@ -191,9 +200,8 @@ void MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *Requ
 	MODBUSMaster.Data[0].Register = ( *Parser ).Response06.Register;
 	MODBUSMaster.Data[0].Value = ( *Parser ).Response06.Value;
 
-	MODBUSMaster.Error = 0;
-
 	//Set up data length - response successfully parsed
+	MODBUSMaster.Error = !DataOK;
 	MODBUSMaster.DataLength = 1;
 	MODBUSMaster.Finished = 1;
 }
@@ -215,7 +223,9 @@ void MODBUSParseResponse16( union MODBUSParser *Parser, union MODBUSParser *Requ
 	DataOK &= ( ( *Parser ).Response16.FirstRegister == ( *RequestParser ).Request16.FirstRegister );
 	DataOK &= ( ( *Parser ).Response16.RegisterCount == ( *RequestParser ).Request16.RegisterCount );
 
+	//Set up data length - response successfully parsed
 	MODBUSMaster.Error = !DataOK;
+	MODBUSMaster.DataLength = 0;
 	MODBUSMaster.Finished = 1;
 }
 

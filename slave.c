@@ -69,6 +69,7 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 void MODBUSSlaveInit( uint8_t Address, uint16_t *Registers, uint16_t RegisterCount )
 {
 	//Very basic init of slave side
+
 	MODBUSSlave.Address = Address;
 	MODBUSSlave.Registers = Registers;
 	MODBUSSlave.RegisterCount = RegisterCount;
@@ -76,4 +77,6 @@ void MODBUSSlaveInit( uint8_t Address, uint16_t *Registers, uint16_t RegisterCou
 	//Reset response frame status
 	MODBUSSlave.Response.Length = 0;
 	MODBUSSlave.Response.Frame = (uint8_t *) malloc( 8 );
+
+	//In future parameters like 'InputCount' or 'CoilCount' will be needed, but when set to 0, won't be used
 }
