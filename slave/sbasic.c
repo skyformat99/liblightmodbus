@@ -126,6 +126,13 @@ void MODBUSParseRequest03( union MODBUSParser *Parser )
 	( *Parser ).Request03.RegisterCount = MODBUSSwapEndian( ( *Parser ).Request03.RegisterCount );
 
 	//Check if register is in valid range
+	if ( ( *Parser ).Request16.RegisterCount > MODBUSSlave.RegisterCount )
+	{
+		//Illegal data address error
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x02 );
+		return;
+	}
+	
 	if ( ( *Parser ).Request03.FirstRegister >= MODBUSSlave.RegisterCount || (uint32_t) ( *Parser ).Request03.FirstRegister + (uint32_t) ( *Parser ).Request03.RegisterCount > (uint32_t) MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
