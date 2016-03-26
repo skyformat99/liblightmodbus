@@ -201,7 +201,14 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 	}
 
 	//Check if registers are in valid range
-	if ( ( *Parser ).Request16.FirstRegister >= MODBUSSlave.RegisterCount || ( *Parser ).Request16.FirstRegister + ( *Parser ).Request16.RegisterCount > MODBUSSlave.RegisterCount )
+	if ( ( *Parser ).Request16.RegisterCount > MODBUSSlave.RegisterCount )
+	{
+		//Illegal data address error
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x02 );
+		return;
+	}
+
+	if ( ( *Parser ).Request16.FirstRegister >= MODBUSSlave.RegisterCount || ( ( (uint32_t) ( *Parser ).Request16.FirstRegister + (uint32_t) ( *Parser ).Request16.RegisterCount ) > (uint32_t) MODBUSSlave.RegisterCount ) )
 	{
 		//Illegal data address error
 		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x02 );
