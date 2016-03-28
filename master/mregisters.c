@@ -255,33 +255,3 @@ void MODBUSParseResponse16( union MODBUSParser *Parser, union MODBUSParser *Requ
 	MODBUSMaster.DataLength = 0;
 	MODBUSMaster.Finished = 1;
 }
-
-uint8_t MODBUSParseResponseBasic( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
-{
-	//Parse response frame returned by slave using basic parsing functions
-	//If 0 is returned everything is ok, and response is parsed
-	//Otherwise function code is not supported and you should try full parser instead
-	//Or maybe function code is wrong itself
-
-	switch( ( *Parser ).Base.Function )
-	{
-		case 3: //Read multiple holding registers
-			MODBUSParseResponse03( Parser, RequestParser );
-			return 0;
-			break;
-
-		case 6: //Write single holding register
-			MODBUSParseResponse06( Parser, RequestParser );
-			return 0;
-			break;
-
-		case 16: //Write multiple holding registers
-			MODBUSParseResponse16( Parser, RequestParser );
-			return 0;
-			break;
-
-		default:
-			return 1;
-			break;
-	}
-}
