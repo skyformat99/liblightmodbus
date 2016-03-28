@@ -30,31 +30,22 @@ For more detailed information check out [wiki](https://github.com/Jacajack/modli
 - For currently supported functions see roadmap below
 
 ## Roadmap
-#### Master - basic support currently, full incoming
-| Support type  | Parsing / requesting | Exceptions handling | Master side support |
-|---------------|:--------------------:|:-------------------:|:-------------------:|
-|Basic          | &#10004;             | &#10004;            | &#10004;            |
-|Full           | &#10008;             | &#10008;            | &#10008;            |
-|Extended       | &#10008;             | &#10008;            | &#10008;            |
-|Super extended | &#10008;             | &#10008;            | &#10008;            |
+#### Master - basic support currently, more incoming
+| Support type     | Parsing / requesting | Exceptions handling | Master side support | Supported function codes |
+|------------------|:--------------------:|:-------------------:|:-------------------:|:------------------------:|
+|Holding registers | &#10004;             | &#10004;            | &#10004;            |*03, 06, 16*              |
+|Coils             | &#10008;             | &#10008;            | &#10008;            |*01, 05, 15*              |
+|Discrete inputs   | &#10008;             | &#10008;            | &#10008;            |*02*                      |
+|Input registers   | &#10008;             | &#10008;            | &#10008;            |*04*                      |
 
-#### Slave - basic support currently, full incoming
-| Support type  | Parsing / responding | Exceptions handling | Slave side support |
-|---------------|:--------------------:|:-------------------:|:------------------:|
-|Basic          | &#10004;             | &#10004;            | &#10004;           |
-|Full           | &#10008;             | &#10008;            | &#10008;           |
-|Extended       | &#10008;             | &#10008;            | &#10008;           |
-|Super extended | &#10008; 	           | &#10008;            | &#10008;           |  
+*Additional functions supported by master: --- (but planned)*
 
+#### Slave - basic support currently, more incoming
+| Support type     | Parsing / requesting | Exceptions handling | Slave side support | Supported function codes |
+|------------------|:--------------------:|:-------------------:|:------------------:|:------------------------:|
+|Holding registers | &#10004;             | &#10004;            | &#10004;           |*03, 06, 16*              |
+|Coils             | &#10008;             | &#10008;            | &#10008;           |*01, 05, 15*              |
+|Discrete inputs   | &#10008;             | &#10008;            | &#10008;           |*02*                      |
+|Input registers   | &#10008;             | &#10008;            | &#10008;           |*04*                      |
 
-*Basic support includes request and response processing for function codes:<br>
-3, 6, 16*
-
-*Full support includes request and response processing for function codes:<br>
-1, 2, 4, 5, 15*
-
-*Extended support includes request and response processing for function codes:<br>
-7, 8, 17, 20, 21, 22, 23, 43*
-
-*Super extended support includes request and response processing for function codes:<br>
-11, 12, 24*
+*Additional functions supported by slave: --- (but planned)*
