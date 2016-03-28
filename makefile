@@ -114,6 +114,9 @@ FORCE: clean
 
 clean:
 	-rm -rf obj
+	-rm -rf *.o
+	-rm -rf master/*.o
+	-rm -rf slave/*.o
 	-rm -rf test/modlib
 	-rm -rf test/*.gcov
 	-rm -rf test/*.gcno
