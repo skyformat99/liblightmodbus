@@ -6,7 +6,8 @@
 
 typedef enum
 {
-	Register = 0
+	Register = 0,
+	Coil = 1
 } MODBUSDataType; //MODBUS data types enum (coil, register, input, etc.)
 
 typedef struct
