@@ -24,7 +24,7 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	//Calling it will lead to losing all data and exceptions stored in MODBUSMaster (space will be reallocated)
 
 	//If non-zero some parser failed its job
-	uint8_t ParseSuccess = 0;
+	uint8_t ParseError = 0;
 
 	//Allocate memory for union and copy frame to it
 	union MODBUSParser *Parser = (union MODBUSParser *) malloc( FrameLength );
@@ -48,13 +48,25 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	}
 	else
 	{
-		switch ( MODBUS_MASTER_SUPPORT )
+		switch ( ( *Parser ).Base.Function )
 		{
-			case 0: //Only base - no parsing
+			case 3: //Read multiple holding registers
+				if ( MODBUS_MASTER_REGISTERS ) MODBUSParseResponse03( Parser, RequestParser );
+				else ParseError = 1;
 				break;
 
-			case 1: //Basic support - basic parser
-				ParseSuccess += MODBUSParseResponseBasic( Parser, RequestParser );
+			case 6: //Write single holding register
+				if ( MODBUS_MASTER_REGISTERS ) MODBUSParseResponse06( Parser, RequestParser );
+				else ParseError = 1;
+				break;
+
+			case 16: //Write multiple holding registers
+				if ( MODBUS_MASTER_REGISTERS ) MODBUSParseResponse16( Parser, RequestParser );
+				else ParseError = 1;
+				break;
+
+			default: //Function code not known by master
+				ParseError = 1;
 				break;
 		}
 	}
@@ -63,8 +75,7 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	free( Parser );
 	free( RequestParser );
 
-	if ( ParseSuccess > MODBUS_MASTER_SUPPORT - 1 ) return 1;
-	else return 0;
+	return ParseError;
 }
 
 void MODBUSMasterInit( )

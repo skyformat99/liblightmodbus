@@ -42,7 +42,7 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	//It works, and it uses much less memory, so I guess a bit of risk is fine in this case
 	//Also, user needs to free memory alocated for frame himself!
 
-	uint8_t ParseSuccess = 0;
+	uint8_t ParseError = 0;
 
 	union MODBUSParser *Parser = (union MODBUSParser *) malloc( FrameLength );
 	memcpy( ( *Parser ).Frame, Frame, FrameLength );
@@ -57,17 +57,29 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 		return;
 	}
 
-	switch ( MODBUS_SLAVE_SUPPORT )
+	switch ( ( *Parser ).Base.Function )
 	{
-		case 0: //Only base - no parsing
+		case 3: //Read multiple holding registers
+			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest03( Parser );
+			else ParseError = 1;
 			break;
 
-		case 1: //Basic support - basic parser
-			ParseSuccess += MODBUSParseRequestBasic( Parser );
+		case 6: //Write single holding register
+			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest06( Parser );
+			else ParseError = 1;
+			break;
+
+		case 16: //Write multiple holding registers
+			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest16( Parser );
+			else ParseError = 1;
+			break;
+
+		default:
+			ParseError = 1;
 			break;
 	}
 
-	if ( ParseSuccess > MODBUS_SLAVE_SUPPORT - 1 )
+	if ( ParseError )
 		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( ( *Parser ).Base.Function, 0x01 );
 
 	free( Parser );
