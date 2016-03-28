@@ -48,63 +48,78 @@ all: debug FORCE #Same as 'debug' currently, but removes temporary files
 	$(LD) $(LDFLAGS) -r obj/modlib.o obj/master.o obj/slave.o -o obj/modlib-full.o
 	echo "modlib-full.o: modlib.o, master.o and slave.o linked together" >> obj/versions.txt
 
-check: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1
-check: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1
-check: FORCE
+coverage: MASTERFLAGS = -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1
+coverage: SLAVEFLAGS = -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1
+coverage: CFLAGS += --coverage
+coverage: FORCE
 	-mkdir test/modlib
 	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml \
 	--exclude .gitattributes --exclude .gitignore --exclude README.md --exclude LICENSE . test/modlib
-	cd test && $(CC) $(CFLAGS) --coverage -c modlib/master/mregisters.c
-	cd test && $(CC) $(CFLAGS) --coverage -c modlib/slave/sregisters.c
-	cd test && $(CC) $(CFLAGS) $(MASTERFLAGS) --coverage -c modlib/master.c
-	cd test && $(CC) $(CFLAGS) $(SLAVEFLAGS) --coverage -c modlib/slave.c
-	cd test && $(CC) $(CFLAGS) --coverage -c modlib/modlib.c
-	cd test && $(CC) $(CFLAGS) --coverage -c test.c
-	cd test && $(CC) $(CFLAGS) --coverage test.o modlib.o master.o slave.o mregisters.o sregisters.o -o test
+	cd test && $(CC) $(CFLAGS) -c modlib/master/mregisters.c
+	cd test && $(CC) $(CFLAGS) -c modlib/slave/sregisters.c
+	cd test && $(CC) $(CFLAGS) $(MASTERFLAGS) -c modlib/master.c
+	cd test && $(CC) $(CFLAGS) $(SLAVEFLAGS) -c modlib/slave.c
+	cd test && $(CC) $(CFLAGS) -c modlib/modlib.c
+	cd test && $(CC) $(CFLAGS) -c test.c
+	cd test && $(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o -o test
+
+check: debug
+	-mkdir test/modlib
+	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml \
+	--exclude .gitattributes --exclude .gitignore --exclude README.md --exclude LICENSE . test/modlib
+	$(CC) $(CFLAGS) -c test/test.c -o test/test.o
+	$(CC) $(CFLAGS) test/test.o obj/modlib.o obj/master.o obj/slave.o -o test/test
 
 run:
 	cd test && ./test
 
-debug: obj/modlib.o master-registers slave-registers FORCE #Same as 'all', without removing temp files
+debug: FORCE
+debug: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1
+debug: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1
+debug: modlib-base
+debug: master-registers master-base master-link
+debug: slave-registers slave-base slave-link
 
 
 #### Modlib
-obj/modlib.o: modlib.c modlib.h FORCE
+modlib-base: modlib.c modlib.h
 	$(CC) $(CFLAGS) -c modlib.c -o obj/modlib.o
 	echo "modlib.o: full" >> obj/versions.txt
 
 
 #### Master
-master-base: master.c master.h parser.h master/mtypes.h FORCE
-	$(CC) $(CFLAGS) -c master.c -o obj/master-base.o
-	mv obj/master-base.o obj/master.o
+master-base: master.c master.h parser.h master/mtypes.h
+	$(CC) $(CFLAGS) $(MASTERFLAGS) -c master.c -o obj/master/mbase.o
 	echo "master.o: base" >> obj/versions.txt
 
-master-registers: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1
-master-registers: master.c master.h parser.h master/mtypes.h master/mregisters.c master/mregisters.h FORCE
-	$(CC) $(CFLAGS) $(MASTERFLAGS) -c master.c -o obj/master-base.o
+master-registers: parser.h master/mtypes.h master/mregisters.c master/mregisters.h
 	$(CC) $(CFLAGS) -c master/mregisters.c -o obj/master/mregisters.o
-	$(LD) $(LDFLAGS) -r obj/master-base.o obj/master/mregisters.o -o obj/master-registers.o
-	rm -rf obj/master-base.o
-	mv obj/master-registers.o obj/master.o
 	echo "master.o: registers" >> obj/versions.txt
 
+master-coils: parser.h master/mtypes.h master/mcoils.c master/mcoils.h
+	$(CC) $(CFLAGS) -c master/mcoils.c -o obj/master/mcoils.o
+	echo "master.o: coils" >> obj/versions.txt
+
+master-link:
+	$(LD) $(LDFLAGS) -r obj/master/*.o -o obj/master.o
+	echo "master.o: ~linked~" >> obj/versions.txt
 
 #### Slave
-slave-base: slave.c slave.h parser.h slave/stypes.h FORCE
-	$(CC) $(CFLAGS) -c slave.c -o obj/slave-base.o
-	mv obj/slave-base.o obj/slave.o
+slave-base: slave.c slave.h parser.h slave/stypes.h
+	$(CC) $(CFLAGS) $(SLAVEFLAGS) -c slave.c -o obj/slave/sbase.o
 	echo "slave.o: base" >> obj/versions.txt
 
-slave-registers: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1
-slave-registers: slave.c slave.h parser.h slave/stypes.h slave/sregisters.c slave/sregisters.h FORCE
-	$(CC) $(CFLAGS) $(SLAVEFLAGS) -c slave.c -o obj/slave-base.o
+slave-registers: parser.h slave/stypes.h slave/sregisters.c slave/sregisters.h
 	$(CC) $(CFLAGS) -c slave/sregisters.c -o obj/slave/sregisters.o
-	$(LD) $(LDFLAGS) -r obj/slave-base.o obj/slave/sregisters.o -o obj/slave-registers.o
-	rm -rf obj/slave-base.o
-	mv obj/slave-registers.o obj/slave.o
 	echo "slave.o: registers" >> obj/versions.txt
 
+slave-coils: parser.h slave/stypes.h slave/scoils.c slave/scoils.h
+	$(CC) $(CFLAGS) -c slave/scoils.c -o obj/slave/scoils.o
+	echo "slave.o: coils" >> obj/versions.txt
+
+slave-link:
+	$(LD) $(LDFLAGS) -r obj/slave/*.o -o obj/slave.o
+	echo "slave.o: ~linked~" >> obj/versions.txt
 
 #### Utilities
 FORCE: clean
