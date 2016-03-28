@@ -256,33 +256,3 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 	//Respond
 	MODBUSBuildResponse16( Parser );
 }
-
-uint8_t MODBUSParseRequestBasic( union MODBUSParser *Parser )
-{
-	//Parse request frame using basic parsing functions
-	//If 0 is returned everything is ok, and request is parsed
-	//Otherwise function code is not supported and you should try full parser instead
-	//Or maybe function code is wrong itself
-
-	switch( ( *Parser ).Base.Function )
-	{
-		case 3: //Read multiple holding registers
-			MODBUSParseRequest03( Parser );
-			return 0;
-			break;
-
-		case 6: //Write single holding register
-			MODBUSParseRequest06( Parser );
-			return 0;
-			break;
-
-		case 16: //Write multiple holding registers
-			MODBUSParseRequest16( Parser );
-			return 0;
-			break;
-
-		default:
-			return 1;
-			break;
-	}
-}
