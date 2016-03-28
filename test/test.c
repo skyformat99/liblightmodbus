@@ -84,100 +84,100 @@ int main( )
 	MODBUSSlaveInit( 32, Registers, 8 );
 	MODBUSMasterInit( );
 
-  ///*
-  //Request03 - ok
-  printf( "\x1b[0m03 - correct request...\n" );
-  MODBUSBuildRequest03( 0x20, 0x00, 0x08 );
-  Test( );
+///*
+//Request03 - ok
+	printf( "\x1b[0m03 - correct request...\n" );
+	MODBUSBuildRequest03( 0x20, 0x00, 0x08 );
+	Test( );
 
-  //Request03 - bad first register
-  printf( "\x1b[0m03 - bad first register...\n" );
-  MODBUSBuildRequest03( 0x20, 0xff, 0x08 );
-  Test( );
+	//Request03 - bad first register
+	printf( "\x1b[0m03 - bad first register...\n" );
+	MODBUSBuildRequest03( 0x20, 0xff, 0x08 );
+	Test( );
 
-  //Request03 - bad register count
-  printf( "\x1b[0m03 - bad register count...\n" );
-  MODBUSBuildRequest03( 0x20, 0x00, 0xff );
-  Test( );
+	//Request03 - bad register count
+	printf( "\x1b[0m03 - bad register count...\n" );
+	MODBUSBuildRequest03( 0x20, 0x00, 0xff );
+	Test( );
 
-  //Request03 - bad register count and first register
-  printf( "\x1b[0m03 - bad register count and first register...\n" );
-  MODBUSBuildRequest03( 0x20, 0xffff, 0xffff );
-  Test( );
+	//Request03 - bad register count and first register
+	printf( "\x1b[0m03 - bad register count and first register...\n" );
+	MODBUSBuildRequest03( 0x20, 0xffff, 0xffff );
+	Test( );
 
-  //Request03 - broadcast
-  printf( "\x1b[0m03 - broadcast...\n" );
-  MODBUSBuildRequest03( 0x00, 0x00, 0x08 );
-  Test( );
+	//Request03 - broadcast
+	printf( "\x1b[0m03 - broadcast...\n" );
+	MODBUSBuildRequest03( 0x00, 0x00, 0x08 );
+	Test( );
 
-  //Request03 - other slave address
-  printf( "\x1b[0m03 - other address...\n" );
-  MODBUSBuildRequest03( 0x10, 0x00, 0x08 );
-  Test( );
-  //*/
-  ///*
-  //Request06 - ok
-  printf( "\x1b[0m06 - correct request...\n" );
-  MODBUSBuildRequest06( 0x20, 0x06, 0xf6 );
-  Test( );
+	//Request03 - other slave address
+	printf( "\x1b[0m03 - other address...\n" );
+	MODBUSBuildRequest03( 0x10, 0x00, 0x08 );
+	Test( );
+	//*/
+	///*
+	//Request06 - ok
+	printf( "\x1b[0m06 - correct request...\n" );
+	MODBUSBuildRequest06( 0x20, 0x06, 0xf6 );
+	Test( );
 
-  //Request06 - bad register
-  printf( "\x1b[0m06 - bad register...\n" );
-  MODBUSBuildRequest06( 0x20, 0xf6, 0xf6 );
-  Test( );
+	//Request06 - bad register
+	printf( "\x1b[0m06 - bad register...\n" );
+	MODBUSBuildRequest06( 0x20, 0xf6, 0xf6 );
+	Test( );
 
-  //Request06 - broadcast
-  printf( "\x1b[0m06 - broadcast...\n" );
-  MODBUSBuildRequest06( 0x00, 0x06, 0xf6 );
-  Test( );
+	//Request06 - broadcast
+	printf( "\x1b[0m06 - broadcast...\n" );
+	MODBUSBuildRequest06( 0x00, 0x06, 0xf6 );
+	Test( );
 
-  //Request06 - other slave address
-  printf( "\x1b[0m06 - other address...\n" );
-  MODBUSBuildRequest06( 0x10, 0x06, 0xf6 );
-  Test( );
-  //*/
+	//Request06 - other slave address
+	printf( "\x1b[0m06 - other address...\n" );
+	MODBUSBuildRequest06( 0x10, 0x06, 0xf6 );
+	Test( );
+	//*/
 
-  ///*
-  //Request16 - ok
-  printf( "\x1b[0m16 - correct request...\n" );
-  MODBUSBuildRequest16( 0x20, 0x00, 0x04, TestValues );
-  Test( );
+	///*
+	//Request16 - ok
+	printf( "\x1b[0m16 - correct request...\n" );
+	MODBUSBuildRequest16( 0x20, 0x00, 0x04, TestValues );
+	Test( );
 
-  //Request16 - bad start register
-  printf( "\x1b[0m16 - bad first register...\n" );
-  MODBUSBuildRequest16( 0x20, 0xFF, 0x04, TestValues );
-  Test( );
+	//Request16 - bad start register
+	printf( "\x1b[0m16 - bad first register...\n" );
+	MODBUSBuildRequest16( 0x20, 0xFF, 0x04, TestValues );
+	Test( );
 
-  //Request16 - bad register range
-  printf( "\x1b[0m16 - bad register range...\n" );
-  MODBUSBuildRequest16( 0x20, 0x00, 0xFF, TestValues2 );
-  Test( );
+	//Request16 - bad register range
+	printf( "\x1b[0m16 - bad register range...\n" );
+	MODBUSBuildRequest16( 0x20, 0x00, 0xFF, TestValues2 );
+	Test( );
 
-  //Request16 - bad register range 2
-  printf( "\x1b[0m16 - bad register range 2...\n" );
-  MODBUSBuildRequest16( 0x20, 0x00, 0x20, TestValues2 );
-  Test( );
+	//Request16 - bad register range 2
+	printf( "\x1b[0m16 - bad register range 2...\n" );
+	MODBUSBuildRequest16( 0x20, 0x00, 0x20, TestValues2 );
+	Test( );
 
-  //Request16 - confusing register range
-  printf( "\x1b[0m16 - confusing register range...\n" );
-  MODBUSBuildRequest16( 0x20, 0x00, 0x08, TestValues );
-  Test( );
+	//Request16 - confusing register range
+	printf( "\x1b[0m16 - confusing register range...\n" );
+	MODBUSBuildRequest16( 0x20, 0x00, 0x08, TestValues );
+	Test( );
 
-  //Request16 - confusing register range 2
-  printf( "\x1b[0m16 - confusing register range 2...\n" );
-  MODBUSBuildRequest16( 0x20, 0x01, 0x08, TestValues );
-  Test( );
+	//Request16 - confusing register range 2
+	printf( "\x1b[0m16 - confusing register range 2...\n" );
+	MODBUSBuildRequest16( 0x20, 0x01, 0x08, TestValues );
+	Test( );
 
-  //Request16 - broadcast
-  printf( "\x1b[0m16 - broadcast...\n" );
-  MODBUSBuildRequest16( 0x00, 0x00, 0x04, TestValues );
-  Test( );
+	//Request16 - broadcast
+	printf( "\x1b[0m16 - broadcast...\n" );
+	MODBUSBuildRequest16( 0x00, 0x00, 0x04, TestValues );
+	Test( );
 
-  //Request16 - other slave address
-  printf( "\x1b[0m16 - other address...\n" );
-  MODBUSBuildRequest16( 0x10, 0x00, 0x04, TestValues );
-  Test( );
-  //*/
+	//Request16 - other slave address
+	printf( "\x1b[0m16 - other address...\n" );
+	MODBUSBuildRequest16( 0x10, 0x00, 0x04, TestValues );
+	Test( );
+	//*/
 
 	//Reset terminal colors
 	printf( "\x1b[0m" );
