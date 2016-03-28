@@ -21,6 +21,24 @@ union MODBUSParser
 		uint16_t CRC;
 	} Exception;
 
+	struct __attribute__( ( __packed__ ) )
+    {
+        uint8_t Address;
+        uint8_t Function;
+        uint16_t FirstCoil;
+        uint16_t CoilCount;
+        uint16_t CRC;
+    } Request01; //Read multiple coils
+
+    struct __attribute__( ( __packed__ ) )
+    {
+        uint8_t Address;
+        uint8_t Function;
+        uint8_t BytesCount;
+        uint8_t Coils[32];
+        uint16_t CRC;
+    } Response01; //Read multiple coils - response
+
     struct __attribute__( ( __packed__ ) )
     {
         uint8_t Address;
@@ -39,6 +57,24 @@ union MODBUSParser
         uint16_t CRC;
     } Response03; //Read multiple holding registers - response
 
+	struct __attribute__( ( __packed__ ) )
+    {
+        uint8_t Address;
+        uint8_t Function;
+        uint16_t Coil;
+        uint16_t Value;
+        uint16_t CRC;
+    } Request05; //Write single coil
+
+    struct __attribute__( ( __packed__ ) )
+    {
+        uint8_t Address;
+        uint8_t Function;
+        uint16_t Coil;
+        uint16_t Value;
+        uint16_t CRC;
+    } Response05; //Write single coil - response
+
     struct __attribute__( ( __packed__ ) )
     {
         uint8_t Address;
@@ -56,6 +92,26 @@ union MODBUSParser
         uint16_t Value;
         uint16_t CRC;
     } Response06; //Write single holding register
+
+	struct __attribute__( ( __packed__ ) )
+    {
+		uint8_t Address;
+        uint8_t Function;
+        uint16_t FirstCoil;
+        uint16_t CoilCount;
+		uint8_t BytesCount;
+		uint8_t Coils[32];
+        uint16_t CRC;
+    } Request15; //Write multiple coils
+
+    struct __attribute__( ( __packed__ ) )
+    {
+        uint8_t Address;
+        uint8_t Function;
+        uint16_t FirstCoil;
+        uint16_t CoilCount;
+        uint16_t CRC;
+    } Response15; //Write multiple coils - response
 
     struct __attribute__( ( __packed__ ) )
     {
