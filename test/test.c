@@ -193,6 +193,8 @@ void WriteProtectionTest( )
 	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 2 ) );
 	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 3 ) );
 	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 4 ) );
+
+	MODBUSSlave.RegisterMaskLength = 0;
 }
 
 int main( )
