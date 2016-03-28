@@ -240,7 +240,7 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 
 	//Check for write protection
 	for ( i = 0; i < ( *Parser ).Request16.RegisterCount; i++ )
-		MaskSum += (  MODBUSReadMaskBit( MODBUSSlave.RegisterMask, MODBUSSlave.RegisterMaskLength, ( *Parser ).Request06.Register ) == 1 ) ? 1 : 0;
+		MaskSum += (  MODBUSReadMaskBit( MODBUSSlave.RegisterMask, MODBUSSlave.RegisterMaskLength, ( *Parser ).Request16.FirstRegister + i ) == 1 ) ? 1 : 0;
 
 	if ( MaskSum > 0 )
 	{

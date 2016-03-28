@@ -74,18 +74,10 @@ void Test( )
   printf( "\x1b[0m----------------------------------------\n" );
 }
 
-int main( )
+void MainTest( )
 {
-	TermRGB( 4, 1, 0 );
-	printf( "\nInit...\n" );
-  memset( TestValues2, 0xAA, 1024 );
-
-	//Init slave and master
-	MODBUSSlaveInit( 32, Registers, 8 );
-	MODBUSMasterInit( );
-
-///*
-//Request03 - ok
+	///*
+	//Request03 - ok
 	printf( "\x1b[0m03 - correct request...\n" );
 	MODBUSBuildRequest03( 0x20, 0x00, 0x08 );
 	Test( );
@@ -135,9 +127,7 @@ int main( )
 	printf( "\x1b[0m06 - other address...\n" );
 	MODBUSBuildRequest06( 0x10, 0x06, 0xf6 );
 	Test( );
-	//*/
 
-	///*
 	//Request16 - ok
 	printf( "\x1b[0m16 - correct request...\n" );
 	MODBUSBuildRequest16( 0x20, 0x00, 0x04, TestValues );
@@ -178,6 +168,43 @@ int main( )
 	MODBUSBuildRequest16( 0x10, 0x00, 0x04, TestValues );
 	Test( );
 	//*/
+}
+
+void WriteProtectionTest( )
+{
+	uint8_t Mask[1] = { 0 };
+	MODBUSSlave.RegisterMask = Mask;
+	MODBUSSlave.RegisterMaskLength = 1;
+
+	MODBUSBuildRequest06( 0x20, 2, 16 );
+	Test( );
+	MODBUSBuildRequest06( 0x20, 0, 16 );
+	Test( );
+
+	MODBUSBuildRequest16( 0x20, 0, 4, TestValues2 );
+	Test( );
+	MODBUSBuildRequest16( 0x20, 0, 2, TestValues2 );
+	Test( );
+
+	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 0 ) );
+	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 1 ) );
+	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 2 ) );
+	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 3 ) );
+	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 4 ) );
+}
+
+int main( )
+{
+	TermRGB( 4, 1, 0 );
+	printf( "\nInit...\n" );
+	memset( TestValues2, 0xAA, 1024 );
+
+	//Init slave and master
+	MODBUSSlaveInit( 32, Registers, 8 );
+	MODBUSMasterInit( );
+
+	MainTest( );
+	WriteProtectionTest( );
 
 	//Reset terminal colors
 	printf( "\x1b[0m" );
