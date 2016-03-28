@@ -48,8 +48,8 @@ all: debug FORCE #Same as 'debug' currently, but removes temporary files
 	$(LD) $(LDFLAGS) -r obj/modlib.o obj/master.o obj/slave.o -o obj/modlib-full.o
 	echo "modlib-full.o: modlib.o, master.o and slave.o linked together" >> obj/versions.txt
 
-check: MASTERFLAGS += -DMODBUS_MASTER_SUPPORT=1
-check: SLAVEFLAGS += -DMODBUS_SLAVE_SUPPORT=1
+check: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1
+check: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1
 check: FORCE
 	-mkdir test/modlib
 	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml \
@@ -80,7 +80,7 @@ master-base: master.c master.h parser.h master/mtypes.h FORCE
 	mv obj/master-base.o obj/master.o
 	echo "master.o: base" >> obj/versions.txt
 
-master-registers: MASTERFLAGS += -DMODBUS_MASTER_SUPPORT=1
+master-registers: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1
 master-registers: master.c master.h parser.h master/mtypes.h master/mregisters.c master/mregisters.h FORCE
 	$(CC) $(CFLAGS) $(MASTERFLAGS) -c master.c -o obj/master-base.o
 	$(CC) $(CFLAGS) -c master/mregisters.c -o obj/master/mregisters.o
@@ -96,7 +96,7 @@ slave-base: slave.c slave.h parser.h slave/stypes.h FORCE
 	mv obj/slave-base.o obj/slave.o
 	echo "slave.o: base" >> obj/versions.txt
 
-slave-registers: SLAVEFLAGS += -DMODBUS_SLAVE_SUPPORT=1
+slave-registers: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1
 slave-registers: slave.c slave.h parser.h slave/stypes.h slave/sregisters.c slave/sregisters.h FORCE
 	$(CC) $(CFLAGS) $(SLAVEFLAGS) -c slave.c -o obj/slave-base.o
 	$(CC) $(CFLAGS) -c slave/sregisters.c -o obj/slave/sregisters.o
