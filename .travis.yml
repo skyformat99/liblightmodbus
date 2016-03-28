@@ -8,7 +8,7 @@ install:
 script:
     - make all
     - make avr
-    - make check
+    - make coverage
 after_success:
     - make run
     - cd test && coveralls --verbose --exclude test.c
