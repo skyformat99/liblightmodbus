@@ -1,5 +1,24 @@
 #include "modlib.h"
 
+uint8_t MODBUSReadMaskBit( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit )
+{
+	//Return nth bit from uint8_t array
+	//When 255 value is returned, an error occured
+
+	if ( ( Bit >> 3 ) >= MaskLength ) return 255;
+	return ( Mask[Bit >> 3] & ( 1 << ( Bit % 8 ) ) ) >> ( Bit % 8 - 1 );
+}
+
+uint8_t MODBUSWriteMaskBit( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit, uint8_t Value )
+{
+	//Write nth bit in uint8_t array
+	//When 255 value is returned, an error occured
+
+	if ( ( Bit >> 3 ) >= MaskLength ) return 255;
+	Mask[Bit >> 3] |= ( 1 << ( Bit % 8 ) );
+	return 0;
+}
+
 uint16_t MODBUSSwapEndian( uint16_t Data )
 {
     //Change big-endian to little-endian and vice versa

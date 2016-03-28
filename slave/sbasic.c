@@ -174,6 +174,14 @@ void MODBUSParseRequest06( union MODBUSParser *Parser )
 		return;
 	}
 
+	//Check if register is allowed to be written
+	if ( MODBUSReadMaskBit( MODBUSSlave.RegisterMask, MODBUSSlave.RegisterMaskLength, ( *Parser ).Request06.Register ) == 1 )
+	{
+		//Illegal data address exception
+		MODBUSBuildException( 0x06, 0x02 );
+		return;
+	}
+
 	//Write register
 	MODBUSSlave.Registers[( *Parser ).Request06.Register] = ( *Parser ).Request06.Value;
 
@@ -188,6 +196,7 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 
 	//Update frame length
 	uint8_t i = 0;
+	uint8_t MaskSum = 0;
 	uint8_t FrameLength = 9 + ( *Parser ).Request16.BytesCount;
 
 	//Check frame CRC
@@ -226,6 +235,17 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 	{
 		//Illegal data address error
 		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x02 );
+		return;
+	}
+
+	//Check for write protection
+	for ( i = 0; i < ( *Parser ).Request16.RegisterCount; i++ )
+		MaskSum += (  MODBUSReadMaskBit( MODBUSSlave.RegisterMask, MODBUSSlave.RegisterMaskLength, ( *Parser ).Request06.Register ) == 1 ) ? 1 : 0;
+
+	if ( MaskSum > 0 )
+	{
+		//Illegal data address exception
+		MODBUSBuildException( 0x06, 0x02 );
 		return;
 	}
 
