@@ -16,50 +16,50 @@ void TermRGB( unsigned char R, unsigned char G, unsigned char B )
 
 void Test( )
 {
-  uint8_t i = 0;
+	uint8_t i = 0;
 
-  //Clear registers
-  memset( Registers, 0, 8 * 2 );
+	//Clear registers
+	memset( Registers, 0, 8 * 2 );
 
-  //Start test
+	//Start test
 	TermRGB( 4, 2, 0 );
 	printf( "Test started...\n" );
 
-  //Dump frame
+	//Dump frame
 	TermRGB( 2, 4, 0 );
 	printf( "Dump the frame:\n" );
 	for ( i = 0; i < MODBUSMaster.Request.Length; i++ )
 		printf( "%.2x%s", MODBUSMaster.Request.Frame[i], ( i == MODBUSMaster.Request.Length - 1 ) ? "\n" : "-" );
 
-  //Dump slave registers
+	//Dump slave registers
 	TermRGB( 2, 4, 2 );
 	printf( "Dump registers:\n" );
 	for ( i = 0; i < MODBUSSlave.RegisterCount; i++ )
 		printf( "0x%.2x%s", Registers[i], ( i == MODBUSSlave.RegisterCount - 1 ) ? "\n" : ", " );
 
-  //Parse request
+		//Parse request
 	TermRGB( 1, 4, 3 );
 	printf( "Let slave parse frame...\n" );
 	MODBUSParseRequest( MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
 
-  //Dump slave registers
+	//Dump slave registers
 	TermRGB( 0, 2, 4 );
 	printf( "Dump registers:\n" );
 	for ( i = 0; i < MODBUSSlave.RegisterCount; i++ )
 		printf( "0x%.2x%s", Registers[i], ( i == MODBUSSlave.RegisterCount - 1 ) ? "\n" : ", " );
 
-  //Dump response
+		//Dump response
 	TermRGB( 0, 1, 4 );
 	printf( "Dump response - length = %d:\n", MODBUSSlave.Response.Length );
 	for ( i = 0; i < MODBUSSlave.Response.Length; i++ )
 		printf( "%x%s", MODBUSSlave.Response.Frame[i], ( i == MODBUSSlave.Response.Length - 1 ) ? "\n" : ", " );
 
-  //Process response
+		//Process response
 	TermRGB( 0, 2, 4 );
 	printf( "Let master process response...\n" );
 	MODBUSParseResponse( MODBUSSlave.Response.Frame, MODBUSSlave.Response.Length, MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
 
-  //Dump parsed data
+	//Dump parsed data
 	TermRGB( 0, 3, 4 );
 	printf( "Error - %d\n\rFinished - %d\n\r", MODBUSMaster.Error, MODBUSMaster.Finished );
 	for ( i = 0; i < MODBUSMaster.DataLength; i++ )
