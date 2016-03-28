@@ -132,7 +132,16 @@ void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *Requ
 	uint8_t i = 0;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response03.Values[ ( *Parser ).Response03.BytesCount >> 1 ] ) return;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response03.Values[ ( *Parser ).Response03.BytesCount >> 1 ] )
+	{
+		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
+		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
+		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
+		MODBUSMaster.Exception.Code = 255;
+		MODBUSMaster.Error = 1;
+		MODBUSMaster.Finished = 1;
+		return;
+	}
 
 	//Check between data sent to slave and received from slave
 	DataOK &= ( ( *Parser ).Response03.Address == ( *RequestParser ).Request03.Address );
@@ -174,7 +183,16 @@ void MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *Requ
 	uint8_t DataOK = 1;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response06.CRC ) return;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response06.CRC )
+	{
+		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
+		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
+		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
+		MODBUSMaster.Exception.Code = 255;
+		MODBUSMaster.Error = 1;
+		MODBUSMaster.Finished = 1;
+		return;
+	}
 
 	//Check between data sent to slave and received from slave
 	DataOK &= ( ( *Parser ).Response06.Address == ( *RequestParser ).Request06.Address );
@@ -215,7 +233,16 @@ void MODBUSParseResponse16( union MODBUSParser *Parser, union MODBUSParser *Requ
 	uint8_t DataOK = 1;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response16.CRC ) return;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response16.CRC )
+	{
+		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
+		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
+		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
+		MODBUSMaster.Exception.Code = 255;
+		MODBUSMaster.Error = 1;
+		MODBUSMaster.Finished = 1;
+		return;
+	}
 
 	//Check between data sent to slave and received from slave
 	DataOK &= ( ( *Parser ).Response16.Address == ( *RequestParser ).Request16.Address );
