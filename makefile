@@ -48,6 +48,8 @@ all: debug FORCE #Same as 'debug' currently, but removes temporary files
 	$(LD) $(LDFLAGS) -r obj/modlib.o obj/master.o obj/slave.o -o obj/modlib-full.o
 	echo "modlib-full.o: modlib.o, master.o and slave.o linked together" >> obj/versions.txt
 
+check: MASTERFLAGS += -DMODBUS_MASTER_SUPPORT=1
+check: SLAVEFLAGS += -DMODBUS_SLAVE_SUPPORT=1
 check: FORCE
 	-mkdir test/modlib
 	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml \
