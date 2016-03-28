@@ -11,8 +11,8 @@ CFLAGS =
 LD = ld
 LDFLAGS =
 
-MASTERFLAGS = -DMODBUS_MASTER_SUPPORT=1
-SLAVEFLAGS = -DMODBUS_SLAVE_SUPPORT=1
+MASTERFLAGS =
+SLAVEFLAGS =
 
 #### AVR
 MCU = atmega8
@@ -52,18 +52,18 @@ check: FORCE
 	-mkdir test/modlib
 	rsync -av --exclude test --exclude makefile --exclude .git --exclude .travis.yml \
 	--exclude .gitattributes --exclude .gitignore --exclude README.md --exclude LICENSE . test/modlib
-	cd test && $(CC) $(CFLAGS) --coverage -c modlib/master/mbasic.c
-	cd test && $(CC) $(CFLAGS) --coverage -c modlib/slave/sbasic.c
+	cd test && $(CC) $(CFLAGS) --coverage -c modlib/master/mregisters.c
+	cd test && $(CC) $(CFLAGS) --coverage -c modlib/slave/sregisters.c
 	cd test && $(CC) $(CFLAGS) $(MASTERFLAGS) --coverage -c modlib/master.c
 	cd test && $(CC) $(CFLAGS) $(SLAVEFLAGS) --coverage -c modlib/slave.c
 	cd test && $(CC) $(CFLAGS) --coverage -c modlib/modlib.c
 	cd test && $(CC) $(CFLAGS) --coverage -c test.c
-	cd test && $(CC) $(CFLAGS) --coverage test.o modlib.o master.o slave.o mbasic.o sbasic.o -o test
+	cd test && $(CC) $(CFLAGS) --coverage test.o modlib.o master.o slave.o mregisters.o sregisters.o -o test
 
 run:
 	cd test && ./test
 
-debug: obj/modlib.o master-basic slave-basic FORCE #Same as 'all', without removing temp files
+debug: obj/modlib.o master-registers slave-registers FORCE #Same as 'all', without removing temp files
 
 
 #### Modlib
@@ -78,13 +78,14 @@ master-base: master.c master.h parser.h master/mtypes.h FORCE
 	mv obj/master-base.o obj/master.o
 	echo "master.o: base" >> obj/versions.txt
 
-master-basic: master.c master.h parser.h master/mtypes.h master/mbasic.c master/mbasic.h FORCE
+master-registers: MASTERFLAGS += -DMODBUS_MASTER_SUPPORT=1
+master-registers: master.c master.h parser.h master/mtypes.h master/mregisters.c master/mregisters.h FORCE
 	$(CC) $(CFLAGS) $(MASTERFLAGS) -c master.c -o obj/master-base.o
-	$(CC) $(CFLAGS) -c master/mbasic.c -o obj/master/mbasic.o
-	$(LD) $(LDFLAGS) -r obj/master-base.o obj/master/mbasic.o -o obj/master-basic.o
+	$(CC) $(CFLAGS) -c master/mregisters.c -o obj/master/mregisters.o
+	$(LD) $(LDFLAGS) -r obj/master-base.o obj/master/mregisters.o -o obj/master-registers.o
 	rm -rf obj/master-base.o
-	mv obj/master-basic.o obj/master.o
-	echo "master.o: basic" >> obj/versions.txt
+	mv obj/master-registers.o obj/master.o
+	echo "master.o: registers" >> obj/versions.txt
 
 
 #### Slave
@@ -93,13 +94,14 @@ slave-base: slave.c slave.h parser.h slave/stypes.h FORCE
 	mv obj/slave-base.o obj/slave.o
 	echo "slave.o: base" >> obj/versions.txt
 
-slave-basic: slave.c slave.h parser.h slave/stypes.h slave/sbasic.c slave/sbasic.h FORCE
+slave-registers: SLAVEFLAGS += -DMODBUS_SLAVE_SUPPORT=1
+slave-registers: slave.c slave.h parser.h slave/stypes.h slave/sregisters.c slave/sregisters.h FORCE
 	$(CC) $(CFLAGS) $(SLAVEFLAGS) -c slave.c -o obj/slave-base.o
-	$(CC) $(CFLAGS) -c slave/sbasic.c -o obj/slave/sbasic.o
-	$(LD) $(LDFLAGS) -r obj/slave-base.o obj/slave/sbasic.o -o obj/slave-basic.o
+	$(CC) $(CFLAGS) -c slave/sregisters.c -o obj/slave/sregisters.o
+	$(LD) $(LDFLAGS) -r obj/slave-base.o obj/slave/sregisters.o -o obj/slave-registers.o
 	rm -rf obj/slave-base.o
-	mv obj/slave-basic.o obj/slave.o
-	echo "slave.o: basic" >> obj/versions.txt
+	mv obj/slave-registers.o obj/slave.o
+	echo "slave.o: registers" >> obj/versions.txt
 
 
 #### Utilities

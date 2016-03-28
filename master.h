@@ -11,7 +11,7 @@
 #endif
 
 #include "master/mtypes.h"
-#include "master/mbasic.h"
+#include "master/mregisters.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
 #ifndef MODBUS_MASTER_SUPPORT

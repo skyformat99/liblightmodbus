@@ -11,7 +11,7 @@
 #endif
 
 #include "slave/stypes.h"
-#include "slave/sbasic.h"
+#include "slave/sregisters.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
 #ifndef MODBUS_SLAVE_SUPPORT

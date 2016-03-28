@@ -2,7 +2,7 @@
 #include "../parser.h"
 #include "stypes.h"
 
-#include "sbasic.h"
+#include "sregisters.h"
 
 //Use external slave configuration
 extern MODBUSSlaveStatus MODBUSSlave;
