@@ -176,6 +176,8 @@ void WriteProtectionTest( )
 	MODBUSSlave.RegisterMask = Mask;
 	MODBUSSlave.RegisterMaskLength = 1;
 
+	MODBUSWriteMaskBit( Mask, 1, 2, 1 );
+
 	MODBUSBuildRequest06( 0x20, 2, 16 );
 	Test( );
 	MODBUSBuildRequest06( 0x20, 0, 16 );
