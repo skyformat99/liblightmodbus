@@ -35,7 +35,7 @@ union MODBUSParser
         uint8_t Address;
         uint8_t Function;
         uint8_t BytesCount;
-        uint8_t Coils[32];
+        uint8_t Values[32];
         uint16_t CRC;
     } Response01; //Read multiple coils - response
 
@@ -100,7 +100,7 @@ union MODBUSParser
         uint16_t FirstCoil;
         uint16_t CoilCount;
 		uint8_t BytesCount;
-		uint8_t Coils[32];
+		uint8_t Values[32];
         uint16_t CRC;
     } Request15; //Write multiple coils
 
