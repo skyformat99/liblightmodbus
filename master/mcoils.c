@@ -6,3 +6,39 @@
 
 //Use external master configuration
 extern MODBUSMasterStatus MODBUSMaster;
+
+uint8_t MODBUSBuildRequest01( uint8_t Address, uint16_t FirstCoil, uint8_t CoilCount )
+{
+	//Build request01 frame, to send it so slave
+	//Read multiple coils
+
+	//Set frame length
+	uint8_t FrameLength = 8;
+
+	//Set output frame length to 0 (in case of interrupts)
+	MODBUSMaster.Request.Length = 0;
+
+	//Allocate memory for frame builder
+	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+
+	//Reallocate memory for final frame
+	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+
+	( *Builder ).Base.Address = Address;
+	( *Builder ).Base.Function = 1;
+	( *Builder ).Request01.FirstCoil = MODBUSSwapEndian( FirstCoil );
+	( *Builder ).Request01.CoilCount = MODBUSSwapEndian( CoilCount );
+
+	//Calculate CRC
+	( *Builder ).Request01.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+
+	//Copy frame from builder to output structure
+	memcpy( MODBUSMaster.Request.Frame, ( *Builder ).Frame, FrameLength );
+
+	//Free used memory
+	free( Builder );
+
+	MODBUSMaster.Request.Length = FrameLength;
+
+	return 0;
+}
