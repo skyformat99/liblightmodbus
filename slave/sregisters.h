@@ -1,4 +1,4 @@
-#define _SLAVEBASIC
+#define _SLAVEREGISTERS
 
 #include <inttypes.h>
 
