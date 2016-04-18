@@ -15,6 +15,8 @@ typedef struct
 	uint8_t Address; //Slave address
 	uint16_t *Registers; //Slave holding registers
 	uint16_t RegisterCount; //Slave register count
+	uint8_t *Coils; //Slave coils
+	uint16_t CoilCount; //Slave coil count
 	uint8_t *RegisterMask; //Masks for write protection (bit of value 1 - write protection)
 	uint16_t RegisterMaskLength; //Masks length (each mask covers 8 registers)
 	MODBUSResponseStatus Response; //Slave response formatting status
