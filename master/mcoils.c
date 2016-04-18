@@ -87,7 +87,7 @@ uint8_t MODBUSBuildRequest15( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	//Write multiple coils
 
 	//Set frame length
-	uint8_t FrameLength = 10 + ( CoilCount >> 3 );
+	uint8_t FrameLength = 10 + ( ( CoilCount - 1 ) >> 3 );
 	uint8_t i = 0;
 
 	//Set output frame length to 0 (in case of interrupts)
@@ -105,9 +105,9 @@ uint8_t MODBUSBuildRequest15( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	( *Builder ).Base.Function = 15;
 	( *Builder ).Request15.FirstCoil = MODBUSSwapEndian( FirstCoil );
 	( *Builder ).Request15.CoilCount = MODBUSSwapEndian( CoilCount );
-	( *Builder ).Request15.BytesCount = 1 + ( CoilCount >> 3 );
+	( *Builder ).Request15.BytesCount = 1 + ( ( CoilCount - 1 ) >> 3 );
 
-	for ( i = 0; i < ( i + ( CoilCount >> 3 ) ); i++ )
+	for ( i = 0; i < ( *Builder ).Request15.BytesCount; i++ )
 		( *Builder ).Request15.Values[i] = Values[i];
 
 	( *Builder ).Frame[FrameLength - 2] = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 ) & 0x00FF;
