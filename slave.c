@@ -59,6 +59,11 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 
 	switch ( ( *Parser ).Base.Function )
 	{
+		case 1: //Read multiple coils
+			if ( MODBUS_SLAVE_COILS ) MODBUSParseRequest01( Parser );
+			else ParseError = 1;
+			break;
+
 		case 3: //Read multiple holding registers
 			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest03( Parser );
 			else ParseError = 1;
