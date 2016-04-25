@@ -27,6 +27,7 @@
 #ifndef MODBUS_MASTER_INPUTREGS
 #define MODBUS_MASTER_INPUTREGS 0
 #endif
+
 //Variables declarations
 extern MODBUSMasterStatus MODBUSMaster; //Master configuration
 
