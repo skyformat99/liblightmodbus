@@ -204,7 +204,9 @@ int main( )
 	memset( TestValues2, 0xAA, 1024 );
 
 	//Init slave and master
-	MODBUSSlaveInit( 32, Registers, 8 );
+	MODBUSSlave.Registers = Registers;
+	MODBUSSlave.RegisterCount = 8;
+	MODBUSSlaveInit( 32 );
 	MODBUSMasterInit( );
 
 	MainTest( );

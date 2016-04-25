@@ -59,13 +59,28 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 
 	switch ( ( *Parser ).Base.Function )
 	{
+		case 1: //Read multiple coils
+			if ( MODBUS_SLAVE_COILS ) MODBUSParseRequest01( Parser );
+			else ParseError = 1;
+			break;
+
 		case 3: //Read multiple holding registers
 			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest03( Parser );
 			else ParseError = 1;
 			break;
 
+		case 5: //Write single coil
+			if ( MODBUS_SLAVE_COILS ) MODBUSParseRequest05( Parser );
+			else ParseError = 1;
+			break;
+
 		case 6: //Write single holding register
 			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest06( Parser );
+			else ParseError = 1;
+			break;
+
+		case 15: //Write multiple coils
+			if ( MODBUS_SLAVE_COILS ) MODBUSParseRequest15( Parser );
 			else ParseError = 1;
 			break;
 
@@ -85,17 +100,14 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	free( Parser );
 }
 
-void MODBUSSlaveInit( uint8_t Address, uint16_t *Registers, uint16_t RegisterCount )
+void MODBUSSlaveInit( uint8_t Address )
 {
 	//Very basic init of slave side
+	//User has to modify pointers etc. himself
 
 	MODBUSSlave.Address = Address;
-	MODBUSSlave.Registers = Registers;
-	MODBUSSlave.RegisterCount = RegisterCount;
 
 	//Reset response frame status
 	MODBUSSlave.Response.Length = 0;
 	MODBUSSlave.Response.Frame = (uint8_t *) malloc( 8 );
-
-	//In future parameters like 'InputCount' or 'CoilCount' will be needed, but when set to 0, won't be used
 }

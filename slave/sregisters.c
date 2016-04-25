@@ -129,14 +129,14 @@ void MODBUSParseRequest03( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request03.RegisterCount == 0 )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x03 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x03, 0x03 );
 		return;
 	}
 
 	if ( ( *Parser ).Request03.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x03, 0x02 );
 		return;
 	}
 
@@ -245,7 +245,7 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 	if ( MaskSum > 0 )
 	{
 		//Illegal data address exception
-		MODBUSBuildException( 0x06, 0x02 );
+		MODBUSBuildException( 0x10, 0x02 );
 		return;
 	}
 

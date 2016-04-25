@@ -12,6 +12,7 @@
 
 #include "slave/stypes.h"
 #include "slave/sregisters.h"
+#include "slave/scoils.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
 #ifndef MODBUS_SLAVE_REGISTERS
@@ -32,4 +33,4 @@ extern MODBUSSlaveStatus MODBUSSlave; //Slave configuration
 
 //Function prototypes
 extern void MODBUSParseRequest( uint8_t *, uint8_t ); //Parse and interpret given modbus frame on slave-side
-extern void MODBUSSlaveInit( uint8_t, uint16_t *, uint16_t ); //Very basic init of slave side
+extern void MODBUSSlaveInit( uint8_t ); //Very basic init of slave side

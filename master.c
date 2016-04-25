@@ -50,13 +50,28 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	{
 		switch ( ( *Parser ).Base.Function )
 		{
+			case 1: //Read multiple coils
+				if ( MODBUS_MASTER_COILS ) MODBUSParseResponse01( Parser, RequestParser );
+				else ParseError = 1;
+				break;
+
 			case 3: //Read multiple holding registers
 				if ( MODBUS_MASTER_REGISTERS ) MODBUSParseResponse03( Parser, RequestParser );
 				else ParseError = 1;
 				break;
 
+			case 5: //Write single coil
+				if ( MODBUS_MASTER_COILS ) MODBUSParseResponse05( Parser, RequestParser );
+				else ParseError = 1;
+				break;
+
 			case 6: //Write single holding register
 				if ( MODBUS_MASTER_REGISTERS ) MODBUSParseResponse06( Parser, RequestParser );
+				else ParseError = 1;
+				break;
+
+			case 15: //Write multiple coils
+				if ( MODBUS_MASTER_COILS ) MODBUSParseResponse15( Parser, RequestParser );
 				else ParseError = 1;
 				break;
 

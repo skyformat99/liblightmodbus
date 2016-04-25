@@ -12,6 +12,7 @@
 
 #include "master/mtypes.h"
 #include "master/mregisters.h"
+#include "master/mcoils.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
 #ifndef MODBUS_MASTER_REGISTERS
@@ -26,6 +27,7 @@
 #ifndef MODBUS_MASTER_INPUTREGS
 #define MODBUS_MASTER_INPUTREGS 0
 #endif
+
 //Variables declarations
 extern MODBUSMasterStatus MODBUSMaster; //Master configuration
 

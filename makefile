@@ -57,11 +57,13 @@ coverage: FORCE
 	--exclude .gitattributes --exclude .gitignore --exclude README.md --exclude LICENSE . test/modlib
 	cd test && $(CC) $(CFLAGS) -c modlib/master/mregisters.c
 	cd test && $(CC) $(CFLAGS) -c modlib/slave/sregisters.c
+	cd test && $(CC) $(CFLAGS) -c modlib/master/mcoils.c
+	cd test && $(CC) $(CFLAGS) -c modlib/slave/scoils.c
 	cd test && $(CC) $(CFLAGS) $(MASTERFLAGS) -c modlib/master.c
 	cd test && $(CC) $(CFLAGS) $(SLAVEFLAGS) -c modlib/slave.c
 	cd test && $(CC) $(CFLAGS) -c modlib/modlib.c
 	cd test && $(CC) $(CFLAGS) -c test.c
-	cd test && $(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o -o test
+	cd test && $(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o mcoils.o scoils.o -o test
 
 check: debug
 	-mkdir test/modlib
@@ -77,8 +79,8 @@ debug: FORCE
 debug: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1
 debug: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1
 debug: modlib-base
-debug: master-registers master-base master-link
-debug: slave-registers slave-base slave-link
+debug: master-registers master-coils master-base master-link
+debug: slave-registers slave-coils slave-base slave-link
 
 
 #### Modlib

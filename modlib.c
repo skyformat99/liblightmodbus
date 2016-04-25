@@ -15,7 +15,10 @@ uint8_t MODBUSWriteMaskBit( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit, ui
 	//When 255 value is returned, an error occured
 
 	if ( ( Bit >> 3 ) >= MaskLength ) return 255;
-	Mask[Bit >> 3] |= ( 1 << ( Bit % 8 ) ) * Value;
+	if ( Value )
+		Mask[Bit >> 3] |= ( 1 << ( Bit % 8 ) );
+	else
+		Mask[Bit >> 3] &= ~( 1 << ( Bit % 8 ) );
 	return 0;
 }
 

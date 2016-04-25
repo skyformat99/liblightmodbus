@@ -1,4 +1,4 @@
-#define _MASTERBASIC
+#define _MASTERREGISTERS
 
 #include <inttypes.h>
 

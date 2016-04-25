@@ -27,7 +27,7 @@ For more detailed information check out [wiki](https://github.com/Jacajack/modli
 | Support type     | Parsing / requesting | Exceptions handling | Master side support | Supported function codes |
 |------------------|:--------------------:|:-------------------:|:-------------------:|:------------------------:|
 |Holding registers | &#10004;             | &#10004;            | &#10004;            |*03, 06, 16*              |
-|Coils             | &#10008;             | &#10008;            | &#10008;            |*01, 05, 15*              |
+|Coils             | &#10008; / &#10004;  | &#10008;            | &#10008;            |*01, 05, 15*              |
 |Discrete inputs   | &#10008;             | &#10008;            | &#10008;            |*02*                      |
 |Input registers   | &#10008;             | &#10008;            | &#10008;            |*04*                      |
 
