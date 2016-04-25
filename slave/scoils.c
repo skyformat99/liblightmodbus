@@ -23,8 +23,8 @@ void MODBUSBuildResponse01( union MODBUSParser *Parser )
 	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 	//Set up basic response data
-	( *Builder ).Response01.Address = MODBUSSlave.Address;
-	( *Builder ).Response01.Function = ( *Parser ).Request01.Function;
+	( *Builder ).Base.Address = MODBUSSlave.Address;
+	( *Builder ).Base.Function = ( *Parser ).Base.Function;
 	( *Builder ).Response01.BytesCount = 1 + ( ( ( *Parser ).Request01.CoilCount - 1 ) >> 3 );
 
 	//Copy registers to response frame
@@ -60,8 +60,8 @@ void MODBUSBuildResponse05( union MODBUSParser *Parser )
 	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 	//Set up basic response data
-	( *Builder ).Response05.Address = MODBUSSlave.Address;
-	( *Builder ).Response05.Function = ( *Parser ).Request05.Function;
+	( *Builder ).Base.Address = MODBUSSlave.Address;
+	( *Builder ).Base.Function = ( *Parser ).Base.Function;
 	( *Builder ).Response05.Coil = MODBUSSwapEndian( ( *Parser ).Request05.Coil );
 	( *Builder ).Response05.Value = MODBUSSwapEndian( ( *Parser ).Request05.Value );
 
@@ -93,8 +93,8 @@ void MODBUSBuildResponse15( union MODBUSParser *Parser )
 	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 	//Set up basic response data
-	( *Builder ).Response15.Address = MODBUSSlave.Address;
-	( *Builder ).Response15.Function = ( *Parser ).Request15.Function;
+	( *Builder ).Base.Address = MODBUSSlave.Address;
+	( *Builder ).Base.Function = ( *Parser ).Base.Function;
 	( *Builder ).Response15.FirstCoil = MODBUSSwapEndian( ( *Parser ).Request15.FirstCoil );
 	( *Builder ).Response15.CoilCount = MODBUSSwapEndian( ( *Parser ).Request15.CoilCount
  );
