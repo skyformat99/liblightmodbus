@@ -79,6 +79,11 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 			else ParseError = 1;
 			break;
 
+		case 15: //Write multiple coils
+			if ( MODBUS_SLAVE_COILS ) MODBUSParseRequest15( Parser );
+			else ParseError = 1;
+			break;
+
 		case 16: //Write multiple holding registers
 			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest16( Parser );
 			else ParseError = 1;
