@@ -123,3 +123,48 @@ uint8_t MODBUSBuildRequest15( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 
 	return 0;
 }
+
+void MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+{
+	//Parse slave response to request 01 (read multiple coils)
+
+	//Update frame length
+	uint8_t FrameLength = 5 + ( *Parser ).Response01.BytesCount;
+	uint8_t DataOK = 1;
+	uint8_t i = 0;
+
+	//Check frame CRC
+	DataOK &= ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) & 0x00FF ) == ( *Parser ).Response01.Values[( *Parser ).Response01.BytesCount];
+	DataOK &= ( ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) & 0xFF00 ) >> 8 ) == ( *Parser ).Response01.Values[( *Parser ).Response01.BytesCount + 1];
+
+	if ( !DataOK )
+	{
+		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
+		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
+		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
+		MODBUSMaster.Exception.Code = 255;
+		MODBUSMaster.Error = 1;
+		MODBUSMaster.Finished = 1;
+		return;
+	}
+
+	//Check between data sent to slave and received from slave
+	DataOK &= ( ( *Parser ).Response01.Address == ( *RequestParser ).Request01.Address );
+	DataOK &= ( ( *Parser ).Response01.Function == ( *RequestParser ).Request01.Function );
+
+
+	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, sizeof( MODBUSData ) * MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount ) );
+	for ( i = 0; i < MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount ); i++ )
+	{
+		MODBUSMaster.Data[i].Address = ( *Parser ).Request01.Address;
+		MODBUSMaster.Data[i].DataType = Coil;
+		MODBUSMaster.Data[i].Register = MODBUSSwapEndian( ( *RequestParser ).Request01.FirstCoil ) + i;
+		MODBUSMaster.Data[i].Value = MODBUSReadMaskBit( ( *Parser ).Response01.Values, ( *Parser ).Response01.BytesCount, i );
+
+	}
+
+	//Set up data length - response successfully parsed
+	MODBUSMaster.Error = !DataOK;
+	MODBUSMaster.DataLength = MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount );
+	MODBUSMaster.Finished = 1;
+}
