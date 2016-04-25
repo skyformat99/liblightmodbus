@@ -205,3 +205,35 @@ void MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *Requ
 	MODBUSMaster.DataLength = 1;
 	MODBUSMaster.Finished = 1;
 }
+
+void MODBUSParseResponse15( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+{
+	//Parse slave response to request 15 (write multiple coils)
+
+	//Update frame length
+	uint8_t FrameLength = 8;
+	uint8_t DataOK = 1;
+
+	//Check frame CRC
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response15.CRC )
+	{
+		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
+		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
+		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
+		MODBUSMaster.Exception.Code = 255;
+		MODBUSMaster.Error = 1;
+		MODBUSMaster.Finished = 1;
+		return;
+	}
+
+	//Check between data sent to slave and received from slave
+	DataOK &= ( ( *Parser ).Response15.Address == ( *RequestParser ).Request15.Address );
+	DataOK &= ( ( *Parser ).Response15.Function == ( *RequestParser ).Request15.Function );
+	DataOK &= ( ( *Parser ).Response15.FirstCoil == ( *RequestParser ).Request15.FirstCoil );
+	DataOK &= ( ( *Parser ).Response15.CoilCount == ( *RequestParser ).Request15.CoilCount );
+
+	//Set up data length - response successfully parsed
+	MODBUSMaster.Error = !DataOK;
+	MODBUSMaster.DataLength = 0;
+	MODBUSMaster.Finished = 1;
+}
