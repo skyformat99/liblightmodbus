@@ -60,6 +60,11 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 				else ParseError = 1;
 				break;
 
+			case 5: //Write single coil
+				if ( MODBUS_MASTER_COILS ) MODBUSParseResponse05( Parser, RequestParser );
+				else ParseError = 1;
+				break;
+
 			case 6: //Write single holding register
 				if ( MODBUS_MASTER_REGISTERS ) MODBUSParseResponse06( Parser, RequestParser );
 				else ParseError = 1;
