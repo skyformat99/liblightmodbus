@@ -149,14 +149,14 @@ void MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *Requ
 	}
 
 	//Check between data sent to slave and received from slave
-	DataOK &= ( ( *Parser ).Response01.Address == ( *RequestParser ).Request01.Address );
-	DataOK &= ( ( *Parser ).Response01.Function == ( *RequestParser ).Request01.Function );
+	DataOK &= ( ( *Parser ).Base.Address == ( *RequestParser ).Base.Address );
+	DataOK &= ( ( *Parser ).Base.Function == ( *RequestParser ).Base.Function );
 
 
 	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, sizeof( MODBUSData ) * MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount ) );
 	for ( i = 0; i < MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount ); i++ )
 	{
-		MODBUSMaster.Data[i].Address = ( *Parser ).Request01.Address; //FIX//
+		MODBUSMaster.Data[i].Address = ( *Parser ).Base.Address;
 		MODBUSMaster.Data[i].DataType = Coil;
 		MODBUSMaster.Data[i].Register = MODBUSSwapEndian( ( *RequestParser ).Request01.FirstCoil ) + i;
 		MODBUSMaster.Data[i].Value = MODBUSReadMaskBit( ( *Parser ).Response01.Values, ( *Parser ).Response01.BytesCount, i );
@@ -190,12 +190,12 @@ void MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *Requ
 	}
 
 	//Check between data sent to slave and received from slave
-	DataOK &= ( ( *Parser ).Response05.Address == ( *RequestParser ).Request05.Address );
-	DataOK &= ( ( *Parser ).Response05.Function == ( *RequestParser ).Request05.Function );
+	DataOK &= ( ( *Parser ).Base.Address == ( *RequestParser ).Base.Address );
+	DataOK &= ( ( *Parser ).Base.Function == ( *RequestParser ).Base.Function );
 
 
 	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, sizeof( MODBUSData ) );
-	MODBUSMaster.Data[0].Address = ( *Parser ).Response05.Address;
+	MODBUSMaster.Data[0].Address = ( *Parser ).Base.Address;
 	MODBUSMaster.Data[0].DataType = Coil;
 	MODBUSMaster.Data[0].Register = MODBUSSwapEndian( ( *RequestParser ).Request05.Coil );
 	MODBUSMaster.Data[0].Value = ( *Parser ).Response05.Value != 0;
@@ -227,8 +227,8 @@ void MODBUSParseResponse15( union MODBUSParser *Parser, union MODBUSParser *Requ
 	}
 
 	//Check between data sent to slave and received from slave
-	DataOK &= ( ( *Parser ).Response15.Address == ( *RequestParser ).Request15.Address );
-	DataOK &= ( ( *Parser ).Response15.Function == ( *RequestParser ).Request15.Function );
+	DataOK &= ( ( *Parser ).Base.Address == ( *RequestParser ).Base.Address );
+	DataOK &= ( ( *Parser ).Base.Function == ( *RequestParser ).Base.Function );
 	DataOK &= ( ( *Parser ).Response15.FirstCoil == ( *RequestParser ).Request15.FirstCoil );
 	DataOK &= ( ( *Parser ).Response15.CoilCount == ( *RequestParser ).Request15.CoilCount );
 
