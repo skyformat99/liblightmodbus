@@ -5,8 +5,10 @@ This is really simple test suite, it covers ~95% of library code
 */
 
 uint16_t Registers[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+uint8_t Coils[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 uint16_t TestValues[8] = { 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0xAAFF, 0xBBFF };
 uint16_t TestValues2[512];
+uint8_t TestValues3[2] = { 0b11001100, 0x00 };
 
 void TermRGB( unsigned char R, unsigned char G, unsigned char B )
 {
@@ -168,10 +170,107 @@ void MainTest( )
 	MODBUSBuildRequest16( 0x10, 0x00, 0x04, TestValues );
 	Test( );
 	//*/
-}
 
-void WriteProtectionTest( )
-{
+	///*
+	//Request01 - ok
+	printf( "\x1b[0m01 - correct request...\n" );
+	MODBUSBuildRequest01( 0x20, 0x00, 0x08 );
+	Test( );
+
+	//Request01 - bad first register
+	printf( "\x1b[0m01 - bad first coil...\n" );
+	MODBUSBuildRequest01( 0x20, 0xff, 0x08 );
+	Test( );
+
+	//Request01 - bad register count
+	printf( "\x1b[0m01 - bad coil count...\n" );
+	MODBUSBuildRequest01( 0x20, 0x00, 0xff );
+	Test( );
+
+	//Request01 - bad register count and first register
+	printf( "\x1b[0m01 - bad coil count and first coil...\n" );
+	MODBUSBuildRequest01( 0x20, 0xffff, 0xffff );
+	Test( );
+
+	//Request01 - broadcast
+	printf( "\x1b[0m01 - broadcast...\n" );
+	MODBUSBuildRequest01( 0x00, 0x00, 0x08 );
+	Test( );
+
+	//Request01 - other slave address
+	printf( "\x1b[0m01 - other address...\n" );
+	MODBUSBuildRequest01( 0x10, 0x00, 0x08 );
+	Test( );
+	//*/
+	///*
+	//Request05 - ok
+	printf( "\x1b[0m05 - correct request...\n" );
+	MODBUSBuildRequest05( 0x20, 0x06, 0xff00 );
+	Test( );
+
+	//Request05 - ok
+	printf( "\x1b[0m05 - correct request, non 0xff00 number...\n" );
+	MODBUSBuildRequest05( 0x20, 0x06, 1 );
+	Test( );
+
+	//Request05 - bad register
+	printf( "\x1b[0m05 - bad coil...\n" );
+	MODBUSBuildRequest05( 0x20, 0xf6, 0xff00 );
+	Test( );
+
+	//Request05 - broadcast
+	printf( "\x1b[0m05 - broadcast...\n" );
+	MODBUSBuildRequest05( 0x00, 0x06, 0xff00 );
+	Test( );
+
+	//Request05 - other slave address
+	printf( "\x1b[0m05 - other address...\n" );
+	MODBUSBuildRequest05( 0x10, 0x06, 0xff00 );
+	Test( );
+
+	//Request15 - ok
+	printf( "\x1b[0m15 - correct request...\n" );
+	MODBUSBuildRequest15( 0x20, 0x00, 0x04, TestValues3 );
+	Test( );
+
+	//Request15 - bad start register
+	printf( "\x1b[0m15 - bad first coil...\n" );
+	MODBUSBuildRequest15( 0x20, 0xFF, 0x04, TestValues3 );
+	Test( );
+
+	//Request15 - bad register range
+	printf( "\x1b[0m15 - bad coil range...\n" );
+	MODBUSBuildRequest15( 0x20, 0x00, 0xFF, TestValues3 );
+	Test( );
+
+	//Request15 - bad register range 2
+	printf( "\x1b[0m15 - bad coil range 2...\n" );
+	MODBUSBuildRequest15( 0x20, 0x00, 0x20, TestValues3 );
+	Test( );
+
+	//Request15 - confusing register range
+	printf( "\x1b[0m15 - confusing coil range...\n" );
+	MODBUSBuildRequest15( 0x20, 0x00, 0x40, TestValues3 );
+	Test( );
+
+	//Request15 - confusing register range 2
+	printf( "\x1b[0m15 - confusing coil range 2...\n" );
+	MODBUSBuildRequest15( 0x20, 0x01, 0x40, TestValues3 );
+	Test( );
+
+	//Request15 - broadcast
+	printf( "\x1b[0m15 - broadcast...\n" );
+	MODBUSBuildRequest15( 0x00, 0x00, 0x04, TestValues3 );
+	Test( );
+
+	//Request15 - other slave address
+	printf( "\x1b[0m15 - other address...\n" );
+	MODBUSBuildRequest15( 0x10, 0x00, 0x04, TestValues3 );
+	Test( );
+	//*/
+
+
+	//WRITE PROTECTION TEST
 	uint8_t Mask[1] = { 0 };
 	MODBUSSlave.RegisterMask = Mask;
 	MODBUSSlave.RegisterMaskLength = 1;
@@ -197,6 +296,7 @@ void WriteProtectionTest( )
 	MODBUSSlave.RegisterMaskLength = 0;
 }
 
+
 int main( )
 {
 	TermRGB( 4, 1, 0 );
@@ -206,11 +306,12 @@ int main( )
 	//Init slave and master
 	MODBUSSlave.Registers = Registers;
 	MODBUSSlave.RegisterCount = 8;
+	MODBUSSlave.Coils = Coils;
+	MODBUSSlave.CoilCount = 64;
 	MODBUSSlaveInit( 32 );
 	MODBUSMasterInit( );
 
 	MainTest( );
-	WriteProtectionTest( );
 
 	//Reset terminal colors
 	printf( "\x1b[0m" );
