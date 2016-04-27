@@ -23,22 +23,22 @@ For more detailed information check out [wiki](https://github.com/Jacajack/modli
 - For currently supported functions see roadmap below
 
 ## Roadmap
-#### Master - basic support currently, more incoming
+#### Master
 | Support type     | Parsing / requesting | Exceptions handling | Master side support | Supported function codes |
 |------------------|:--------------------:|:-------------------:|:-------------------:|:------------------------:|
 |Holding registers | &#10004;             | &#10004;            | &#10004;            |*03, 06, 16*              |
 |Coils             | &#10004;             | &#10004;            | &#10004;            |*01, 05, 15*              |
-|Discrete inputs   | &#10008;             | &#10008;            | &#10008;            |*02*                      |
+|Discrete inputs   | &#10004;             | &#10004;            | &#10004;            |*02*                      |
 |Input registers   | &#10008;             | &#10008;            | &#10008;            |*04*                      |
 
 *Additional functions supported by master: --- (but planned)*
 
-#### Slave - basic support currently, more incoming
+#### Slave
 | Support type     | Parsing / requesting | Exceptions handling | Slave side support | Supported function codes |
 |------------------|:--------------------:|:-------------------:|:------------------:|:------------------------:|
 |Holding registers | &#10004;             | &#10004;            | &#10004;           |*03, 06, 16*              |
 |Coils             | &#10004;             | &#10004;            | &#10004;           |*01, 05, 15*              |
-|Discrete inputs   | &#10008;             | &#10008;            | &#10008;           |*02*                      |
+|Discrete inputs   | &#10004;             | &#10004;            | &#10004;           |*02*                      |
 |Input registers   | &#10008;             | &#10008;            | &#10008;           |*04*                      |
 
 *Additional functions supported by slave: --- (but planned)*

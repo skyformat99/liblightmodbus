@@ -13,6 +13,7 @@
 #include "master/mtypes.h"
 #include "master/mregisters.h"
 #include "master/mcoils.h"
+#include "master/mdiscreteinputs.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
 #ifndef MODBUS_MASTER_REGISTERS
@@ -21,8 +22,8 @@
 #ifndef MODBUS_MASTER_COILS
 #define MODBUS_MASTER_COILS 0
 #endif
-#ifndef MODBUS_MASTER_INPUTS
-#define MODBUS_MASTER_INPUTS 0
+#ifndef MODBUS_MASTER_DISCRETE_INPUTS
+#define MODBUS_MASTER_DISCRETE_INPUTS 0
 #endif
 #ifndef MODBUS_MASTER_INPUTREGS
 #define MODBUS_MASTER_INPUTREGS 0

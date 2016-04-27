@@ -26,6 +26,16 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	//If non-zero some parser failed its job
 	uint8_t ParseError = 0;
 
+	//Reset output registers before parsing frame
+	MODBUSMaster.DataLength = 0;
+	MODBUSMaster.Error = 0;
+	MODBUSMaster.Exception.Address = 0;
+	MODBUSMaster.Exception.Function = 0;
+	MODBUSMaster.Exception.Code = 0;
+
+	//If user tries to parse an empty frame return 2 (to avoid problems with memory allocation)
+	if ( FrameLength == 0 ) return 2;
+
 	//Allocate memory for union and copy frame to it
 	union MODBUSParser *Parser = (union MODBUSParser *) malloc( FrameLength );
 	memcpy( ( *Parser ).Frame,  Frame, FrameLength );
@@ -33,13 +43,6 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	//Allocate memory for request union and copy frame to it
 	union MODBUSParser *RequestParser = (union MODBUSParser *) malloc( RequestFrameLength );
 	memcpy( ( *RequestParser ).Frame,  RequestFrame, RequestFrameLength );
-
-	//Reset output registers before parsing frame
-	MODBUSMaster.DataLength = 0;
-	MODBUSMaster.Error = 0;
-	MODBUSMaster.Exception.Address = 0;
-	MODBUSMaster.Exception.Function = 0;
-	MODBUSMaster.Exception.Code = 0;
 
 	//Check if frame is exception response
 	if ( ( *Parser ).Base.Function & 128 )
@@ -52,6 +55,11 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 		{
 			case 1: //Read multiple coils
 				if ( MODBUS_MASTER_COILS ) MODBUSParseResponse01( Parser, RequestParser );
+				else ParseError = 1;
+				break;
+
+			case 2: //Read multiple discrete inputs
+				if ( MODBUS_MASTER_DISCRETE_INPUTS ) MODBUSParseResponse02( Parser, RequestParser );
 				else ParseError = 1;
 				break;
 

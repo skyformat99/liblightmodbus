@@ -39,6 +39,24 @@ union MODBUSParser
         uint16_t CRC;
     } Response01; //Read multiple coils - response
 
+	struct __attribute__( ( __packed__ ) )
+    {
+        uint8_t Address;
+        uint8_t Function;
+        uint16_t FirstInput;
+        uint16_t InputCount;
+        uint16_t CRC;
+    } Request02; //Read multiple discrete inputs
+
+    struct __attribute__( ( __packed__ ) )
+    {
+        uint8_t Address;
+        uint8_t Function;
+        uint8_t BytesCount;
+        uint8_t Values[32];
+        uint16_t CRC;
+    } Response02; //Read multiple discrete inputs - response
+
     struct __attribute__( ( __packed__ ) )
     {
         uint8_t Address;
