@@ -7,6 +7,7 @@ This is really simple test suite, it covers ~95% of library code
 uint16_t Registers[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
 uint8_t Coils[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 uint8_t DiscreteInputs[2] = { 255, 0 };
+uint16_t InputRegisters[4] = { 1, 2, 3, 4 };
 uint16_t TestValues[8] = { 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0xAAFF, 0xBBFF };
 uint16_t TestValues2[512];
 uint8_t TestValues3[2] = { 0b11001100, 0x00 };
@@ -293,8 +294,36 @@ void MainTest( )
 	printf( "\x1b[0m15 - other address...\n" );
 	MODBUSBuildRequest15( 0x10, 0x00, 0x04, TestValues3 );
 	Test( );
-	//*/
 
+	//Request04 - ok
+	printf( "\x1b[0m04 - correct request...\n" );
+	MODBUSBuildRequest04( 0x20, 0x00, 0x04 );
+	Test( );
+
+	//Request04 - bad first register
+	printf( "\x1b[0m04 - bad first register...\n" );
+	MODBUSBuildRequest04( 0x20, 0x05, 0x04 );
+	Test( );
+
+	//Request04 - bad register count
+	printf( "\x1b[0m04 - bad register count...\n" );
+	MODBUSBuildRequest04( 0x20, 0x00, 0x05 );
+	Test( );
+
+	//Request04 - bad register count and first register
+	printf( "\x1b[0m04 - bad register count and first register...\n" );
+	MODBUSBuildRequest04( 0x20, 0x01, 0x05 );
+	Test( );
+
+	//Request04 - broadcast
+	printf( "\x1b[0m04 - broadcast...\n" );
+	MODBUSBuildRequest04( 0x00, 0x00, 0x04 );
+	Test( );
+
+	//Request04 - other slave address
+	printf( "\x1b[0m04 - other address...\n" );
+	MODBUSBuildRequest04( 0x10, 0x00, 0x04 );
+	Test( );
 
 	//WRITE PROTECTION TEST
 	uint8_t Mask[1] = { 0 };
@@ -336,9 +365,11 @@ int main( )
 	MODBUSSlave.Coils = Coils;
 	MODBUSSlave.CoilCount = 64;
 
-
 	MODBUSSlave.DiscreteInputs = DiscreteInputs;
 	MODBUSSlave.DiscreteInputCount = 16;
+
+	MODBUSSlave.InputRegisters = InputRegisters;
+	MODBUSSlave.InputRegisterCount = 4;
 
 	MODBUSSlaveInit( 32 );
 	MODBUSMasterInit( );

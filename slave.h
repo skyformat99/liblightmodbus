@@ -14,6 +14,7 @@
 #include "slave/sregisters.h"
 #include "slave/scoils.h"
 #include "slave/sdiscreteinputs.h"
+#include "slave/sinputregisters.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
 #ifndef MODBUS_SLAVE_REGISTERS
@@ -25,8 +26,8 @@
 #ifndef MODBUS_SLAVE_DISCRETE_INPUTS
 #define MODBUS_SLAVE_DISCRETE_INPUTS 0
 #endif
-#ifndef MODBUS_SLAVE_INPUTREGS
-#define MODBUS_SLAVE_INPUTREGS 0
+#ifndef MODBUS_SLAVE_INPUT_REGISTERS
+#define MODBUS_SLAVE_INPUT_REGISTERS 0
 #endif
 
 //Variables declarations

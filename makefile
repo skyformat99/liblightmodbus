@@ -48,8 +48,8 @@ all: debug FORCE #Same as 'debug' currently, but removes temporary files
 	$(LD) $(LDFLAGS) -r obj/modlib.o obj/master.o obj/slave.o -o obj/modlib-full.o
 	echo "modlib-full.o: modlib.o, master.o and slave.o linked together" >> obj/versions.txt
 
-coverage: MASTERFLAGS = -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1 -DMODBUS_MASTER_DISCRETE_INPUTS=1
-coverage: SLAVEFLAGS = -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1 -DMODBUS_SLAVE_DISCRETE_INPUTS=1
+coverage: MASTERFLAGS = -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1 -DMODBUS_MASTER_DISCRETE_INPUTS=1 -DMODBUS_MASTER_INPUT_REGISTERS=1
+coverage: SLAVEFLAGS = -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1 -DMODBUS_SLAVE_DISCRETE_INPUTS=1 -DMODBUS_SLAVE_INPUT_REGISTERS=1
 coverage: CFLAGS += --coverage
 coverage: FORCE
 	-mkdir test/modlib
@@ -61,6 +61,8 @@ coverage: FORCE
 	cd test && $(CC) $(CFLAGS) -c modlib/slave/scoils.c
 	cd test && $(CC) $(CFLAGS) -c modlib/master/mdiscreteinputs.c
 	cd test && $(CC) $(CFLAGS) -c modlib/slave/sdiscreteinputs.c
+	cd test && $(CC) $(CFLAGS) -c modlib/master/minputregisters.c
+	cd test && $(CC) $(CFLAGS) -c modlib/slave/sinputregisters.c
 	cd test && $(CC) $(CFLAGS) $(MASTERFLAGS) -c modlib/master.c
 	cd test && $(CC) $(CFLAGS) $(SLAVEFLAGS) -c modlib/slave.c
 	cd test && $(CC) $(CFLAGS) -c modlib/modlib.c
@@ -78,11 +80,11 @@ run:
 	cd test && ./test
 
 debug: FORCE
-debug: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1 -DMODBUS_MASTER_DISCRETE_INPUTS=1
-debug: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1 -DMODBUS_SLAVE_DISCRETE_INPUTS=1
+debug: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1 -DMODBUS_MASTER_DISCRETE_INPUTS=1 -DMODBUS_MASTER_INPUT_REGISTERS=1
+debug: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1 -DMODBUS_SLAVE_DISCRETE_INPUTS=1 -DMODBUS_SLAVE_INPUT_REGISTERS=1
 debug: modlib-base
-debug: master-registers master-coils master-discrete-inputs master-base master-link
-debug: slave-registers slave-coils slave-discrete-inputs slave-base slave-link
+debug: master-registers master-coils master-discrete-inputs master-input-registers master-base master-link
+debug: slave-registers slave-coils slave-discrete-inputs slave-input-registers slave-base slave-link
 
 
 #### Modlib
@@ -108,9 +110,15 @@ master-discrete-inputs: parser.h master/mtypes.h master/mdiscreteinputs.c master
 	$(CC) $(CFLAGS) -c master/mdiscreteinputs.c -o obj/master/mdiscreteinputs.o
 	echo "master.o: discrete inputs" >> obj/versions.txt
 
+master-input-registers: parser.h master/mtypes.h master/minputregisters.c master/minputregisters.h
+	$(CC) $(CFLAGS) -c master/minputregisters.c -o obj/master/minputregisters.o
+	echo "master.o: input registers" >> obj/versions.txt
+
 master-link:
 	$(LD) $(LDFLAGS) -r obj/master/*.o -o obj/master.o
 	echo "master.o: ~linked~" >> obj/versions.txt
+
+
 
 #### Slave
 slave-base: slave.c slave.h parser.h slave/stypes.h
@@ -128,6 +136,10 @@ slave-coils: parser.h slave/stypes.h slave/scoils.c slave/scoils.h
 slave-discrete-inputs: parser.h slave/stypes.h slave/sdiscreteinputs.c slave/sdiscreteinputs.h
 	$(CC) $(CFLAGS) -c slave/sdiscreteinputs.c -o obj/slave/sdiscreteinputs.o
 	echo "slave.o: discrete inputs" >> obj/versions.txt
+
+slave-input-registers: parser.h slave/stypes.h slave/sinputregisters.c slave/sinputregisters.h
+	$(CC) $(CFLAGS) -c slave/sinputregisters.c -o obj/slave/sinputregisters.o
+	echo "slave.o: input registers" >> obj/versions.txt
 
 slave-link:
 	$(LD) $(LDFLAGS) -r obj/slave/*.o -o obj/slave.o

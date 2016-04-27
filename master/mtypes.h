@@ -8,7 +8,8 @@ typedef enum
 {
 	Register = 0,
 	Coil = 1,
-	DiscreteInput = 2
+	DiscreteInput = 2,
+	InputRegister = 3
 } MODBUSDataType; //MODBUS data types enum (coil, register, input, etc.)
 
 typedef struct
