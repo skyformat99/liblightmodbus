@@ -81,8 +81,8 @@ debug: FORCE
 debug: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1 -DMODBUS_MASTER_DISCRETE_INPUTS=1
 debug: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1 -DMODBUS_SLAVE_DISCRETE_INPUTS=1
 debug: modlib-base
-debug: master-registers master-coils master-base master-discrete-inputs master-link
-debug: slave-registers slave-coils slave-base slave-discrete-inputs slave-link
+debug: master-registers master-coils master-discrete-inputs master-base master-link
+debug: slave-registers slave-coils slave-discrete-inputs slave-base slave-link
 
 
 #### Modlib
