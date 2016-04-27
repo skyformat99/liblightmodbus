@@ -68,6 +68,11 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 				else ParseError = 1;
 				break;
 
+			case 4: //Read multiple input registers
+				if ( MODBUS_MASTER_INPUT_REGISTERS ) MODBUSParseResponse04( Parser, RequestParser );
+				else ParseError = 1;
+				break;
+
 			case 5: //Write single coil
 				if ( MODBUS_MASTER_COILS ) MODBUSParseResponse05( Parser, RequestParser );
 				else ParseError = 1;
