@@ -59,11 +59,13 @@ coverage: FORCE
 	cd test && $(CC) $(CFLAGS) -c modlib/slave/sregisters.c
 	cd test && $(CC) $(CFLAGS) -c modlib/master/mcoils.c
 	cd test && $(CC) $(CFLAGS) -c modlib/slave/scoils.c
+	cd test && $(CC) $(CFLAGS) -c modlib/master/mdiscreteinputs.c
+	cd test && $(CC) $(CFLAGS) -c modlib/slave/sdiscreteinputs.c
 	cd test && $(CC) $(CFLAGS) $(MASTERFLAGS) -c modlib/master.c
 	cd test && $(CC) $(CFLAGS) $(SLAVEFLAGS) -c modlib/slave.c
 	cd test && $(CC) $(CFLAGS) -c modlib/modlib.c
 	cd test && $(CC) $(CFLAGS) -c test.c
-	cd test && $(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o mcoils.o scoils.o -o test
+	cd test && $(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o mcoils.o scoils.o mdiscreteinputs.o sdiscreteinputs.o -o test
 
 check: debug
 	-mkdir test/modlib
