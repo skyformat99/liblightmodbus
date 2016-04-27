@@ -25,7 +25,7 @@ uint8_t MODBUSBuildRequest02( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
 
 	( *Builder ).Base.Address = Address;
-	( *Builder ).Base.Function = 1;
+	( *Builder ).Base.Function = 2;
 	( *Builder ).Request02.FirstInput = MODBUSSwapEndian( FirstCoil );
 	( *Builder ).Request02.InputCount = MODBUSSwapEndian( CoilCount );
 
