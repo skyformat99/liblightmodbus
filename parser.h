@@ -79,6 +79,24 @@ union MODBUSParser
     {
         uint8_t Address;
         uint8_t Function;
+        uint16_t FirstRegister;
+        uint16_t RegisterCount;
+        uint16_t CRC;
+    } Request04; //Read multiple input register
+
+    struct __attribute__( ( __packed__ ) )
+    {
+        uint8_t Address;
+        uint8_t Function;
+        uint8_t BytesCount;
+        uint16_t Values[128];
+        uint16_t CRC;
+    } Response04; //Read multiple input registers - response
+
+	struct __attribute__( ( __packed__ ) )
+    {
+        uint8_t Address;
+        uint8_t Function;
         uint16_t Coil;
         uint16_t Value;
         uint16_t CRC;
