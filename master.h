@@ -2,11 +2,11 @@
 
 #include <inttypes.h>
 
-#ifndef _MODLIB
+#ifndef _MODLIB_BASE
 #include "modlib.h"
 #endif
 
-#ifndef _MODBUS_PARSER
+#ifndef _MODLIB_PARSER
 #include "parser.h"
 #endif
 
