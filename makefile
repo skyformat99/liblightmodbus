@@ -40,13 +40,21 @@ avr-debug: debug
 	avr-size -C --mcu=$(MCU) obj/slave.o
 	sed -i "1i ---COMPLIED FOR AVR---" obj/versions.txt
 
-
-#### Main
 all: debug FORCE #Same as 'debug' currently, but removes temporary files
 	rm -rf obj/master
 	rm -rf obj/slave
 	$(LD) $(LDFLAGS) -r obj/modlib.o obj/master.o obj/slave.o -o obj/modlib-full.o
 	echo "modlib-full.o: modlib.o, master.o and slave.o linked together" >> obj/versions.txt
+
+lib: all FORCE
+	mkdir lib
+	ar -cvq lib/libmodlib.a obj/modlib.o obj/master.o obj/slave.o
+	ar -t  lib/libmodlib.a
+
+avr-lib: avr FORCE
+	mkdir lib
+	ar -cvq lib/libmodlibavr.a obj/modlib.o obj/master.o obj/slave.o
+	ar -t  lib/libmodlibavr.a
 
 coverage: MASTERFLAGS = -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1 -DMODBUS_MASTER_DISCRETE_INPUTS=1 -DMODBUS_MASTER_INPUT_REGISTERS=1
 coverage: SLAVEFLAGS = -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1 -DMODBUS_SLAVE_DISCRETE_INPUTS=1 -DMODBUS_SLAVE_INPUT_REGISTERS=1
@@ -154,6 +162,7 @@ FORCE: clean
 clean:
 	-rm -rf obj
 	-rm -rf *.o
+	-rm -rf lib
 	-rm -rf master/*.o
 	-rm -rf slave/*.o
 	-rm -rf test/modlib
