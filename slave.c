@@ -64,6 +64,11 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 			else ParseError = 1;
 			break;
 
+		case 2: //Read multiple discrete inputs
+			if ( MODBUS_SLAVE_DISCRETE_INPUTS ) MODBUSParseRequest02( Parser );
+			else ParseError = 1;
+			break;
+
 		case 3: //Read multiple holding registers
 			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest03( Parser );
 			else ParseError = 1;
