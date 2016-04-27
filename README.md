@@ -29,7 +29,7 @@ For more detailed information check out [wiki](https://github.com/Jacajack/modli
 |Holding registers | &#10004;             | &#10004;            | &#10004;            |*03, 06, 16*              |
 |Coils             | &#10004;             | &#10004;            | &#10004;            |*01, 05, 15*              |
 |Discrete inputs   | &#10004;             | &#10004;            | &#10004;            |*02*                      |
-|Input registers   | &#10008;             | &#10008;            | &#10008;            |*04*                      |
+|Input registers   | &#10004;             | &#10004;            | &#10004;            |*04*                      |
 
 *Additional functions supported by master: --- (but planned)*
 
@@ -39,6 +39,6 @@ For more detailed information check out [wiki](https://github.com/Jacajack/modli
 |Holding registers | &#10004;             | &#10004;            | &#10004;           |*03, 06, 16*              |
 |Coils             | &#10004;             | &#10004;            | &#10004;           |*01, 05, 15*              |
 |Discrete inputs   | &#10004;             | &#10004;            | &#10004;           |*02*                      |
-|Input registers   | &#10008;             | &#10008;            | &#10008;           |*04*                      |
+|Input registers   | &#10004;             | &#10004;            | &#10004;           |*04*                      |
 
 *Additional functions supported by slave: --- (but planned)*
