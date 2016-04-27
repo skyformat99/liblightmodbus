@@ -5,6 +5,7 @@ This is really simple test suite, it covers ~95% of library code
 */
 
 uint16_t Registers[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+uint8_t DiscreteInputs[2] = { 255, 0 };
 uint16_t TestValues[8] = { 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0xAAFF, 0xBBFF };
 uint16_t TestValues2[512];
 
@@ -76,7 +77,6 @@ void Test( )
 
 void MainTest( )
 {
-	///*
 	//Request03 - ok
 	printf( "\x1b[0m03 - correct request...\n" );
 	MODBUSBuildRequest03( 0x20, 0x00, 0x08 );
@@ -106,8 +106,7 @@ void MainTest( )
 	printf( "\x1b[0m03 - other address...\n" );
 	MODBUSBuildRequest03( 0x10, 0x00, 0x08 );
 	Test( );
-	//*/
-	///*
+
 	//Request06 - ok
 	printf( "\x1b[0m06 - correct request...\n" );
 	MODBUSBuildRequest06( 0x20, 0x06, 0xf6 );
@@ -167,7 +166,36 @@ void MainTest( )
 	printf( "\x1b[0m16 - other address...\n" );
 	MODBUSBuildRequest16( 0x10, 0x00, 0x04, TestValues );
 	Test( );
-	//*/
+
+	//Request02 - ok
+	printf( "\x1b[0m02 - correct request...\n" );
+	MODBUSBuildRequest02( 0x20, 0x00, 0x10 );
+	Test( );
+
+	//Request02 - bad first discrete input
+	printf( "\x1b[0m02 - bad first discrete input...\n" );
+	MODBUSBuildRequest02( 0x20, 0xff, 0x10 );
+	Test( );
+
+	//Request02 - bad discrete input count
+	printf( "\x1b[0m02 - bad discrete input count...\n" );
+	MODBUSBuildRequest02( 0x20, 0x00, 0xff );
+	Test( );
+
+	//Request02 - bad register count and first discrete input
+	printf( "\x1b[0m02 - bad register count and first discrete input...\n" );
+	MODBUSBuildRequest02( 0x20, 0xffff, 0xffff );
+	Test( );
+
+	//Request02 - broadcast
+	printf( "\x1b[0m02 - broadcast...\n" );
+	MODBUSBuildRequest02( 0x00, 0x00, 0x10 );
+	Test( );
+
+	//Request02 - other slave address
+	printf( "\x1b[0m02 - other address...\n" );
+	MODBUSBuildRequest02( 0x10, 0x00, 0x10 );
+	Test( );
 }
 
 void WriteProtectionTest( )
@@ -206,6 +234,10 @@ int main( )
 	//Init slave and master
 	MODBUSSlave.Registers = Registers;
 	MODBUSSlave.RegisterCount = 8;
+
+	MODBUSSlave.DiscreteInputs = DiscreteInputs;
+	MODBUSSlave.DiscreteInputCount = 16;
+
 	MODBUSSlaveInit( 32 );
 	MODBUSMasterInit( );
 
