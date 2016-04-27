@@ -48,8 +48,8 @@ all: debug FORCE #Same as 'debug' currently, but removes temporary files
 	$(LD) $(LDFLAGS) -r obj/modlib.o obj/master.o obj/slave.o -o obj/modlib-full.o
 	echo "modlib-full.o: modlib.o, master.o and slave.o linked together" >> obj/versions.txt
 
-coverage: MASTERFLAGS = -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1
-coverage: SLAVEFLAGS = -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1
+coverage: MASTERFLAGS = -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1 -DMODBUS_MASTER_DISCRETE_INPUTS=1
+coverage: SLAVEFLAGS = -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1 -DMODBUS_SLAVE_DISCRETE_INPUTS=1
 coverage: CFLAGS += --coverage
 coverage: FORCE
 	-mkdir test/modlib
@@ -76,11 +76,11 @@ run:
 	cd test && ./test
 
 debug: FORCE
-debug: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1
-debug: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1
+debug: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1 -DMODBUS_MASTER_DISCRETE_INPUTS=1
+debug: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1 -DMODBUS_SLAVE_DISCRETE_INPUTS=1
 debug: modlib-base
-debug: master-registers master-coils master-base master-link
-debug: slave-registers slave-coils slave-base slave-link
+debug: master-registers master-coils master-base master-discrete-inputs master-link
+debug: slave-registers slave-coils slave-base slave-discrete-inputs slave-link
 
 
 #### Modlib
@@ -102,6 +102,10 @@ master-coils: parser.h master/mtypes.h master/mcoils.c master/mcoils.h
 	$(CC) $(CFLAGS) -c master/mcoils.c -o obj/master/mcoils.o
 	echo "master.o: coils" >> obj/versions.txt
 
+master-discrete-inputs: parser.h master/mtypes.h master/mdiscreteinputs.c master/mdiscreteinputs.h
+	$(CC) $(CFLAGS) -c master/mdiscreteinputs.c -o obj/master/mdiscreteinputs.o
+	echo "master.o: discrete inputs" >> obj/versions.txt
+
 master-link:
 	$(LD) $(LDFLAGS) -r obj/master/*.o -o obj/master.o
 	echo "master.o: ~linked~" >> obj/versions.txt
@@ -118,6 +122,10 @@ slave-registers: parser.h slave/stypes.h slave/sregisters.c slave/sregisters.h
 slave-coils: parser.h slave/stypes.h slave/scoils.c slave/scoils.h
 	$(CC) $(CFLAGS) -c slave/scoils.c -o obj/slave/scoils.o
 	echo "slave.o: coils" >> obj/versions.txt
+
+slave-discrete-inputs: parser.h slave/stypes.h slave/sdiscreteinputs.c slave/sdiscreteinputs.h
+	$(CC) $(CFLAGS) -c slave/sdiscreteinputs.c -o obj/slave/sdiscreteinputs.o
+	echo "slave.o: discrete inputs" >> obj/versions.txt
 
 slave-link:
 	$(LD) $(LDFLAGS) -r obj/slave/*.o -o obj/slave.o
