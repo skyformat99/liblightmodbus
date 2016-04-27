@@ -1,7 +1,7 @@
 # Modlib
 [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
 [![Travis CI](https://img.shields.io/travis/Jacajack/modlib.svg?style=flat-square)](https://travis-ci.org/Jacajack/modlib)
-[![Coveralls](https://img.shields.io/coveralls/Jacajack/modlib.svg?style=flat-square)]()
+[![Coveralls](https://img.shields.io/coveralls/Jacajack/modlib.svg?style=flat-square)](https://coveralls.io/github/Jacajack/modlib)
 
 [More build results...](https://github.com/Jacajack/modlib/wiki/Build-results-history)
 
