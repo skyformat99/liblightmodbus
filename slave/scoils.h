@@ -1,4 +1,4 @@
-#define _SLAVECOILS
+#define _MODLIB_SLAVE_COILS
 
 #include <inttypes.h>
 

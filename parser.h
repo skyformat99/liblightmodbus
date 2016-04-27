@@ -1,4 +1,4 @@
-#define _MODBUS_PARSER
+#define _MODLIB_PARSER
 
 #include <inttypes.h>
 

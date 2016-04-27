@@ -1,4 +1,4 @@
-#define _MASTERCOILS
+#define _MODLIB_MASTER_COILS
 
 #include <inttypes.h>
 

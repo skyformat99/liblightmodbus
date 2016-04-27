@@ -1,4 +1,4 @@
-#define _MASTERREGISTERS
+#define _MODLIB_MASTER_REGISTERS
 
 #include <inttypes.h>
 

@@ -1,4 +1,4 @@
-#define _SLAVEDISCRETEINPUTS
+#define _MODLIB_SLAVE_DISCRETE_INPUTS
 
 #include <inttypes.h>
 

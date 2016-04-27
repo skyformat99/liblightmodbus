@@ -1,4 +1,4 @@
-#define _MODLIB
+#define _MODLIB_BASE
 
 /* This is main header file that is ought to be included as library */
 

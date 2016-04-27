@@ -1,4 +1,4 @@
-#define _SLAVEBASE
+#define _MODLIB_SLAVE_BASE
 
 #include <inttypes.h>
 

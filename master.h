@@ -1,4 +1,4 @@
-#define _MASTERBASE
+#define _MODLIB_MASTER_BASE
 
 #include <inttypes.h>
 

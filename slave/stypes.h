@@ -1,4 +1,4 @@
-#define _SLAVETYPES
+#define _MODLIB_SLAVE_TYPES
 
 #include <inttypes.h>
 
@@ -25,6 +25,6 @@ typedef struct
 
 	uint8_t *RegisterMask; //Masks for write protection (bit of value 1 - write protection)
 	uint16_t RegisterMaskLength; //Masks length (each mask covers 8 registers)
-	
+
 	MODBUSResponseStatus Response; //Slave response formatting status
 } MODBUSSlaveStatus; //Type containing slave device configuration data

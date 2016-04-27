@@ -1,4 +1,4 @@
-#define _SLAVEREGISTERS
+#define _MODLIB_SLAVE_REGISTERS
 
 #include <inttypes.h>
 
