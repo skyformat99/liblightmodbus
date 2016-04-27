@@ -1,6 +1,8 @@
 #Ignore object files created during compilation process
 *.o
 obj
+*.a
+lib
 *.gcno
 *.gcda
 *.gcov
