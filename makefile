@@ -1,4 +1,10 @@
+# This is makefile for Modlib - a lightweight Modbus library
+# It creates object files and a static library, so you can link Modlib to your project
+# If you want, Modlib can be installed on your system using 'make install', or later removed using 'make uninstall'
+# If you want to build Modlib for platform like AVR, this is not the makefile you are looking for
+# Beside, files building order is cruicial - modules first, then base, and finally linking, otherwise things will go wrong
 
+# This makefile will be part of source deb package
 
 CC = gcc
 CFLAGS =
@@ -43,7 +49,6 @@ clean:
 modlib-base: src/modlib.c include/modlib/modlib.h
 	$(CC) $(CFLAGS) -c src/modlib.c -o obj/modlib.o
 	echo "modlib.o: full" >> obj/versions.txt
-
 
 master-base: src/master.c include/modlib/master.h
 	$(CC) $(CFLAGS) $(MASTERFLAGS) -c src/master.c -o obj/master/mbase.o
