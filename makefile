@@ -24,8 +24,8 @@ all: clean FORCE modlib-base
 	ar -t  lib/libmodlib.a
 
 install:
-	-mkdir $(DESTDIR)/usr
-	-mkdir $(DESTDIR)/usr/include
+	-mkdir -p $(DESTDIR)/usr
+	-mkdir -p $(DESTDIR)/usr/include
 	cp -R include/modlib $(DESTDIR)/usr/include
 	-mkdir $(DESTDIR)/usr/lib
 	cp -R lib/libmodlib.a $(DESTDIR)/usr/lib
