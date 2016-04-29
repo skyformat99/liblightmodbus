@@ -1,4 +1,4 @@
-#include "modlib.h"
+#include "../include/modlib/modlib.h"
 
 uint8_t MODBUSReadMaskBit( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit )
 {

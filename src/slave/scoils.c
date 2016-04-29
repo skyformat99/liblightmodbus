@@ -1,8 +1,7 @@
-#include "../modlib.h"
-#include "../parser.h"
-#include "stypes.h"
-
-#include "scoils.h"
+#include "../../include/modlib/modlib.h"
+#include "../../include/modlib/parser.h"
+#include "../../include/modlib/slave/stypes.h"
+#include "../../include/modlib/slave/scoils.h"
 
 //Use external slave configuration
 extern MODBUSSlaveStatus MODBUSSlave;
