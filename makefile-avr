@@ -1,7 +1,7 @@
 # This is makefile for Modlib - a lightweight Modbus library
 # It creates AVR object files, so you can link Modlib to your project
-# This makefile is much simpler than the others, because it works with live library creator
-# All files for library that are ought to be compiled, should be stored in MODULES variable
+# This makefile is a little bit simpler than the others, because it works with live library creator
+# Each makefile target is called from make-avr.py
 
 MCU = atmega8
 
@@ -32,6 +32,7 @@ FORCE:
 
 clean:
 	-rm -rf obj
+	-rm -rf lib
 	-rm -f modlib.log
 
 ################################################################################
