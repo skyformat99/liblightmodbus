@@ -4,41 +4,37 @@
 [![Coveralls](https://img.shields.io/coveralls/Jacajack/modlib.svg?style=flat-square)](https://coveralls.io/github/Jacajack/modlib)
 
 [More build results...](https://github.com/Jacajack/modlib/wiki/Build-results-history)
+<br>[Modlib on launchpad...](https://launchpad.net/modlib)
 
 Modlib is a very lightweight Modbus library.<br>
-Library is targeted to run on AVR devices, but it should also work on PC.
+Library is targeted to run on AVR devices, but it runs on PC too.
 
 *(in fact, it is being tested on PC)*
 
 
 For more detailed information check out [wiki](https://github.com/Jacajack/modlib/wiki).
 
-**Note: Library doesn't have its functionality yet, although everything is planned, and is going to be coded as soon as possible.**
-
 ## Features
 - Parsing frames using unions - that makes processing really fast
 - Building frames using unions
 - CRC16 checking
 - Lightweight and easy to use
-- For currently supported functions see roadmap below
+- Supports all basic Modbus functions
+- Library can be installed as a `*.deb` package for development
+- You can pick only modules, which you want, when building library for AVR using very simple python creator
 
-## Roadmap
-#### Master
-| Support type     | Parsing / requesting | Exceptions handling | Master side support | Supported function codes |
-|------------------|:--------------------:|:-------------------:|:-------------------:|:------------------------:|
-|Holding registers | &#10004;             | &#10004;            | &#10004;            |*03, 06, 16*              |
-|Coils             | &#10004;             | &#10004;            | &#10004;            |*01, 05, 15*              |
-|Discrete inputs   | &#10004;             | &#10004;            | &#10004;            |*02*                      |
-|Input registers   | &#10004;             | &#10004;            | &#10004;            |*04*                      |
+*Currently supported functions include: 01, 02, 03, 04, 05, 06, 15, 16*
 
-*Additional functions supported by master: --- (but planned)*
+## Building
+To build Modlib run:
+<br>`make all`
 
-#### Slave
-| Support type     | Parsing / requesting | Exceptions handling | Slave side support | Supported function codes |
-|------------------|:--------------------:|:-------------------:|:------------------:|:------------------------:|
-|Holding registers | &#10004;             | &#10004;            | &#10004;           |*03, 06, 16*              |
-|Coils             | &#10004;             | &#10004;            | &#10004;           |*01, 05, 15*              |
-|Discrete inputs   | &#10004;             | &#10004;            | &#10004;           |*02*                      |
-|Input registers   | &#10004;             | &#10004;            | &#10004;           |*04*                      |
+If you want to install it on your computer use:
+<br>`sudo make install`
+<br>to uninstall
+<br>`sudo make uninstall`
+<br>*(or simply use debian packages)*
 
-*Additional functions supported by slave: --- (but planned)*
+Building for AVR is really simple too (you need python installed):
+<br>`./make-avr.py`
+<br>This will run simple creator that will guide you through compiling library for specified target.
