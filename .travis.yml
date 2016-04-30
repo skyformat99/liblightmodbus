@@ -7,11 +7,6 @@ install:
     - pip install --user cpp-coveralls
 script:
     - make all
-
-#This part is unavailable because of ongoing work on build/test system
-#    - make avr
-#    - make coverage
-#after_success:
-#    - make run
-#    - cd test && coveralls --verbose --exclude test.c
-#    - make clean
+    - make -f makefile-coverage all
+after_success:
+  - cd test && coveralls --verbose --exclude test.c
