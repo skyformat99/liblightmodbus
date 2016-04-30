@@ -85,6 +85,12 @@ void MainTest( )
 	MODBUSBuildRequest03( 0x20, 0x00, 0x08 );
 	Test( );
 
+  //Request03 - bad CRC
+	printf( "\x1b[0m03 - bad CRC...\n" );
+	MODBUSBuildRequest03( 0x20, 0x00, 0x08 );
+  MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+	Test( );
+
 	//Request03 - bad first register
 	printf( "\x1b[0m03 - bad first register...\n" );
 	MODBUSBuildRequest03( 0x20, 0xff, 0x08 );
@@ -115,6 +121,12 @@ void MainTest( )
 	MODBUSBuildRequest06( 0x20, 0x06, 0xf6 );
 	Test( );
 
+  //Request06 - bad crc
+  printf( "\x1b[0m06 - bad CRC...\n" );
+  MODBUSBuildRequest06( 0x20, 0x06, 0xf6 );
+  MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+  Test( );
+
 	//Request06 - bad register
 	printf( "\x1b[0m06 - bad register...\n" );
 	MODBUSBuildRequest06( 0x20, 0xf6, 0xf6 );
@@ -134,6 +146,12 @@ void MainTest( )
 	printf( "\x1b[0m16 - correct request...\n" );
 	MODBUSBuildRequest16( 0x20, 0x00, 0x04, TestValues );
 	Test( );
+
+  //Request16 - bad crc
+  printf( "\x1b[0m16 - bad CRC...\n" );
+  MODBUSBuildRequest16( 0x20, 0x00, 0x04, TestValues );
+  MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+  Test( );
 
 	//Request16 - bad start register
 	printf( "\x1b[0m16 - bad first register...\n" );
@@ -175,6 +193,12 @@ void MainTest( )
 	MODBUSBuildRequest02( 0x20, 0x00, 0x10 );
 	Test( );
 
+  //Request02 - bad crc
+  printf( "\x1b[0m02 - bad CRC...\n" );
+  MODBUSBuildRequest02( 0x20, 0x00, 0x10 );
+  MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+  Test( );
+
 	//Request02 - bad first discrete input
 	printf( "\x1b[0m02 - bad first discrete input...\n" );
 	MODBUSBuildRequest02( 0x20, 0xff, 0x10 );
@@ -204,6 +228,12 @@ void MainTest( )
 	printf( "\x1b[0m01 - correct request...\n" );
 	MODBUSBuildRequest01( 0x20, 0x00, 0x08 );
 	Test( );
+
+  //Request01 - bad CRC
+  printf( "\x1b[0m01 - bad CRC...\n" );
+  MODBUSBuildRequest01( 0x20, 0x00, 0x08 );
+  MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+  Test( );
 
 	//Request01 - bad first register
 	printf( "\x1b[0m01 - bad first coil...\n" );
@@ -235,6 +265,12 @@ void MainTest( )
 	MODBUSBuildRequest05( 0x20, 0x06, 0xff00 );
 	Test( );
 
+  //Request05 - bad CRC
+  printf( "\x1b[0m05 - bad CRC...\n" );
+  MODBUSBuildRequest05( 0x20, 0x06, 0xff00 );
+  MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+  Test( );
+
 	//Request05 - ok
 	printf( "\x1b[0m05 - correct request, non 0xff00 number...\n" );
 	MODBUSBuildRequest05( 0x20, 0x06, 1 );
@@ -259,6 +295,12 @@ void MainTest( )
 	printf( "\x1b[0m15 - correct request...\n" );
 	MODBUSBuildRequest15( 0x20, 0x00, 0x04, TestValues3 );
 	Test( );
+
+  //Request15 - bad crc
+  printf( "\x1b[0m15 - bad CRC...\n" );
+  MODBUSBuildRequest15( 0x20, 0x00, 0x04, TestValues3 );
+  MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+  Test( );
 
 	//Request15 - bad start register
 	printf( "\x1b[0m15 - bad first coil...\n" );
@@ -299,6 +341,12 @@ void MainTest( )
 	printf( "\x1b[0m04 - correct request...\n" );
 	MODBUSBuildRequest04( 0x20, 0x00, 0x04 );
 	Test( );
+
+  //Request04 - bad crc
+  printf( "\x1b[0m04 - bad CRC...\n" );
+  MODBUSBuildRequest04( 0x20, 0x00, 0x04 );
+  MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+  Test( );
 
 	//Request04 - bad first register
 	printf( "\x1b[0m04 - bad first register...\n" );
