@@ -8,5 +8,5 @@ lib
 *.gcov
 *.gch
 *.log
-test/test
+coverage-test
 test/modlib
