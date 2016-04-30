@@ -3,7 +3,7 @@
 # This makefile is a little bit simpler than the others, because it works with live library creator
 # Each makefile target is called from make-avr.py
 
-MCU = atmega8
+MCU = 
 
 CC = avr-gcc
 CFLAGS =
@@ -22,7 +22,7 @@ all:
 
 FORCE:
 	-touch modlib.log
-	echo "Architecture: AVR" > modlib.log
+	echo "Architecture: AVR - $(MCU)" > modlib.log
 	echo -n "Build started - " >> modlib.log
 	date >> modlib.log
 	echo -n "\n\n" >> modlib.log

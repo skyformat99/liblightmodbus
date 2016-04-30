@@ -21,15 +21,15 @@ SlaveFlags = "";
 
 Commands = [];
 
-Commands.append( "make -f makefile-avr clean" );
-Commands.append( "make -f makefile-avr FORCE" );
-Commands.append( "make -f makefile-avr modlib-base MCU=\"" + MCU + "\"" );
-
 print( Colors.OKBLUE + "Welcome in Modlib for AVR library creator!\n\n" + Colors.ENDC );
 
-MCU = raw_input( Colors.OKGREEN + "What MCU would you like to compile for? [atmega8]" + Colors.ENDC );
+MCU = raw_input( Colors.OKGREEN + "What MCU would you like to compile for? [atmega8] " + Colors.ENDC );
 if ( MCU == "" ):
     MCU = "atmega8";
+
+Commands.append( "make -f makefile-avr clean" );
+Commands.append( "make -f makefile-avr FORCE MCU=\"" + MCU + "\"" );
+Commands.append( "make -f makefile-avr modlib-base MCU=\"" + MCU + "\"" );
 
 if ( raw_input( Colors.HEADER + "\nDo you need master module? [y/N] " + Colors.ENDC ).lower( ) == "y" ):
     if ( raw_input( "  \t - Registers module? [y/N] " ).lower( ) == "y" ):
