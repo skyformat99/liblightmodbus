@@ -11,22 +11,23 @@ all: MASTERFLAGS = -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1 -DMODBUS_
 all: SLAVEFLAGS = -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1 -DMODBUS_SLAVE_DISCRETE_INPUTS=1 -DMODBUS_SLAVE_INPUT_REGISTERS=1
 all: CFLAGS += --coverage
 all: clean
-	mkdir test/modlib
-	rsync -av . test/modlib
-	cd test && $(CC) $(CFLAGS) -c modlib/src/master/mregisters.c
-	cd test && $(CC) $(CFLAGS) -c modlib/src/slave/sregisters.c
-	cd test && $(CC) $(CFLAGS) -c modlib/src/master/mcoils.c
-	cd test && $(CC) $(CFLAGS) -c modlib/src/slave/scoils.c
-	cd test && $(CC) $(CFLAGS) -c modlib/src/master/mdiscreteinputs.c
-	cd test && $(CC) $(CFLAGS) -c modlib/src/slave/sdiscreteinputs.c
-	cd test && $(CC) $(CFLAGS) -c modlib/src/master/minputregisters.c
-	cd test && $(CC) $(CFLAGS) -c modlib/src/slave/sinputregisters.c
-	cd test && $(CC) $(CFLAGS) $(MASTERFLAGS) -c modlib/src/master.c
-	cd test && $(CC) $(CFLAGS) $(SLAVEFLAGS) -c modlib/src/slave.c
-	cd test && $(CC) $(CFLAGS) -c modlib/src/modlib.c
-	cd test && $(CC) $(CFLAGS) -c test.c
-	cd test && $(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o mcoils.o scoils.o mdiscreteinputs.o sdiscreteinputs.o sinputregisters.o minputregisters.o -o test
-	cd test && ./test
+	$(CC) $(CFLAGS) -c src/master/mregisters.c
+	$(CC) $(CFLAGS) -c src/slave/sregisters.c
+	$(CC) $(CFLAGS) -c src/master/mcoils.c
+	$(CC) $(CFLAGS) -c src/slave/scoils.c
+	$(CC) $(CFLAGS) -c src/master/mdiscreteinputs.c
+	$(CC) $(CFLAGS) -c src/slave/sdiscreteinputs.c
+	$(CC) $(CFLAGS) -c src/master/minputregisters.c
+	$(CC) $(CFLAGS) -c src/slave/sinputregisters.c
+	$(CC) $(CFLAGS) $(MASTERFLAGS) -c src/master.c
+	$(CC) $(CFLAGS) $(SLAVEFLAGS) -c src/slave.c
+	$(CC) $(CFLAGS) -c src/modlib.c
+	$(CC) $(CFLAGS) -c test/test.c
+	$(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o mcoils.o scoils.o mdiscreteinputs.o sdiscreteinputs.o sinputregisters.o minputregisters.o -o coverage-test
+	./coverage-test
 
 clean:
-	-rm -rf test/modlib
+	-rm -f *.gcno
+	-rm -f *.gcda
+	-rm -f *.o
+	-rm -f coverage-test
