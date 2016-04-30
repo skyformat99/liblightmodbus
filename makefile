@@ -19,7 +19,7 @@ all: master-registers master-coils master-discrete-inputs master-input-registers
 all: slave-registers slave-coils slave-discrete-inputs slave-input-registers slave-base slave-link
 all: clean FORCE modlib-base
 	echo "LINKING Modlib full object file (obj/modlib-full.o)" >> modlib.log
-	$(LD) $(LDFLAGS) -r obj/modlib.o obj/master.o obj/slave.o -o obj/modlib-full.o
+	$(LD) $(LDFLAGS) -r obj/base.o obj/master.o obj/slave.o -o obj/modlib-full.o
 	echo "CREATING Modlib static library file (lib/libmodlib.a)" >> modlib.log
 	ar -cvq lib/libmodlib.a obj/modlib-full.o
 	ar -t  lib/libmodlib.a
@@ -39,7 +39,7 @@ uninstall:
 
 FORCE:
 	-touch modlib.log
-	echo -n 'Architecture: ' > modlib.log
+	echo -n "Architecture: " > modlib.log
 	arch >> modlib.log
 	echo -n "Build started - " >> modlib.log
 	date >> modlib.log
@@ -57,8 +57,8 @@ clean:
 ################################################################################
 
 modlib-base: src/modlib.c include/modlib/modlib.h
-	echo "COMPILING Modlib base (obj/modlib.o)" >> modlib.log
-	$(CC) $(CFLAGS) -c src/modlib.c -o obj/modlib.o
+	echo "COMPILING Modlib base (obj/base.o)" >> modlib.log
+	$(CC) $(CFLAGS) -c src/modlib.c -o obj/base.o
 
 master-base: src/master.c include/modlib/master.h
 	echo "COMPILING Master module (obj/master/mbase.o)" >> modlib.log
