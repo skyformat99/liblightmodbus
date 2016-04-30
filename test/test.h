@@ -3,6 +3,6 @@
 #include <unistd.h>
 #include <inttypes.h>
 
-#include "modlib/modlib.h"
-#include "modlib/master.h"
-#include "modlib/slave.h"
+#include "modlib/include/modlib/modlib.h"
+#include "modlib/include/modlib/master.h"
+#include "modlib/include/modlib/slave.h"
