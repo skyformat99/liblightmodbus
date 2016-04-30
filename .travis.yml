@@ -9,4 +9,4 @@ script:
   - make all
   - make -f makefile-coverage all
 after_success:
-  -  coveralls --verbose --exclude test.c
+  -  coveralls --verbose --exclude test/test.c
