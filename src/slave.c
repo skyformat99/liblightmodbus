@@ -37,7 +37,7 @@ uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 
 	//Init parser union
 	//This one is actually unsafe, so it's easy to create a segmentation fault, so be careful here
-	//Allowable frame array size in union is 256, but here I'm only allocating amount of frame length
+	//Allowed frame array size in union is 256, but here I'm only allocating amount of frame length
 	//It is even worse, compiler won't warn you, when you are outside the range
 	//It works, and it uses much less memory, so I guess a bit of risk is fine in this case
 	//Also, user needs to free memory alocated for frame himself!
@@ -49,6 +49,9 @@ uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 
 	union MODBUSParser *Parser = (union MODBUSParser *) malloc( FrameLength );
 	memcpy( ( *Parser ).Frame, Frame, FrameLength );
+
+	//Note: CRC is not checked here, just because if there was some junk at the end of correct frame (wrong length) it would be ommited
+	//In fact, user should care about things like that, and It would lower memory usage, so in future CRC can be verified right here
 
 	//Reset response frame status
 	MODBUSSlave.Response.Length = 0;
