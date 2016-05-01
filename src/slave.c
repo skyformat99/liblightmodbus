@@ -31,7 +31,7 @@ void MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
 	free( Exception );
 }
 
-void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
+uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 {
 	//Parse and interpret given modbus frame on slave-side
 
@@ -44,6 +44,9 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 
 	uint8_t ParseError = 0;
 
+	//If user tries to parse an empty frame return 2 (to avoid problems with memory allocation)
+	if ( FrameLength == 0 ) return 2;
+
 	union MODBUSParser *Parser = (union MODBUSParser *) malloc( FrameLength );
 	memcpy( ( *Parser ).Frame, Frame, FrameLength );
 
@@ -54,7 +57,7 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	if ( ( *Parser ).Base.Address != MODBUSSlave.Address && ( *Parser ).Base.Address != 0 )
 	{
 		free( Parser );
-		return;
+		return 3;
 	}
 
 	switch ( ( *Parser ).Base.Function )
@@ -108,6 +111,8 @@ void MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( ( *Parser ).Base.Function, 0x01 );
 
 	free( Parser );
+
+	return ParseError;
 }
 
 void MODBUSSlaveInit( uint8_t Address )
