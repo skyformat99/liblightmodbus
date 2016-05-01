@@ -53,6 +53,13 @@ clean:
 	-rm -rf obj
 	-rm -rf lib
 	-rm -f modlib.log
+	-rm -f *.gcno
+	-rm -f *.gcda
+	-rm -f *.o
+	-rm -f coverage-test
+	-rm -f coverage-test.log
+	-rm -f valgrind.xml
+	-rm -f massif.out
 
 ################################################################################
 

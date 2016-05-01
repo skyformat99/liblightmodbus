@@ -24,7 +24,7 @@ all: clean
 	$(CC) $(CFLAGS) -c src/modlib.c
 	$(CC) $(CFLAGS) -c test/test.c
 	$(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o mcoils.o scoils.o mdiscreteinputs.o sdiscreteinputs.o sinputregisters.o minputregisters.o -o coverage-test
-	./coverage-test
+	./coverage-test | tee coverage-test.log
 	valgrind --leak-check=full --track-origins=yes --xml=yes --xml-file=valgrind.xml "./coverage-test"
 	valgrind --tool=massif --massif-out-file=massif.out --stacks=yes "./coverage-test"
 	ms_print massif.out
@@ -36,3 +36,6 @@ clean:
 	-rm -f *.gcda
 	-rm -f *.o
 	-rm -f coverage-test
+	-rm -f coverage-test.log
+	-rm -f valgrind.xml
+	-rm -f massif.out
