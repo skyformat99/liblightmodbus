@@ -75,6 +75,16 @@ void Test( )
 		TermRGB( 4, 1, 0 );
 		printf( "\t - ex addr: 0x%x, fun: 0x%x, code: 0x%x\n\r", MODBUSMaster.Exception.Address, MODBUSMaster.Exception.Function, MODBUSMaster.Exception.Code );
 	}
+
+  //And now, check what would happen in slave responded with bad CRC - if ok nothing should happen
+  TermRGB( 0, 2, 4 );
+  printf( "Checking what happens if slave responds with bad CRC...\n" );
+  if ( MODBUSSlave.Response.Length )
+  {
+    MODBUSSlave.Response.Frame[MODBUSSlave.Response.Length - 1]++; //Break CRC
+    MODBUSParseResponse( MODBUSSlave.Response.Frame, MODBUSSlave.Response.Length, MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
+  }
+
   printf( "\x1b[0m----------------------------------------\n" );
 }
 
