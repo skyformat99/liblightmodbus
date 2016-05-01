@@ -25,6 +25,7 @@ all: clean
 	$(CC) $(CFLAGS) -c test/test.c
 	$(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o mcoils.o scoils.o mdiscreteinputs.o sdiscreteinputs.o sinputregisters.o minputregisters.o -o coverage-test
 	./coverage-test
+	valgrind --leak-check=full --track-origins=yes --xml=yes --xml-file=valgrind.xml "./coverage-test"
 
 clean:
 	-rm -rf obj
