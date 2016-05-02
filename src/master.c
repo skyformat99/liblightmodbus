@@ -35,6 +35,7 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	MODBUSMaster.Exception.Address = 0;
 	MODBUSMaster.Exception.Function = 0;
 	MODBUSMaster.Exception.Code = 0;
+	MODBUSMaster.Finished = 0;
 
 	//If user tries to parse an empty frame return 2 (to avoid problems with memory allocation)
 	if ( FrameLength == 0 ) return 2;
@@ -116,4 +117,10 @@ void MODBUSMasterInit( )
 	MODBUSMaster.Request.Length = 0;
 	MODBUSMaster.Data = (MODBUSData *) malloc( sizeof( MODBUSData ) );
 	MODBUSMaster.DataLength = 0;
+	MODBUSMaster.Finished = 0;
+
+	MODBUSMaster.Error = 0;
+	MODBUSMaster.Exception.Address = 0;
+	MODBUSMaster.Exception.Function = 0;
+	MODBUSMaster.Exception.Code = 0;
 }
