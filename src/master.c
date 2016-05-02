@@ -23,6 +23,9 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	//This function parses response from master
 	//Calling it will lead to losing all data and exceptions stored in MODBUSMaster (space will be reallocated)
 
+	//Note: CRC is not checked here, just because if there was some junk at the end of correct frame (wrong length) it would be ommited
+	//In fact, user should care about things like that, and It would lower memory usage, so in future CRC can be verified right here
+
 	//If non-zero some parser failed its job
 	uint8_t ParseError = 0;
 
