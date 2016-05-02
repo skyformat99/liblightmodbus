@@ -122,6 +122,9 @@ void MODBUSParseRequest01( union MODBUSParser *Parser )
 	//Check frame CRC
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request01.CRC ) return;
 
+	//Ignore read request if frame is broadcasted
+	if ( ( *Parser ).Base.Address == 0 ) return;
+
 	//Swap endianness of longer members (but not CRC)
 	( *Parser ).Request01.FirstCoil = MODBUSSwapEndian( ( *Parser ).Request01.FirstCoil );
 	( *Parser ).Request01.CoilCount = MODBUSSwapEndian( ( *Parser ).Request01.CoilCount );
@@ -130,21 +133,21 @@ void MODBUSParseRequest01( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request01.CoilCount == 0 )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x01, 0x03 );
+		MODBUSBuildException( 0x01, 0x03 );
 		return;
 	}
 
 	if ( ( *Parser ).Request01.CoilCount > MODBUSSlave.CoilCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x01, 0x02 );
+		MODBUSBuildException( 0x01, 0x02 );
 		return;
 	}
 
 	if ( ( *Parser ).Request01.FirstCoil >= MODBUSSlave.CoilCount || (uint32_t) ( *Parser ).Request01.FirstCoil + (uint32_t) ( *Parser ).Request01.CoilCount > (uint32_t) MODBUSSlave.CoilCount )
 	{
 		//Illegal data address exception
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x01, 0x02 );
+		MODBUSBuildException( 0x01, 0x02 );
 		return;
 	}
 

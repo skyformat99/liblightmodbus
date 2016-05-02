@@ -54,6 +54,9 @@ void MODBUSParseRequest04( union MODBUSParser *Parser )
 	//Check frame CRC
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request04.CRC ) return;
 
+	//Ignore read request if frame is broadcasted
+	if ( ( *Parser ).Base.Address == 0 ) return;
+
 	//Swap endianness of longer members (but not CRC)
 	( *Parser ).Request04.FirstRegister = MODBUSSwapEndian( ( *Parser ).Request04.FirstRegister );
 	( *Parser ).Request04.RegisterCount = MODBUSSwapEndian( ( *Parser ).Request04.RegisterCount );
@@ -62,21 +65,21 @@ void MODBUSParseRequest04( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request04.RegisterCount == 0 )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x04, 0x03 );
+		MODBUSBuildException( 0x04, 0x03 );
 		return;
 	}
 
 	if ( ( *Parser ).Request04.RegisterCount > MODBUSSlave.InputRegisterCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x04, 0x02 );
+		MODBUSBuildException( 0x04, 0x02 );
 		return;
 	}
 
 	if ( ( *Parser ).Request04.FirstRegister >= MODBUSSlave.InputRegisterCount || (uint32_t) ( *Parser ).Request04.FirstRegister + (uint32_t) ( *Parser ).Request04.RegisterCount > (uint32_t) MODBUSSlave.InputRegisterCount )
 	{
 		//Illegal data address exception
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x04, 0x02 );
+		MODBUSBuildException( 0x04, 0x02 );
 		return;
 	}
 
