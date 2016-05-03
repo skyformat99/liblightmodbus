@@ -8,6 +8,7 @@
 #include <inttypes.h>
 
 //Error codes
+#define MODBUS_ERROR_OK 0 //Everything went ok
 #define MODBUS_ERROR_PARSE 1 //Slave did not parse frame (eg. bad function code)
 #define MODBUS_ERROR_EXCEPTION 2 //Slave thrown an exception and it's stored in MODBUSMaster.Exception
 #define MODBUS_ERROR_CRC 4 //Invalid CRC error
