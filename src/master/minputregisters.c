@@ -19,9 +19,20 @@ uint8_t MODBUSBuildRequest04( uint8_t Address, uint16_t FirstRegister, uint16_t 
 
 	//Allocate memory for frame builder
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	//Reallocate memory for final frame
 	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+	if ( MODBUSMaster.Request.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSMaster.Request.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 4;
@@ -42,7 +53,7 @@ uint8_t MODBUSBuildRequest04( uint8_t Address, uint16_t FirstRegister, uint16_t 
 	return 0;
 }
 
-void MODBUSParseResponse04( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t MODBUSParseResponse04( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 04
 	//Read multiple input registers
@@ -55,13 +66,8 @@ void MODBUSParseResponse04( union MODBUSParser *Parser, union MODBUSParser *Requ
 	//Check frame CRC
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response04.Values[ ( *Parser ).Response04.BytesCount >> 1 ] )
 	{
-		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
-		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
-		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
-		MODBUSMaster.Exception.Code = 255;
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_CRC;
 	}
 
 	//Check between data sent to slave and received from slave
@@ -72,9 +78,8 @@ void MODBUSParseResponse04( union MODBUSParser *Parser, union MODBUSParser *Requ
 	//If data is bad abort parsing, and set error flag
 	if ( !DataOK )
 	{
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_FRAME;
 	}
 
 	//Allocate memory for MODBUSData structures array
@@ -90,7 +95,7 @@ void MODBUSParseResponse04( union MODBUSParser *Parser, union MODBUSParser *Requ
 	}
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.Error = !DataOK;
 	MODBUSMaster.DataLength = ( *Parser ).Response04.BytesCount >> 1;
 	MODBUSMaster.Finished = 1;
+	return 0;
 }

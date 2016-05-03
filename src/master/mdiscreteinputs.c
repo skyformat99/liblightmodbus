@@ -19,9 +19,20 @@ uint8_t MODBUSBuildRequest02( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 
 	//Allocate memory for frame builder
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	//Reallocate memory for final frame
 	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+	if ( MODBUSMaster.Request.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSMaster.Request.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 2;
@@ -42,7 +53,7 @@ uint8_t MODBUSBuildRequest02( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	return 0;
 }
 
-void MODBUSParseResponse02( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t MODBUSParseResponse02( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 02 (read multiple discrete inputs)
 
@@ -57,13 +68,8 @@ void MODBUSParseResponse02( union MODBUSParser *Parser, union MODBUSParser *Requ
 
 	if ( !DataOK )
 	{
-		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
-		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
-		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
-		MODBUSMaster.Exception.Code = 255;
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_CRC;
 	}
 
 	//Check between data sent to slave and received from slave
@@ -82,7 +88,8 @@ void MODBUSParseResponse02( union MODBUSParser *Parser, union MODBUSParser *Requ
 	}
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.Error = !DataOK;
 	MODBUSMaster.DataLength = MODBUSSwapEndian( ( *RequestParser ).Request02.InputCount );
 	MODBUSMaster.Finished = 1;
+
+	return 0;
 }

@@ -6,7 +6,7 @@
 //Use external slave configuration
 extern MODBUSSlaveStatus MODBUSSlave;
 
-void MODBUSBuildResponse04( union MODBUSParser *Parser )
+uint8_t MODBUSBuildResponse04( union MODBUSParser *Parser )
 {
 	//Response for master request04
 	//Frame length (with CRC) is: 5 + ( ( *Parser ).Request04.RegisterCount << 1 )
@@ -15,10 +15,22 @@ void MODBUSBuildResponse04( union MODBUSParser *Parser )
 	uint8_t i = 0;
 
 	//Do not respond when frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return;
+	if ( ( *Parser ).Base.Address == 0 ) return 0;
 
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
+
 	MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
+	if ( MODBUSSlave.Response.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSSlave.Response.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 	//Set up basic response data
@@ -41,9 +53,10 @@ void MODBUSBuildResponse04( union MODBUSParser *Parser )
 
 	//Free union memory
 	free( Builder );
+	return 0;
 }
 
-void MODBUSParseRequest04( union MODBUSParser *Parser )
+uint8_t MODBUSParseRequest04( union MODBUSParser *Parser )
 {
 	//Read multiple input registers
 	//Using data from union pointer
@@ -52,10 +65,10 @@ void MODBUSParseRequest04( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request04.CRC ) return;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request04.CRC ) return MODBUS_ERROR_CRC;
 
 	//Ignore read request if frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return;
+	if ( ( *Parser ).Base.Address == 0 ) return 0;
 
 	//Swap endianness of longer members (but not CRC)
 	( *Parser ).Request04.FirstRegister = MODBUSSwapEndian( ( *Parser ).Request04.FirstRegister );
@@ -65,24 +78,21 @@ void MODBUSParseRequest04( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request04.RegisterCount == 0 )
 	{
 		//Illegal data value error
-		MODBUSBuildException( 0x04, 0x03 );
-		return;
+		return MODBUSBuildException( 0x04, 0x03 );
 	}
 
 	if ( ( *Parser ).Request04.RegisterCount > MODBUSSlave.InputRegisterCount )
 	{
 		//Illegal data address error
-		MODBUSBuildException( 0x04, 0x02 );
-		return;
+		return MODBUSBuildException( 0x04, 0x02 );
 	}
 
 	if ( ( *Parser ).Request04.FirstRegister >= MODBUSSlave.InputRegisterCount || (uint32_t) ( *Parser ).Request04.FirstRegister + (uint32_t) ( *Parser ).Request04.RegisterCount > (uint32_t) MODBUSSlave.InputRegisterCount )
 	{
 		//Illegal data address exception
-		MODBUSBuildException( 0x04, 0x02 );
-		return;
+		return MODBUSBuildException( 0x04, 0x02 );
 	}
 
 	//Respond
-	MODBUSBuildResponse04( Parser );
+	return MODBUSBuildResponse04( Parser );
 }

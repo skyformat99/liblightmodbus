@@ -34,4 +34,4 @@
 extern MODBUSMasterStatus MODBUSMaster; //Master configuration
 
 extern uint8_t MODBUSParseResponse( uint8_t *, uint8_t, uint8_t *, uint8_t );
-extern void MODBUSMasterInit( );
+extern uint8_t MODBUSMasterInit( );

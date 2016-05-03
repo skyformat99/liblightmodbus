@@ -3,16 +3,26 @@
  //Slave configuration
 MODBUSSlaveStatus MODBUSSlave;
 
-void MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
+uint8_t MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
 {
 	//Generates modbus exception frame in allocated memory frame
 	//Returns generated frame length
 
 	//Allocate memory for union
 	union MODBUSParser *Exception = (union MODBUSParser *) malloc( 5 );
+	if ( Exception == NULL )
+	{
+		free( Exception );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	//Reallocate frame memory
 	MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, 5 );
+	if ( MODBUSSlave.Response.Frame == NULL )
+	{
+		free( MODBUSSlave.Response.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 	memset( MODBUSSlave.Response.Frame, 0, 5 );
 
 	//Setup exception frame
@@ -29,6 +39,8 @@ void MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
 
 	//Free memory used for union
 	free( Exception );
+
+	return 0;
 }
 
 uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
@@ -42,12 +54,18 @@ uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	//It works, and it uses much less memory, so I guess a bit of risk is fine in this case
 	//Also, user needs to free memory alocated for frame himself!
 
-	uint8_t ParseError = 0;
+	uint8_t Error = 0;
 
 	//If user tries to parse an empty frame return 2 (to avoid problems with memory allocation)
-	if ( FrameLength == 0 ) return 2;
+	if ( FrameLength == 0 ) return MODBUS_ERROR_OTHER;
 
 	union MODBUSParser *Parser = (union MODBUSParser *) malloc( FrameLength );
+	if ( Parser == NULL )
+	{
+		free( Parser );
+		return MODBUS_ERROR_ALLOC;
+	}
+
 	memcpy( ( *Parser ).Frame, Frame, FrameLength );
 
 	//Note: CRC is not checked here, just because if there was some junk at the end of correct frame (wrong length) it would be ommited
@@ -60,65 +78,65 @@ uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	if ( ( *Parser ).Base.Address != MODBUSSlave.Address && ( *Parser ).Base.Address != 0 )
 	{
 		free( Parser );
-		return 3;
+		return 0;
 	}
 
 	switch ( ( *Parser ).Base.Function )
 	{
 		case 1: //Read multiple coils
-			if ( MODBUS_SLAVE_COILS ) MODBUSParseRequest01( Parser );
-			else ParseError = 1;
+			if ( MODBUS_SLAVE_COILS ) Error = MODBUSParseRequest01( Parser );
+			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 2: //Read multiple discrete inputs
-			if ( MODBUS_SLAVE_DISCRETE_INPUTS ) MODBUSParseRequest02( Parser );
-			else ParseError = 1;
+			if ( MODBUS_SLAVE_DISCRETE_INPUTS ) Error = MODBUSParseRequest02( Parser );
+			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 3: //Read multiple holding registers
-			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest03( Parser );
-			else ParseError = 1;
+			if ( MODBUS_SLAVE_REGISTERS ) Error = MODBUSParseRequest03( Parser );
+			else Error = MODBUS_ERROR_PARSE;
 			break;
 
-		case 4: //Read multiple holding registers
-			if ( MODBUS_SLAVE_INPUT_REGISTERS ) MODBUSParseRequest04( Parser );
-			else ParseError = 1;
+		case 4: //Read multiple input registers
+			if ( MODBUS_SLAVE_INPUT_REGISTERS ) Error = MODBUSParseRequest04( Parser );
+			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 5: //Write single coil
-			if ( MODBUS_SLAVE_COILS ) MODBUSParseRequest05( Parser );
-			else ParseError = 1;
+			if ( MODBUS_SLAVE_COILS ) Error = MODBUSParseRequest05( Parser );
+			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 6: //Write single holding register
-			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest06( Parser );
-			else ParseError = 1;
+			if ( MODBUS_SLAVE_REGISTERS ) Error = MODBUSParseRequest06( Parser );
+			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 15: //Write multiple coils
-			if ( MODBUS_SLAVE_COILS ) MODBUSParseRequest15( Parser );
-			else ParseError = 1;
+			if ( MODBUS_SLAVE_COILS ) Error = MODBUSParseRequest15( Parser );
+			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 16: //Write multiple holding registers
-			if ( MODBUS_SLAVE_REGISTERS ) MODBUSParseRequest16( Parser );
-			else ParseError = 1;
+			if ( MODBUS_SLAVE_REGISTERS ) Error = MODBUSParseRequest16( Parser );
+			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		default:
-			ParseError = 1;
+			Error = MODBUS_ERROR_PARSE;
 			break;
 	}
 
-	if ( ParseError )
+	if ( Error == MODBUS_ERROR_PARSE )
 		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( ( *Parser ).Base.Function, 0x01 );
 
 	free( Parser );
 
-	return ParseError;
+	return Error;
 }
 
-void MODBUSSlaveInit( uint8_t Address )
+uint8_t MODBUSSlaveInit( uint8_t Address )
 {
 	//Very basic init of slave side
 	//User has to modify pointers etc. himself
@@ -128,4 +146,6 @@ void MODBUSSlaveInit( uint8_t Address )
 	//Reset response frame status
 	MODBUSSlave.Response.Length = 0;
 	MODBUSSlave.Response.Frame = (uint8_t *) malloc( 8 );
+
+	return ( ( MODBUSSlave.Response.Frame == NULL ) * MODBUS_ERROR_ALLOC ) | ( ( MODBUSSlave.Address == 0 ) * MODBUS_ERROR_OTHER );
 }

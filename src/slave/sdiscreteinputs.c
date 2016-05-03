@@ -6,19 +6,30 @@
 //Use external slave configuration
 extern MODBUSSlaveStatus MODBUSSlave;
 
-void MODBUSBuildResponse02( union MODBUSParser *Parser )
+uint8_t MODBUSBuildResponse02( union MODBUSParser *Parser )
 {
 	//Response for master request02
 	uint8_t FrameLength = 6 + ( ( ( *Parser ).Request02.InputCount - 1 ) >> 3 );
 	uint8_t i = 0;
 
 	//Do not respond when frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return;
+	if ( ( *Parser ).Base.Address == 0 ) return 0;
 
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
 	memset( ( *Builder ).Frame, 0, FrameLength ); //Fill frame with zeros
 
 	MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
+	if ( MODBUSSlave.Response.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSSlave.Response.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 	//Set up basic response data
@@ -42,9 +53,10 @@ void MODBUSBuildResponse02( union MODBUSParser *Parser )
 
 	//Free union memory
 	free( Builder );
+	return 0;
 }
 
-void MODBUSParseRequest02( union MODBUSParser *Parser )
+uint8_t MODBUSParseRequest02( union MODBUSParser *Parser )
 {
 	//Read multiple discrete inputs
 	//Using data from union pointer
@@ -53,10 +65,10 @@ void MODBUSParseRequest02( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request02.CRC ) return;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request02.CRC ) return MODBUS_ERROR_CRC;
 
 	//Ignore read request if frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return;
+	if ( ( *Parser ).Base.Address == 0 ) return 0;
 
 	//Swap endianness of longer members (but not CRC)
 	( *Parser ).Request02.FirstInput = MODBUSSwapEndian( ( *Parser ).Request02.FirstInput );
@@ -66,24 +78,21 @@ void MODBUSParseRequest02( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request02.InputCount == 0 )
 	{
 		//Illegal data value error
-		MODBUSBuildException( 0x02, 0x03 );
-		return;
+		return MODBUSBuildException( 0x02, 0x03 );
 	}
 
 	if ( ( *Parser ).Request02.InputCount > MODBUSSlave.DiscreteInputCount )
 	{
 		//Illegal data address error
-		MODBUSBuildException( 0x02, 0x02 );
-		return;
+		return MODBUSBuildException( 0x02, 0x02 );
 	}
 
 	if ( ( *Parser ).Request02.FirstInput >= MODBUSSlave.DiscreteInputCount || (uint32_t) ( *Parser ).Request02.FirstInput + (uint32_t) ( *Parser ).Request02.InputCount > (uint32_t) MODBUSSlave.DiscreteInputCount )
 	{
 		//Illegal data address exception
-		MODBUSBuildException( 0x02, 0x02 );
-		return;
+		return MODBUSBuildException( 0x02, 0x02 );
 	}
 
 	//Respond
-	MODBUSBuildResponse02( Parser );
+	return MODBUSBuildResponse02( Parser );
 }

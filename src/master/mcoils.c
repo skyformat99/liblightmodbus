@@ -19,9 +19,20 @@ uint8_t MODBUSBuildRequest01( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 
 	//Allocate memory for frame builder
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	//Reallocate memory for final frame
 	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+	if ( MODBUSMaster.Request.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSMaster.Request.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 1;
@@ -55,9 +66,20 @@ uint8_t MODBUSBuildRequest05( uint8_t Address, uint16_t Coil, uint16_t Value )
 
 	//Allocate memory for frame builder
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	//Reallocate memory for final frame
 	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+	if ( MODBUSMaster.Request.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSMaster.Request.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	Value = ( Value != 0 ) ? 0xFF00 : 0x0000;
 
@@ -96,9 +118,20 @@ uint8_t MODBUSBuildRequest15( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 
 	//Allocate memory for frame builder
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	//Reallocate memory for final frame
 	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+	if ( MODBUSMaster.Request.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSMaster.Request.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 15;
@@ -123,7 +156,7 @@ uint8_t MODBUSBuildRequest15( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	return 0;
 }
 
-void MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 01 (read multiple coils)
 
@@ -138,13 +171,8 @@ void MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *Requ
 
 	if ( !DataOK )
 	{
-		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
-		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
-		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
-		MODBUSMaster.Exception.Code = 255;
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_CRC;
 	}
 
 	//Check between data sent to slave and received from slave
@@ -153,6 +181,13 @@ void MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *Requ
 
 
 	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, sizeof( MODBUSData ) * MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount ) );
+	if ( MODBUSMaster.Data == NULL )
+	{
+		free( MODBUSMaster.Data );
+		MODBUSMaster.Finished = 1;
+		return MODBUS_ERROR_ALLOC;
+	}
+
 	for ( i = 0; i < MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount ); i++ )
 	{
 		MODBUSMaster.Data[i].Address = ( *Parser ).Base.Address;
@@ -163,12 +198,13 @@ void MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *Requ
 	}
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.Error = !DataOK;
 	MODBUSMaster.DataLength = MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount );
 	MODBUSMaster.Finished = 1;
+
+	return 0;
 }
 
-void MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 05 (write single coil)
 
@@ -179,13 +215,8 @@ void MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *Requ
 	//Check frame CRC
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response05.CRC )
 	{
-		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
-		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
-		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
-		MODBUSMaster.Exception.Code = 255;
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_CRC;
 	}
 
 	//Check between data sent to slave and received from slave
@@ -194,18 +225,25 @@ void MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *Requ
 
 
 	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, sizeof( MODBUSData ) );
+	if ( MODBUSMaster.Data == NULL )
+	{
+		free( MODBUSMaster.Data );
+		MODBUSMaster.Finished = 1;
+		return MODBUS_ERROR_ALLOC;
+	}
+
 	MODBUSMaster.Data[0].Address = ( *Parser ).Base.Address;
 	MODBUSMaster.Data[0].DataType = Coil;
 	MODBUSMaster.Data[0].Register = MODBUSSwapEndian( ( *RequestParser ).Request05.Coil );
 	MODBUSMaster.Data[0].Value = ( *Parser ).Response05.Value != 0;
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.Error = !DataOK;
 	MODBUSMaster.DataLength = 1;
 	MODBUSMaster.Finished = 1;
+	return 0;
 }
 
-void MODBUSParseResponse15( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t MODBUSParseResponse15( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 15 (write multiple coils)
 
@@ -216,13 +254,8 @@ void MODBUSParseResponse15( union MODBUSParser *Parser, union MODBUSParser *Requ
 	//Check frame CRC
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response15.CRC )
 	{
-		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
-		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
-		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
-		MODBUSMaster.Exception.Code = 255;
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_CRC;
 	}
 
 	//Check between data sent to slave and received from slave
@@ -232,7 +265,7 @@ void MODBUSParseResponse15( union MODBUSParser *Parser, union MODBUSParser *Requ
 	DataOK &= ( ( *Parser ).Response15.CoilCount == ( *RequestParser ).Request15.CoilCount );
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.Error = !DataOK;
 	MODBUSMaster.DataLength = 0;
 	MODBUSMaster.Finished = 1;
+	return 0;
 }

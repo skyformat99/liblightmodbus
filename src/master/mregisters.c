@@ -19,9 +19,20 @@ uint8_t MODBUSBuildRequest03( uint8_t Address, uint16_t FirstRegister, uint16_t 
 
 	//Allocate memory for frame builder
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	//Reallocate memory for final frame
 	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+	if ( MODBUSMaster.Request.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSMaster.Request.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 3;
@@ -55,9 +66,20 @@ uint8_t MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value
 
 	//Allocate memory for frame builder
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	//Reallocate memory for final frame
 	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+	if ( MODBUSMaster.Request.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSMaster.Request.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 6;
@@ -90,13 +112,24 @@ uint8_t MODBUSBuildRequest16( uint8_t Address, uint16_t FirstRegister, uint16_t 
 	//Set output frame length to 0 (in case of interrupts)
 	MODBUSMaster.Request.Length = 0;
 
-	if ( RegisterCount > 123 ) return 1;
+	if ( RegisterCount > 123 ) return MODBUS_ERROR_OTHER;
 
 	//Allocate memory for frame builder
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	//Reallocate memory for final frame
 	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
+	if ( MODBUSMaster.Request.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSMaster.Request.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 16;
@@ -120,7 +153,7 @@ uint8_t MODBUSBuildRequest16( uint8_t Address, uint16_t FirstRegister, uint16_t 
 	return 0;
 }
 
-void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 03
 	//Read multiple holding registers
@@ -133,13 +166,8 @@ void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *Requ
 	//Check frame CRC
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response03.Values[ ( *Parser ).Response03.BytesCount >> 1 ] )
 	{
-		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
-		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
-		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
-		MODBUSMaster.Exception.Code = 255;
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_CRC;
 	}
 
 	//Check between data sent to slave and received from slave
@@ -147,16 +175,21 @@ void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *Requ
 	DataOK &= ( ( *Parser ).Response03.Function == ( *RequestParser ).Request03.Function );
 	DataOK &= ( ( *Parser ).Response03.BytesCount == MODBUSSwapEndian( ( *RequestParser ).Request03.RegisterCount ) << 1 );
 
-	//If data is bad abort parsing, and set error flag
+	//If data is bad, abort parsing, and set error flag
 	if ( !DataOK )
 	{
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_FRAME;
 	}
 
 	//Allocate memory for MODBUSData structures array
 	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, ( ( *Parser ).Response03.BytesCount >> 1 ) * sizeof( MODBUSData ) );
+	if ( MODBUSMaster.Data == NULL )
+	{
+		free( MODBUSMaster.Data );
+		MODBUSMaster.Finished = 1;
+		return MODBUS_ERROR_ALLOC;
+	}
 
 	//Copy received data to output structures array
 	for ( i = 0; i < ( ( *Parser ).Response03.BytesCount >> 1 ); i++ )
@@ -168,12 +201,13 @@ void MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *Requ
 	}
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.Error = !DataOK;
 	MODBUSMaster.DataLength = ( *Parser ).Response03.BytesCount >> 1;
 	MODBUSMaster.Finished = 1;
+
+	return 0;
 }
 
-void MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 06 (write single holding register)
 
@@ -184,13 +218,8 @@ void MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *Requ
 	//Check frame CRC
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response06.CRC )
 	{
-		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
-		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
-		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
-		MODBUSMaster.Exception.Code = 255;
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_CRC;
 	}
 
 	//Check between data sent to slave and received from slave
@@ -201,9 +230,8 @@ void MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *Requ
 
 	if ( !DataOK )
 	{
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_FRAME;
 	}
 
 	//Swap endianness
@@ -212,18 +240,25 @@ void MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *Requ
 
 	//Set up new data table
 	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, sizeof( MODBUSData ) );
+	if ( MODBUSMaster.Data == NULL )
+	{
+		free( MODBUSMaster.Data );
+		MODBUSMaster.Finished = 1;
+		return MODBUS_ERROR_ALLOC;
+	}
+
 	MODBUSMaster.Data[0].Address = ( *Parser ).Base.Address;
 	MODBUSMaster.Data[0].DataType = Register;
 	MODBUSMaster.Data[0].Register = ( *Parser ).Response06.Register;
 	MODBUSMaster.Data[0].Value = ( *Parser ).Response06.Value;
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.Error = !DataOK;
 	MODBUSMaster.DataLength = 1;
 	MODBUSMaster.Finished = 1;
+	return 0;
 }
 
-void MODBUSParseResponse16( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t MODBUSParseResponse16( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 16 (write multiple holding register)
 
@@ -234,13 +269,8 @@ void MODBUSParseResponse16( union MODBUSParser *Parser, union MODBUSParser *Requ
 	//Check frame CRC
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response16.CRC )
 	{
-		//Create an exception when CRC is bad (unoficially, but 255 is CRC internal exception code)
-		MODBUSMaster.Exception.Address = ( *Parser ).Base.Address;
-		MODBUSMaster.Exception.Function = ( *Parser ).Base.Function;
-		MODBUSMaster.Exception.Code = 255;
-		MODBUSMaster.Error = 1;
 		MODBUSMaster.Finished = 1;
-		return;
+		return MODBUS_ERROR_CRC;
 	}
 
 	//Check between data sent to slave and received from slave
@@ -250,7 +280,7 @@ void MODBUSParseResponse16( union MODBUSParser *Parser, union MODBUSParser *Requ
 	DataOK &= ( ( *Parser ).Response16.RegisterCount == ( *RequestParser ).Request16.RegisterCount );
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.Error = !DataOK;
 	MODBUSMaster.DataLength = 0;
 	MODBUSMaster.Finished = 1;
+	return 0;
 }

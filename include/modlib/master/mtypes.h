@@ -34,7 +34,6 @@ typedef struct
 {
 	MODBUSData *Data; //Data read from slave
 	uint8_t DataLength; //Count of data type instances read from slave
-	uint8_t Error; //Have any error occured?
 	uint8_t Finished; //Is parsing finished?
 	MODBUSException Exception; //Optional exception read
 	MODBUSFrame Request; //Formatted request for slave

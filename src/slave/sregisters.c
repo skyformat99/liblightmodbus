@@ -6,7 +6,7 @@
 //Use external slave configuration
 extern MODBUSSlaveStatus MODBUSSlave;
 
-void MODBUSBuildResponse03( union MODBUSParser *Parser )
+uint8_t MODBUSBuildResponse03( union MODBUSParser *Parser )
 {
 	//Response for master request03
 	//Frame length (with CRC) is: 5 + ( ( *Parser ).Request03.RegisterCount << 1 )
@@ -15,10 +15,22 @@ void MODBUSBuildResponse03( union MODBUSParser *Parser )
 	uint8_t i = 0;
 
 	//Do not respond when frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return;
+	if ( ( *Parser ).Base.Address == 0 ) return 0;
 
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
+
 	MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
+	if ( MODBUSSlave.Response.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSSlave.Response.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 	//Set up basic response data
@@ -41,9 +53,10 @@ void MODBUSBuildResponse03( union MODBUSParser *Parser )
 
 	//Free union memory
 	free( Builder );
+	return 0;
 }
 
-void MODBUSBuildResponse06( union MODBUSParser *Parser )
+uint8_t MODBUSBuildResponse06( union MODBUSParser *Parser )
 {
 	//Response for master request06
 	//Frame length (with CRC) is: 8
@@ -51,10 +64,22 @@ void MODBUSBuildResponse06( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Do not respond when frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return;
+	if ( ( *Parser ).Base.Address == 0 ) return 0;
 
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
+
 	MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
+	if ( MODBUSSlave.Response.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSSlave.Response.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 	//Set up basic response data
@@ -74,9 +99,10 @@ void MODBUSBuildResponse06( union MODBUSParser *Parser )
 
 	//Free union memory
 	free( Builder );
+	return 0;
 }
 
-void MODBUSBuildResponse16( union MODBUSParser *Parser )
+uint8_t MODBUSBuildResponse16( union MODBUSParser *Parser )
 {
 	//Response for master request16
 	//Frame length (with CRC) is: 8
@@ -84,10 +110,22 @@ void MODBUSBuildResponse16( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Do not respond when frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return;
+	if ( ( *Parser ).Base.Address == 0 ) return 0;
 
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
+	if ( Builder == NULL )
+	{
+		free( Builder );
+		return MODBUS_ERROR_ALLOC;
+	}
+
 	MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, FrameLength ); //Reallocate response frame memory to needed memory
+	if ( MODBUSSlave.Response.Frame == NULL )
+	{
+		free( Builder );
+		free( MODBUSSlave.Response.Frame );
+		return MODBUS_ERROR_ALLOC;
+	}
 	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame
 
 	//Set up basic response data
@@ -107,9 +145,10 @@ void MODBUSBuildResponse16( union MODBUSParser *Parser )
 
 	//Free union memory
 	free( Builder );
+	return 0;
 }
 
-void MODBUSParseRequest03( union MODBUSParser *Parser )
+uint8_t MODBUSParseRequest03( union MODBUSParser *Parser )
 {
 	//Read multiple holding registers
 	//Using data from union pointer
@@ -118,10 +157,10 @@ void MODBUSParseRequest03( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request03.CRC ) return;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request03.CRC ) return MODBUS_ERROR_CRC;
 
 	//Ignore read request if frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return;
+	if ( ( *Parser ).Base.Address == 0 ) return 0;
 
 	//Swap endianness of longer members (but not CRC)
 	( *Parser ).Request03.FirstRegister = MODBUSSwapEndian( ( *Parser ).Request03.FirstRegister );
@@ -131,29 +170,26 @@ void MODBUSParseRequest03( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request03.RegisterCount == 0 )
 	{
 		//Illegal data value error
-		MODBUSBuildException( 0x03, 0x03 );
-		return;
+		return MODBUSBuildException( 0x03, 0x03 );
 	}
 
 	if ( ( *Parser ).Request03.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
-		MODBUSBuildException( 0x03, 0x02 );
-		return;
+		return MODBUSBuildException( 0x03, 0x02 );
 	}
 
 	if ( ( *Parser ).Request03.FirstRegister >= MODBUSSlave.RegisterCount || (uint32_t) ( *Parser ).Request03.FirstRegister + (uint32_t) ( *Parser ).Request03.RegisterCount > (uint32_t) MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
-		MODBUSBuildException( 0x03, 0x02 );
-		return;
+		return MODBUSBuildException( 0x03, 0x02 );
 	}
 
 	//Respond
-	MODBUSBuildResponse03( Parser );
+	return MODBUSBuildResponse03( Parser );
 }
 
-void MODBUSParseRequest06( union MODBUSParser *Parser )
+uint8_t MODBUSParseRequest06( union MODBUSParser *Parser )
 {
 	//Write single holding register
 	//Using data from union pointer
@@ -162,7 +198,7 @@ void MODBUSParseRequest06( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request06.CRC ) return;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request06.CRC ) return MODBUS_ERROR_CRC;
 
 	//Swap endianness of longer members (but not CRC)
 	( *Parser ).Request06.Register = MODBUSSwapEndian( ( *Parser ).Request06.Register );
@@ -172,26 +208,26 @@ void MODBUSParseRequest06( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request06.Register >= MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x06, 0x02 );
-		return;
+		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x06, 0x02 );
+		return 0;
 	}
 
 	//Check if register is allowed to be written
 	if ( MODBUSReadMaskBit( MODBUSSlave.RegisterMask, MODBUSSlave.RegisterMaskLength, ( *Parser ).Request06.Register ) == 1 )
 	{
 		//Illegal data address exception
-		MODBUSBuildException( 0x06, 0x02 );
-		return;
+		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x06, 0x02 );
+		return 0;
 	}
 
 	//Write register
 	MODBUSSlave.Registers[( *Parser ).Request06.Register] = ( *Parser ).Request06.Value;
 
 	//Respond
-	MODBUSBuildResponse06( Parser );
+	return MODBUSBuildResponse06( Parser );
 }
 
-void MODBUSParseRequest16( union MODBUSParser *Parser )
+uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 {
 	//Write multiple holding registers
 	//Using data from union pointer
@@ -203,14 +239,14 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 
 	//Check frame CRC
 	//Shifting is used instead of dividing for optimisation on smaller devices (AVR)
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request16.Values[( *Parser ).Request16.BytesCount >> 1] ) return;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request16.Values[( *Parser ).Request16.BytesCount >> 1] ) return MODBUS_ERROR_CRC;
 
 	//Check if bytes or registers count isn't 0
 	if ( ( *Parser ).Request16.BytesCount == 0 || ( *Parser ).Request16.RegisterCount == 0 )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x03 );
-		return;
+		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x10, 0x03 );
+		return 0;
 	}
 
 	//Swap endianness of longer members (but not CRC)
@@ -221,23 +257,23 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request16.RegisterCount != ( ( *Parser ).Request16.BytesCount >> 1 ) )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x03 );
-		return;
+		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x10, 0x03 );
+		return 0;
 	}
 
 	//Check if registers are in valid range
 	if ( ( *Parser ).Request16.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x02 );
-		return;
+		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x10, 0x02 );
+		return 0;
 	}
 
 	if ( ( *Parser ).Request16.FirstRegister >= MODBUSSlave.RegisterCount || (uint32_t) ( *Parser ).Request16.FirstRegister + (uint32_t) ( *Parser ).Request16.RegisterCount > (uint32_t) MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) MODBUSBuildException( 0x10, 0x02 );
-		return;
+		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x10, 0x02 );
+		return 0;
 	}
 
 	//Check for write protection
@@ -247,8 +283,8 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 	if ( MaskSum > 0 )
 	{
 		//Illegal data address exception
-		MODBUSBuildException( 0x10, 0x02 );
-		return;
+		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x10, 0x02 );
+		return 0;
 	}
 
 	//Write values to registers
@@ -256,5 +292,5 @@ void MODBUSParseRequest16( union MODBUSParser *Parser )
 		MODBUSSlave.Registers[( *Parser ).Request16.FirstRegister + i] = MODBUSSwapEndian( ( *Parser ).Request16.Values[i] );
 
 	//Respond
-	MODBUSBuildResponse16( Parser );
+	return MODBUSBuildResponse16( Parser );
 }
