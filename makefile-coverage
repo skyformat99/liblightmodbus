@@ -10,7 +10,9 @@ SLAVEFLAGS =
 all: MASTERFLAGS = -DMODBUS_MASTER_REGISTERS=1 -DMODBUS_MASTER_COILS=1 -DMODBUS_MASTER_DISCRETE_INPUTS=1 -DMODBUS_MASTER_INPUT_REGISTERS=1
 all: SLAVEFLAGS = -DMODBUS_SLAVE_REGISTERS=1 -DMODBUS_SLAVE_COILS=1 -DMODBUS_SLAVE_DISCRETE_INPUTS=1 -DMODBUS_SLAVE_INPUT_REGISTERS=1
 all: CFLAGS += --coverage
-all: clean
+all: coverage-test valgrind-test massif-test	
+
+compile: clean
 	$(CC) $(CFLAGS) -c src/master/mregisters.c
 	$(CC) $(CFLAGS) -c src/slave/sregisters.c
 	$(CC) $(CFLAGS) -c src/master/mcoils.c
@@ -24,10 +26,16 @@ all: clean
 	$(CC) $(CFLAGS) -c src/modlib.c
 	$(CC) $(CFLAGS) -c test/test.c
 	$(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o mcoils.o scoils.o mdiscreteinputs.o sdiscreteinputs.o sinputregisters.o minputregisters.o -o coverage-test
-	./coverage-test | tee coverage-test.log
+
+valgrind-test: compile
 	valgrind --leak-check=full --track-origins=yes --xml=yes --xml-file=valgrind.xml "./coverage-test"
+
+massif-test: compile
 	valgrind --tool=massif --massif-out-file=massif.out --stacks=yes "./coverage-test"
 	ms_print massif.out
+
+coverage-test: compile
+	./coverage-test | tee coverage-test.log
 
 clean:
 	-rm -rf obj
