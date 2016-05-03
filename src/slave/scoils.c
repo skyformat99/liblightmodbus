@@ -13,7 +13,11 @@ uint8_t MODBUSBuildResponse01( union MODBUSParser *Parser )
 	uint8_t i = 0;
 
 	//Do not respond when frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return 0;
+	if ( ( *Parser ).Base.Address == 0 )
+	{
+		MODBUSSlave.Finished = 1;
+		return 0;
+	}
 
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
 	if ( Builder == NULL )
@@ -63,7 +67,11 @@ uint8_t MODBUSBuildResponse05( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Do not respond when frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return 0;
+	if ( ( *Parser ).Base.Address == 0 )
+	{
+		MODBUSSlave.Finished = 1;
+		return 0;
+	}
 
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
 	if ( Builder == NULL )
@@ -109,7 +117,11 @@ uint8_t MODBUSBuildResponse15( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Do not respond when frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return 0;
+	if ( ( *Parser ).Base.Address == 0 )
+	{
+		MODBUSSlave.Finished = 1;
+		return 0;
+	}
 
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
 	if ( Builder == NULL )
@@ -158,7 +170,11 @@ uint8_t MODBUSParseRequest01( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request01.CRC ) return MODBUS_ERROR_CRC;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request01.CRC )
+	{
+		MODBUSSlave.Finished = 1;
+		return MODBUS_ERROR_CRC;
+	}
 
 	//Ignore read request if frame is broadcasted
 	if ( ( *Parser ).Base.Address == 0 ) return 0;
@@ -199,7 +215,11 @@ uint8_t MODBUSParseRequest05( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request01.CRC ) return MODBUS_ERROR_CRC;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request01.CRC )
+	{
+		MODBUSSlave.Finished = 1;
+		return MODBUS_ERROR_CRC;
+	}
 
 	//Swap endianness of longer members (but not CRC)
 	( *Parser ).Request05.Coil = MODBUSSwapEndian( ( *Parser ).Request05.Coil );
@@ -238,9 +258,17 @@ uint8_t MODBUSParseRequest15( union MODBUSParser *Parser )
 
 	//Check frame CRC
 	//Shifting is used instead of dividing for optimisation on smaller devices (AVR)
-	if ( ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) & 0x00FF ) != ( *Parser ).Request15.Values[( *Parser ).Request15.BytesCount] ) return MODBUS_ERROR_CRC;
-	if ( ( ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) & 0xFF00 ) >> 8 ) != ( *Parser ).Request15.Values[( *Parser ).Request15.BytesCount + 1] ) return MODBUS_ERROR_CRC;
+	if ( ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) & 0x00FF ) != ( *Parser ).Request15.Values[( *Parser ).Request15.BytesCount] )
+	{
+		MODBUSSlave.Finished = 1;
+		return MODBUS_ERROR_CRC;
+	}
 
+	if ( ( ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) & 0xFF00 ) >> 8 ) != ( *Parser ).Request15.Values[( *Parser ).Request15.BytesCount + 1] )
+	{
+		MODBUSSlave.Finished = 1;
+		return MODBUS_ERROR_CRC;
+	}
 
 	//Check if bytes or registers count isn't 0
 	if ( ( *Parser ).Request15.BytesCount == 0 || ( *Parser ).Request15.CoilCount == 0 )

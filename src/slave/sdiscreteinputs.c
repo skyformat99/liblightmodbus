@@ -13,8 +13,11 @@ uint8_t MODBUSBuildResponse02( union MODBUSParser *Parser )
 	uint8_t i = 0;
 
 	//Do not respond when frame is broadcasted
-	if ( ( *Parser ).Base.Address == 0 ) return 0;
-
+	if ( ( *Parser ).Base.Address == 0 )
+	{
+		return 0;
+	}
+	
 	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength ); //Allocate memory for builder union
 	if ( Builder == NULL )
 	{
@@ -66,7 +69,11 @@ uint8_t MODBUSParseRequest02( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request02.CRC ) return MODBUS_ERROR_CRC;
+	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request02.CRC )
+	{
+		MODBUSSlave.Finished = 1;
+		return MODBUS_ERROR_CRC;
+	}
 
 	//Ignore read request if frame is broadcasted
 	if ( ( *Parser ).Base.Address == 0 ) return 0;

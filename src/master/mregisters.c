@@ -187,7 +187,6 @@ uint8_t MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *R
 	if ( MODBUSMaster.Data == NULL )
 	{
 		free( MODBUSMaster.Data );
-		MODBUSMaster.Finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 
@@ -243,7 +242,6 @@ uint8_t MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *R
 	if ( MODBUSMaster.Data == NULL )
 	{
 		free( MODBUSMaster.Data );
-		MODBUSMaster.Finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 

@@ -55,7 +55,14 @@ uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	//It works, and it uses much less memory, so I guess a bit of risk is fine in this case
 	//Also, user needs to free memory alocated for frame himself!
 
+	//Note: CRC is not checked here, just because if there was some junk at the end of correct frame (wrong length) it would be ommited
+	//In fact, user should care about things like that, and It would lower memory usage, so in future CRC can be verified right here
+
 	uint8_t Error = 0;
+
+	//Reset response frame status
+	MODBUSSlave.Response.Length = 0;
+	MODBUSSlave.Finished = 0;
 
 	//If user tries to parse an empty frame return 2 (to avoid problems with memory allocation)
 	if ( FrameLength == 0 ) return MODBUS_ERROR_OTHER;
@@ -69,17 +76,11 @@ uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 
 	memcpy( ( *Parser ).Frame, Frame, FrameLength );
 
-	//Note: CRC is not checked here, just because if there was some junk at the end of correct frame (wrong length) it would be ommited
-	//In fact, user should care about things like that, and It would lower memory usage, so in future CRC can be verified right here
-
-	//Reset response frame status
-	MODBUSSlave.Response.Length = 0;
-	MODBUSSlave.Finished = 0;
-
 	//If frame is not broadcasted and address doesn't match skip parsing
 	if ( ( *Parser ).Base.Address != MODBUSSlave.Address && ( *Parser ).Base.Address != 0 )
 	{
 		free( Parser );
+		MODBUSSlave.Finished = 1;
 		return 0;
 	}
 
@@ -146,6 +147,7 @@ uint8_t MODBUSSlaveInit( uint8_t Address )
 	MODBUSSlave.Address = Address;
 
 	//Reset response frame status
+	MODBUSSlave.Finished = 0;
 	MODBUSSlave.Response.Length = 0;
 	MODBUSSlave.Response.Frame = (uint8_t *) malloc( 8 );
 
