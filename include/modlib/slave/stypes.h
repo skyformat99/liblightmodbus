@@ -2,13 +2,11 @@
 
 #include <inttypes.h>
 
-//Declarations for slave types
+#ifndef _MODLIB_BASE
+#include "../modlib.h"
+#endif
 
-typedef struct
-{
-	uint8_t Length; //Length of frame, if it's equal to 0, frame is not ready
-	uint8_t *Frame; //Response frame content
-} MODBUSResponseStatus; //Type containing information about frame that is set up at slave side
+//Declarations for slave types
 
 typedef struct
 {
@@ -29,5 +27,5 @@ typedef struct
 	uint16_t *InputRegisters; //Slave input registers
 	uint16_t InputRegisterCount; //Slave input count
 
-	MODBUSResponseStatus Response; //Slave response formatting status
+	MODBUSFrame Response; //Slave response formatting status
 } MODBUSSlaveStatus; //Type containing slave device configuration data

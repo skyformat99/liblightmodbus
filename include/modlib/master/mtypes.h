@@ -2,8 +2,11 @@
 
 #include <inttypes.h>
 
-//Declarations for master types
+#ifndef _MODLIB_BASE
+#include "../modlib.h"
+#endif
 
+//Declarations for master types
 typedef enum
 {
 	Register = 0,
@@ -29,16 +32,10 @@ typedef struct
 
 typedef struct
 {
-	uint8_t Length; //Length of frame, if it's equal to 0, frame is not ready
-	uint8_t *Frame; //Request frame content
-} MODBUSRequestStatus; //Type containing information about frame that is set up at master side
-
-typedef struct
-{
 	MODBUSData *Data; //Data read from slave
-	MODBUSException Exception; //Optional exception read
-	MODBUSRequestStatus Request; //Formatted request for slave
 	uint8_t DataLength; //Count of data type instances read from slave
 	uint8_t Error; //Have any error occured?
 	uint8_t Finished; //Is parsing finished?
+	MODBUSException Exception; //Optional exception read
+	MODBUSFrame Request; //Formatted request for slave
 } MODBUSMasterStatus; //Type containing master device configuration data
