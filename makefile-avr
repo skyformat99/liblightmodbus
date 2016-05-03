@@ -6,7 +6,7 @@
 MCU =
 
 CC = avr-gcc
-CFLAGS =
+CFLAGS = -Wall
 
 LD = avr-ld
 LDFLAGS =

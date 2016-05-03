@@ -7,7 +7,7 @@
 # This makefile will be part of source deb package
 
 CC = gcc
-CFLAGS =
+CFLAGS = -Wall
 
 LD = ld
 LDFLAGS =
