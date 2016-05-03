@@ -35,66 +35,61 @@ void Test( )
 
 	//Dump frame
 	//TermRGB( 2, 4, 0 );
-	printf( "Dump the frame:\n" );
+	printf( "Dump the frame:\n\t" );
 	for ( i = 0; i < MODBUSMaster.Request.Length; i++ )
 		printf( "%.2x%s", MODBUSMaster.Request.Frame[i], ( i == MODBUSMaster.Request.Length - 1 ) ? "\n" : "-" );
 
 	//Dump slave registers
 	//TermRGB( 2, 4, 2 );
-	printf( "Dump registers:\n" );
+	printf( "Dump registers:\n\t" );
 	for ( i = 0; i < MODBUSSlave.RegisterCount; i++ )
 		printf( "0x%.2x%s", Registers[i], ( i == MODBUSSlave.RegisterCount - 1 ) ? "\n" : ", " );
 
-	printf( "Dump input registers:\n" );
+	printf( "Dump input registers:\n\t" );
 	for ( i = 0; i < MODBUSSlave.InputRegisterCount; i++ )
 		printf( "0x%.2x%s", InputRegisters[i], ( i == MODBUSSlave.InputRegisterCount - 1 ) ? "\n" : ", " );
 
-	printf( "Dump coils:\n" );
+	printf( "Dump coils:\n\t" );
 	for ( i = 0; i < MODBUSSlave.CoilCount; i++ )
 		printf( "%d%s", MODBUSReadMaskBit( Coils, MODBUSSlave.CoilCount, i ), ( i == MODBUSSlave.CoilCount - 1 ) ? "\n" : ", " );
 
-	printf( "Dump discrete inputs:\n" );
+	printf( "Dump discrete inputs:\n\t" );
 	for ( i = 0; i < MODBUSSlave.DiscreteInputCount; i++ )
 		printf( "%d%s", MODBUSReadMaskBit( DiscreteInputs, MODBUSSlave.DiscreteInputCount, i ), ( i == MODBUSSlave.DiscreteInputCount - 1 ) ? "\n" : ", " );
 
 	//Parse request
-	//TermRGB( 1, 4, 3 );
 	printf( "Let slave parse frame...\n" );
 	SlaveError = MODBUSParseRequest( MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
-
-	printf( "Error - %d\n\rFinished - %d\n\r", SlaveError, MODBUSSlave.Finished );
+	printf( "\tError - %d\n\r\tFinished - %d\n\r", SlaveError, MODBUSSlave.Finished );
 
 	//Dump slave registers
-	//TermRGB( 0, 2, 4 );
-	printf( "Dump registers:\n" );
+	printf( "Dump registers:\n\t" );
 	for ( i = 0; i < MODBUSSlave.RegisterCount; i++ )
 		printf( "0x%.2x%s", Registers[i], ( i == MODBUSSlave.RegisterCount - 1 ) ? "\n" : ", " );
 
-	printf( "Dump input registers:\n" );
+	printf( "Dump input registers:\n\t" );
 	for ( i = 0; i < MODBUSSlave.InputRegisterCount; i++ )
 		printf( "0x%.2x%s", InputRegisters[i], ( i == MODBUSSlave.InputRegisterCount - 1 ) ? "\n" : ", " );
 
-	printf( "Dump coils:\n" );
+	printf( "Dump coils:\n\t" );
 	for ( i = 0; i < MODBUSSlave.CoilCount; i++ )
 		printf( "%d%s", MODBUSReadMaskBit( Coils, MODBUSSlave.CoilCount, i ), ( i == MODBUSSlave.CoilCount - 1 ) ? "\n" : ", " );
 
-	printf( "Dump discrete inputs:\n" );
+	printf( "Dump discrete inputs:\n\t" );
 	for ( i = 0; i < MODBUSSlave.DiscreteInputCount; i++ )
 		printf( "%d%s", MODBUSReadMaskBit( DiscreteInputs, MODBUSSlave.DiscreteInputCount, i ), ( i == MODBUSSlave.DiscreteInputCount - 1 ) ? "\n" : ", " );
 
 	//Dump response
-	//TermRGB( 0, 1, 4 );
-	printf( "Dump response - length = %d:\n", MODBUSSlave.Response.Length );
+	printf( "Dump response - length = %d:\n\t", MODBUSSlave.Response.Length );
 	for ( i = 0; i < MODBUSSlave.Response.Length; i++ )
 		printf( "%x%s", MODBUSSlave.Response.Frame[i], ( i == MODBUSSlave.Response.Length - 1 ) ? "\n" : ", " );
 
 	//Process response
-	//TermRGB( 0, 2, 4 );
 	printf( "Let master process response...\n" );
 	MasterError = MODBUSParseResponse( MODBUSSlave.Response.Frame, MODBUSSlave.Response.Length, MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
 
 	//Dump parsed data
-	printf( "Error - %d\n\rFinished - %d\n\r", MasterError, MODBUSMaster.Finished );
+	printf( "\tError - %d\n\r\tFinished - %d\n\r", MasterError, MODBUSMaster.Finished );
 	for ( i = 0; i < MODBUSMaster.DataLength; i++ )
 	{
 		printf( "\t - { addr: 0x%x, type: 0x%x, reg: 0x%x, val: 0x%x }\n\r", MODBUSMaster.Data[i].Address, MODBUSMaster.Data[i].DataType, MODBUSMaster.Data[i].Register, MODBUSMaster.Data[i].Value );
@@ -105,14 +100,6 @@ void Test( )
 		printf( "\t - ex addr: 0x%x, fun: 0x%x, code: 0x%x\n\r", MODBUSMaster.Exception.Address, MODBUSMaster.Exception.Function, MODBUSMaster.Exception.Code );
 	}
 
-	//And now, check what would happen in slave responded with bad CRC - if ok nothing should happen
-	//TermRGB( 0, 2, 4 );
-	printf( "Checking what happens if slave responds with bad CRC...\n" );
-	if ( MODBUSSlave.Response.Length )
-	{
-    	MODBUSSlave.Response.Frame[MODBUSSlave.Response.Length - 1]++; //Break CRC
-    	MODBUSParseResponse( MODBUSSlave.Response.Frame, MODBUSSlave.Response.Length, MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
-	}
 	TermRGB( 4, 0, 0 );
 	printf( "----------------------------------------\n\x1b[0m" );
 }
