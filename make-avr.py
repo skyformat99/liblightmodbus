@@ -23,7 +23,7 @@ LDFlags = "";
 
 Commands = [];
 
-print( Colors.OKBLUE + "Welcome in Modlib for AVR library creator!\n\n" + Colors.ENDC );
+print( Colors.OKBLUE + "Welcome in library creator! (AVR only)\n\n" + Colors.ENDC );
 
 MCU = raw_input( Colors.OKGREEN + "What MCU would you like to compile for? [atmega8] " + Colors.ENDC );
 if ( MCU == "" ):
@@ -83,4 +83,4 @@ if ( raw_input( Colors.WARNING + "\nDo you want to continue? [y/N] " + Colors.EN
     for Command in Commands:
         os.system( Command );
 
-    print( Colors.OKGREEN + "Nice! We're done!\n\n" + Colors.ENDC );
+    print( Colors.OKGREEN + "Nice! We're done here!\n\n" + Colors.ENDC );
