@@ -15,6 +15,8 @@ uint8_t MODBUSParseException( union MODBUSParser *Parser )
 	MODBUSMaster.Exception.Function = ( *Parser ).Exception.Function;
 	MODBUSMaster.Exception.Code = ( *Parser ).Exception.ExceptionCode;
 
+	MODBUSMaster.Finished = 1;
+
 	return MODBUS_ERROR_EXCEPTION;
 }
 
