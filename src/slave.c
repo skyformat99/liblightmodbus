@@ -36,6 +36,7 @@ uint8_t MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
 
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = 5;
+	MODBUSSlave.Finished = 1;
 
 	//Free memory used for union
 	free( Exception );
@@ -73,6 +74,7 @@ uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 
 	//Reset response frame status
 	MODBUSSlave.Response.Length = 0;
+	MODBUSSlave.Finished = 0;
 
 	//If frame is not broadcasted and address doesn't match skip parsing
 	if ( ( *Parser ).Base.Address != MODBUSSlave.Address && ( *Parser ).Base.Address != 0 )

@@ -50,6 +50,7 @@ uint8_t MODBUSBuildResponse02( union MODBUSParser *Parser )
 
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = FrameLength;
+	MODBUSSlave.Finished = 1;
 
 	//Free union memory
 	free( Builder );

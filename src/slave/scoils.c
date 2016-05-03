@@ -50,6 +50,7 @@ uint8_t MODBUSBuildResponse01( union MODBUSParser *Parser )
 
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = FrameLength;
+	MODBUSSlave.Finished = 1;
 
 	//Free union memory
 	free( Builder );
@@ -95,6 +96,7 @@ uint8_t MODBUSBuildResponse05( union MODBUSParser *Parser )
 
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = FrameLength;
+	MODBUSSlave.Finished = 1;
 
 	//Free union memory
 	free( Builder );
@@ -140,6 +142,7 @@ uint8_t MODBUSBuildResponse15( union MODBUSParser *Parser )
 
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = FrameLength;
+	MODBUSSlave.Finished = 1;
 
 	//Free union memory
 	free( Builder );
@@ -210,7 +213,7 @@ uint8_t MODBUSParseRequest05( union MODBUSParser *Parser )
 		return 0;
 	}
 
-	//Check if coil value is valid 
+	//Check if coil value is valid
 	if ( ( *Parser ).Request05.Value != 0x0000 && ( *Parser ).Request05.Value != 0xFF00 )
 	{
 		//Illegal data address error
