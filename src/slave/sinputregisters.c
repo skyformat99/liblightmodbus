@@ -19,7 +19,6 @@ uint8_t MODBUSParseRequest04( union MODBUSParser *Parser )
 	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request04.CRC )
 	{
 		MODBUSSlave.Finished = 1;
-		MODBUSSlave.Response.Length = 0;
 		return MODBUS_ERROR_CRC;
 	}
 
@@ -27,7 +26,6 @@ uint8_t MODBUSParseRequest04( union MODBUSParser *Parser )
 	if ( ( *Parser ).Base.Address == 0 )
 	{
 		MODBUSSlave.Finished = 1;
-		MODBUSSlave.Response.Length = 0;
 		return 0;
 	}
 
@@ -61,7 +59,6 @@ uint8_t MODBUSParseRequest04( union MODBUSParser *Parser )
 	if ( MODBUSSlave.Response.Frame == NULL )
 	{
 		free( MODBUSSlave.Response.Frame );
-		MODBUSSlave.Response.Length = 0;
 		return MODBUS_ERROR_ALLOC;
 	}
 	memset( MODBUSSlave.Response.Frame, 0, FrameLength ); //Empty response frame

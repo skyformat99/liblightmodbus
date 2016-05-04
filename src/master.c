@@ -38,7 +38,7 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	MODBUSMaster.Exception.Code = 0;
 	MODBUSMaster.Finished = 0;
 
-	//If user tries to parse an empty frame return 2 (to avoid problems with memory allocation)
+	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
 	if ( FrameLength == 0 ) return MODBUS_ERROR_OTHER;
 
 	//Allocate memory for union and copy frame to it

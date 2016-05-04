@@ -8,14 +8,6 @@ uint8_t MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
 	//Generates modbus exception frame in allocated memory frame
 	//Returns generated frame length
 
-	//Allocate memory for union
-	union MODBUSParser *Exception = (union MODBUSParser *) malloc( 5 );
-	if ( Exception == NULL )
-	{
-		free( Exception );
-		return MODBUS_ERROR_ALLOC;
-	}
-
 	//Reallocate frame memory
 	MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, 5 );
 	if ( MODBUSSlave.Response.Frame == NULL )
@@ -24,6 +16,7 @@ uint8_t MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
 		return MODBUS_ERROR_ALLOC;
 	}
 	memset( MODBUSSlave.Response.Frame, 0, 5 );
+	union MODBUSParser *Exception = (union MODBUSParser *) MODBUSSlave.Response.Frame;
 
 	//Setup exception frame
 	( *Exception ).Exception.Address = MODBUSSlave.Address;
@@ -31,15 +24,9 @@ uint8_t MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
 	( *Exception ).Exception.ExceptionCode = ExceptionCode;
 	( *Exception ).Exception.CRC = MODBUSCRC16( ( *Exception ).Frame, 3 );
 
-	//Copy result from union to frame pointer
-	memcpy( MODBUSSlave.Response.Frame, ( *Exception ).Frame, 5 );
-
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = 5;
 	MODBUSSlave.Finished = 1;
-
-	//Free memory used for union
-	free( Exception );
 
 	return 0;
 }
@@ -64,9 +51,11 @@ uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	MODBUSSlave.Response.Length = 0;
 	MODBUSSlave.Finished = 0;
 
-	//If user tries to parse an empty frame return 2 (to avoid problems with memory allocation)
+	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
 	if ( FrameLength == 0 ) return MODBUS_ERROR_OTHER;
 
+	//This part right there, below should be optimized, but currently I'm not 100% sure, that parsing doesn't malform given frame
+	//In this case it's just much easier to allocate new frame
 	union MODBUSParser *Parser = (union MODBUSParser *) malloc( FrameLength );
 	if ( Parser == NULL )
 	{
