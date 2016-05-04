@@ -23,7 +23,7 @@ LDFlags = "";
 
 Commands = [];
 
-print( Colors.OKBLUE + "Welcome in library creator! (AVR only)\n\n" + Colors.ENDC );
+print( Colors.OKBLUE + "Welcome in library creator! v0.1 (AVR only)\n\n" + Colors.ENDC );
 
 MCU = raw_input( Colors.OKGREEN + "What MCU would you like to compile for? [atmega8] " + Colors.ENDC );
 if ( MCU == "" ):
@@ -78,9 +78,14 @@ if ( raw_input( Colors.HEADER + "Do you need slave module? [y/N] " + Colors.ENDC
 
 Commands.append( "make -f makefile-avr all MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
 
+Error = 0;
+
 if ( raw_input( Colors.WARNING + "\nDo you want to continue? [y/N] " + Colors.ENDC ).lower( ) == "y" ):
     print( Colors.FAIL + "Invoking makefile...\n\n\n" + Colors.ENDC );
     for Command in Commands:
-        os.system( Command );
+        Error += os.system( Command );
 
-    print( Colors.OKGREEN + "Nice! We're done here!\n\n" + Colors.ENDC );
+if ( Error == 0 ):
+	print( Colors.OKGREEN + "Nice! We're done here!\n\n" + Colors.ENDC );
+else:
+	print( Colors.FAIL + "Something went wrong, check makefile output above...\n\n" + Colors.ENDC );
