@@ -428,7 +428,7 @@ void MainTest( )
 
 int main( )
 {
-	printf( "\nInit...\n" );
+	printf( "\n\t\t======MODLIB LIBRARY COVERAGE TEST LOG======\n\n\n" );
 	memset( TestValues2, 0xAA, 1024 );
 
 	//Init slave and master
