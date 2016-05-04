@@ -16,23 +16,16 @@ uint8_t MODBUSBuildRequest04( uint8_t Address, uint16_t FirstRegister, uint16_t 
 
 	//Set output frame length to 0 (in case of interrupts)
 	MODBUSMaster.Request.Length = 0;
-
-	//Allocate memory for frame builder
-	union MODBUSParser *Builder = (union MODBUSParser *) malloc( FrameLength );
-	if ( Builder == NULL )
-	{
-		free( Builder );
-		return MODBUS_ERROR_ALLOC;
-	}
+	MODBUSMaster.Finished = 0;
 
 	//Reallocate memory for final frame
 	MODBUSMaster.Request.Frame = (uint8_t *) realloc( MODBUSMaster.Request.Frame, FrameLength );
 	if ( MODBUSMaster.Request.Frame == NULL )
 	{
-		free( Builder );
 		free( MODBUSMaster.Request.Frame );
 		return MODBUS_ERROR_ALLOC;
 	}
+	union MODBUSParser *Builder = (union MODBUSParser *) MODBUSMaster.Request.Frame;
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 4;
@@ -42,13 +35,8 @@ uint8_t MODBUSBuildRequest04( uint8_t Address, uint16_t FirstRegister, uint16_t 
 	//Calculate CRC
 	( *Builder ).Request04.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
 
-	//Copy frame from builder to output structure
-	memcpy( MODBUSMaster.Request.Frame, ( *Builder ).Frame, FrameLength );
-
-	//Free used memory
-	free( Builder );
-
 	MODBUSMaster.Request.Length = FrameLength;
+	MODBUSMaster.Finished = 1;
 
 	return 0;
 }
