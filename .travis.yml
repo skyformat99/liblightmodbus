@@ -10,6 +10,6 @@ script:
   - make -f makefile-coverage all
 after_success:
   - coveralls --verbose --exclude test/test.c
-  - pastebinit -i valgrind.xml -b http://pastebin.com
-  - pastebinit -i massif.out -b http://pastebin.com
-  - pastebinit -i coverage-test.log -b http://pastebin.com
+  - pastebinit -i valgrind.xml -b sprunge.us
+  - pastebinit -i massif.out -b sprunge.us
+  - pastebinit -i coverage-test.log -b sprunge.us
