@@ -7,34 +7,17 @@
 <br>[Modlib on launchpad...](https://launchpad.net/modlib)
 
 Modlib is a very lightweight Modbus library.<br>
-Library is targeted to run on AVR devices, but it runs on PC too.
-
-*(in fact, it is being tested on PC)*
-
-
-For more detailed information check out [wiki](https://github.com/Jacajack/modlib/wiki).
+Library is aimed to run on AVR devices, but it runs on PC too.
 
 ## Features
 - Parsing frames using unions - that makes processing really fast
-- Building frames using unions
-- CRC16 checking
+- Dynamic memory allocation minimizes resources usage
+- CRC16 support
 - Lightweight and easy to use
 - Supports all basic Modbus functions
-- Library can be installed as a `*.deb` package for development
-- You can pick only modules, which you want, when building library for AVR using very simple python creator
+- Library can be installed as a `*.deb` package on computer
+- You can pick only modules, you want, when building library for AVR using very simple python assistant
 
 *Currently supported functions include: 01, 02, 03, 04, 05, 06, 15, 16*
 
-## Building
-To build Modlib run:
-<br>`make all`
-
-If you want to install it on your computer use:
-<br>`sudo make install`
-<br>to uninstall
-<br>`sudo make uninstall`
-<br>*(or simply use debian packages)*
-
-Building for AVR is really simple too (you need python installed):
-<br>`./make-avr.py`
-<br>This will run simple creator that will guide you through compiling library for specified target.
+If you want to use Modlib, check out [wiki](https://github.com/Jacajack/modlib/wiki), for more technical information.
