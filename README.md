@@ -1,17 +1,19 @@
-# Modlib
+# A lightweight, multiplatform Modbus library
 [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
-[![Travis CI](https://img.shields.io/travis/Jacajack/modlib.svg?style=flat-square)](https://travis-ci.org/Jacajack/modlib)
-[![Coveralls](https://img.shields.io/coveralls/Jacajack/modlib.svg?style=flat-square)](https://coveralls.io/github/Jacajack/modlib)
+[![Travis CI](https://img.shields.io/travis/Jacajack/liblightmodbus.svg?style=flat-square)](https://travis-ci.org/Jacajack/liblightmodbus)
+[![Coveralls](https://img.shields.io/coveralls/Jacajack/liblightmodbus.svg?style=flat-square)](https://coveralls.io/github/Jacajack/liblightmodbus)
 
-[More build results...](https://github.com/Jacajack/modlib/wiki/Build-results-history)
-<br>[Modlib on launchpad...](https://launchpad.net/modlib)
+[More build results...](https://github.com/Jacajack/liblightmodbus/wiki/Build-results-history)
+<br>[Library on launchpad...](https://launchpad.net/liblightmodbus)
 
-Modlib is a very lightweight Modbus library.<br>
+**Currently, library name is being changed, so some link may not work**
+
+`liblightmodbus` is a very lightweight Modbus library.<br>
 Library is aimed to run on AVR devices, but it runs on PC too.
 
 ## Features
 - Parsing frames using unions - that makes processing really fast
-- Dynamic memory allocation minimizes resources usage
+- Minimal resources usage
 - CRC16 support
 - Lightweight and easy to use
 - Supports all basic Modbus functions
@@ -20,4 +22,4 @@ Library is aimed to run on AVR devices, but it runs on PC too.
 
 *Currently supported functions include: 01, 02, 03, 04, 05, 06, 15, 16*
 
-If you want to use Modlib, check out [wiki](https://github.com/Jacajack/modlib/wiki), for more technical information.
+If you want to try it out, check [wiki](https://github.com/Jacajack/liblightmodbus/wiki) for more technical information.
