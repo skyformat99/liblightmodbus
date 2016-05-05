@@ -1,7 +1,7 @@
 # A lightweight, multiplatform Modbus library
 [![The MIT License](https://img.shields.io/badge/license-MIT-orange.svg?style=flat-square)](http://opensource.org/licenses/MIT)
-[![Travis CI](https://img.shields.io/travis/Jacajack/modlib.svg?style=flat-square)](https://travis-ci.org/Jacajack/modlib)
-[![Coveralls](https://img.shields.io/coveralls/Jacajack/modlib.svg?style=flat-square)](https://coveralls.io/github/Jacajack/modlib)
+[![Travis CI](https://img.shields.io/travis/Jacajack/liblightmodbus.svg?style=flat-square)](https://travis-ci.org/Jacajack/liblightmodbus)
+[![Coveralls](https://img.shields.io/coveralls/Jacajack/liblightmodbus.svg?style=flat-square)](https://coveralls.io/github/Jacajack/liblightmodbus)
 
 [More build results...](https://github.com/Jacajack/liblightmodbus/wiki/Build-results-history)
 <br>[Library on launchpad...](https://launchpad.net/liblightmodbus)
