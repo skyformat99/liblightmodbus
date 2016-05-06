@@ -1,4 +1,4 @@
-#include "../include/modlib/master.h"
+#include "../include/lightmodbus/master.h"
 
 //Master configurations
 MODBUSMasterStatus MODBUSMaster;

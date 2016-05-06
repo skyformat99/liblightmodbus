@@ -21,9 +21,9 @@ compile: clean
 	$(CC) $(CFLAGS) -c src/slave/sinputregisters.c
 	$(CC) $(CFLAGS) $(MASTERFLAGS) -c src/master.c
 	$(CC) $(CFLAGS) $(SLAVEFLAGS) -c src/slave.c
-	$(CC) $(CFLAGS) -c src/modlib.c
+	$(CC) $(CFLAGS) -c src/core.c
 	$(CC) $(CFLAGS) -c test/test.c
-	$(CC) $(CFLAGS) test.o modlib.o master.o slave.o mregisters.o sregisters.o mcoils.o scoils.o mdiscreteinputs.o sdiscreteinputs.o sinputregisters.o minputregisters.o -o coverage-test
+	$(CC) $(CFLAGS) test.o core.o master.o slave.o mregisters.o sregisters.o mcoils.o scoils.o mdiscreteinputs.o sdiscreteinputs.o sinputregisters.o minputregisters.o -o coverage-test
 
 coverage-test: compile
 	./coverage-test | tee coverage-test.log

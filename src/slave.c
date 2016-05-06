@@ -1,4 +1,4 @@
-#include "../include/modlib/slave.h"
+#include "../include/lightmodbus/slave.h"
 
  //Slave configuration
 MODBUSSlaveStatus MODBUSSlave;

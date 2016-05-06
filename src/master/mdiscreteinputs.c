@@ -1,7 +1,7 @@
-#include "../../include/modlib/modlib.h"
-#include "../../include/modlib/parser.h"
-#include "../../include/modlib/master/mtypes.h"
-#include "../../include/modlib/master/mdiscreteinputs.h"
+#include "../../include/lightmodbus/core.h"
+#include "../../include/lightmodbus/parser.h"
+#include "../../include/lightmodbus/master/mtypes.h"
+#include "../../include/lightmodbus/master/mdiscreteinputs.h"
 
 //Use external master configuration
 extern MODBUSMasterStatus MODBUSMaster;

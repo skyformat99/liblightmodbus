@@ -3,6 +3,6 @@
 #include <unistd.h>
 #include <inttypes.h>
 
-#include "../include/modlib/modlib.h"
-#include "../include/modlib/master.h"
-#include "../include/modlib/slave.h"
+#include "../include/lightmodbus/core.h"
+#include "../include/lightmodbus/master.h"
+#include "../include/lightmodbus/slave.h"

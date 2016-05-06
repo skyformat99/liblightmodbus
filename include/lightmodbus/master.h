@@ -3,7 +3,7 @@
 #include <inttypes.h>
 
 #ifndef _MODLIB_BASE
-#include "modlib.h"
+#include "core.h"
 #endif
 
 #ifndef _MODLIB_PARSER
