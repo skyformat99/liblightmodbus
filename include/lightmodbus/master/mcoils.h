@@ -1,4 +1,4 @@
-#define _MODLIB_MASTER_COILS
+#define _LIGHTMODBUS_MASTER_COILS
 
 #include <inttypes.h>
 

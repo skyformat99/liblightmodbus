@@ -1,4 +1,4 @@
-#define _MODLIB_SLAVE_COILS
+#define _LIGHTMODBUS_SLAVE_COILS
 
 #include <inttypes.h>
 

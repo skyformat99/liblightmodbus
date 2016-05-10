@@ -1,12 +1,12 @@
-#define _MODLIB_MASTER_BASE
+#define _LIGHTMODBUS_MASTER_BASE
 
 #include <inttypes.h>
 
-#ifndef _MODLIB_BASE
+#ifndef _LIGHTMODBUS_BASE
 #include "core.h"
 #endif
 
-#ifndef _MODLIB_PARSER
+#ifndef _LIGHTMODBUS_PARSER
 #include "parser.h"
 #endif
 
@@ -17,17 +17,17 @@
 #include "master/minputregisters.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
-#ifndef MODBUS_MASTER_REGISTERS
-#define MODBUS_MASTER_REGISTERS 0
+#ifndef LIGHTMODBUS_MASTER_REGISTERS
+#define LIGHTMODBUS_MASTER_REGISTERS 0
 #endif
-#ifndef MODBUS_MASTER_COILS
-#define MODBUS_MASTER_COILS 0
+#ifndef LIGHTMODBUS_MASTER_COILS
+#define LIGHTMODBUS_MASTER_COILS 0
 #endif
-#ifndef MODBUS_MASTER_DISCRETE_INPUTS
-#define MODBUS_MASTER_DISCRETE_INPUTS 0
+#ifndef LIGHTMODBUS_MASTER_DISCRETE_INPUTS
+#define LIGHTMODBUS_MASTER_DISCRETE_INPUTS 0
 #endif
-#ifndef MODBUS_MASTER_INPUT_REGISTERS
-#define MODBUS_MASTER_INPUT_REGISTERS 0
+#ifndef LIGHTMODBUS_MASTER_INPUT_REGISTERS
+#define LIGHTMODBUS_MASTER_INPUT_REGISTERS 0
 #endif
 
 //Variables declarations

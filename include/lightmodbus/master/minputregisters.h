@@ -1,4 +1,4 @@
-#define _MODLIB_MASTER_INPUT_REGISTERS
+#define _LIGHTMODBUS_MASTER_INPUT_REGISTERS
 
 #include <inttypes.h>
 

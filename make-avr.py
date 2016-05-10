@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# This is live library creator for Modlib (AVR only)
+# This is live library creator for liblightmodbus (AVR only)
 
 import os;
 
@@ -34,24 +34,24 @@ LDFlags = raw_input( Colors.OKBLUE + "Would you like to specify some additional 
 
 Commands.append( "make -f makefile-avr clean" );
 Commands.append( "make -f makefile-avr FORCE MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
-Commands.append( "make -f makefile-avr modlib-base MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
+Commands.append( "make -f makefile-avr core MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
 
 if ( raw_input( Colors.HEADER + "\nDo you need master module? [y/N] " + Colors.ENDC ).lower( ) == "y" ):
     if ( raw_input( "  \t - Registers module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr master-registers MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
-        MasterFlags += " -DMODBUS_MASTER_REGISTERS";
+        MasterFlags += " -DLIGHTMODBUS_MASTER_REGISTERS";
 
     if ( raw_input( "\t - Coils module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr master-coils MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
-        MasterFlags += " -DMODBUS_MASTER_COILS";
+        MasterFlags += " -DLIGHTMODBUS_MASTER_COILS";
 
     if ( raw_input( "\t - Discrete inputs module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr master-discrete-inputs MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
-        MasterFlags += " -DMODBUS_MASTER_DISCRETE_INPUTS";
+        MasterFlags += " -DLIGHTMODBUS_MASTER_DISCRETE_INPUTS";
 
     if ( raw_input( "\t - Input registers module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr master-input-registers MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
-        MasterFlags += " -DMODBUS_MASTER_INPUT_REGISTERS";
+        MasterFlags += " -DLIGHTMODBUS_MASTER_INPUT_REGISTERS";
 
     Commands.append( "make -f makefile-avr master-base MCU=\"" + MCU + "\" MASTERFLAGS=\"" + MasterFlags + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
     Commands.append( "make -f makefile-avr master-link MCU=\"" + MCU + "\" MASTERFLAGS=\"" + MasterFlags + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
@@ -59,19 +59,19 @@ if ( raw_input( Colors.HEADER + "\nDo you need master module? [y/N] " + Colors.E
 if ( raw_input( Colors.HEADER + "Do you need slave module? [y/N] " + Colors.ENDC ).lower( ) == "y" ):
     if ( raw_input( "  \t - Registers module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr slave-registers MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
-        MasterFlags += " -DMODBUS_SLAVE_REGISTERS";
+        MasterFlags += " -DLIGHTMODBUS_SLAVE_REGISTERS";
 
     if ( raw_input( "\t - Coils module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr slave-coils MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
-        MasterFlags += " -DMODBUS_SLAVE_COILS";
+        MasterFlags += " -DLIGHTMODBUS_SLAVE_COILS";
 
     if ( raw_input( "\t - Discrete inputs module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr slave-discrete-inputs MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
-        MasterFlags += " -DMODBUS_SLAVE_DISCRETE_INPUTS";
+        MasterFlags += " -DLIGHTMODBUS_SLAVE_DISCRETE_INPUTS";
 
     if ( raw_input( "\t - Input registers module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr slave-input-registers MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
-        MasterFlags += " -DMODBUS_SLAVE_INPUT_REGISTERS";
+        MasterFlags += " -DLIGHTMODBUS_SLAVE_INPUT_REGISTERS";
 
     Commands.append( "make -f makefile-avr slave-base MCU=\"" + MCU + "\" SLAVEFLAGS=\"" + SlaveFlags + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
     Commands.append( "make -f makefile-avr slave-link MCU=\"" + MCU + "\" SLAVEFLAGS=\"" + SlaveFlags + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );

@@ -1,4 +1,4 @@
-#define _MODLIB_SLAVE_INPUT_REGISTERS
+#define _LIGHTMODBUS_SLAVE_INPUT_REGISTERS
 
 #include <inttypes.h>
 

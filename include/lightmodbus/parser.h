@@ -1,4 +1,4 @@
-#define _MODLIB_PARSER
+#define _LIGHTMODBUS_PARSER
 
 #include <inttypes.h>
 

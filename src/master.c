@@ -74,42 +74,42 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 		switch ( ( *Parser ).Base.Function )
 		{
 			case 1: //Read multiple coils
-				if ( MODBUS_MASTER_COILS ) Error = MODBUSParseResponse01( Parser, RequestParser );
+				if ( LIGHTMODBUS_MASTER_COILS ) Error = MODBUSParseResponse01( Parser, RequestParser );
 				else Error = MODBUS_ERROR_PARSE;
 				break;
 
 			case 2: //Read multiple discrete inputs
-				if ( MODBUS_MASTER_DISCRETE_INPUTS ) Error = MODBUSParseResponse02( Parser, RequestParser );
+				if ( LIGHTMODBUS_MASTER_DISCRETE_INPUTS ) Error = MODBUSParseResponse02( Parser, RequestParser );
 				else Error = MODBUS_ERROR_PARSE;
 				break;
 
 			case 3: //Read multiple holding registers
-				if ( MODBUS_MASTER_REGISTERS ) Error = MODBUSParseResponse03( Parser, RequestParser );
+				if ( LIGHTMODBUS_MASTER_REGISTERS ) Error = MODBUSParseResponse03( Parser, RequestParser );
 				else Error = MODBUS_ERROR_PARSE;
 				break;
 
 			case 4: //Read multiple input registers
-				if ( MODBUS_MASTER_INPUT_REGISTERS ) Error = MODBUSParseResponse04( Parser, RequestParser );
+				if ( LIGHTMODBUS_MASTER_INPUT_REGISTERS ) Error = MODBUSParseResponse04( Parser, RequestParser );
 				else Error = MODBUS_ERROR_PARSE;
 				break;
 
 			case 5: //Write single coil
-				if ( MODBUS_MASTER_COILS ) Error = MODBUSParseResponse05( Parser, RequestParser );
+				if ( LIGHTMODBUS_MASTER_COILS ) Error = MODBUSParseResponse05( Parser, RequestParser );
 				else Error = MODBUS_ERROR_PARSE;
 				break;
 
 			case 6: //Write single holding register
-				if ( MODBUS_MASTER_REGISTERS ) Error = MODBUSParseResponse06( Parser, RequestParser );
+				if ( LIGHTMODBUS_MASTER_REGISTERS ) Error = MODBUSParseResponse06( Parser, RequestParser );
 				else Error = MODBUS_ERROR_PARSE;
 				break;
 
 			case 15: //Write multiple coils
-				if ( MODBUS_MASTER_COILS ) Error = MODBUSParseResponse15( Parser, RequestParser );
+				if ( LIGHTMODBUS_MASTER_COILS ) Error = MODBUSParseResponse15( Parser, RequestParser );
 				else Error = MODBUS_ERROR_PARSE;
 				break;
 
 			case 16: //Write multiple holding registers
-				if ( MODBUS_MASTER_REGISTERS ) Error = MODBUSParseResponse16( Parser, RequestParser );
+				if ( LIGHTMODBUS_MASTER_REGISTERS ) Error = MODBUSParseResponse16( Parser, RequestParser );
 				else Error = MODBUS_ERROR_PARSE;
 				break;
 

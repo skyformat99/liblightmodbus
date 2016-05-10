@@ -76,42 +76,42 @@ uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	switch ( ( *Parser ).Base.Function )
 	{
 		case 1: //Read multiple coils
-			if ( MODBUS_SLAVE_COILS ) Error = MODBUSParseRequest01( Parser );
+			if ( LIGHTMODBUS_SLAVE_COILS ) Error = MODBUSParseRequest01( Parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 2: //Read multiple discrete inputs
-			if ( MODBUS_SLAVE_DISCRETE_INPUTS ) Error = MODBUSParseRequest02( Parser );
+			if ( LIGHTMODBUS_SLAVE_DISCRETE_INPUTS ) Error = MODBUSParseRequest02( Parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 3: //Read multiple holding registers
-			if ( MODBUS_SLAVE_REGISTERS ) Error = MODBUSParseRequest03( Parser );
+			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = MODBUSParseRequest03( Parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 4: //Read multiple input registers
-			if ( MODBUS_SLAVE_INPUT_REGISTERS ) Error = MODBUSParseRequest04( Parser );
+			if ( LIGHTMODBUS_SLAVE_INPUT_REGISTERS ) Error = MODBUSParseRequest04( Parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 5: //Write single coil
-			if ( MODBUS_SLAVE_COILS ) Error = MODBUSParseRequest05( Parser );
+			if ( LIGHTMODBUS_SLAVE_COILS ) Error = MODBUSParseRequest05( Parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 6: //Write single holding register
-			if ( MODBUS_SLAVE_REGISTERS ) Error = MODBUSParseRequest06( Parser );
+			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = MODBUSParseRequest06( Parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 15: //Write multiple coils
-			if ( MODBUS_SLAVE_COILS ) Error = MODBUSParseRequest15( Parser );
+			if ( LIGHTMODBUS_SLAVE_COILS ) Error = MODBUSParseRequest15( Parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 16: //Write multiple holding registers
-			if ( MODBUS_SLAVE_REGISTERS ) Error = MODBUSParseRequest16( Parser );
+			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = MODBUSParseRequest16( Parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 

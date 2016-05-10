@@ -71,22 +71,22 @@ master-base: src/master.c include/lightmodbus/master.h
 	echo "COMPILING Master module (obj/master/mbase.o)" >> build.log
 	$(CC) $(CFLAGS) $(MASTERFLAGS) -c src/master.c -o obj/master/mbase.o
 
-master-registers: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1
+master-registers: MASTERFLAGS += -DLIGHTMODBUS_MASTER_REGISTERS=1
 master-registers: src/master/mregisters.c include/lightmodbus/master/mregisters.h
 	echo "COMPILING Master registers module (obj/master/mregisters.o)" >> build.log
 	$(CC) $(CFLAGS) -c src/master/mregisters.c -o obj/master/mregisters.o
 
-master-coils: MASTERFLAGS += -DMODBUS_MASTER_COILS=1
+master-coils: MASTERFLAGS += -DLIGHTMODBUS_MASTER_COILS=1
 master-coils: src/master/mcoils.c include/lightmodbus/master/mcoils.h
 	echo "COMPILING Master coils module (obj/master/mcoils.o)" >> build.log
 	$(CC) $(CFLAGS) -c src/master/mcoils.c -o obj/master/mcoils.o
 
-master-discrete-inputs: MASTERFLAGS += -DMODBUS_MASTER_DISCRETE_INPUTS=1
+master-discrete-inputs: MASTERFLAGS += -DLIGHTMODBUS_MASTER_DISCRETE_INPUTS=1
 master-discrete-inputs: src/master/mdiscreteinputs.c include/lightmodbus/master/mdiscreteinputs.h
 	echo "COMPILING Master discrete inputs module (obj/master/mdiscreteinputs.o)" >> build.log
 	$(CC) $(CFLAGS) -c src/master/mdiscreteinputs.c -o obj/master/mdiscreteinputs.o
 
-master-input-registers: MASTERFLAGS += -DMODBUS_MASTER_INPUT_REGISTERS=1
+master-input-registers: MASTERFLAGS += -DLIGHTMODBUS_MASTER_INPUT_REGISTERS=1
 master-input-registers: src/master/minputregisters.c include/lightmodbus/master/minputregisters.h
 	echo "COMPILING Master input registers module (obj/master/minputregisters.o)" >> build.log
 	$(CC) $(CFLAGS) -c src/master/minputregisters.c -o obj/master/minputregisters.o
@@ -99,12 +99,12 @@ slave-base: src/slave.c include/lightmodbus/slave.h
 	echo "COMPILING Slave module (obj/slave/sbase.o)" >> build.log
 	$(CC) $(CFLAGS) $(SLAVEFLAGS) -c src/slave.c -o obj/slave/sbase.o
 
-slave-registers: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1
+slave-registers: SLAVEFLAGS += -DLIGHTMODBUS_SLAVE_REGISTERS=1
 slave-registers: src/slave/sregisters.c include/lightmodbus/slave/sregisters.h
 	echo "COMPILING Slave registers module (obj/slave/sregisters.o)" >> build.log
 	$(CC) $(CFLAGS) -c src/slave/sregisters.c -o obj/slave/sregisters.o
 
-slave-coils: SLAVEFLAGS += -DMODBUS_SLAVE_COILS=1
+slave-coils: SLAVEFLAGS += -DLIGHTMODBUS_SLAVE_COILS=1
 slave-coils: src/slave/scoils.c include/lightmodbus/slave/scoils.h
 	echo "COMPILING Slave coils module (obj/slave/scoils.o)" >> build.log
 	$(CC) $(CFLAGS) -c src/slave/scoils.c -o obj/slave/scoils.o

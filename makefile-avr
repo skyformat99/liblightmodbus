@@ -1,5 +1,5 @@
-# This is makefile for Modlib - a lightweight Modbus library
-# It creates AVR object files, so you can link Modlib to your project
+# This is makefile for liblightmodbus - a lightweight Modbus library
+# It creates AVR object files, so you can link library to your project
 # This makefile is a little bit simpler than the others, because it works with live library creator
 # Each makefile target is called from make-avr.py
 
@@ -15,7 +15,7 @@ MASTERFLAGS =
 SLAVEFLAGS =
 
 all:
-	echo "LINKING Modlib full object file (obj/modlib.o)" >> build.log
+	echo "LINKING full library object file (obj/liblightmodbus.o)" >> build.log
 	$(LD) $(LDFLAGS) -r obj/*.o -o obj/lightmodbus.o
 	echo -n "\n\nBuild success - " >> build.log
 	date >> build.log
@@ -44,7 +44,7 @@ clean:
 
 ################################################################################
 
-modlib-base: src/core.c include/lightmodbus/core.h
+core: src/core.c include/lightmodbus/core.h
 	echo "COMPILING Core modile (obj/core.o)" >> build.log
 	$(CC) $(CFLAGS) -mmcu=$(MCU) -c src/core.c -o obj/core.o
 
@@ -52,22 +52,22 @@ master-base: src/master.c include/lightmodbus/master.h
 	echo "COMPILING Master module (obj/master/mbase.o)" >> build.log
 	$(CC) $(CFLAGS) $(MASTERFLAGS) -mmcu=$(MCU) -c src/master.c -o obj/master/mbase.o
 
-master-registers: MASTERFLAGS += -DMODBUS_MASTER_REGISTERS=1
+master-registers: MASTERFLAGS += -DLIGHTMODBUS_MASTER_REGISTERS=1
 master-registers: src/master/mregisters.c include/lightmodbus/master/mregisters.h
 	echo "COMPILING Master registers module (obj/master/mregisters.o)" >> build.log
 	$(CC) $(CFLAGS) -mmcu=$(MCU) -c src/master/mregisters.c -o obj/master/mregisters.o
 
-master-coils: MASTERFLAGS += -DMODBUS_MASTER_COILS=1
+master-coils: MASTERFLAGS += -DLIGHTMODBUS_MASTER_COILS=1
 master-coils: src/master/mcoils.c include/lightmodbus/master/mcoils.h
 	echo "COMPILING Master coils module (obj/master/mcoils.o)" >> build.log
 	$(CC) $(CFLAGS) -mmcu=$(MCU) -c src/master/mcoils.c -o obj/master/mcoils.o
 
-master-discrete-inputs: MASTERFLAGS += -DMODBUS_MASTER_DISCRETE_INPUTS=1
+master-discrete-inputs: MASTERFLAGS += -DLIGHTMODBUS_MASTER_DISCRETE_INPUTS=1
 master-discrete-inputs: src/master/mdiscreteinputs.c include/lightmodbus/master/mdiscreteinputs.h
 	echo "COMPILING Master discrete inputs module (obj/master/mdiscreteinputs.o)" >> build.log
 	$(CC) $(CFLAGS) -mmcu=$(MCU) -c src/master/mdiscreteinputs.c -o obj/master/mdiscreteinputs.o
 
-master-input-registers: MASTERFLAGS += -DMODBUS_MASTER_INPUT_REGISTERS=1
+master-input-registers: MASTERFLAGS += -DLIGHTMODBUS_MASTER_INPUT_REGISTERS=1
 master-input-registers: src/master/minputregisters.c include/lightmodbus/master/minputregisters.h
 	echo "COMPILING Master input registers module (obj/master/minputregisters.o)" >> build.log
 	$(CC) $(CFLAGS) -mmcu=$(MCU) -c src/master/minputregisters.c -o obj/master/minputregisters.o
@@ -80,12 +80,12 @@ slave-base: src/slave.c include/lightmodbus/slave.h
 	echo "COMPILING Slave module (obj/slave/sbase.o)" >> build.log
 	$(CC) $(CFLAGS) $(SLAVEFLAGS) -mmcu=$(MCU) -c src/slave.c -o obj/slave/sbase.o
 
-slave-registers: SLAVEFLAGS += -DMODBUS_SLAVE_REGISTERS=1
+slave-registers: SLAVEFLAGS += -DLIGHTMODBUS_SLAVE_REGISTERS=1
 slave-registers: src/slave/sregisters.c include/lightmodbus/slave/sregisters.h
 	echo "COMPILING Slave registers module (obj/slave/sregisters.o)" >> build.log
 	$(CC) $(CFLAGS) -mmcu=$(MCU) -c src/slave/sregisters.c -o obj/slave/sregisters.o
 
-slave-coils: SLAVEFLAGS += -DMODBUS_SLAVE_COILS=1
+slave-coils: SLAVEFLAGS += -DLIGHTMODBUS_SLAVE_COILS=1
 slave-coils: src/slave/scoils.c include/lightmodbus/slave/scoils.h
 	echo "COMPILING Slave coils module (obj/slave/scoils.o)" >> build.log
 	$(CC) $(CFLAGS) -mmcu=$(MCU) -c src/slave/scoils.c -o obj/slave/scoils.o

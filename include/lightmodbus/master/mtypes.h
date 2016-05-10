@@ -1,9 +1,9 @@
-#define _MODLIB_MASTER_TYPES
+#define _LIGHTMODBUS_MASTER_TYPES
 
 #include <inttypes.h>
 
-#ifndef _MODLIB_BASE
-#include "../modlib.h"
+#ifndef _LIGHTMODBUS_BASE
+#include "../core.h"
 #endif
 
 //Declarations for master types

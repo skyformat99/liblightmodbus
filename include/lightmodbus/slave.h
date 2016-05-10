@@ -1,12 +1,12 @@
-#define _MODLIB_SLAVE_BASE
+#define _LIGHTMODBUS_SLAVE_BASE
 
 #include <inttypes.h>
 
-#ifndef _MODLIB_BASE
+#ifndef _LIGHTMODBUS_BASE
 #include "core.h"
 #endif
 
-#ifndef _MODLIB_PARSER
+#ifndef _LIGHTMODBUS_PARSER
 #include "parser.h"
 #endif
 
@@ -17,17 +17,17 @@
 #include "slave/sinputregisters.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
-#ifndef MODBUS_SLAVE_REGISTERS
-#define MODBUS_SLAVE_REGISTERS 0
+#ifndef LIGHTMODBUS_SLAVE_REGISTERS
+#define LIGHTMODBUS_SLAVE_REGISTERS 0
 #endif
-#ifndef MODBUS_SLAVE_COILS
-#define MODBUS_SLAVE_COILS 0
+#ifndef LIGHTMODBUS_SLAVE_COILS
+#define LIGHTMODBUS_SLAVE_COILS 0
 #endif
-#ifndef MODBUS_SLAVE_DISCRETE_INPUTS
-#define MODBUS_SLAVE_DISCRETE_INPUTS 0
+#ifndef LIGHTMODBUS_SLAVE_DISCRETE_INPUTS
+#define LIGHTMODBUS_SLAVE_DISCRETE_INPUTS 0
 #endif
-#ifndef MODBUS_SLAVE_INPUT_REGISTERS
-#define MODBUS_SLAVE_INPUT_REGISTERS 0
+#ifndef LIGHTMODBUS_SLAVE_INPUT_REGISTERS
+#define LIGHTMODBUS_SLAVE_INPUT_REGISTERS 0
 #endif
 
 //Variables declarations
