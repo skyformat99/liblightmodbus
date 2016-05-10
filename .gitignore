@@ -9,6 +9,5 @@ lib
 *.gch
 *.log
 coverage-test
-test/modlib
 massif.out
 valgrind.xml
