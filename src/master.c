@@ -141,3 +141,10 @@ uint8_t MODBUSMasterInit( )
 
 	return ( ( MODBUSMaster.Request.Frame == NULL ) || ( MODBUSMaster.Data == NULL ) ) * MODBUS_ERROR_ALLOC;
 }
+
+void MODBUSMasterDestroy( )
+{
+	//Free memory
+	free( MODBUSMaster.Request.Frame );
+	free( MODBUSMaster.Data );
+}

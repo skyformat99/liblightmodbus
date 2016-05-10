@@ -35,3 +35,4 @@ extern MODBUSMasterStatus MODBUSMaster; //Master configuration
 
 extern uint8_t MODBUSParseResponse( uint8_t *, uint8_t, uint8_t *, uint8_t );
 extern uint8_t MODBUSMasterInit( );
+extern void MODBUSMasterDestroy( ); //Free memory used by master

@@ -142,3 +142,9 @@ uint8_t MODBUSSlaveInit( uint8_t Address )
 
 	return ( ( MODBUSSlave.Response.Frame == NULL ) * MODBUS_ERROR_ALLOC ) | ( ( MODBUSSlave.Address == 0 ) * MODBUS_ERROR_OTHER );
 }
+
+void MODBUSSlaveDestroy( )
+{
+	//Free memory
+	free( MODBUSSlave.Response.Frame );
+}

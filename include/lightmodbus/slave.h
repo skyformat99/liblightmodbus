@@ -36,3 +36,4 @@ extern MODBUSSlaveStatus MODBUSSlave; //Slave configuration
 //Function prototypes
 extern uint8_t MODBUSParseRequest( uint8_t *, uint8_t ); //Parse and interpret given modbus frame on slave-side
 extern uint8_t MODBUSSlaveInit( uint8_t ); //Very basic init of slave side
+extern void MODBUSSlaveDestroy( ); //Free memory used by slave
