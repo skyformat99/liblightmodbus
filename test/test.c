@@ -449,6 +449,9 @@ int main( )
 
 	MainTest( );
 
+	MODBUSSlaveDestroy( );
+	MODBUSMasterDestroy( );
+
 	//Reset terminal colors
 	printf( "\t\t" );
 
