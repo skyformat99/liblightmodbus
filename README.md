@@ -6,8 +6,6 @@
 [More build results...](https://github.com/Jacajack/liblightmodbus/wiki/Build-results-history)
 <br>[Library on launchpad...](https://launchpad.net/liblightmodbus)
 
-**Currently, library name is being changed, so some link may not work**
-
 `liblightmodbus` is a very lightweight Modbus library.<br>
 Library is aimed to run on AVR devices, but it runs on PC too.
 
