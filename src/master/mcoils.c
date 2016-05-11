@@ -156,7 +156,7 @@ uint8_t MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *R
 		MODBUSMaster.Data[i].Address = ( *Parser ).Base.Address;
 		MODBUSMaster.Data[i].DataType = Coil;
 		MODBUSMaster.Data[i].Register = MODBUSSwapEndian( ( *RequestParser ).Request01.FirstCoil ) + i;
-		MODBUSMaster.Data[i].Value = MODBUSReadMaskBit( ( *Parser ).Response01.Values, ( *Parser ).Response01.BytesCount, i );
+		MODBUSMaster.Data[i].Value = MODBUSReadMask( ( *Parser ).Response01.Values, ( *Parser ).Response01.BytesCount, i );
 
 	}
 

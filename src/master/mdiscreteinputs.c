@@ -71,7 +71,7 @@ uint8_t MODBUSParseResponse02( union MODBUSParser *Parser, union MODBUSParser *R
 		MODBUSMaster.Data[i].Address = ( *Parser ).Base.Address;
 		MODBUSMaster.Data[i].DataType = DiscreteInput;
 		MODBUSMaster.Data[i].Register = MODBUSSwapEndian( ( *RequestParser ).Request02.FirstInput ) + i;
-		MODBUSMaster.Data[i].Value = MODBUSReadMaskBit( ( *Parser ).Response02.Values, ( *Parser ).Response02.BytesCount, i );
+		MODBUSMaster.Data[i].Value = MODBUSReadMask( ( *Parser ).Response02.Values, ( *Parser ).Response02.BytesCount, i );
 
 	}
 

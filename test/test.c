@@ -51,11 +51,11 @@ void Test( )
 
 	printf( "Dump coils:\n\t" );
 	for ( i = 0; i < MODBUSSlave.CoilCount; i++ )
-		printf( "%d%s", MODBUSReadMaskBit( Coils, MODBUSSlave.CoilCount, i ), ( i == MODBUSSlave.CoilCount - 1 ) ? "\n" : ", " );
+		printf( "%d%s", MODBUSReadMask( Coils, MODBUSSlave.CoilCount, i ), ( i == MODBUSSlave.CoilCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump discrete inputs:\n\t" );
 	for ( i = 0; i < MODBUSSlave.DiscreteInputCount; i++ )
-		printf( "%d%s", MODBUSReadMaskBit( DiscreteInputs, MODBUSSlave.DiscreteInputCount, i ), ( i == MODBUSSlave.DiscreteInputCount - 1 ) ? "\n" : ", " );
+		printf( "%d%s", MODBUSReadMask( DiscreteInputs, MODBUSSlave.DiscreteInputCount, i ), ( i == MODBUSSlave.DiscreteInputCount - 1 ) ? "\n" : ", " );
 
 	//Parse request
 	printf( "Let slave parse frame...\n" );
@@ -73,11 +73,11 @@ void Test( )
 
 	printf( "Dump coils:\n\t" );
 	for ( i = 0; i < MODBUSSlave.CoilCount; i++ )
-		printf( "%d%s", MODBUSReadMaskBit( Coils, MODBUSSlave.CoilCount, i ), ( i == MODBUSSlave.CoilCount - 1 ) ? "\n" : ", " );
+		printf( "%d%s", MODBUSReadMask( Coils, MODBUSSlave.CoilCount, i ), ( i == MODBUSSlave.CoilCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump discrete inputs:\n\t" );
 	for ( i = 0; i < MODBUSSlave.DiscreteInputCount; i++ )
-		printf( "%d%s", MODBUSReadMaskBit( DiscreteInputs, MODBUSSlave.DiscreteInputCount, i ), ( i == MODBUSSlave.DiscreteInputCount - 1 ) ? "\n" : ", " );
+		printf( "%d%s", MODBUSReadMask( DiscreteInputs, MODBUSSlave.DiscreteInputCount, i ), ( i == MODBUSSlave.DiscreteInputCount - 1 ) ? "\n" : ", " );
 
 	//Dump response
 	printf( "Dump response - length = %d:\n\t", MODBUSSlave.Response.Length );
@@ -404,7 +404,7 @@ void MainTest( )
 	MODBUSSlave.RegisterMask = Mask;
 	MODBUSSlave.RegisterMaskLength = 1;
 
-	MODBUSWriteMaskBit( Mask, 1, 2, 1 );
+	MODBUSWriteMask( Mask, 1, 2, 1 );
 
 	MODBUSBuildRequest06( 0x20, 2, 16 );
 	Test( );
@@ -416,11 +416,11 @@ void MainTest( )
 	MODBUSBuildRequest16( 0x20, 0, 2, TestValues2 );
 	Test( );
 
-	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 0 ) );
-	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 1 ) );
-	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 2 ) );
-	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 3 ) );
-	printf( "Bitval: %d\r\n", MODBUSReadMaskBit( Mask, 1, 4 ) );
+	printf( "Bitval: %d\r\n", MODBUSReadMask( Mask, 1, 0 ) );
+	printf( "Bitval: %d\r\n", MODBUSReadMask( Mask, 1, 1 ) );
+	printf( "Bitval: %d\r\n", MODBUSReadMask( Mask, 1, 2 ) );
+	printf( "Bitval: %d\r\n", MODBUSReadMask( Mask, 1, 3 ) );
+	printf( "Bitval: %d\r\n", MODBUSReadMask( Mask, 1, 4 ) );
 
 	MODBUSSlave.RegisterMaskLength = 0;
 }

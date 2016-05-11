@@ -71,7 +71,7 @@ uint8_t MODBUSParseRequest01( union MODBUSParser *Parser )
 
 	//Copy registers to response frame
 	for ( i = 0; i < ( *Parser ).Request01.CoilCount; i++ )
-		MODBUSWriteMaskBit( ( *Builder ).Response01.Values, 32, i, MODBUSReadMaskBit( MODBUSSlave.Coils, 1 + ( ( MODBUSSlave.CoilCount - 1 ) >> 3 ), i + ( *Parser ).Request01.FirstCoil ) );
+		MODBUSWriteMask( ( *Builder ).Response01.Values, 32, i, MODBUSReadMask( MODBUSSlave.Coils, 1 + ( ( MODBUSSlave.CoilCount - 1 ) >> 3 ), i + ( *Parser ).Request01.FirstCoil ) );
 
 	//Calculate CRC
 	( *Builder ).Frame[FrameLength - 2] = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 ) & 0x00FF;
@@ -133,7 +133,7 @@ uint8_t MODBUSParseRequest05( union MODBUSParser *Parser )
 	union MODBUSParser *Builder = (union MODBUSParser *) MODBUSSlave.Response.Frame;
 
 	//After all possible exceptions, write coils
-	MODBUSWriteMaskBit( MODBUSSlave.Coils, 1 + ( ( MODBUSSlave.CoilCount - 1 ) << 3 ), ( *Parser ).Request05.Coil, ( *Parser ).Request05.Value == 0xFF00 );
+	MODBUSWriteMask( MODBUSSlave.Coils, 1 + ( ( MODBUSSlave.CoilCount - 1 ) << 3 ), ( *Parser ).Request05.Coil, ( *Parser ).Request05.Value == 0xFF00 );
 
 	//Do not respond when frame is broadcasted
 	if ( ( *Parser ).Base.Address == 0 )
@@ -230,7 +230,7 @@ uint8_t MODBUSParseRequest15( union MODBUSParser *Parser )
 
 	//After all possible exceptions write values to registers
 	for ( i = 0; i < ( *Parser ).Request15.CoilCount; i++ )
-		MODBUSWriteMaskBit( MODBUSSlave.Coils, MODBUSSlave.CoilCount, ( *Parser ).Request15.FirstCoil + i, MODBUSReadMaskBit( ( *Parser ).Request15.Values, ( *Parser ).Request15.BytesCount, i ) );
+		MODBUSWriteMask( MODBUSSlave.Coils, MODBUSSlave.CoilCount, ( *Parser ).Request15.FirstCoil + i, MODBUSReadMask( ( *Parser ).Request15.Values, ( *Parser ).Request15.BytesCount, i ) );
 
 	//Do not respond when frame is broadcasted
 	if ( ( *Parser ).Base.Address == 0 )

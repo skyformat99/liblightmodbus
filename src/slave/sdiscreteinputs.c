@@ -72,7 +72,7 @@ uint8_t MODBUSParseRequest02( union MODBUSParser *Parser )
 
 	//Copy registers to response frame
 	for ( i = 0; i < ( *Parser ).Request02.InputCount; i++ )
-		MODBUSWriteMaskBit( ( *Builder ).Response02.Values, 32, i, MODBUSReadMaskBit( MODBUSSlave.DiscreteInputs, 1 + ( ( MODBUSSlave.DiscreteInputCount - 1 ) >> 3 ), i + ( *Parser ).Request02.FirstInput ) );
+		MODBUSWriteMask( ( *Builder ).Response02.Values, 32, i, MODBUSReadMask( MODBUSSlave.DiscreteInputs, 1 + ( ( MODBUSSlave.DiscreteInputCount - 1 ) >> 3 ), i + ( *Parser ).Request02.FirstInput ) );
 
 	//Calculate CRC
 	( *Builder ).Frame[FrameLength - 2] = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 ) & 0x00FF;
