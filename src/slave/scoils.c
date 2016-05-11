@@ -4,7 +4,7 @@
 #include "../../include/lightmodbus/slave/scoils.h"
 
 //Use external slave configuration
-extern MODBUSSlaveStatus MODBUSSlave;
+extern MODBUSSlaveStatus_t MODBUSSlave;
 
 uint8_t MODBUSParseRequest01( union MODBUSParser *Parser )
 {

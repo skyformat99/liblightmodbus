@@ -31,7 +31,7 @@
 #endif
 
 //Variables declarations
-extern MODBUSMasterStatus MODBUSMaster; //Master configuration
+extern MODBUSMasterStatus_t MODBUSMaster; //Master configuration
 
 extern uint8_t MODBUSParseResponse( uint8_t *, uint8_t, uint8_t *, uint8_t );
 extern uint8_t MODBUSMasterInit( );

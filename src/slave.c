@@ -1,7 +1,7 @@
 #include "../include/lightmodbus/slave.h"
 
  //Slave configuration
-MODBUSSlaveStatus MODBUSSlave;
+MODBUSSlaveStatus_t MODBUSSlave;
 
 uint8_t MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
 {

@@ -4,7 +4,7 @@
 #include "../../include/lightmodbus/master/mcoils.h"
 
 //Use external master configuration
-extern MODBUSMasterStatus MODBUSMaster;
+extern MODBUSMasterStatus_t MODBUSMaster;
 
 uint8_t MODBUSBuildRequest01( uint8_t Address, uint16_t FirstCoil, uint16_t CoilCount )
 {
@@ -144,7 +144,7 @@ uint8_t MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *R
 	DataOK &= ( ( *Parser ).Base.Function == ( *RequestParser ).Base.Function );
 
 
-	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, sizeof( MODBUSData ) * MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount ) );
+	MODBUSMaster.Data = (MODBUSData_t *) realloc( MODBUSMaster.Data, sizeof( MODBUSData_t ) * MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount ) );
 	if ( MODBUSMaster.Data == NULL )
 	{
 		free( MODBUSMaster.Data );
@@ -187,7 +187,7 @@ uint8_t MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *R
 	DataOK &= ( ( *Parser ).Base.Function == ( *RequestParser ).Base.Function );
 
 
-	MODBUSMaster.Data = (MODBUSData *) realloc( MODBUSMaster.Data, sizeof( MODBUSData ) );
+	MODBUSMaster.Data = (MODBUSData_t *) realloc( MODBUSMaster.Data, sizeof( MODBUSData_t ) );
 	if ( MODBUSMaster.Data == NULL )
 	{
 		free( MODBUSMaster.Data );
