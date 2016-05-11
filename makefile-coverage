@@ -36,6 +36,7 @@ massif-test: compile
 	ms_print massif.out
 
 clean:
+	-find . -name "*.gch" -type f -delete
 	-rm -rf obj
 	-rm -rf lib
 	-rm -f *.gcno

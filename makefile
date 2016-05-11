@@ -50,6 +50,7 @@ FORCE:
 	-mkdir lib
 
 clean:
+	-find . -name "*.gch" -type f -delete
 	-rm -rf obj
 	-rm -rf lib
 	-rm -f build.log
