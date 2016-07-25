@@ -10,13 +10,13 @@
 
 typedef struct
 {
-	uint8_t Address; //Slave address
+	uint8_t address; //Slave address
 
 	uint16_t *Registers; //Slave holding registers
-	uint16_t RegisterCount; //Slave register count
+	uint16_t registerCount; //Slave reg count
 
 	uint8_t *Coils; //Slave coils
-	uint16_t CoilCount; //Slave coil count
+	uint16_t coilCount; //Slave coil count
 
 	uint8_t *DiscreteInputs; //Slave discrete input
 	uint16_t DiscreteInputCount; //Slave discrete input count
@@ -28,5 +28,5 @@ typedef struct
 	uint16_t InputRegisterCount; //Slave input count
 
 	uint8_t Finished; //Has slave finished building response for master?
-	MODBUSFrame_t Response; //Slave response formatting status
+	MODBUSFrame_t response; //Slave response formatting status
 } MODBUSSlaveStatus_t; //Type containing slave device configuration data

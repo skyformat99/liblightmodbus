@@ -6,4 +6,4 @@
 extern uint8_t modbusBuildRequest02( uint8_t, uint16_t, uint16_t );
 
 //Functions for parsing responses
-extern uint8_t modbusParseResponse02( union MODBUSParser *, union MODBUSParser * );
+extern uint8_t modbusParseResponse02( union ModbusParser *, union ModbusParser * );

@@ -11,20 +11,20 @@
 #define MODBUS_ERROR_OK 0 //Everything went ok
 #define MODBUS_ERROR_PARSE 1 //Slave did not parse frame (eg. bad function code)
 #define MODBUS_ERROR_EXCEPTION 2 //Slave thrown an exception and it's stored in MODBUSMaster.exception
-#define MODBUS_ERROR_CRC 4 //Invalid CRC error
+#define MODBUS_ERROR_CRC 4 //Invalid crc error
 #define MODBUS_ERROR_ALLOC 8 //Memory allocation problems (eg. system ran out of RAM)
 #define MODBUS_ERROR_OTHER 16 //Other reason function was exited (eg. bad function parameter)
-#define MODBUS_ERROR_FRAME 32 //Frame contained incorrect data, and exception could not be thrown (eg. bytes count != register count * 2 in slave's response)
+#define MODBUS_ERROR_FRAME 32 //frame contained incorrect data, and exception could not be thrown (eg. bytes count != reg count * 2 in slave's response)
 
 //Types
 typedef struct
 {
-	uint8_t Length; //Length of frame, if it's equal to 0, frame is not ready
-	uint8_t *Frame; //Frame content
+	uint8_t length; //length of frame, if it's equal to 0, frame is not ready
+	uint8_t *frame; //frame content
 } MODBUSFrame_t; //Type containing information about generated frame
 
-//Function prototypes
+//function prototypes
 extern uint8_t modbusMaskRead( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit );
-extern uint8_t modbusMaskWrite( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit, uint8_t Value );
+extern uint8_t modbusMaskWrite( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit, uint8_t value );
 extern uint16_t modbusSwapEndian( uint16_t );
 extern uint16_t modbusCRC( uint8_t *, uint16_t );

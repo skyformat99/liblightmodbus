@@ -3,35 +3,35 @@
  //Slave configuration
 MODBUSSlaveStatus_t MODBUSSlave;
 
-uint8_t modbusBuildException( uint8_t Function, uint8_t ExceptionCode )
+uint8_t modbusBuildException( uint8_t function, uint8_t exceptionCode )
 {
 	//Generates modbus exception frame in allocated memory frame
 	//Returns generated frame length
 
 	//Reallocate frame memory
-	MODBUSSlave.Response.Frame = (uint8_t *) realloc( MODBUSSlave.Response.Frame, 5 );
-	if ( MODBUSSlave.Response.Frame == NULL )
+	MODBUSSlave.response.frame = (uint8_t *) realloc( MODBUSSlave.response.frame, 5 );
+	if ( MODBUSSlave.response.frame == NULL )
 	{
-		free( MODBUSSlave.Response.Frame );
+		free( MODBUSSlave.response.frame );
 		return MODBUS_ERROR_ALLOC;
 	}
-	memset( MODBUSSlave.Response.Frame, 0, 5 );
-	union MODBUSParser *exception = (union MODBUSParser *) MODBUSSlave.Response.Frame;
+	memset( MODBUSSlave.response.frame, 0, 5 );
+	union ModbusParser *exception = (union ModbusParser *) MODBUSSlave.response.frame;
 
 	//Setup exception frame
-	( *exception ).exception.Address = MODBUSSlave.Address;
-	( *exception ).exception.Function = ( 1 << 7 ) | Function;
-	( *exception ).exception.ExceptionCode = ExceptionCode;
-	( *exception ).exception.CRC = modbusCRC( ( *exception ).Frame, 3 );
+	( *exception ).exception.address = MODBUSSlave.address;
+	( *exception ).exception.function = ( 1 << 7 ) | function;
+	( *exception ).exception.exceptionCode = exceptionCode;
+	( *exception ).exception.crc = modbusCRC( ( *exception ).frame, 3 );
 
 	//Set frame length - frame is ready
-	MODBUSSlave.Response.Length = 5;
+	MODBUSSlave.response.length = 5;
 	MODBUSSlave.Finished = 1;
 
 	return 0;
 }
 
-uint8_t modbusParseRequest( uint8_t *Frame, uint8_t FrameLength )
+uint8_t modbusParseRequest( uint8_t *frame, uint8_t frameLength )
 {
 	//Parse and interpret given modbus frame on slave-side
 
@@ -42,38 +42,38 @@ uint8_t modbusParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	//It works, and it uses much less memory, so I guess a bit of risk is fine in this case
 	//Also, user needs to free memory alocated for frame himself!
 
-	//Note: CRC is not checked here, just because if there was some junk at the end of correct frame (wrong length) it would be ommited
-	//In fact, user should care about things like that, and It would lower memory usage, so in future CRC can be verified right here
+	//Note: crc is not checked here, just because if there was some junk at the end of correct frame (wrong length) it would be ommited
+	//In fact, user should care about things like that, and It would lower memory usage, so in future crc can be verified right here
 
 	uint8_t Error = 0;
 
 	//Reset response frame status
-	MODBUSSlave.Response.Length = 0;
+	MODBUSSlave.response.length = 0;
 	MODBUSSlave.Finished = 0;
 
 	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
-	if ( FrameLength == 0 ) return MODBUS_ERROR_OTHER;
+	if ( frameLength == 0 ) return MODBUS_ERROR_OTHER;
 
 	//This part right there, below should be optimized, but currently I'm not 100% sure, that parsing doesn't malform given frame
 	//In this case it's just much easier to allocate new frame
-	union MODBUSParser *parser = (union MODBUSParser *) malloc( FrameLength );
+	union ModbusParser *parser = (union ModbusParser *) malloc( frameLength );
 	if ( parser == NULL )
 	{
 		free( parser );
 		return MODBUS_ERROR_ALLOC;
 	}
 
-	memcpy( ( *parser ).Frame, Frame, FrameLength );
+	memcpy( ( *parser ).frame, frame, frameLength );
 
 	//If frame is not broadcasted and address doesn't match skip parsing
-	if ( ( *parser ).Base.Address != MODBUSSlave.Address && ( *parser ).Base.Address != 0 )
+	if ( ( *parser ).base.address != MODBUSSlave.address && ( *parser ).base.address != 0 )
 	{
 		free( parser );
 		MODBUSSlave.Finished = 1;
 		return 0;
 	}
 
-	switch ( ( *parser ).Base.Function )
+	switch ( ( *parser ).base.function )
 	{
 		case 1: //Read multiple coils
 			if ( LIGHTMODBUS_SLAVE_COILS ) Error = modbusParseRequest01( parser );
@@ -100,7 +100,7 @@ uint8_t modbusParseRequest( uint8_t *Frame, uint8_t FrameLength )
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
-		case 6: //Write single holding register
+		case 6: //Write single holding reg
 			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = modbusParseRequest06( parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
@@ -121,30 +121,30 @@ uint8_t modbusParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	}
 
 	if ( Error == MODBUS_ERROR_PARSE )
-		if ( ( *parser ).Base.Address != 0 ) Error = modbusBuildException( ( *parser ).Base.Function, 0x01 );
+		if ( ( *parser ).base.address != 0 ) Error = modbusBuildException( ( *parser ).base.function, 0x01 );
 
 	free( parser );
 
 	return Error;
 }
 
-uint8_t modbusSlaveInit( uint8_t Address )
+uint8_t modbusSlaveInit( uint8_t address )
 {
 	//Very basic init of slave side
 	//User has to modify pointers etc. himself
 
-	MODBUSSlave.Address = Address;
+	MODBUSSlave.address = address;
 
 	//Reset response frame status
 	MODBUSSlave.Finished = 0;
-	MODBUSSlave.Response.Length = 0;
-	MODBUSSlave.Response.Frame = (uint8_t *) malloc( 8 );
+	MODBUSSlave.response.length = 0;
+	MODBUSSlave.response.frame = (uint8_t *) malloc( 8 );
 
-	return ( ( MODBUSSlave.Response.Frame == NULL ) * MODBUS_ERROR_ALLOC ) | ( ( MODBUSSlave.Address == 0 ) * MODBUS_ERROR_OTHER );
+	return ( ( MODBUSSlave.response.frame == NULL ) * MODBUS_ERROR_ALLOC ) | ( ( MODBUSSlave.address == 0 ) * MODBUS_ERROR_OTHER );
 }
 
 void modbusSlaveEnd( )
 {
 	//Free memory
-	free( MODBUSSlave.Response.Frame );
+	free( MODBUSSlave.response.frame );
 }

@@ -2,170 +2,169 @@
 
 #include <inttypes.h>
 
-//This parser is incomplete yet! (basic version currently)
-union MODBUSParser
+union ModbusParser
 {
-    uint8_t Frame[256];
+    uint8_t frame[256];
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-    } Base; //Base shared bytes, which have always same meaning
+        uint8_t address;
+        uint8_t function;
+    } base; //base shared bytes, which have always same meaning
 
 	struct __attribute__( ( __packed__ ) )
 	{
-		uint8_t Address;
-		uint8_t Function;
-		uint8_t ExceptionCode;
-		uint16_t CRC;
+		uint8_t address;
+		uint8_t function;
+		uint8_t exceptionCode;
+		uint16_t crc;
 	} exception;
 
 	struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t FirstCoil;
-        uint16_t CoilCount;
-        uint16_t CRC;
-    } Request01; //Read multiple coils
+        uint8_t address;
+        uint8_t function;
+        uint16_t firstCoil;
+        uint16_t coilCount;
+        uint16_t crc;
+    } request01; //Read multiple coils
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint8_t BytesCount;
-        uint8_t Values[32];
-        uint16_t CRC;
-    } Response01; //Read multiple coils - response
+        uint8_t address;
+        uint8_t function;
+        uint8_t byteCount;
+        uint8_t values[32];
+        uint16_t crc;
+    } response01; //Read multiple coils - response
 
 	struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t FirstInput;
-        uint16_t InputCount;
-        uint16_t CRC;
-    } Request02; //Read multiple discrete inputs
+        uint8_t address;
+        uint8_t function;
+        uint16_t firstInput;
+        uint16_t inputCount;
+        uint16_t crc;
+    } request02; //Read multiple discrete inputs
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint8_t BytesCount;
-        uint8_t Values[32];
-        uint16_t CRC;
-    } Response02; //Read multiple discrete inputs - response
+        uint8_t address;
+        uint8_t function;
+        uint8_t byteCount;
+        uint8_t values[32];
+        uint16_t crc;
+    } response02; //Read multiple discrete inputs - response
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t FirstRegister;
-        uint16_t RegisterCount;
-        uint16_t CRC;
-    } Request03; //Read multiple holding register
+        uint8_t address;
+        uint8_t function;
+        uint16_t firstRegister;
+        uint16_t registerCount;
+        uint16_t crc;
+    } request03; //Read multiple holding reg
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint8_t BytesCount;
-        uint16_t Values[128];
-        uint16_t CRC;
-    } Response03; //Read multiple holding registers - response
+        uint8_t address;
+        uint8_t function;
+        uint8_t byteCount;
+        uint16_t values[128];
+        uint16_t crc;
+    } response03; //Read multiple holding registers - response
 
 	struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t FirstRegister;
-        uint16_t RegisterCount;
-        uint16_t CRC;
-    } Request04; //Read multiple input register
+        uint8_t address;
+        uint8_t function;
+        uint16_t firstRegister;
+        uint16_t registerCount;
+        uint16_t crc;
+    } request04; //Read multiple input reg
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint8_t BytesCount;
-        uint16_t Values[128];
-        uint16_t CRC;
-    } Response04; //Read multiple input registers - response
+        uint8_t address;
+        uint8_t function;
+        uint8_t byteCount;
+        uint16_t values[128];
+        uint16_t crc;
+    } response04; //Read multiple input registers - response
 
 	struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t Coil;
-        uint16_t Value;
-        uint16_t CRC;
-    } Request05; //Write single coil
+        uint8_t address;
+        uint8_t function;
+        uint16_t coil;
+        uint16_t value;
+        uint16_t crc;
+    } request05; //Write single coil
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t Coil;
-        uint16_t Value;
-        uint16_t CRC;
-    } Response05; //Write single coil - response
+        uint8_t address;
+        uint8_t function;
+        uint16_t coil;
+        uint16_t value;
+        uint16_t crc;
+    } response05; //Write single coil - response
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t Register;
-        uint16_t Value;
-        uint16_t CRC;
-    } Request06; //Write single holding register
+        uint8_t address;
+        uint8_t function;
+        uint16_t reg;
+        uint16_t value;
+        uint16_t crc;
+    } request06; //Write single holding reg
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t Register;
-        uint16_t Value;
-        uint16_t CRC;
-    } Response06; //Write single holding register
+        uint8_t address;
+        uint8_t function;
+        uint16_t reg;
+        uint16_t value;
+        uint16_t crc;
+    } response06; //Write single holding reg
 
 	struct __attribute__( ( __packed__ ) )
     {
-		uint8_t Address;
-        uint8_t Function;
-        uint16_t FirstCoil;
-        uint16_t CoilCount;
-		uint8_t BytesCount;
-		uint8_t Values[32];
-        uint16_t CRC;
-    } Request15; //Write multiple coils
+		uint8_t address;
+        uint8_t function;
+        uint16_t firstCoil;
+        uint16_t coilCount;
+		uint8_t byteCount;
+		uint8_t values[32];
+        uint16_t crc;
+    } request15; //Write multiple coils
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t FirstCoil;
-        uint16_t CoilCount;
-        uint16_t CRC;
-    } Response15; //Write multiple coils - response
+        uint8_t address;
+        uint8_t function;
+        uint16_t firstCoil;
+        uint16_t coilCount;
+        uint16_t crc;
+    } response15; //Write multiple coils - response
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t FirstRegister;
-        uint16_t RegisterCount;
-        uint8_t BytesCount;
-        uint16_t Values[128];
-        uint16_t CRC;
-    } Request16; //Write multiple holding registers
+        uint8_t address;
+        uint8_t function;
+        uint16_t firstRegister;
+        uint16_t registerCount;
+        uint8_t byteCount;
+        uint16_t values[128];
+        uint16_t crc;
+    } request16; //Write multiple holding registers
 
     struct __attribute__( ( __packed__ ) )
     {
-        uint8_t Address;
-        uint8_t Function;
-        uint16_t FirstRegister;
-        uint16_t RegisterCount;
-        uint16_t CRC;
-    } Response16; //Write multiple holding registers
+        uint8_t address;
+        uint8_t function;
+        uint16_t firstRegister;
+        uint16_t registerCount;
+        uint16_t crc;
+    } response16; //Write multiple holding registers
 };

@@ -6,4 +6,4 @@
 extern uint8_t modbusBuildException( uint8_t, uint8_t );
 
 //Functions for parsing requests
-extern uint8_t modbusParseRequest04( union MODBUSParser *parser );
+extern uint8_t modbusParseRequest04( union ModbusParser *parser );

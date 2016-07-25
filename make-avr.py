@@ -49,7 +49,7 @@ if ( raw_input( Colors.HEADER + "\nDo you need master module? [y/N] " + Colors.E
         Commands.append( "make -f makefile-avr master-discrete-inputs MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
         MasterFlags += " -DLIGHTMODBUS_MASTER_DISCRETE_INPUTS";
 
-    if ( raw_input( "\t - Input registers module? [y/N] " ).lower( ) == "y" ):
+    if ( raw_input( "\t - input registers module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr master-input-registers MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
         MasterFlags += " -DLIGHTMODBUS_MASTER_INPUT_REGISTERS";
 
@@ -69,7 +69,7 @@ if ( raw_input( Colors.HEADER + "Do you need slave module? [y/N] " + Colors.ENDC
         Commands.append( "make -f makefile-avr slave-discrete-inputs MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
         MasterFlags += " -DLIGHTMODBUS_SLAVE_DISCRETE_INPUTS";
 
-    if ( raw_input( "\t - Input registers module? [y/N] " ).lower( ) == "y" ):
+    if ( raw_input( "\t - input registers module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr slave-input-registers MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
         MasterFlags += " -DLIGHTMODBUS_SLAVE_INPUT_REGISTERS";
 

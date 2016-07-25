@@ -33,7 +33,7 @@
 //Variables declarations
 extern MODBUSSlaveStatus_t MODBUSSlave; //Slave configuration
 
-//Function prototypes
+//function prototypes
 extern uint8_t modbusParseRequest( uint8_t *, uint8_t ); //Parse and interpret given modbus frame on slave-side
 extern uint8_t modbusSlaveInit( uint8_t ); //Very basic init of slave side
 extern void modbusSlaveEnd( ); //Free memory used by slave

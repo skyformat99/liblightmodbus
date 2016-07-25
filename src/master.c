@@ -3,75 +3,75 @@
 //Master configurations
 MODBUSMasterStatus_t MODBUSMaster;
 
-uint8_t modbusParseException( union MODBUSParser *parser )
+uint8_t modbusParseException( union ModbusParser *parser )
 {
 	//Parse exception frame and write data to MODBUSMaster structure
 
-	//Check CRC
-	if ( modbusCRC( ( *parser ).Frame, 3 ) != ( *parser ).exception.CRC )
+	//Check crc
+	if ( modbusCRC( ( *parser ).frame, 3 ) != ( *parser ).exception.crc )
 	{
 		MODBUSMaster.Finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
 	//Copy data
-	MODBUSMaster.exception.Address = ( *parser ).exception.Address;
-	MODBUSMaster.exception.Function = ( *parser ).exception.Function;
-	MODBUSMaster.exception.Code = ( *parser ).exception.ExceptionCode;
+	MODBUSMaster.exception.address = ( *parser ).exception.address;
+	MODBUSMaster.exception.function = ( *parser ).exception.function;
+	MODBUSMaster.exception.Code = ( *parser ).exception.exceptionCode;
 
 	MODBUSMaster.Finished = 1;
 
 	return MODBUS_ERROR_EXCEPTION;
 }
 
-uint8_t modbusParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *RequestFrame, uint8_t RequestFrameLength )
+uint8_t modbusParseResponse( uint8_t *frame, uint8_t frameLength, uint8_t *RequestFrame, uint8_t RequestFrameLength )
 {
 	//This function parses response from master
 	//Calling it will lead to losing all data and exceptions stored in MODBUSMaster (space will be reallocated)
 
-	//Note: CRC is not checked here, just because if there was some junk at the end of correct frame (wrong length) it would be ommited
-	//In fact, user should care about things like that, and It would lower memory usage, so in future CRC can be verified right here
+	//Note: crc is not checked here, just because if there was some junk at the end of correct frame (wrong length) it would be ommited
+	//In fact, user should care about things like that, and It would lower memory usage, so in future crc can be verified right here
 
 	//If non-zero some parser failed its job
 	uint8_t Error = 0;
 
 	//Reset output registers before parsing frame
 	MODBUSMaster.DataLength = 0;
-	MODBUSMaster.exception.Address = 0;
-	MODBUSMaster.exception.Function = 0;
+	MODBUSMaster.exception.address = 0;
+	MODBUSMaster.exception.function = 0;
 	MODBUSMaster.exception.Code = 0;
 	MODBUSMaster.Finished = 0;
 
 	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
-	if ( FrameLength == 0 ) return MODBUS_ERROR_OTHER;
+	if ( frameLength == 0 ) return MODBUS_ERROR_OTHER;
 
 	//Allocate memory for union and copy frame to it
-	union MODBUSParser *parser = (union MODBUSParser *) malloc( FrameLength );
+	union ModbusParser *parser = (union ModbusParser *) malloc( frameLength );
 	if ( parser == NULL )
 	{
 		free( parser );
 		return MODBUS_ERROR_ALLOC;
 	}
-	memcpy( ( *parser ).Frame,  Frame, FrameLength );
+	memcpy( ( *parser ).frame,  frame, frameLength );
 
 	//Allocate memory for request union and copy frame to it
-	union MODBUSParser *RequestParser = (union MODBUSParser *) malloc( RequestFrameLength );
+	union ModbusParser *RequestParser = (union ModbusParser *) malloc( RequestFrameLength );
 	if ( RequestParser == NULL )
 	{
 		free( parser );
 		free( RequestParser );
 		return MODBUS_ERROR_ALLOC;
 	}
-	memcpy( ( *RequestParser ).Frame,  RequestFrame, RequestFrameLength );
+	memcpy( ( *RequestParser ).frame,  RequestFrame, RequestFrameLength );
 
 	//Check if frame is exception response
-	if ( ( *parser ).Base.Function & 128 )
+	if ( ( *parser ).base.function & 128 )
 	{
 		Error = modbusParseException( parser );
 	}
 	else
 	{
-		switch ( ( *parser ).Base.Function )
+		switch ( ( *parser ).base.function )
 		{
 			case 1: //Read multiple coils
 				if ( LIGHTMODBUS_MASTER_COILS ) Error = modbusParseResponse01( parser, RequestParser );
@@ -98,7 +98,7 @@ uint8_t modbusParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 				else Error = MODBUS_ERROR_PARSE;
 				break;
 
-			case 6: //Write single holding register
+			case 6: //Write single holding reg
 				if ( LIGHTMODBUS_MASTER_REGISTERS ) Error = modbusParseResponse06( parser, RequestParser );
 				else Error = MODBUS_ERROR_PARSE;
 				break;
@@ -113,7 +113,7 @@ uint8_t modbusParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 				else Error = MODBUS_ERROR_PARSE;
 				break;
 
-			default: //Function code not known by master
+			default: //function code not known by master
 				Error = MODBUS_ERROR_PARSE;
 				break;
 		}
@@ -129,22 +129,22 @@ uint8_t modbusParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 uint8_t modbusMasterInit( )
 {
 	//Very basic init of master side
-	MODBUSMaster.Request.Frame = (uint8_t *) malloc( 8 );
-	MODBUSMaster.Request.Length = 0;
+	MODBUSMaster.request.frame = (uint8_t *) malloc( 8 );
+	MODBUSMaster.request.length = 0;
 	MODBUSMaster.Data = (MODBUSData_t *) malloc( sizeof( MODBUSData_t ) );
 	MODBUSMaster.DataLength = 0;
 	MODBUSMaster.Finished = 0;
 
-	MODBUSMaster.exception.Address = 0;
-	MODBUSMaster.exception.Function = 0;
+	MODBUSMaster.exception.address = 0;
+	MODBUSMaster.exception.function = 0;
 	MODBUSMaster.exception.Code = 0;
 
-	return ( ( MODBUSMaster.Request.Frame == NULL ) || ( MODBUSMaster.Data == NULL ) ) * MODBUS_ERROR_ALLOC;
+	return ( ( MODBUSMaster.request.frame == NULL ) || ( MODBUSMaster.Data == NULL ) ) * MODBUS_ERROR_ALLOC;
 }
 
 void modbusMasterEnd( )
 {
 	//Free memory
-	free( MODBUSMaster.Request.Frame );
+	free( MODBUSMaster.request.frame );
 	free( MODBUSMaster.Data );
 }

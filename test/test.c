@@ -36,22 +36,22 @@ void Test( )
 	//Dump frame
 	//TermRGB( 2, 4, 0 );
 	printf( "Dump the frame:\n\t" );
-	for ( i = 0; i < MODBUSMaster.Request.Length; i++ )
-		printf( "%.2x%s", MODBUSMaster.Request.Frame[i], ( i == MODBUSMaster.Request.Length - 1 ) ? "\n" : "-" );
+	for ( i = 0; i < MODBUSMaster.request.length; i++ )
+		printf( "%.2x%s", MODBUSMaster.request.frame[i], ( i == MODBUSMaster.request.length - 1 ) ? "\n" : "-" );
 
 	//Dump slave registers
 	//TermRGB( 2, 4, 2 );
 	printf( "Dump registers:\n\t" );
-	for ( i = 0; i < MODBUSSlave.RegisterCount; i++ )
-		printf( "0x%.2x%s", Registers[i], ( i == MODBUSSlave.RegisterCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < MODBUSSlave.registerCount; i++ )
+		printf( "0x%.2x%s", Registers[i], ( i == MODBUSSlave.registerCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump input registers:\n\t" );
 	for ( i = 0; i < MODBUSSlave.InputRegisterCount; i++ )
 		printf( "0x%.2x%s", InputRegisters[i], ( i == MODBUSSlave.InputRegisterCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump coils:\n\t" );
-	for ( i = 0; i < MODBUSSlave.CoilCount; i++ )
-		printf( "%d%s", modbusMaskRead( Coils, MODBUSSlave.CoilCount, i ), ( i == MODBUSSlave.CoilCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < MODBUSSlave.coilCount; i++ )
+		printf( "%d%s", modbusMaskRead( Coils, MODBUSSlave.coilCount, i ), ( i == MODBUSSlave.coilCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump discrete inputs:\n\t" );
 	for ( i = 0; i < MODBUSSlave.DiscreteInputCount; i++ )
@@ -59,45 +59,45 @@ void Test( )
 
 	//Parse request
 	printf( "Let slave parse frame...\n" );
-	SlaveError = modbusParseRequest( MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
+	SlaveError = modbusParseRequest( MODBUSMaster.request.frame, MODBUSMaster.request.length );
 	printf( "\tError - %d\n\tFinished - %d\n", SlaveError, MODBUSSlave.Finished );
 
 	//Dump slave registers
 	printf( "Dump registers:\n\t" );
-	for ( i = 0; i < MODBUSSlave.RegisterCount; i++ )
-		printf( "0x%.2x%s", Registers[i], ( i == MODBUSSlave.RegisterCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < MODBUSSlave.registerCount; i++ )
+		printf( "0x%.2x%s", Registers[i], ( i == MODBUSSlave.registerCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump input registers:\n\t" );
 	for ( i = 0; i < MODBUSSlave.InputRegisterCount; i++ )
 		printf( "0x%.2x%s", InputRegisters[i], ( i == MODBUSSlave.InputRegisterCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump coils:\n\t" );
-	for ( i = 0; i < MODBUSSlave.CoilCount; i++ )
-		printf( "%d%s", modbusMaskRead( Coils, MODBUSSlave.CoilCount, i ), ( i == MODBUSSlave.CoilCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < MODBUSSlave.coilCount; i++ )
+		printf( "%d%s", modbusMaskRead( Coils, MODBUSSlave.coilCount, i ), ( i == MODBUSSlave.coilCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump discrete inputs:\n\t" );
 	for ( i = 0; i < MODBUSSlave.DiscreteInputCount; i++ )
 		printf( "%d%s", modbusMaskRead( DiscreteInputs, MODBUSSlave.DiscreteInputCount, i ), ( i == MODBUSSlave.DiscreteInputCount - 1 ) ? "\n" : ", " );
 
 	//Dump response
-	printf( "Dump response - length = %d:\n\t", MODBUSSlave.Response.Length );
-	for ( i = 0; i < MODBUSSlave.Response.Length; i++ )
-		printf( "%x%s", MODBUSSlave.Response.Frame[i], ( i == MODBUSSlave.Response.Length - 1 ) ? "\n" : ", " );
+	printf( "Dump response - length = %d:\n\t", MODBUSSlave.response.length );
+	for ( i = 0; i < MODBUSSlave.response.length; i++ )
+		printf( "%x%s", MODBUSSlave.response.frame[i], ( i == MODBUSSlave.response.length - 1 ) ? "\n" : ", " );
 
 	//Process response
 	printf( "Let master process response...\n" );
-	MasterError = modbusParseResponse( MODBUSSlave.Response.Frame, MODBUSSlave.Response.Length, MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
+	MasterError = modbusParseResponse( MODBUSSlave.response.frame, MODBUSSlave.response.length, MODBUSMaster.request.frame, MODBUSMaster.request.length );
 
 	//Dump parsed data
 	printf( "\tError - %d\n\tFinished - %d\n", MasterError, MODBUSMaster.Finished );
 	for ( i = 0; i < MODBUSMaster.DataLength; i++ )
 	{
-		printf( "\t - { addr: 0x%x, type: 0x%x, reg: 0x%x, val: 0x%x }\n", MODBUSMaster.Data[i].Address, MODBUSMaster.Data[i].DataType, MODBUSMaster.Data[i].Register, MODBUSMaster.Data[i].Value );
+		printf( "\t - { addr: 0x%x, type: 0x%x, reg: 0x%x, val: 0x%x }\n", MODBUSMaster.Data[i].address, MODBUSMaster.Data[i].DataType, MODBUSMaster.Data[i].reg, MODBUSMaster.Data[i].value );
 	}
 	if ( MasterError == MODBUS_ERROR_EXCEPTION )
 	{
 		//TermRGB( 4, 1, 0 );
-		printf( "\t - ex addr: 0x%x, fun: 0x%x, code: 0x%x\n\r", MODBUSMaster.exception.Address, MODBUSMaster.exception.Function, MODBUSMaster.exception.Code );
+		printf( "\t - ex addr: 0x%x, fun: 0x%x, code: 0x%x\n\r", MODBUSMaster.exception.address, MODBUSMaster.exception.function, MODBUSMaster.exception.Code );
 	}
 
 	printf( "----------------------------------------\n\n" );
@@ -105,301 +105,301 @@ void Test( )
 
 void MainTest( )
 {
-	//Request03 - ok
+	//request03 - ok
 	printf( "\t\t03 - correct request...\n" );
 	modbusBuildRequest03( 0x20, 0x00, 0x08 );
 	Test( );
 
-	//Request03 - bad CRC
-	printf( "\t\t03 - bad CRC...\n" );
+	//request03 - bad crc
+	printf( "\t\t03 - bad crc...\n" );
 	modbusBuildRequest03( 0x20, 0x00, 0x08 );
-	MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
 	Test( );
 
-	//Request03 - bad first register
-	printf( "\t\t03 - bad first register...\n" );
+	//request03 - bad first reg
+	printf( "\t\t03 - bad first reg...\n" );
 	modbusBuildRequest03( 0x20, 0xff, 0x08 );
 	Test( );
 
-	//Request03 - bad register count
-	printf( "\t\t03 - bad register count...\n" );
+	//request03 - bad reg count
+	printf( "\t\t03 - bad reg count...\n" );
 	modbusBuildRequest03( 0x20, 0x00, 0xff );
 	Test( );
 
-	//Request03 - bad register count and first register
-	printf( "\t\t03 - bad register count and first register...\n" );
+	//request03 - bad reg count and first reg
+	printf( "\t\t03 - bad reg count and first reg...\n" );
 	modbusBuildRequest03( 0x20, 0xffff, 0xffff );
 	Test( );
 
-	//Request03 - broadcast
+	//request03 - broadcast
 	printf( "\t\t03 - broadcast...\n" );
 	modbusBuildRequest03( 0x00, 0x00, 0x08 );
 	Test( );
 
-	//Request03 - other slave address
+	//request03 - other slave address
 	printf( "\t\t03 - other address...\n" );
 	modbusBuildRequest03( 0x10, 0x00, 0x08 );
 	Test( );
 
-	//Request06 - ok
+	//request06 - ok
 	printf( "\t\t06 - correct request...\n" );
 	modbusBuildRequest06( 0x20, 0x06, 0xf6 );
 	Test( );
 
-	//Request06 - bad crc
-	printf( "\t\t06 - bad CRC...\n" );
+	//request06 - bad crc
+	printf( "\t\t06 - bad crc...\n" );
 	modbusBuildRequest06( 0x20, 0x06, 0xf6 );
-	MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
 	Test( );
 
-	//Request06 - bad register
-	printf( "\t\t06 - bad register...\n" );
+	//request06 - bad reg
+	printf( "\t\t06 - bad reg...\n" );
 	modbusBuildRequest06( 0x20, 0xf6, 0xf6 );
 	Test( );
 
-	//Request06 - broadcast
+	//request06 - broadcast
 	printf( "\t\t06 - broadcast...\n" );
 	modbusBuildRequest06( 0x00, 0x06, 0xf6 );
 	Test( );
 
-	//Request06 - other slave address
+	//request06 - other slave address
 	printf( "\t\t06 - other address...\n" );
 	modbusBuildRequest06( 0x10, 0x06, 0xf6 );
 	Test( );
 
-	//Request16 - ok
+	//request16 - ok
 	printf( "\t\t16 - correct request...\n" );
 	modbusBuildRequest16( 0x20, 0x00, 0x04, TestValues );
 	Test( );
 
-	//Request16 - bad crc
-	printf( "\t\t16 - bad CRC...\n" );
+	//request16 - bad crc
+	printf( "\t\t16 - bad crc...\n" );
 	modbusBuildRequest16( 0x20, 0x00, 0x04, TestValues );
-	MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
 	Test( );
 
-	//Request16 - bad start register
-	printf( "\t\t16 - bad first register...\n" );
+	//request16 - bad start reg
+	printf( "\t\t16 - bad first reg...\n" );
 	modbusBuildRequest16( 0x20, 0xFF, 0x04, TestValues );
 	Test( );
 
-	//Request16 - bad register range
-	printf( "\t\t16 - bad register range...\n" );
+	//request16 - bad reg range
+	printf( "\t\t16 - bad reg range...\n" );
 	modbusBuildRequest16( 0x20, 0x00, 0xFF, TestValues2 );
 	Test( );
 
-	//Request16 - bad register range 2
-	printf( "\t\t16 - bad register range 2...\n" );
+	//request16 - bad reg range 2
+	printf( "\t\t16 - bad reg range 2...\n" );
 	modbusBuildRequest16( 0x20, 0x00, 0x20, TestValues2 );
 	Test( );
 
-	//Request16 - confusing register range
-	printf( "\t\t16 - confusing register range...\n" );
+	//request16 - confusing reg range
+	printf( "\t\t16 - confusing reg range...\n" );
 	modbusBuildRequest16( 0x20, 0x00, 0x08, TestValues );
 	Test( );
 
-	//Request16 - confusing register range 2
-	printf( "\t\t16 - confusing register range 2...\n" );
+	//request16 - confusing reg range 2
+	printf( "\t\t16 - confusing reg range 2...\n" );
 	modbusBuildRequest16( 0x20, 0x01, 0x08, TestValues );
 	Test( );
 
-	//Request16 - broadcast
+	//request16 - broadcast
 	printf( "\t\t16 - broadcast...\n" );
 	modbusBuildRequest16( 0x00, 0x00, 0x04, TestValues );
 	Test( );
 
-	//Request16 - other slave address
+	//request16 - other slave address
 	printf( "\t\t16 - other address...\n" );
 	modbusBuildRequest16( 0x10, 0x00, 0x04, TestValues );
 	Test( );
 
-	//Request02 - ok
+	//request02 - ok
 	printf( "\t\t02 - correct request...\n" );
 	modbusBuildRequest02( 0x20, 0x00, 0x10 );
 	Test( );
 
-	//Request02 - bad crc
-	printf( "\t\t02 - bad CRC...\n" );
+	//request02 - bad crc
+	printf( "\t\t02 - bad crc...\n" );
 	modbusBuildRequest02( 0x20, 0x00, 0x10 );
-	MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
 	Test( );
 
-	//Request02 - bad first discrete input
+	//request02 - bad first discrete input
 	printf( "\t\t02 - bad first discrete input...\n" );
 	modbusBuildRequest02( 0x20, 0xff, 0x10 );
 	Test( );
 
-	//Request02 - bad discrete input count
+	//request02 - bad discrete input count
 	printf( "\t\t02 - bad discrete input count...\n" );
 	modbusBuildRequest02( 0x20, 0x00, 0xff );
 	Test( );
 
-	//Request02 - bad register count and first discrete input
-	printf( "\t\t02 - bad register count and first discrete input...\n" );
+	//request02 - bad reg count and first discrete input
+	printf( "\t\t02 - bad reg count and first discrete input...\n" );
 	modbusBuildRequest02( 0x20, 0xffff, 0xffff );
 	Test( );
 
-	//Request02 - broadcast
+	//request02 - broadcast
 	printf( "\t\t02 - broadcast...\n" );
 	modbusBuildRequest02( 0x00, 0x00, 0x10 );
 	Test( );
 
-	//Request02 - other slave address
+	//request02 - other slave address
 	printf( "\t\t02 - other address...\n" );
 	modbusBuildRequest02( 0x10, 0x00, 0x10 );
 	Test( );
 
-	//Request01 - ok
+	//request01 - ok
 	printf( "\t\t01 - correct request...\n" );
 	modbusBuildRequest01( 0x20, 0x00, 0x04 );
 	Test( );
 
-	//Request01 - bad CRC
-	printf( "\t\t01 - bad CRC...\n" );
+	//request01 - bad crc
+	printf( "\t\t01 - bad crc...\n" );
 	modbusBuildRequest01( 0x20, 0x00, 0x04 );
-	MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
 	Test( );
 
-	//Request01 - bad first register
+	//request01 - bad first reg
 	printf( "\t\t01 - bad first coil...\n" );
 	modbusBuildRequest01( 0x20, 0xff, 0x04 );
 	Test( );
 
-	//Request01 - bad register count
+	//request01 - bad reg count
 	printf( "\t\t01 - bad coil count...\n" );
 	modbusBuildRequest01( 0x20, 0x00, 0xff );
 	Test( );
 
-	//Request01 - bad register count and first register
+	//request01 - bad reg count and first reg
 	printf( "\t\t01 - bad coil count and first coil...\n" );
 	modbusBuildRequest01( 0x20, 0xffff, 0xffff );
 	Test( );
 
-	//Request01 - broadcast
+	//request01 - broadcast
 	printf( "\t\t01 - broadcast...\n" );
 	modbusBuildRequest01( 0x00, 0x00, 0x04 );
 	Test( );
 
-	//Request01 - other slave address
+	//request01 - other slave address
 	printf( "\t\t01 - other address...\n" );
 	modbusBuildRequest01( 0x10, 0x00, 0x04 );
 	Test( );
 
-	//Request05 - ok
+	//request05 - ok
 	printf( "\t\t05 - correct request...\n" );
 	modbusBuildRequest05( 0x20, 0x03, 0xff00 );
 	Test( );
 
-	//Request05 - bad CRC
-	printf( "\t\t05 - bad CRC...\n" );
+	//request05 - bad crc
+	printf( "\t\t05 - bad crc...\n" );
 	modbusBuildRequest05( 0x20, 0x03, 0xff00 );
-	MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
 	Test( );
 
-	//Request05 - ok
+	//request05 - ok
 	printf( "\t\t05 - correct request, non 0xff00 number...\n" );
 	modbusBuildRequest05( 0x20, 0x03, 1 );
 	Test( );
 
-	//Request05 - bad register
+	//request05 - bad reg
 	printf( "\t\t05 - bad coil...\n" );
 	modbusBuildRequest05( 0x20, 0xf3, 0xff00 );
 	Test( );
 
-	//Request05 - broadcast
+	//request05 - broadcast
 	printf( "\t\t05 - broadcast...\n" );
 	modbusBuildRequest05( 0x00, 0x03, 0xff00 );
 	Test( );
 
-	//Request05 - other slave address
+	//request05 - other slave address
 	printf( "\t\t05 - other address...\n" );
 	modbusBuildRequest05( 0x10, 0x03, 0xff00 );
 	Test( );
 
-	//Request15 - ok
+	//request15 - ok
 	printf( "\t\t15 - correct request...\n" );
 	modbusBuildRequest15( 0x20, 0x00, 0x04, TestValues3 );
 	Test( );
 
-	//Request15 - bad crc
-	printf( "\t\t15 - bad CRC...\n" );
+	//request15 - bad crc
+	printf( "\t\t15 - bad crc...\n" );
 	modbusBuildRequest15( 0x20, 0x00, 0x04, TestValues3 );
-	MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
 	Test( );
 
-	//Request15 - bad start register
+	//request15 - bad start reg
 	printf( "\t\t15 - bad first coil...\n" );
 	modbusBuildRequest15( 0x20, 0xFF, 0x04, TestValues3 );
 	Test( );
 
-	//Request15 - bad register range
+	//request15 - bad reg range
 	printf( "\t\t15 - bad coil range...\n" );
 	modbusBuildRequest15( 0x20, 0x00, 0xFF, TestValues3 );
 	Test( );
 
-	//Request15 - bad register range 2
+	//request15 - bad reg range 2
 	printf( "\t\t15 - bad coil range 2...\n" );
 	modbusBuildRequest15( 0x20, 0x00, 0x20, TestValues3 );
 	Test( );
 
-	//Request15 - confusing register range
+	//request15 - confusing reg range
 	printf( "\t\t15 - confusing coil range...\n" );
 	modbusBuildRequest15( 0x20, 0x00, 0x40, TestValues3 );
 	Test( );
 
-	//Request15 - confusing register range 2
+	//request15 - confusing reg range 2
 	printf( "\t\t15 - confusing coil range 2...\n" );
 	modbusBuildRequest15( 0x20, 0x01, 0x40, TestValues3 );
 	Test( );
 
-	//Request15 - broadcast
+	//request15 - broadcast
 	printf( "\t\t15 - broadcast...\n" );
 	modbusBuildRequest15( 0x00, 0x00, 0x04, TestValues3 );
 	Test( );
 
-	//Request15 - other slave address
+	//request15 - other slave address
 	printf( "\t\t15 - other address...\n" );
 	modbusBuildRequest15( 0x10, 0x00, 0x04, TestValues3 );
 	Test( );
 
-	//Request04 - ok
+	//request04 - ok
 	printf( "\t\t04 - correct request...\n" );
 	modbusBuildRequest04( 0x20, 0x00, 0x04 );
 	Test( );
 
-	//Request04 - bad crc
-	printf( "\t\t04 - bad CRC...\n" );
+	//request04 - bad crc
+	printf( "\t\t04 - bad crc...\n" );
 	modbusBuildRequest04( 0x20, 0x00, 0x04 );
-	MODBUSMaster.Request.Frame[MODBUSMaster.Request.Length - 1]++;
+	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
 	Test( );
 
-	//Request04 - bad first register
-	printf( "\t\t04 - bad first register...\n" );
+	//request04 - bad first reg
+	printf( "\t\t04 - bad first reg...\n" );
 	modbusBuildRequest04( 0x20, 0x05, 0x04 );
 	Test( );
 
-	//Request04 - bad register count
-	printf( "\t\t04 - bad register count...\n" );
+	//request04 - bad reg count
+	printf( "\t\t04 - bad reg count...\n" );
 	modbusBuildRequest04( 0x20, 0x00, 0x05 );
 	Test( );
 
-	//Request04 - bad register count and first register
-	printf( "\t\t04 - bad register count and first register...\n" );
+	//request04 - bad reg count and first reg
+	printf( "\t\t04 - bad reg count and first reg...\n" );
 	modbusBuildRequest04( 0x20, 0x01, 0x05 );
 	Test( );
 
-	//Request04 - broadcast
+	//request04 - broadcast
 	printf( "\t\t04 - broadcast...\n" );
 	modbusBuildRequest04( 0x00, 0x00, 0x04 );
 	Test( );
 
-	//Request04 - other slave address
+	//request04 - other slave address
 	printf( "\t\t04 - other address...\n" );
 	modbusBuildRequest04( 0x10, 0x00, 0x04 );
 	Test( );
 
 	//WRITE PROTECTION TEST
-	printf( "\t\t--Register write protection test--\n" );
+	printf( "\t\t--reg write protection test--\n" );
 	uint8_t Mask[1] = { 0 };
 	MODBUSSlave.RegisterMask = Mask;
 	MODBUSSlave.RegisterMaskLength = 1;
@@ -433,10 +433,10 @@ int main( )
 
 	//Init slave and master
 	MODBUSSlave.Registers = Registers;
-	MODBUSSlave.RegisterCount = 8;
+	MODBUSSlave.registerCount = 8;
 
 	MODBUSSlave.Coils = Coils;
-	MODBUSSlave.CoilCount = 32;
+	MODBUSSlave.coilCount = 32;
 
 	MODBUSSlave.DiscreteInputs = DiscreteInputs;
 	MODBUSSlave.DiscreteInputCount = 16;
