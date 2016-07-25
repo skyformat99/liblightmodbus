@@ -450,7 +450,7 @@ int main( )
 	MainTest( );
 
 	MODBUSSlaveDestroy( );
-	MODBUSMasterDestroy( );
+	modbusMasterEnd( );
 
 	//Reset terminal colors
 	printf( "\t\t" );
