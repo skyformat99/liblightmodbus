@@ -128,7 +128,7 @@ uint8_t modbusParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	return Error;
 }
 
-uint8_t MODBUSSlaveInit( uint8_t Address )
+uint8_t modbusSlaveInit( uint8_t Address )
 {
 	//Very basic init of slave side
 	//User has to modify pointers etc. himself
