@@ -449,7 +449,7 @@ int main( )
 
 	MainTest( );
 
-	MODBUSSlaveDestroy( );
+	modbusSlaveEnd( );
 	modbusMasterEnd( );
 
 	//Reset terminal colors
