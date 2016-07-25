@@ -24,7 +24,7 @@ uint8_t modbusParseException( union MODBUSParser *Parser )
 	return MODBUS_ERROR_EXCEPTION;
 }
 
-uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *RequestFrame, uint8_t RequestFrameLength )
+uint8_t modbusParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *RequestFrame, uint8_t RequestFrameLength )
 {
 	//This function parses response from master
 	//Calling it will lead to losing all data and exceptions stored in MODBUSMaster (space will be reallocated)

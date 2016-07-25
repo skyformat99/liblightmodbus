@@ -86,7 +86,7 @@ void Test( )
 
 	//Process response
 	printf( "Let master process response...\n" );
-	MasterError = MODBUSParseResponse( MODBUSSlave.Response.Frame, MODBUSSlave.Response.Length, MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
+	MasterError = modbusParseResponse( MODBUSSlave.Response.Frame, MODBUSSlave.Response.Length, MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
 
 	//Dump parsed data
 	printf( "\tError - %d\n\tFinished - %d\n", MasterError, MODBUSMaster.Finished );
