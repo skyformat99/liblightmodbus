@@ -59,7 +59,7 @@ void Test( )
 
 	//Parse request
 	printf( "Let slave parse frame...\n" );
-	SlaveError = MODBUSParseRequest( MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
+	SlaveError = modbusParseRequest( MODBUSMaster.Request.Frame, MODBUSMaster.Request.Length );
 	printf( "\tError - %d\n\tFinished - %d\n", SlaveError, MODBUSSlave.Finished );
 
 	//Dump slave registers

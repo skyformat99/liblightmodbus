@@ -31,7 +31,7 @@ uint8_t modbusBuildException( uint8_t Function, uint8_t ExceptionCode )
 	return 0;
 }
 
-uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
+uint8_t modbusParseRequest( uint8_t *Frame, uint8_t FrameLength )
 {
 	//Parse and interpret given modbus frame on slave-side
 
