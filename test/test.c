@@ -404,7 +404,7 @@ void MainTest( )
 	MODBUSSlave.RegisterMask = Mask;
 	MODBUSSlave.RegisterMaskLength = 1;
 
-	MODBUSWriteMask( Mask, 1, 2, 1 );
+	modbusMaskWrite( Mask, 1, 2, 1 );
 
 	MODBUSBuildRequest06( 0x20, 2, 16 );
 	Test( );
