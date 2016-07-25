@@ -30,8 +30,8 @@ uint8_t MODBUSParseRequest04( union MODBUSParser *Parser )
 	}
 
 	//Swap endianness of longer members (but not CRC)
-	( *Parser ).Request04.FirstRegister = MODBUSSwapEndian( ( *Parser ).Request04.FirstRegister );
-	( *Parser ).Request04.RegisterCount = MODBUSSwapEndian( ( *Parser ).Request04.RegisterCount );
+	( *Parser ).Request04.FirstRegister = modbusSwapEndian( ( *Parser ).Request04.FirstRegister );
+	( *Parser ).Request04.RegisterCount = modbusSwapEndian( ( *Parser ).Request04.RegisterCount );
 
 	//Check if register is in valid range
 	if ( ( *Parser ).Request04.RegisterCount == 0 )
@@ -71,7 +71,7 @@ uint8_t MODBUSParseRequest04( union MODBUSParser *Parser )
 
 	//Copy registers to response frame
 	for ( i = 0; i < ( *Parser ).Request04.RegisterCount; i++ )
-		( *Builder ).Response04.Values[i] = MODBUSSwapEndian( MODBUSSlave.InputRegisters[( *Parser ).Request04.FirstRegister + i] );
+		( *Builder ).Response04.Values[i] = modbusSwapEndian( MODBUSSlave.InputRegisters[( *Parser ).Request04.FirstRegister + i] );
 
 	//Calculate CRC
 	( *Builder ).Response04.Values[( *Parser ).Request04.RegisterCount] = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );

@@ -30,8 +30,8 @@ uint8_t MODBUSParseRequest03( union MODBUSParser *Parser )
 	}
 
 	//Swap endianness of longer members (but not CRC)
-	( *Parser ).Request03.FirstRegister = MODBUSSwapEndian( ( *Parser ).Request03.FirstRegister );
-	( *Parser ).Request03.RegisterCount = MODBUSSwapEndian( ( *Parser ).Request03.RegisterCount );
+	( *Parser ).Request03.FirstRegister = modbusSwapEndian( ( *Parser ).Request03.FirstRegister );
+	( *Parser ).Request03.RegisterCount = modbusSwapEndian( ( *Parser ).Request03.RegisterCount );
 
 	//Check if register is in valid range
 	if ( ( *Parser ).Request03.RegisterCount == 0 )
@@ -71,7 +71,7 @@ uint8_t MODBUSParseRequest03( union MODBUSParser *Parser )
 
 	//Copy registers to response frame
 	for ( i = 0; i < ( *Parser ).Request03.RegisterCount; i++ )
-		( *Builder ).Response03.Values[i] = MODBUSSwapEndian( MODBUSSlave.Registers[( *Parser ).Request03.FirstRegister + i] );
+		( *Builder ).Response03.Values[i] = modbusSwapEndian( MODBUSSlave.Registers[( *Parser ).Request03.FirstRegister + i] );
 
 	//Calculate CRC
 	( *Builder ).Response03.Values[( *Parser ).Request03.RegisterCount] = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
@@ -99,8 +99,8 @@ uint8_t MODBUSParseRequest06( union MODBUSParser *Parser )
 	}
 
 	//Swap endianness of longer members (but not CRC)
-	( *Parser ).Request06.Register = MODBUSSwapEndian( ( *Parser ).Request06.Register );
-	( *Parser ).Request06.Value = MODBUSSwapEndian( ( *Parser ).Request06.Value );
+	( *Parser ).Request06.Register = modbusSwapEndian( ( *Parser ).Request06.Register );
+	( *Parser ).Request06.Value = modbusSwapEndian( ( *Parser ).Request06.Value );
 
 	//Check if register is in valid range
 	if ( ( *Parser ).Request06.Register >= MODBUSSlave.RegisterCount )
@@ -143,8 +143,8 @@ uint8_t MODBUSParseRequest06( union MODBUSParser *Parser )
 	//Set up basic response data
 	( *Builder ).Response06.Address = MODBUSSlave.Address;
 	( *Builder ).Response06.Function = ( *Parser ).Request06.Function;
-	( *Builder ).Response06.Register = MODBUSSwapEndian( ( *Parser ).Request06.Register );
-	( *Builder ).Response06.Value = MODBUSSwapEndian( MODBUSSlave.Registers[( *Parser ).Request06.Register] );
+	( *Builder ).Response06.Register = modbusSwapEndian( ( *Parser ).Request06.Register );
+	( *Builder ).Response06.Value = modbusSwapEndian( MODBUSSlave.Registers[( *Parser ).Request06.Register] );
 
 	//Calculate CRC
 	( *Builder ).Response06.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
@@ -183,8 +183,8 @@ uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 	}
 
 	//Swap endianness of longer members (but not CRC)
-	( *Parser ).Request16.FirstRegister = MODBUSSwapEndian( ( *Parser ).Request16.FirstRegister );
-	( *Parser ).Request16.RegisterCount = MODBUSSwapEndian( ( *Parser ).Request16.RegisterCount );
+	( *Parser ).Request16.FirstRegister = modbusSwapEndian( ( *Parser ).Request16.FirstRegister );
+	( *Parser ).Request16.RegisterCount = modbusSwapEndian( ( *Parser ).Request16.RegisterCount );
 
 	//Check if bytes count *2 is equal to registers count
 	if ( ( *Parser ).Request16.RegisterCount != ( ( *Parser ).Request16.BytesCount >> 1 ) )
@@ -235,7 +235,7 @@ uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 
 	//After all possible exceptions, write values to registers
 	for ( i = 0; i < ( *Parser ).Request16.RegisterCount; i++ )
-		MODBUSSlave.Registers[( *Parser ).Request16.FirstRegister + i] = MODBUSSwapEndian( ( *Parser ).Request16.Values[i] );
+		MODBUSSlave.Registers[( *Parser ).Request16.FirstRegister + i] = modbusSwapEndian( ( *Parser ).Request16.Values[i] );
 
 	//Do not respond when frame is broadcasted
 	if ( ( *Parser ).Base.Address == 0 )
@@ -247,8 +247,8 @@ uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 	//Set up basic response data
 	( *Builder ).Response16.Address = MODBUSSlave.Address;
 	( *Builder ).Response16.Function = ( *Parser ).Request16.Function;
-	( *Builder ).Response16.FirstRegister = MODBUSSwapEndian( ( *Parser ).Request16.FirstRegister );
-	( *Builder ).Response16.RegisterCount = MODBUSSwapEndian( ( *Parser ).Request16.RegisterCount );
+	( *Builder ).Response16.FirstRegister = modbusSwapEndian( ( *Parser ).Request16.FirstRegister );
+	( *Builder ).Response16.RegisterCount = modbusSwapEndian( ( *Parser ).Request16.RegisterCount );
 
 	//Calculate CRC
 	( *Builder ).Response16.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );

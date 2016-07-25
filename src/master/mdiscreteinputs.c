@@ -29,8 +29,8 @@ uint8_t MODBUSBuildRequest02( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 2;
-	( *Builder ).Request02.FirstInput = MODBUSSwapEndian( FirstCoil );
-	( *Builder ).Request02.InputCount = MODBUSSwapEndian( CoilCount );
+	( *Builder ).Request02.FirstInput = modbusSwapEndian( FirstCoil );
+	( *Builder ).Request02.InputCount = modbusSwapEndian( CoilCount );
 
 	//Calculate CRC
 	( *Builder ).Request02.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
@@ -65,18 +65,18 @@ uint8_t MODBUSParseResponse02( union MODBUSParser *Parser, union MODBUSParser *R
 	DataOK &= ( ( *Parser ).Base.Function == ( *RequestParser ).Base.Function );
 
 
-	MODBUSMaster.Data = (MODBUSData_t *) realloc( MODBUSMaster.Data, sizeof( MODBUSData_t ) * MODBUSSwapEndian( ( *RequestParser ).Request02.InputCount ) );
-	for ( i = 0; i < MODBUSSwapEndian( ( *RequestParser ).Request02.InputCount ); i++ )
+	MODBUSMaster.Data = (MODBUSData_t *) realloc( MODBUSMaster.Data, sizeof( MODBUSData_t ) * modbusSwapEndian( ( *RequestParser ).Request02.InputCount ) );
+	for ( i = 0; i < modbusSwapEndian( ( *RequestParser ).Request02.InputCount ); i++ )
 	{
 		MODBUSMaster.Data[i].Address = ( *Parser ).Base.Address;
 		MODBUSMaster.Data[i].DataType = DiscreteInput;
-		MODBUSMaster.Data[i].Register = MODBUSSwapEndian( ( *RequestParser ).Request02.FirstInput ) + i;
+		MODBUSMaster.Data[i].Register = modbusSwapEndian( ( *RequestParser ).Request02.FirstInput ) + i;
 		MODBUSMaster.Data[i].Value = modbusMaskRead( ( *Parser ).Response02.Values, ( *Parser ).Response02.BytesCount, i );
 
 	}
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.DataLength = MODBUSSwapEndian( ( *RequestParser ).Request02.InputCount );
+	MODBUSMaster.DataLength = modbusSwapEndian( ( *RequestParser ).Request02.InputCount );
 	MODBUSMaster.Finished = 1;
 
 	return 0;

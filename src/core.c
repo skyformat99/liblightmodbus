@@ -22,7 +22,7 @@ uint8_t modbusMaskWrite( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit, uint8
 	return 0;
 }
 
-uint16_t MODBUSSwapEndian( uint16_t Data )
+uint16_t modbusSwapEndian( uint16_t Data )
 {
     //Change big-endian to little-endian and vice versa
 

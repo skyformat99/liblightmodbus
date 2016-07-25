@@ -29,8 +29,8 @@ uint8_t MODBUSBuildRequest03( uint8_t Address, uint16_t FirstRegister, uint16_t 
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 3;
-	( *Builder ).Request03.FirstRegister = MODBUSSwapEndian( FirstRegister );
-	( *Builder ).Request03.RegisterCount = MODBUSSwapEndian( RegisterCount );
+	( *Builder ).Request03.FirstRegister = modbusSwapEndian( FirstRegister );
+	( *Builder ).Request03.RegisterCount = modbusSwapEndian( RegisterCount );
 
 	//Calculate CRC
 	( *Builder ).Request03.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
@@ -64,8 +64,8 @@ uint8_t MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 6;
-	( *Builder ).Request06.Register = MODBUSSwapEndian( Register );
-	( *Builder ).Request06.Value = MODBUSSwapEndian( Value );
+	( *Builder ).Request06.Register = modbusSwapEndian( Register );
+	( *Builder ).Request06.Value = modbusSwapEndian( Value );
 
 	//Calculate CRC
 	( *Builder ).Request06.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
@@ -102,12 +102,12 @@ uint8_t MODBUSBuildRequest16( uint8_t Address, uint16_t FirstRegister, uint16_t 
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 16;
-	( *Builder ).Request16.FirstRegister = MODBUSSwapEndian( FirstRegister );
-	( *Builder ).Request16.RegisterCount = MODBUSSwapEndian( RegisterCount );
+	( *Builder ).Request16.FirstRegister = modbusSwapEndian( FirstRegister );
+	( *Builder ).Request16.RegisterCount = modbusSwapEndian( RegisterCount );
 	( *Builder ).Request16.BytesCount = RegisterCount << 1;
 
 	for ( i = 0; i < RegisterCount; i++ )
-		( *Builder ).Request16.Values[i] = MODBUSSwapEndian( Values[i] );
+		( *Builder ).Request16.Values[i] = modbusSwapEndian( Values[i] );
 
 	( *Builder ).Request16.Values[RegisterCount] = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
 
@@ -137,7 +137,7 @@ uint8_t MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *R
 	//Check between data sent to slave and received from slave
 	DataOK &= ( ( *Parser ).Response03.Address == ( *RequestParser ).Request03.Address );
 	DataOK &= ( ( *Parser ).Response03.Function == ( *RequestParser ).Request03.Function );
-	DataOK &= ( ( *Parser ).Response03.BytesCount == MODBUSSwapEndian( ( *RequestParser ).Request03.RegisterCount ) << 1 );
+	DataOK &= ( ( *Parser ).Response03.BytesCount == modbusSwapEndian( ( *RequestParser ).Request03.RegisterCount ) << 1 );
 
 	//If data is bad, abort parsing, and set error flag
 	if ( !DataOK )
@@ -159,8 +159,8 @@ uint8_t MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *R
 	{
 		MODBUSMaster.Data[i].Address = ( *Parser ).Base.Address;
 		MODBUSMaster.Data[i].DataType = Register;
-		MODBUSMaster.Data[i].Register = MODBUSSwapEndian( ( *RequestParser ).Request03.FirstRegister ) + i;
-		MODBUSMaster.Data[i].Value = MODBUSSwapEndian( ( *Parser ).Response03.Values[i] );
+		MODBUSMaster.Data[i].Register = modbusSwapEndian( ( *RequestParser ).Request03.FirstRegister ) + i;
+		MODBUSMaster.Data[i].Value = modbusSwapEndian( ( *Parser ).Response03.Values[i] );
 	}
 
 	//Set up data length - response successfully parsed
@@ -198,8 +198,8 @@ uint8_t MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *R
 	}
 
 	//Swap endianness
-	( *Parser ).Response06.Register = MODBUSSwapEndian( ( *Parser ).Response06.Register );
-	( *Parser ).Response06.Value = MODBUSSwapEndian( ( *Parser ).Response06.Value );
+	( *Parser ).Response06.Register = modbusSwapEndian( ( *Parser ).Response06.Register );
+	( *Parser ).Response06.Value = modbusSwapEndian( ( *Parser ).Response06.Value );
 
 	//Set up new data table
 	MODBUSMaster.Data = (MODBUSData_t *) realloc( MODBUSMaster.Data, sizeof( MODBUSData_t ) );

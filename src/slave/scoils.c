@@ -30,8 +30,8 @@ uint8_t MODBUSParseRequest01( union MODBUSParser *Parser )
 	}
 
 	//Swap endianness of longer members (but not CRC)
-	( *Parser ).Request01.FirstCoil = MODBUSSwapEndian( ( *Parser ).Request01.FirstCoil );
-	( *Parser ).Request01.CoilCount = MODBUSSwapEndian( ( *Parser ).Request01.CoilCount );
+	( *Parser ).Request01.FirstCoil = modbusSwapEndian( ( *Parser ).Request01.FirstCoil );
+	( *Parser ).Request01.CoilCount = modbusSwapEndian( ( *Parser ).Request01.CoilCount );
 
 	//Check if coil is in valid range
 	if ( ( *Parser ).Request01.CoilCount == 0 )
@@ -100,8 +100,8 @@ uint8_t MODBUSParseRequest05( union MODBUSParser *Parser )
 	}
 
 	//Swap endianness of longer members (but not CRC)
-	( *Parser ).Request05.Coil = MODBUSSwapEndian( ( *Parser ).Request05.Coil );
-	( *Parser ).Request05.Value = MODBUSSwapEndian( ( *Parser ).Request05.Value );
+	( *Parser ).Request05.Coil = modbusSwapEndian( ( *Parser ).Request05.Coil );
+	( *Parser ).Request05.Value = modbusSwapEndian( ( *Parser ).Request05.Value );
 
 	//Check if coil is in valid range
 	if ( ( *Parser ).Request05.Coil >= MODBUSSlave.CoilCount )
@@ -145,8 +145,8 @@ uint8_t MODBUSParseRequest05( union MODBUSParser *Parser )
 	//Set up basic response data
 	( *Builder ).Base.Address = MODBUSSlave.Address;
 	( *Builder ).Base.Function = ( *Parser ).Base.Function;
-	( *Builder ).Response05.Coil = MODBUSSwapEndian( ( *Parser ).Request05.Coil );
-	( *Builder ).Response05.Value = MODBUSSwapEndian( ( *Parser ).Request05.Value );
+	( *Builder ).Response05.Coil = modbusSwapEndian( ( *Parser ).Request05.Coil );
+	( *Builder ).Response05.Value = modbusSwapEndian( ( *Parser ).Request05.Value );
 
 	//Calculate CRC
 	( *Builder ).Response05.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
@@ -190,8 +190,8 @@ uint8_t MODBUSParseRequest15( union MODBUSParser *Parser )
 	}
 
 	//Swap endianness of longer members (but not CRC)
-	( *Parser ).Request15.FirstCoil = MODBUSSwapEndian( ( *Parser ).Request15.FirstCoil );
-	( *Parser ).Request15.CoilCount = MODBUSSwapEndian( ( *Parser ).Request15.CoilCount );
+	( *Parser ).Request15.FirstCoil = modbusSwapEndian( ( *Parser ).Request15.FirstCoil );
+	( *Parser ).Request15.CoilCount = modbusSwapEndian( ( *Parser ).Request15.CoilCount );
 
 	//Check if bytes count matches coils count
 	if ( 1 + ( ( ( *Parser ).Request15.CoilCount - 1 ) >> 3 )  != ( *Parser ).Request15.BytesCount )
@@ -242,8 +242,8 @@ uint8_t MODBUSParseRequest15( union MODBUSParser *Parser )
 	//Set up basic response data
 	( *Builder ).Base.Address = MODBUSSlave.Address;
 	( *Builder ).Base.Function = ( *Parser ).Base.Function;
-	( *Builder ).Response15.FirstCoil = MODBUSSwapEndian( ( *Parser ).Request15.FirstCoil );
-	( *Builder ).Response15.CoilCount = MODBUSSwapEndian( ( *Parser ).Request15.CoilCount );
+	( *Builder ).Response15.FirstCoil = modbusSwapEndian( ( *Parser ).Request15.FirstCoil );
+	( *Builder ).Response15.CoilCount = modbusSwapEndian( ( *Parser ).Request15.CoilCount );
 
 	//Calculate CRC
 	( *Builder ).Response15.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );

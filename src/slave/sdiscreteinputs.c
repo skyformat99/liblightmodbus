@@ -31,8 +31,8 @@ uint8_t MODBUSParseRequest02( union MODBUSParser *Parser )
 	}
 
 	//Swap endianness of longer members (but not CRC)
-	( *Parser ).Request02.FirstInput = MODBUSSwapEndian( ( *Parser ).Request02.FirstInput );
-	( *Parser ).Request02.InputCount = MODBUSSwapEndian( ( *Parser ).Request02.InputCount );
+	( *Parser ).Request02.FirstInput = modbusSwapEndian( ( *Parser ).Request02.FirstInput );
+	( *Parser ).Request02.InputCount = modbusSwapEndian( ( *Parser ).Request02.InputCount );
 
 	//Check if discrete input is in valid range
 	if ( ( *Parser ).Request02.InputCount == 0 )

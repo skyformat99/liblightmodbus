@@ -29,8 +29,8 @@ uint8_t MODBUSBuildRequest01( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 1;
-	( *Builder ).Request01.FirstCoil = MODBUSSwapEndian( FirstCoil );
-	( *Builder ).Request01.CoilCount = MODBUSSwapEndian( CoilCount );
+	( *Builder ).Request01.FirstCoil = modbusSwapEndian( FirstCoil );
+	( *Builder ).Request01.CoilCount = modbusSwapEndian( CoilCount );
 
 	//Calculate CRC
 	( *Builder ).Request01.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
@@ -66,8 +66,8 @@ uint8_t MODBUSBuildRequest05( uint8_t Address, uint16_t Coil, uint16_t Value )
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 5;
-	( *Builder ).Request05.Coil = MODBUSSwapEndian( Coil );
-	( *Builder ).Request05.Value = MODBUSSwapEndian( Value );
+	( *Builder ).Request05.Coil = modbusSwapEndian( Coil );
+	( *Builder ).Request05.Value = modbusSwapEndian( Value );
 
 	//Calculate CRC
 	( *Builder ).Request01.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
@@ -104,8 +104,8 @@ uint8_t MODBUSBuildRequest15( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 
 	( *Builder ).Base.Address = Address;
 	( *Builder ).Base.Function = 15;
-	( *Builder ).Request15.FirstCoil = MODBUSSwapEndian( FirstCoil );
-	( *Builder ).Request15.CoilCount = MODBUSSwapEndian( CoilCount );
+	( *Builder ).Request15.FirstCoil = modbusSwapEndian( FirstCoil );
+	( *Builder ).Request15.CoilCount = modbusSwapEndian( CoilCount );
 	( *Builder ).Request15.BytesCount = 1 + ( ( CoilCount - 1 ) >> 3 );
 
 	for ( i = 0; i < ( *Builder ).Request15.BytesCount; i++ )
@@ -144,24 +144,24 @@ uint8_t MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *R
 	DataOK &= ( ( *Parser ).Base.Function == ( *RequestParser ).Base.Function );
 
 
-	MODBUSMaster.Data = (MODBUSData_t *) realloc( MODBUSMaster.Data, sizeof( MODBUSData_t ) * MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount ) );
+	MODBUSMaster.Data = (MODBUSData_t *) realloc( MODBUSMaster.Data, sizeof( MODBUSData_t ) * modbusSwapEndian( ( *RequestParser ).Request01.CoilCount ) );
 	if ( MODBUSMaster.Data == NULL )
 	{
 		free( MODBUSMaster.Data );
 		return MODBUS_ERROR_ALLOC;
 	}
 
-	for ( i = 0; i < MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount ); i++ )
+	for ( i = 0; i < modbusSwapEndian( ( *RequestParser ).Request01.CoilCount ); i++ )
 	{
 		MODBUSMaster.Data[i].Address = ( *Parser ).Base.Address;
 		MODBUSMaster.Data[i].DataType = Coil;
-		MODBUSMaster.Data[i].Register = MODBUSSwapEndian( ( *RequestParser ).Request01.FirstCoil ) + i;
+		MODBUSMaster.Data[i].Register = modbusSwapEndian( ( *RequestParser ).Request01.FirstCoil ) + i;
 		MODBUSMaster.Data[i].Value = modbusMaskRead( ( *Parser ).Response01.Values, ( *Parser ).Response01.BytesCount, i );
 
 	}
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.DataLength = MODBUSSwapEndian( ( *RequestParser ).Request01.CoilCount );
+	MODBUSMaster.DataLength = modbusSwapEndian( ( *RequestParser ).Request01.CoilCount );
 	MODBUSMaster.Finished = 1;
 
 	return 0;
@@ -196,7 +196,7 @@ uint8_t MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *R
 
 	MODBUSMaster.Data[0].Address = ( *Parser ).Base.Address;
 	MODBUSMaster.Data[0].DataType = Coil;
-	MODBUSMaster.Data[0].Register = MODBUSSwapEndian( ( *RequestParser ).Request05.Coil );
+	MODBUSMaster.Data[0].Register = modbusSwapEndian( ( *RequestParser ).Request05.Coil );
 	MODBUSMaster.Data[0].Value = ( *Parser ).Response05.Value != 0;
 
 	//Set up data length - response successfully parsed
