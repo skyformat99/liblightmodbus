@@ -6,7 +6,7 @@
 //Use external master configuration
 extern MODBUSMasterStatus_t MODBUSMaster;
 
-uint8_t MODBUSBuildRequest01( uint8_t Address, uint16_t FirstCoil, uint16_t CoilCount )
+uint8_t modbusBuildRequest01( uint8_t Address, uint16_t FirstCoil, uint16_t CoilCount )
 {
 	//Build request01 frame, to send it so slave
 	//Read multiple coils
@@ -41,7 +41,7 @@ uint8_t MODBUSBuildRequest01( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	return 0;
 }
 
-uint8_t MODBUSBuildRequest05( uint8_t Address, uint16_t Coil, uint16_t Value )
+uint8_t modbusBuildRequest05( uint8_t Address, uint16_t Coil, uint16_t Value )
 {
 	//Build request05 frame, to send it so slave
 	//Write single coil
@@ -78,7 +78,7 @@ uint8_t MODBUSBuildRequest05( uint8_t Address, uint16_t Coil, uint16_t Value )
 	return 0;
 }
 
-uint8_t MODBUSBuildRequest15( uint8_t Address, uint16_t FirstCoil, uint16_t CoilCount, uint8_t *Values )
+uint8_t modbusBuildRequest15( uint8_t Address, uint16_t FirstCoil, uint16_t CoilCount, uint8_t *Values )
 {
 	//Build request15 frame, to send it so slave
 	//Write multiple coils

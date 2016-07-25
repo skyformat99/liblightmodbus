@@ -6,7 +6,7 @@
 //Use external master configuration
 extern MODBUSMasterStatus_t MODBUSMaster;
 
-uint8_t MODBUSBuildRequest02( uint8_t Address, uint16_t FirstCoil, uint16_t CoilCount )
+uint8_t modbusBuildRequest02( uint8_t Address, uint16_t FirstCoil, uint16_t CoilCount )
 {
 	//Build request02 frame, to send it so slave
 	//Read multiple discrete inputs

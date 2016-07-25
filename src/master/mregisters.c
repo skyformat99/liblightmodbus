@@ -6,7 +6,7 @@
 //Use external master configuration
 extern MODBUSMasterStatus_t MODBUSMaster;
 
-uint8_t MODBUSBuildRequest03( uint8_t Address, uint16_t FirstRegister, uint16_t RegisterCount )
+uint8_t modbusBuildRequest03( uint8_t Address, uint16_t FirstRegister, uint16_t RegisterCount )
 {
 	//Build request03 frame, to send it so slave
 	//Read multiple holding registers
@@ -41,7 +41,7 @@ uint8_t MODBUSBuildRequest03( uint8_t Address, uint16_t FirstRegister, uint16_t 
 	return 0;
 }
 
-uint8_t MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value )
+uint8_t modbusBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value )
 {
 	//Build request06 frame, to send it so slave
 	//Write single holding register
@@ -76,7 +76,7 @@ uint8_t MODBUSBuildRequest06( uint8_t Address, uint16_t Register, uint16_t Value
 	return 0;
 }
 
-uint8_t MODBUSBuildRequest16( uint8_t Address, uint16_t FirstRegister, uint16_t RegisterCount, uint16_t *Values )
+uint8_t modbusBuildRequest16( uint8_t Address, uint16_t FirstRegister, uint16_t RegisterCount, uint16_t *Values )
 {
 	//Build request16 frame, to send it so slave
 	//Write multiple holding registers

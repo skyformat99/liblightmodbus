@@ -6,7 +6,7 @@
 //Use external master configuration
 extern MODBUSMasterStatus_t MODBUSMaster;
 
-uint8_t MODBUSBuildRequest04( uint8_t Address, uint16_t FirstRegister, uint16_t RegisterCount )
+uint8_t modbusBuildRequest04( uint8_t Address, uint16_t FirstRegister, uint16_t RegisterCount )
 {
 	//Build request04 frame, to send it so slave
 	//Read multiple input registers
