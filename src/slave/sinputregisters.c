@@ -37,19 +37,19 @@ uint8_t MODBUSParseRequest04( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request04.RegisterCount == 0 )
 	{
 		//Illegal data value error
-		return MODBUSBuildException( 0x04, 0x03 );
+		return modbusBuildException( 0x04, 0x03 );
 	}
 
 	if ( ( *Parser ).Request04.RegisterCount > MODBUSSlave.InputRegisterCount )
 	{
 		//Illegal data address error
-		return MODBUSBuildException( 0x04, 0x02 );
+		return modbusBuildException( 0x04, 0x02 );
 	}
 
 	if ( ( *Parser ).Request04.FirstRegister >= MODBUSSlave.InputRegisterCount || (uint32_t) ( *Parser ).Request04.FirstRegister + (uint32_t) ( *Parser ).Request04.RegisterCount > (uint32_t) MODBUSSlave.InputRegisterCount )
 	{
 		//Illegal data address exception
-		return MODBUSBuildException( 0x04, 0x02 );
+		return modbusBuildException( 0x04, 0x02 );
 	}
 
 	//Respond

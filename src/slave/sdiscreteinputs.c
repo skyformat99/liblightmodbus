@@ -38,19 +38,19 @@ uint8_t MODBUSParseRequest02( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request02.InputCount == 0 )
 	{
 		//Illegal data value error
-		return MODBUSBuildException( 0x02, 0x03 );
+		return modbusBuildException( 0x02, 0x03 );
 	}
 
 	if ( ( *Parser ).Request02.InputCount > MODBUSSlave.DiscreteInputCount )
 	{
 		//Illegal data address error
-		return MODBUSBuildException( 0x02, 0x02 );
+		return modbusBuildException( 0x02, 0x02 );
 	}
 
 	if ( ( *Parser ).Request02.FirstInput >= MODBUSSlave.DiscreteInputCount || (uint32_t) ( *Parser ).Request02.FirstInput + (uint32_t) ( *Parser ).Request02.InputCount > (uint32_t) MODBUSSlave.DiscreteInputCount )
 	{
 		//Illegal data address exception
-		return MODBUSBuildException( 0x02, 0x02 );
+		return modbusBuildException( 0x02, 0x02 );
 	}
 
 	//Respond

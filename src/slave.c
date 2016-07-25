@@ -3,7 +3,7 @@
  //Slave configuration
 MODBUSSlaveStatus_t MODBUSSlave;
 
-uint8_t MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
+uint8_t modbusBuildException( uint8_t Function, uint8_t ExceptionCode )
 {
 	//Generates modbus exception frame in allocated memory frame
 	//Returns generated frame length
@@ -121,7 +121,7 @@ uint8_t MODBUSParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	}
 
 	if ( Error == MODBUS_ERROR_PARSE )
-		if ( ( *Parser ).Base.Address != 0 ) Error = MODBUSBuildException( ( *Parser ).Base.Function, 0x01 );
+		if ( ( *Parser ).Base.Address != 0 ) Error = modbusBuildException( ( *Parser ).Base.Function, 0x01 );
 
 	free( Parser );
 

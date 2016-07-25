@@ -37,19 +37,19 @@ uint8_t MODBUSParseRequest01( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request01.CoilCount == 0 )
 	{
 		//Illegal data value error
-		return MODBUSBuildException( 0x01, 0x03 );
+		return modbusBuildException( 0x01, 0x03 );
 	}
 
 	if ( ( *Parser ).Request01.CoilCount > MODBUSSlave.CoilCount )
 	{
 		//Illegal data address error
-		return MODBUSBuildException( 0x01, 0x02 );
+		return modbusBuildException( 0x01, 0x02 );
 	}
 
 	if ( ( *Parser ).Request01.FirstCoil >= MODBUSSlave.CoilCount || (uint32_t) ( *Parser ).Request01.FirstCoil + (uint32_t) ( *Parser ).Request01.CoilCount > (uint32_t) MODBUSSlave.CoilCount )
 	{
 		//Illegal data address exception
-		return MODBUSBuildException( 0x01, 0x02 );
+		return modbusBuildException( 0x01, 0x02 );
 	}
 
 	//Respond
@@ -107,7 +107,7 @@ uint8_t MODBUSParseRequest05( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request05.Coil >= MODBUSSlave.CoilCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x05, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x05, 0x02 );
 		return 0;
 	}
 
@@ -115,7 +115,7 @@ uint8_t MODBUSParseRequest05( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request05.Value != 0x0000 && ( *Parser ).Request05.Value != 0xFF00 )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x05, 0x03 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x05, 0x03 );
 		return 0;
 	}
 
@@ -185,7 +185,7 @@ uint8_t MODBUSParseRequest15( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request15.BytesCount == 0 || ( *Parser ).Request15.CoilCount == 0 )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x0F, 0x03 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x0F, 0x03 );
 		return 0;
 	}
 
@@ -197,7 +197,7 @@ uint8_t MODBUSParseRequest15( union MODBUSParser *Parser )
 	if ( 1 + ( ( ( *Parser ).Request15.CoilCount - 1 ) >> 3 )  != ( *Parser ).Request15.BytesCount )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x0F, 0x03 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x0F, 0x03 );
 		return 0;
 	}
 
@@ -205,14 +205,14 @@ uint8_t MODBUSParseRequest15( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request15.CoilCount > MODBUSSlave.CoilCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x0F, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x0F, 0x02 );
 		return 0;
 	}
 
 	if ( ( *Parser ).Request15.FirstCoil >= MODBUSSlave.CoilCount || (uint32_t) ( *Parser ).Request15.FirstCoil + (uint32_t) ( *Parser ).Request15.CoilCount > (uint32_t) MODBUSSlave.CoilCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x0F, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x0F, 0x02 );
 		return 0;
 	}
 

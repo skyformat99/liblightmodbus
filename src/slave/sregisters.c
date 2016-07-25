@@ -37,19 +37,19 @@ uint8_t MODBUSParseRequest03( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request03.RegisterCount == 0 )
 	{
 		//Illegal data value error
-		return MODBUSBuildException( 0x03, 0x03 );
+		return modbusBuildException( 0x03, 0x03 );
 	}
 
 	if ( ( *Parser ).Request03.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
-		return MODBUSBuildException( 0x03, 0x02 );
+		return modbusBuildException( 0x03, 0x02 );
 	}
 
 	if ( ( *Parser ).Request03.FirstRegister >= MODBUSSlave.RegisterCount || (uint32_t) ( *Parser ).Request03.FirstRegister + (uint32_t) ( *Parser ).Request03.RegisterCount > (uint32_t) MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
-		return MODBUSBuildException( 0x03, 0x02 );
+		return modbusBuildException( 0x03, 0x02 );
 	}
 
 	//Respond
@@ -106,7 +106,7 @@ uint8_t MODBUSParseRequest06( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request06.Register >= MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address exception
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x06, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x06, 0x02 );
 		return 0;
 	}
 
@@ -114,7 +114,7 @@ uint8_t MODBUSParseRequest06( union MODBUSParser *Parser )
 	if ( modbusMaskRead( MODBUSSlave.RegisterMask, MODBUSSlave.RegisterMaskLength, ( *Parser ).Request06.Register ) == 1 )
 	{
 		//Illegal data address exception
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x06, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x06, 0x02 );
 		return 0;
 	}
 
@@ -178,7 +178,7 @@ uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request16.BytesCount == 0 || ( *Parser ).Request16.RegisterCount == 0 )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x10, 0x03 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x10, 0x03 );
 		return 0;
 	}
 
@@ -190,7 +190,7 @@ uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request16.RegisterCount != ( ( *Parser ).Request16.BytesCount >> 1 ) )
 	{
 		//Illegal data value error
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x10, 0x03 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x10, 0x03 );
 		return 0;
 	}
 
@@ -198,14 +198,14 @@ uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 	if ( ( *Parser ).Request16.RegisterCount > MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x10, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x10, 0x02 );
 		return 0;
 	}
 
 	if ( ( *Parser ).Request16.FirstRegister >= MODBUSSlave.RegisterCount || (uint32_t) ( *Parser ).Request16.FirstRegister + (uint32_t) ( *Parser ).Request16.RegisterCount > (uint32_t) MODBUSSlave.RegisterCount )
 	{
 		//Illegal data address error
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x10, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x10, 0x02 );
 		return 0;
 	}
 
@@ -216,7 +216,7 @@ uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 	if ( MaskSum > 0 )
 	{
 		//Illegal data address exception
-		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x10, 0x02 );
+		if ( ( *Parser ).Base.Address != 0 ) return modbusBuildException( 0x10, 0x02 );
 		return 0;
 	}
 
