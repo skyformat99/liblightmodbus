@@ -3,7 +3,7 @@
 //Master configurations
 MODBUSMasterStatus_t MODBUSMaster;
 
-uint8_t MODBUSParseException( union MODBUSParser *Parser )
+uint8_t modbusParseException( union MODBUSParser *Parser )
 {
 	//Parse exception frame and write data to MODBUSMaster structure
 
@@ -67,7 +67,7 @@ uint8_t MODBUSParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	//Check if frame is exception response
 	if ( ( *Parser ).Base.Function & 128 )
 	{
-		Error = MODBUSParseException( Parser );
+		Error = modbusParseException( Parser );
 	}
 	else
 	{
