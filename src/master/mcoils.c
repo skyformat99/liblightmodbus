@@ -120,7 +120,7 @@ uint8_t modbusBuildRequest15( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	return 0;
 }
 
-uint8_t MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t modbusParseResponse01( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 01 (read multiple coils)
 
@@ -167,7 +167,7 @@ uint8_t MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *R
 	return 0;
 }
 
-uint8_t MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t modbusParseResponse05( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 05 (write single coil)
 
@@ -205,7 +205,7 @@ uint8_t MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *R
 	return 0;
 }
 
-uint8_t MODBUSParseResponse15( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t modbusParseResponse15( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 15 (write multiple coils)
 

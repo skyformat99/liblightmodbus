@@ -41,7 +41,7 @@ uint8_t modbusBuildRequest04( uint8_t Address, uint16_t FirstRegister, uint16_t 
 	return 0;
 }
 
-uint8_t MODBUSParseResponse04( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t modbusParseResponse04( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 04
 	//Read multiple input registers

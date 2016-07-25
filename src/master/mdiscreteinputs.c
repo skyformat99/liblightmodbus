@@ -41,7 +41,7 @@ uint8_t modbusBuildRequest02( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	return 0;
 }
 
-uint8_t MODBUSParseResponse02( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t modbusParseResponse02( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 02 (read multiple discrete inputs)
 

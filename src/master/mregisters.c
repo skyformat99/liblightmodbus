@@ -117,7 +117,7 @@ uint8_t modbusBuildRequest16( uint8_t Address, uint16_t FirstRegister, uint16_t 
 	return 0;
 }
 
-uint8_t MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t modbusParseResponse03( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 03
 	//Read multiple holding registers
@@ -170,7 +170,7 @@ uint8_t MODBUSParseResponse03( union MODBUSParser *Parser, union MODBUSParser *R
 	return 0;
 }
 
-uint8_t MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t modbusParseResponse06( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 06 (write single holding register)
 
@@ -220,7 +220,7 @@ uint8_t MODBUSParseResponse06( union MODBUSParser *Parser, union MODBUSParser *R
 	return 0;
 }
 
-uint8_t MODBUSParseResponse16( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
+uint8_t modbusParseResponse16( union MODBUSParser *Parser, union MODBUSParser *RequestParser )
 {
 	//Parse slave response to request 16 (write multiple holding register)
 
