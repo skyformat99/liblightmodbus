@@ -1,24 +1,24 @@
 #include "../include/lightmodbus/core.h"
 
-uint8_t modbusMaskRead( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit )
+uint8_t modbusMaskRead( uint8_t *mask, uint16_t maskLength, uint16_t bit )
 {
 	//Return nth bit from uint8_t array
 	//When 255 value is returned, an error occured
 
-	if ( ( Bit >> 3 ) >= MaskLength ) return 255;
-	return ( Mask[Bit >> 3] & ( 1 << ( Bit % 8 ) ) ) >> ( Bit % 8 );
+	if ( ( bit >> 3 ) >= maskLength ) return 255;
+	return ( mask[bit >> 3] & ( 1 << ( bit % 8 ) ) ) >> ( bit % 8 );
 }
 
-uint8_t modbusMaskWrite( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit, uint8_t value )
+uint8_t modbusMaskWrite( uint8_t *mask, uint16_t maskLength, uint16_t bit, uint8_t value )
 {
 	//Write nth bit in uint8_t array
 	//When 255 value is returned, an error occured
 
-	if ( ( Bit >> 3 ) >= MaskLength ) return 255;
+	if ( ( bit >> 3 ) >= maskLength ) return 255;
 	if ( value )
-		Mask[Bit >> 3] |= ( 1 << ( Bit % 8 ) );
+		mask[bit >> 3] |= ( 1 << ( bit % 8 ) );
 	else
-		Mask[Bit >> 3] &= ~( 1 << ( Bit % 8 ) );
+		mask[bit >> 3] &= ~( 1 << ( bit % 8 ) );
 	return 0;
 }
 

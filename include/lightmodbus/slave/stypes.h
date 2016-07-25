@@ -28,5 +28,5 @@ typedef struct
 	uint16_t InputRegisterCount; //Slave input count
 
 	uint8_t finished; //Has slave finished building response for master?
-	MODBUSFrame_t response; //Slave response formatting status
-} MODBUSSlaveStatus_t; //Type containing slave device configuration data
+	ModbusFrame response; //Slave response formatting status
+} ModbusSlaveStatus; //Type containing slave device configuration data

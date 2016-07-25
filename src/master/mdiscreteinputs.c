@@ -4,7 +4,7 @@
 #include "../../include/lightmodbus/master/mdiscreteinputs.h"
 
 //Use external master configuration
-extern MODBUSMasterStatus_t MODBUSMaster;
+extern ModbusMasterStatus MODBUSMaster;
 
 uint8_t modbusBuildRequest02( uint8_t address, uint16_t firstCoil, uint16_t coilCount )
 {
@@ -65,11 +65,11 @@ uint8_t modbusParseResponse02( union ModbusParser *parser, union ModbusParser *r
 	dataok &= ( ( *parser ).base.function == ( *requestParser ).base.function );
 
 
-	MODBUSMaster.data = (MODBUSData_t *) realloc( MODBUSMaster.data, sizeof( MODBUSData_t ) * modbusSwapEndian( ( *requestParser ).request02.inputCount ) );
+	MODBUSMaster.data = (ModbusData *) realloc( MODBUSMaster.data, sizeof( ModbusData ) * modbusSwapEndian( ( *requestParser ).request02.inputCount ) );
 	for ( i = 0; i < modbusSwapEndian( ( *requestParser ).request02.inputCount ); i++ )
 	{
 		MODBUSMaster.data[i].address = ( *parser ).base.address;
-		MODBUSMaster.data[i].dataType = DiscreteInput;
+		MODBUSMaster.data[i].dataType = discreteInput;
 		MODBUSMaster.data[i].reg = modbusSwapEndian( ( *requestParser ).request02.firstInput ) + i;
 		MODBUSMaster.data[i].value = modbusMaskRead( ( *parser ).response02.values, ( *parser ).response02.byteCount, i );
 

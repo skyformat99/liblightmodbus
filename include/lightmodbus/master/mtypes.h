@@ -7,34 +7,32 @@
 #endif
 
 //Declarations for master types
-typedef enum
-{
-	reg = 0,
-	coil = 1,
-	DiscreteInput = 2,
-	InputRegister = 3
-} MODBUSDataType_t; //MODBUS data types enum (coil, reg, input, etc.)
-
 typedef struct
 {
 	uint8_t address; //Device address
 	uint8_t function; //function called, in which exception occured
 	uint8_t Code; //exception code
-} MODBUSException_t; //Parsed exception data
+} ModbusException; //Parsed exception data
 
 typedef struct
 {
 	uint8_t address; //Device address
-	MODBUSDataType_t dataType; //data type
+	enum //MODBUS data types enum (coil, reg, input, etc.)
+	{
+		reg = 0,
+		coil = 1,
+		discreteInput = 2,
+		inputreg = 3
+	} dataType;
 	uint16_t reg; //reg, coil, input ID
 	uint16_t value; //value of data
-} MODBUSData_t;
+} ModbusData;
 
 typedef struct
 {
-	MODBUSData_t *data; //data read from slave
+	ModbusData *data; //data read from slave
 	uint8_t dataLength; //Count of data type instances read from slave
 	uint8_t finished; //Is parsing finished?
-	MODBUSException_t exception; //Optional exception read
-	MODBUSFrame_t request; //Formatted request for slave
-} MODBUSMasterStatus_t; //Type containing master device configuration data
+	ModbusException exception; //Optional exception read
+	ModbusFrame request; //Formatted request for slave
+} ModbusMasterStatus; //Type containing master device configuration data

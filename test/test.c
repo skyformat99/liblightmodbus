@@ -400,11 +400,11 @@ void MainTest( )
 
 	//WRITE PROTECTION TEST
 	printf( "\t\t--reg write protection test--\n" );
-	uint8_t Mask[1] = { 0 };
-	MODBUSSlave.RegisterMask = Mask;
+	uint8_t mask[1] = { 0 };
+	MODBUSSlave.RegisterMask = mask;
 	MODBUSSlave.RegisterMaskLength = 1;
 
-	modbusMaskWrite( Mask, 1, 2, 1 );
+	modbusMaskWrite( mask, 1, 2, 1 );
 
 	modbusBuildRequest06( 0x20, 2, 16 );
 	Test( );
@@ -416,11 +416,11 @@ void MainTest( )
 	modbusBuildRequest16( 0x20, 0, 2, TestValues2 );
 	Test( );
 
-	printf( "Bitval: %d\r\n", modbusMaskRead( Mask, 1, 0 ) );
-	printf( "Bitval: %d\r\n", modbusMaskRead( Mask, 1, 1 ) );
-	printf( "Bitval: %d\r\n", modbusMaskRead( Mask, 1, 2 ) );
-	printf( "Bitval: %d\r\n", modbusMaskRead( Mask, 1, 3 ) );
-	printf( "Bitval: %d\r\n", modbusMaskRead( Mask, 1, 4 ) );
+	printf( "Bitval: %d\r\n", modbusMaskRead( mask, 1, 0 ) );
+	printf( "Bitval: %d\r\n", modbusMaskRead( mask, 1, 1 ) );
+	printf( "Bitval: %d\r\n", modbusMaskRead( mask, 1, 2 ) );
+	printf( "Bitval: %d\r\n", modbusMaskRead( mask, 1, 3 ) );
+	printf( "Bitval: %d\r\n", modbusMaskRead( mask, 1, 4 ) );
 
 	MODBUSSlave.RegisterMaskLength = 0;
 }

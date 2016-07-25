@@ -4,7 +4,7 @@
 #include "../../include/lightmodbus/master/mregisters.h"
 
 //Use external master configuration
-extern MODBUSMasterStatus_t MODBUSMaster;
+extern ModbusMasterStatus MODBUSMaster;
 
 uint8_t modbusBuildRequest03( uint8_t address, uint16_t firstRegister, uint16_t registerCount )
 {
@@ -146,8 +146,8 @@ uint8_t modbusParseResponse03( union ModbusParser *parser, union ModbusParser *r
 		return MODBUS_ERROR_FRAME;
 	}
 
-	//Allocate memory for MODBUSData_t structures array
-	MODBUSMaster.data = (MODBUSData_t *) realloc( MODBUSMaster.data, ( ( *parser ).response03.byteCount >> 1 ) * sizeof( MODBUSData_t ) );
+	//Allocate memory for ModbusData structures array
+	MODBUSMaster.data = (ModbusData *) realloc( MODBUSMaster.data, ( ( *parser ).response03.byteCount >> 1 ) * sizeof( ModbusData ) );
 	if ( MODBUSMaster.data == NULL )
 	{
 		free( MODBUSMaster.data );
@@ -202,7 +202,7 @@ uint8_t modbusParseResponse06( union ModbusParser *parser, union ModbusParser *r
 	( *parser ).response06.value = modbusSwapEndian( ( *parser ).response06.value );
 
 	//Set up new data table
-	MODBUSMaster.data = (MODBUSData_t *) realloc( MODBUSMaster.data, sizeof( MODBUSData_t ) );
+	MODBUSMaster.data = (ModbusData *) realloc( MODBUSMaster.data, sizeof( ModbusData ) );
 	if ( MODBUSMaster.data == NULL )
 	{
 		free( MODBUSMaster.data );

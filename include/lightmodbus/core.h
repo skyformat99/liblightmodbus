@@ -21,10 +21,10 @@ typedef struct
 {
 	uint8_t length; //length of frame, if it's equal to 0, frame is not ready
 	uint8_t *frame; //frame content
-} MODBUSFrame_t; //Type containing information about generated frame
+} ModbusFrame; //Type containing information about generated frame
 
 //function prototypes
-extern uint8_t modbusMaskRead( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit );
-extern uint8_t modbusMaskWrite( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit, uint8_t value );
+extern uint8_t modbusMaskRead( uint8_t *mask, uint16_t maskLength, uint16_t bit );
+extern uint8_t modbusMaskWrite( uint8_t *mask, uint16_t maskLength, uint16_t bit, uint8_t value );
 extern uint16_t modbusSwapEndian( uint16_t );
 extern uint16_t modbusCRC( uint8_t *, uint16_t );

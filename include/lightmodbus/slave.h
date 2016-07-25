@@ -31,7 +31,7 @@
 #endif
 
 //Variables declarations
-extern MODBUSSlaveStatus_t MODBUSSlave; //Slave configuration
+extern ModbusSlaveStatus MODBUSSlave; //Slave configuration
 
 //function prototypes
 extern uint8_t modbusParseRequest( uint8_t *, uint8_t ); //Parse and interpret given modbus frame on slave-side

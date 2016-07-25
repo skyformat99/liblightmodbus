@@ -1,7 +1,7 @@
 #include "../include/lightmodbus/master.h"
 
 //Master configurations
-MODBUSMasterStatus_t MODBUSMaster;
+ModbusMasterStatus MODBUSMaster;
 
 uint8_t modbusParseException( union ModbusParser *parser )
 {
@@ -131,7 +131,7 @@ uint8_t modbusMasterInit( )
 	//Very basic init of master side
 	MODBUSMaster.request.frame = (uint8_t *) malloc( 8 );
 	MODBUSMaster.request.length = 0;
-	MODBUSMaster.data = (MODBUSData_t *) malloc( sizeof( MODBUSData_t ) );
+	MODBUSMaster.data = (ModbusData *) malloc( sizeof( ModbusData ) );
 	MODBUSMaster.dataLength = 0;
 	MODBUSMaster.finished = 0;
 

@@ -4,7 +4,7 @@
 #include "../../include/lightmodbus/master/minputregisters.h"
 
 //Use external master configuration
-extern MODBUSMasterStatus_t MODBUSMaster;
+extern ModbusMasterStatus MODBUSMaster;
 
 uint8_t modbusBuildRequest04( uint8_t address, uint16_t firstRegister, uint16_t registerCount )
 {
@@ -70,14 +70,14 @@ uint8_t modbusParseResponse04( union ModbusParser *parser, union ModbusParser *r
 		return MODBUS_ERROR_FRAME;
 	}
 
-	//Allocate memory for MODBUSData_t structures array
-	MODBUSMaster.data = (MODBUSData_t *) realloc( MODBUSMaster.data, ( ( *parser ).response04.byteCount >> 1 ) * sizeof( MODBUSData_t ) );
+	//Allocate memory for ModbusData structures array
+	MODBUSMaster.data = (ModbusData *) realloc( MODBUSMaster.data, ( ( *parser ).response04.byteCount >> 1 ) * sizeof( ModbusData ) );
 
 	//Copy received data to output structures array
 	for ( i = 0; i < ( ( *parser ).response04.byteCount >> 1 ); i++ )
 	{
 		MODBUSMaster.data[i].address = ( *parser ).base.address;
-		MODBUSMaster.data[i].dataType = InputRegister;
+		MODBUSMaster.data[i].dataType = inputreg;
 		MODBUSMaster.data[i].reg = modbusSwapEndian( ( *requestParser ).request04.firstRegister ) + i;
 		MODBUSMaster.data[i].value = modbusSwapEndian( ( *parser ).response04.values[i] );
 	}
