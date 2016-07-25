@@ -7,7 +7,7 @@
 extern MODBUSSlaveStatus_t MODBUSSlave;
 
 
-uint8_t MODBUSParseRequest02( union MODBUSParser *Parser )
+uint8_t modbusParseRequest02( union MODBUSParser *Parser )
 {
 	//Read multiple discrete inputs
 	//Using data from union pointer

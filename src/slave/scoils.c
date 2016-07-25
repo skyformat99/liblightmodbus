@@ -6,7 +6,7 @@
 //Use external slave configuration
 extern MODBUSSlaveStatus_t MODBUSSlave;
 
-uint8_t MODBUSParseRequest01( union MODBUSParser *Parser )
+uint8_t modbusParseRequest01( union MODBUSParser *Parser )
 {
 	//Read multiple coils
 	//Using data from union pointer
@@ -84,7 +84,7 @@ uint8_t MODBUSParseRequest01( union MODBUSParser *Parser )
 	return 0;
 }
 
-uint8_t MODBUSParseRequest05( union MODBUSParser *Parser )
+uint8_t modbusParseRequest05( union MODBUSParser *Parser )
 {
 	//Write single coil
 	//Using data from union pointer
@@ -158,7 +158,7 @@ uint8_t MODBUSParseRequest05( union MODBUSParser *Parser )
 	return 0;
 }
 
-uint8_t MODBUSParseRequest15( union MODBUSParser *Parser )
+uint8_t modbusParseRequest15( union MODBUSParser *Parser )
 {
 	//Write multiple coils
 	//Using data from union pointer

@@ -6,7 +6,7 @@
 //Use external slave configuration
 extern MODBUSSlaveStatus_t MODBUSSlave;
 
-uint8_t MODBUSParseRequest03( union MODBUSParser *Parser )
+uint8_t modbusParseRequest03( union MODBUSParser *Parser )
 {
 	//Read multiple holding registers
 	//Using data from union pointer
@@ -83,7 +83,7 @@ uint8_t MODBUSParseRequest03( union MODBUSParser *Parser )
 	return 0;
 }
 
-uint8_t MODBUSParseRequest06( union MODBUSParser *Parser )
+uint8_t modbusParseRequest06( union MODBUSParser *Parser )
 {
 	//Write single holding register
 	//Using data from union pointer
@@ -156,7 +156,7 @@ uint8_t MODBUSParseRequest06( union MODBUSParser *Parser )
 	return 0;
 }
 
-uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
+uint8_t modbusParseRequest16( union MODBUSParser *Parser )
 {
 	//Write multiple holding registers
 	//Using data from union pointer

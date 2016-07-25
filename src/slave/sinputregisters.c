@@ -6,7 +6,7 @@
 //Use external slave configuration
 extern MODBUSSlaveStatus_t MODBUSSlave;
 
-uint8_t MODBUSParseRequest04( union MODBUSParser *Parser )
+uint8_t modbusParseRequest04( union MODBUSParser *Parser )
 {
 	//Read multiple input registers
 	//Using data from union pointer
