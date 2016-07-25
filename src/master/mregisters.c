@@ -158,7 +158,7 @@ uint8_t modbusParseResponse03( union ModbusParser *parser, union ModbusParser *r
 	for ( i = 0; i < ( ( *parser ).response03.byteCount >> 1 ); i++ )
 	{
 		MODBUSMaster.data[i].address = ( *parser ).base.address;
-		MODBUSMaster.data[i].dataType = reg;
+		MODBUSMaster.data[i].dataType = holdingRegister;
 		MODBUSMaster.data[i].reg = modbusSwapEndian( ( *requestParser ).request03.firstRegister ) + i;
 		MODBUSMaster.data[i].value = modbusSwapEndian( ( *parser ).response03.values[i] );
 	}
@@ -210,7 +210,7 @@ uint8_t modbusParseResponse06( union ModbusParser *parser, union ModbusParser *r
 	}
 
 	MODBUSMaster.data[0].address = ( *parser ).base.address;
-	MODBUSMaster.data[0].dataType = reg;
+	MODBUSMaster.data[0].dataType = holdingRegister;
 	MODBUSMaster.data[0].reg = ( *parser ).response06.reg;
 	MODBUSMaster.data[0].value = ( *parser ).response06.value;
 

@@ -19,10 +19,10 @@ typedef struct
 	uint8_t address; //Device address
 	enum //MODBUS data types enum (coil, reg, input, etc.)
 	{
-		reg = 0,
+		holdingRegister = 0,
+		inputRegister = 3,
 		coil = 1,
-		discreteInput = 2,
-		inputreg = 3
+		discreteInput = 2
 	} dataType;
 	uint16_t reg; //reg, coil, input ID
 	uint16_t value; //value of data
