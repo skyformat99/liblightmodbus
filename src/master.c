@@ -8,7 +8,7 @@ uint8_t MODBUSParseException( union MODBUSParser *Parser )
 	//Parse exception frame and write data to MODBUSMaster structure
 
 	//Check CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, 3 ) != ( *Parser ).Exception.CRC )
+	if ( modbusCRC( ( *Parser ).Frame, 3 ) != ( *Parser ).Exception.CRC )
 	{
 		MODBUSMaster.Finished = 1;
 		return MODBUS_ERROR_CRC;

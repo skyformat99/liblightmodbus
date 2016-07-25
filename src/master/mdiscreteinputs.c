@@ -33,7 +33,7 @@ uint8_t MODBUSBuildRequest02( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	( *Builder ).Request02.InputCount = modbusSwapEndian( CoilCount );
 
 	//Calculate CRC
-	( *Builder ).Request02.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+	( *Builder ).Request02.CRC = modbusCRC( ( *Builder ).Frame, FrameLength - 2 );
 
 	MODBUSMaster.Request.Length = FrameLength;
 	MODBUSMaster.Finished = 1;
@@ -51,8 +51,8 @@ uint8_t MODBUSParseResponse02( union MODBUSParser *Parser, union MODBUSParser *R
 	uint8_t i = 0;
 
 	//Check frame CRC
-	DataOK &= ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) & 0x00FF ) == ( *Parser ).Response02.Values[( *Parser ).Response02.BytesCount];
-	DataOK &= ( ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) & 0xFF00 ) >> 8 ) == ( *Parser ).Response02.Values[( *Parser ).Response02.BytesCount + 1];
+	DataOK &= ( modbusCRC( ( *Parser ).Frame, FrameLength - 2 ) & 0x00FF ) == ( *Parser ).Response02.Values[( *Parser ).Response02.BytesCount];
+	DataOK &= ( ( modbusCRC( ( *Parser ).Frame, FrameLength - 2 ) & 0xFF00 ) >> 8 ) == ( *Parser ).Response02.Values[( *Parser ).Response02.BytesCount + 1];
 
 	if ( !DataOK )
 	{

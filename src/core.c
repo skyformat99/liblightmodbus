@@ -44,7 +44,7 @@ uint16_t modbusSwapEndian( uint16_t Data )
     return Conversion.Data;
 }
 
-uint16_t MODBUSCRC16( uint8_t *Data, uint16_t Length )
+uint16_t modbusCRC( uint8_t *Data, uint16_t Length )
 {
 	//Calculate CRC16 checksum using given data and length
 

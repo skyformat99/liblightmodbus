@@ -33,7 +33,7 @@ uint8_t MODBUSBuildRequest01( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	( *Builder ).Request01.CoilCount = modbusSwapEndian( CoilCount );
 
 	//Calculate CRC
-	( *Builder ).Request01.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+	( *Builder ).Request01.CRC = modbusCRC( ( *Builder ).Frame, FrameLength - 2 );
 
 	MODBUSMaster.Request.Length = FrameLength;
 	MODBUSMaster.Finished = 1;
@@ -70,7 +70,7 @@ uint8_t MODBUSBuildRequest05( uint8_t Address, uint16_t Coil, uint16_t Value )
 	( *Builder ).Request05.Value = modbusSwapEndian( Value );
 
 	//Calculate CRC
-	( *Builder ).Request01.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+	( *Builder ).Request01.CRC = modbusCRC( ( *Builder ).Frame, FrameLength - 2 );
 
 	MODBUSMaster.Request.Length = FrameLength;
 	MODBUSMaster.Finished = 1;
@@ -111,8 +111,8 @@ uint8_t MODBUSBuildRequest15( uint8_t Address, uint16_t FirstCoil, uint16_t Coil
 	for ( i = 0; i < ( *Builder ).Request15.BytesCount; i++ )
 		( *Builder ).Request15.Values[i] = Values[i];
 
-	( *Builder ).Frame[FrameLength - 2] = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 ) & 0x00FF;
-	( *Builder ).Frame[FrameLength - 1] = ( MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 ) & 0xFF00 ) >> 8;
+	( *Builder ).Frame[FrameLength - 2] = modbusCRC( ( *Builder ).Frame, FrameLength - 2 ) & 0x00FF;
+	( *Builder ).Frame[FrameLength - 1] = ( modbusCRC( ( *Builder ).Frame, FrameLength - 2 ) & 0xFF00 ) >> 8;
 
 	MODBUSMaster.Request.Length = FrameLength;
 	MODBUSMaster.Finished = 1;
@@ -130,8 +130,8 @@ uint8_t MODBUSParseResponse01( union MODBUSParser *Parser, union MODBUSParser *R
 	uint8_t i = 0;
 
 	//Check frame CRC
-	DataOK &= ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) & 0x00FF ) == ( *Parser ).Response01.Values[( *Parser ).Response01.BytesCount];
-	DataOK &= ( ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) & 0xFF00 ) >> 8 ) == ( *Parser ).Response01.Values[( *Parser ).Response01.BytesCount + 1];
+	DataOK &= ( modbusCRC( ( *Parser ).Frame, FrameLength - 2 ) & 0x00FF ) == ( *Parser ).Response01.Values[( *Parser ).Response01.BytesCount];
+	DataOK &= ( ( modbusCRC( ( *Parser ).Frame, FrameLength - 2 ) & 0xFF00 ) >> 8 ) == ( *Parser ).Response01.Values[( *Parser ).Response01.BytesCount + 1];
 
 	if ( !DataOK )
 	{
@@ -176,7 +176,7 @@ uint8_t MODBUSParseResponse05( union MODBUSParser *Parser, union MODBUSParser *R
 	uint8_t DataOK = 1;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response05.CRC )
+	if ( modbusCRC( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response05.CRC )
 	{
 		MODBUSMaster.Finished = 1;
 		return MODBUS_ERROR_CRC;
@@ -214,7 +214,7 @@ uint8_t MODBUSParseResponse15( union MODBUSParser *Parser, union MODBUSParser *R
 	uint8_t DataOK = 1;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response15.CRC )
+	if ( modbusCRC( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response15.CRC )
 	{
 		MODBUSMaster.Finished = 1;
 		return MODBUS_ERROR_CRC;

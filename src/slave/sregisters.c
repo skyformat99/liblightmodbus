@@ -16,7 +16,7 @@ uint8_t MODBUSParseRequest03( union MODBUSParser *Parser )
 	uint8_t i = 0;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request03.CRC )
+	if ( modbusCRC( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request03.CRC )
 	{
 		MODBUSSlave.Finished = 1;
 		return MODBUS_ERROR_CRC;
@@ -74,7 +74,7 @@ uint8_t MODBUSParseRequest03( union MODBUSParser *Parser )
 		( *Builder ).Response03.Values[i] = modbusSwapEndian( MODBUSSlave.Registers[( *Parser ).Request03.FirstRegister + i] );
 
 	//Calculate CRC
-	( *Builder ).Response03.Values[( *Parser ).Request03.RegisterCount] = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+	( *Builder ).Response03.Values[( *Parser ).Request03.RegisterCount] = modbusCRC( ( *Builder ).Frame, FrameLength - 2 );
 
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = FrameLength;
@@ -92,7 +92,7 @@ uint8_t MODBUSParseRequest06( union MODBUSParser *Parser )
 	uint8_t FrameLength = 8;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request06.CRC )
+	if ( modbusCRC( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request06.CRC )
 	{
 		MODBUSSlave.Finished = 1;
 		return MODBUS_ERROR_CRC;
@@ -147,7 +147,7 @@ uint8_t MODBUSParseRequest06( union MODBUSParser *Parser )
 	( *Builder ).Response06.Value = modbusSwapEndian( MODBUSSlave.Registers[( *Parser ).Request06.Register] );
 
 	//Calculate CRC
-	( *Builder ).Response06.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+	( *Builder ).Response06.CRC = modbusCRC( ( *Builder ).Frame, FrameLength - 2 );
 
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = FrameLength;
@@ -168,7 +168,7 @@ uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 
 	//Check frame CRC
 	//Shifting is used instead of dividing for optimisation on smaller devices (AVR)
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request16.Values[( *Parser ).Request16.BytesCount >> 1] )
+	if ( modbusCRC( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Request16.Values[( *Parser ).Request16.BytesCount >> 1] )
 	{
 		MODBUSSlave.Finished = 1;
 		return MODBUS_ERROR_CRC;
@@ -251,7 +251,7 @@ uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 	( *Builder ).Response16.RegisterCount = modbusSwapEndian( ( *Parser ).Request16.RegisterCount );
 
 	//Calculate CRC
-	( *Builder ).Response16.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+	( *Builder ).Response16.CRC = modbusCRC( ( *Builder ).Frame, FrameLength - 2 );
 
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = FrameLength;

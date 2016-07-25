@@ -33,7 +33,7 @@ uint8_t MODBUSBuildRequest04( uint8_t Address, uint16_t FirstRegister, uint16_t 
 	( *Builder ).Request04.RegisterCount = modbusSwapEndian( RegisterCount );
 
 	//Calculate CRC
-	( *Builder ).Request04.CRC = MODBUSCRC16( ( *Builder ).Frame, FrameLength - 2 );
+	( *Builder ).Request04.CRC = modbusCRC( ( *Builder ).Frame, FrameLength - 2 );
 
 	MODBUSMaster.Request.Length = FrameLength;
 	MODBUSMaster.Finished = 1;
@@ -52,7 +52,7 @@ uint8_t MODBUSParseResponse04( union MODBUSParser *Parser, union MODBUSParser *R
 	uint8_t i = 0;
 
 	//Check frame CRC
-	if ( MODBUSCRC16( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response04.Values[ ( *Parser ).Response04.BytesCount >> 1 ] )
+	if ( modbusCRC( ( *Parser ).Frame, FrameLength - 2 ) != ( *Parser ).Response04.Values[ ( *Parser ).Response04.BytesCount >> 1 ] )
 	{
 		MODBUSMaster.Finished = 1;
 		return MODBUS_ERROR_CRC;

@@ -22,7 +22,7 @@ uint8_t MODBUSBuildException( uint8_t Function, uint8_t ExceptionCode )
 	( *Exception ).Exception.Address = MODBUSSlave.Address;
 	( *Exception ).Exception.Function = ( 1 << 7 ) | Function;
 	( *Exception ).Exception.ExceptionCode = ExceptionCode;
-	( *Exception ).Exception.CRC = MODBUSCRC16( ( *Exception ).Frame, 3 );
+	( *Exception ).Exception.CRC = modbusCRC( ( *Exception ).Frame, 3 );
 
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = 5;

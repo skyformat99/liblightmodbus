@@ -27,4 +27,4 @@ typedef struct
 extern uint8_t modbusMaskRead( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit );
 extern uint8_t modbusMaskWrite( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit, uint8_t Value );
 extern uint16_t modbusSwapEndian( uint16_t );
-extern uint16_t MODBUSCRC16( uint8_t *, uint16_t );
+extern uint16_t modbusCRC( uint8_t *, uint16_t );
