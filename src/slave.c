@@ -16,13 +16,13 @@ uint8_t modbusBuildException( uint8_t Function, uint8_t ExceptionCode )
 		return MODBUS_ERROR_ALLOC;
 	}
 	memset( MODBUSSlave.Response.Frame, 0, 5 );
-	union MODBUSParser *Exception = (union MODBUSParser *) MODBUSSlave.Response.Frame;
+	union MODBUSParser *exception = (union MODBUSParser *) MODBUSSlave.Response.Frame;
 
 	//Setup exception frame
-	( *Exception ).Exception.Address = MODBUSSlave.Address;
-	( *Exception ).Exception.Function = ( 1 << 7 ) | Function;
-	( *Exception ).Exception.ExceptionCode = ExceptionCode;
-	( *Exception ).Exception.CRC = modbusCRC( ( *Exception ).Frame, 3 );
+	( *exception ).exception.Address = MODBUSSlave.Address;
+	( *exception ).exception.Function = ( 1 << 7 ) | Function;
+	( *exception ).exception.ExceptionCode = ExceptionCode;
+	( *exception ).exception.CRC = modbusCRC( ( *exception ).Frame, 3 );
 
 	//Set frame length - frame is ready
 	MODBUSSlave.Response.Length = 5;
@@ -56,62 +56,62 @@ uint8_t modbusParseRequest( uint8_t *Frame, uint8_t FrameLength )
 
 	//This part right there, below should be optimized, but currently I'm not 100% sure, that parsing doesn't malform given frame
 	//In this case it's just much easier to allocate new frame
-	union MODBUSParser *Parser = (union MODBUSParser *) malloc( FrameLength );
-	if ( Parser == NULL )
+	union MODBUSParser *parser = (union MODBUSParser *) malloc( FrameLength );
+	if ( parser == NULL )
 	{
-		free( Parser );
+		free( parser );
 		return MODBUS_ERROR_ALLOC;
 	}
 
-	memcpy( ( *Parser ).Frame, Frame, FrameLength );
+	memcpy( ( *parser ).Frame, Frame, FrameLength );
 
 	//If frame is not broadcasted and address doesn't match skip parsing
-	if ( ( *Parser ).Base.Address != MODBUSSlave.Address && ( *Parser ).Base.Address != 0 )
+	if ( ( *parser ).Base.Address != MODBUSSlave.Address && ( *parser ).Base.Address != 0 )
 	{
-		free( Parser );
+		free( parser );
 		MODBUSSlave.Finished = 1;
 		return 0;
 	}
 
-	switch ( ( *Parser ).Base.Function )
+	switch ( ( *parser ).Base.Function )
 	{
 		case 1: //Read multiple coils
-			if ( LIGHTMODBUS_SLAVE_COILS ) Error = modbusParseRequest01( Parser );
+			if ( LIGHTMODBUS_SLAVE_COILS ) Error = modbusParseRequest01( parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 2: //Read multiple discrete inputs
-			if ( LIGHTMODBUS_SLAVE_DISCRETE_INPUTS ) Error = modbusParseRequest02( Parser );
+			if ( LIGHTMODBUS_SLAVE_DISCRETE_INPUTS ) Error = modbusParseRequest02( parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 3: //Read multiple holding registers
-			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = modbusParseRequest03( Parser );
+			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = modbusParseRequest03( parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 4: //Read multiple input registers
-			if ( LIGHTMODBUS_SLAVE_INPUT_REGISTERS ) Error = modbusParseRequest04( Parser );
+			if ( LIGHTMODBUS_SLAVE_INPUT_REGISTERS ) Error = modbusParseRequest04( parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 5: //Write single coil
-			if ( LIGHTMODBUS_SLAVE_COILS ) Error = modbusParseRequest05( Parser );
+			if ( LIGHTMODBUS_SLAVE_COILS ) Error = modbusParseRequest05( parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 6: //Write single holding register
-			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = modbusParseRequest06( Parser );
+			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = modbusParseRequest06( parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 15: //Write multiple coils
-			if ( LIGHTMODBUS_SLAVE_COILS ) Error = modbusParseRequest15( Parser );
+			if ( LIGHTMODBUS_SLAVE_COILS ) Error = modbusParseRequest15( parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
 		case 16: //Write multiple holding registers
-			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = modbusParseRequest16( Parser );
+			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = modbusParseRequest16( parser );
 			else Error = MODBUS_ERROR_PARSE;
 			break;
 
@@ -121,9 +121,9 @@ uint8_t modbusParseRequest( uint8_t *Frame, uint8_t FrameLength )
 	}
 
 	if ( Error == MODBUS_ERROR_PARSE )
-		if ( ( *Parser ).Base.Address != 0 ) Error = modbusBuildException( ( *Parser ).Base.Function, 0x01 );
+		if ( ( *parser ).Base.Address != 0 ) Error = modbusBuildException( ( *parser ).Base.Function, 0x01 );
 
-	free( Parser );
+	free( parser );
 
 	return Error;
 }

@@ -19,7 +19,7 @@ typedef struct
 {
 	uint8_t Address; //Device address
 	uint8_t Function; //Function called, in which exception occured
-	uint8_t Code; //Exception code
+	uint8_t Code; //exception code
 } MODBUSException_t; //Parsed exception data
 
 typedef struct
@@ -35,6 +35,6 @@ typedef struct
 	MODBUSData_t *Data; //Data read from slave
 	uint8_t DataLength; //Count of data type instances read from slave
 	uint8_t Finished; //Is parsing finished?
-	MODBUSException_t Exception; //Optional exception read
+	MODBUSException_t exception; //Optional exception read
 	MODBUSFrame_t Request; //Formatted request for slave
 } MODBUSMasterStatus_t; //Type containing master device configuration data

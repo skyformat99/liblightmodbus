@@ -19,7 +19,7 @@ union MODBUSParser
 		uint8_t Function;
 		uint8_t ExceptionCode;
 		uint16_t CRC;
-	} Exception;
+	} exception;
 
 	struct __attribute__( ( __packed__ ) )
     {

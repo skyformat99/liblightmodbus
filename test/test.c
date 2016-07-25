@@ -97,7 +97,7 @@ void Test( )
 	if ( MasterError == MODBUS_ERROR_EXCEPTION )
 	{
 		//TermRGB( 4, 1, 0 );
-		printf( "\t - ex addr: 0x%x, fun: 0x%x, code: 0x%x\n\r", MODBUSMaster.Exception.Address, MODBUSMaster.Exception.Function, MODBUSMaster.Exception.Code );
+		printf( "\t - ex addr: 0x%x, fun: 0x%x, code: 0x%x\n\r", MODBUSMaster.exception.Address, MODBUSMaster.exception.Function, MODBUSMaster.exception.Code );
 	}
 
 	printf( "----------------------------------------\n\n" );
