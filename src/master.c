@@ -126,7 +126,7 @@ uint8_t modbusParseResponse( uint8_t *Frame, uint8_t FrameLength, uint8_t *Reque
 	return Error;
 }
 
-uint8_t MODBUSMasterInit( )
+uint8_t modbusMasterInit( )
 {
 	//Very basic init of master side
 	MODBUSMaster.Request.Frame = (uint8_t *) malloc( 8 );

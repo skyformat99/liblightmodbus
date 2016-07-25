@@ -445,7 +445,7 @@ int main( )
 	MODBUSSlave.InputRegisterCount = 4;
 
 	MODBUSSlaveInit( 32 );
-	MODBUSMasterInit( );
+	modbusMasterInit( );
 
 	MainTest( );
 
