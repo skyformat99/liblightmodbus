@@ -78,14 +78,14 @@ if ( raw_input( Colors.HEADER + "Do you need slave module? [y/N] " + Colors.ENDC
 
 Commands.append( "make -f makefile-avr all MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
 
-Error = 0;
+err = 0;
 
 if ( raw_input( Colors.WARNING + "\nDo you want to continue? [y/N] " + Colors.ENDC ).lower( ) == "y" ):
     print( Colors.FAIL + "Invoking makefile...\n\n\n" + Colors.ENDC );
     for Command in Commands:
-        Error += os.system( Command );
+        err += os.system( Command );
 
-if ( Error == 0 ):
+if ( err == 0 ):
 	print( Colors.OKGREEN + "Nice! We're done here!\n\n" + Colors.ENDC );
 else:
 	print( Colors.FAIL + "Something went wrong, check makefile output above...\n\n" + Colors.ENDC );

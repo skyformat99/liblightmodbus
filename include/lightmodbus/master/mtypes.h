@@ -25,16 +25,16 @@ typedef struct
 typedef struct
 {
 	uint8_t address; //Device address
-	MODBUSDataType_t DataType; //Data type
+	MODBUSDataType_t dataType; //data type
 	uint16_t reg; //reg, coil, input ID
 	uint16_t value; //value of data
 } MODBUSData_t;
 
 typedef struct
 {
-	MODBUSData_t *Data; //Data read from slave
-	uint8_t DataLength; //Count of data type instances read from slave
-	uint8_t Finished; //Is parsing finished?
+	MODBUSData_t *data; //data read from slave
+	uint8_t dataLength; //Count of data type instances read from slave
+	uint8_t finished; //Is parsing finished?
 	MODBUSException_t exception; //Optional exception read
 	MODBUSFrame_t request; //Formatted request for slave
 } MODBUSMasterStatus_t; //Type containing master device configuration data

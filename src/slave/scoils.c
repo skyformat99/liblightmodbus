@@ -18,14 +18,14 @@ uint8_t modbusParseRequest01( union ModbusParser *parser )
 	//Check frame crc
 	if ( modbusCRC( ( *parser ).frame, frameLength - 2 ) != ( *parser ).request01.crc )
 	{
-		MODBUSSlave.Finished = 1;
+		MODBUSSlave.finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
 	//Don't do anything when frame is broadcasted
 	if ( ( *parser ).base.address == 0 )
 	{
-		MODBUSSlave.Finished = 1;
+		MODBUSSlave.finished = 1;
 		return 0;
 	}
 
@@ -79,7 +79,7 @@ uint8_t modbusParseRequest01( union ModbusParser *parser )
 
 	//Set frame length - frame is ready
 	MODBUSSlave.response.length = frameLength;
-	MODBUSSlave.Finished = 1;
+	MODBUSSlave.finished = 1;
 
 	return 0;
 }
@@ -95,7 +95,7 @@ uint8_t modbusParseRequest05( union ModbusParser *parser )
 	//Check frame crc
 	if ( modbusCRC( ( *parser ).frame, frameLength - 2 ) != ( *parser ).request01.crc )
 	{
-		MODBUSSlave.Finished = 1;
+		MODBUSSlave.finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
@@ -138,7 +138,7 @@ uint8_t modbusParseRequest05( union ModbusParser *parser )
 	//Do not respond when frame is broadcasted
 	if ( ( *parser ).base.address == 0 )
 	{
-		MODBUSSlave.Finished = 1;
+		MODBUSSlave.finished = 1;
 		return 0;
 	}
 
@@ -153,7 +153,7 @@ uint8_t modbusParseRequest05( union ModbusParser *parser )
 
 	//Set frame length - frame is ready
 	MODBUSSlave.response.length = frameLength;
-	MODBUSSlave.Finished = 1;
+	MODBUSSlave.finished = 1;
 
 	return 0;
 }
@@ -171,13 +171,13 @@ uint8_t modbusParseRequest15( union ModbusParser *parser )
 	//Shifting is used instead of dividing for optimisation on smaller devices (AVR)
 	if ( ( modbusCRC( ( *parser ).frame, frameLength - 2 ) & 0x00FF ) != ( *parser ).request15.values[( *parser ).request15.byteCount] )
 	{
-		MODBUSSlave.Finished = 1;
+		MODBUSSlave.finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
 	if ( ( ( modbusCRC( ( *parser ).frame, frameLength - 2 ) & 0xFF00 ) >> 8 ) != ( *parser ).request15.values[( *parser ).request15.byteCount + 1] )
 	{
-		MODBUSSlave.Finished = 1;
+		MODBUSSlave.finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
@@ -235,7 +235,7 @@ uint8_t modbusParseRequest15( union ModbusParser *parser )
 	//Do not respond when frame is broadcasted
 	if ( ( *parser ).base.address == 0 )
 	{
-		MODBUSSlave.Finished = 1;
+		MODBUSSlave.finished = 1;
 		return 0;
 	}
 
@@ -250,7 +250,7 @@ uint8_t modbusParseRequest15( union ModbusParser *parser )
 
 	//Set frame length - frame is ready
 	MODBUSSlave.response.length = frameLength;
-	MODBUSSlave.Finished = 1;
+	MODBUSSlave.finished = 1;
 
 	return 0;
 }

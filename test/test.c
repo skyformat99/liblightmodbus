@@ -60,7 +60,7 @@ void Test( )
 	//Parse request
 	printf( "Let slave parse frame...\n" );
 	SlaveError = modbusParseRequest( MODBUSMaster.request.frame, MODBUSMaster.request.length );
-	printf( "\tError - %d\n\tFinished - %d\n", SlaveError, MODBUSSlave.Finished );
+	printf( "\tError - %d\n\tFinished - %d\n", SlaveError, MODBUSSlave.finished );
 
 	//Dump slave registers
 	printf( "Dump registers:\n\t" );
@@ -89,10 +89,10 @@ void Test( )
 	MasterError = modbusParseResponse( MODBUSSlave.response.frame, MODBUSSlave.response.length, MODBUSMaster.request.frame, MODBUSMaster.request.length );
 
 	//Dump parsed data
-	printf( "\tError - %d\n\tFinished - %d\n", MasterError, MODBUSMaster.Finished );
-	for ( i = 0; i < MODBUSMaster.DataLength; i++ )
+	printf( "\tError - %d\n\tFinished - %d\n", MasterError, MODBUSMaster.finished );
+	for ( i = 0; i < MODBUSMaster.dataLength; i++ )
 	{
-		printf( "\t - { addr: 0x%x, type: 0x%x, reg: 0x%x, val: 0x%x }\n", MODBUSMaster.Data[i].address, MODBUSMaster.Data[i].DataType, MODBUSMaster.Data[i].reg, MODBUSMaster.Data[i].value );
+		printf( "\t - { addr: 0x%x, type: 0x%x, reg: 0x%x, val: 0x%x }\n", MODBUSMaster.data[i].address, MODBUSMaster.data[i].dataType, MODBUSMaster.data[i].reg, MODBUSMaster.data[i].value );
 	}
 	if ( MasterError == MODBUS_ERROR_EXCEPTION )
 	{

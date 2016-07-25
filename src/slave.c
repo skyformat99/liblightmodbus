@@ -26,7 +26,7 @@ uint8_t modbusBuildException( uint8_t function, uint8_t exceptionCode )
 
 	//Set frame length - frame is ready
 	MODBUSSlave.response.length = 5;
-	MODBUSSlave.Finished = 1;
+	MODBUSSlave.finished = 1;
 
 	return 0;
 }
@@ -45,11 +45,11 @@ uint8_t modbusParseRequest( uint8_t *frame, uint8_t frameLength )
 	//Note: crc is not checked here, just because if there was some junk at the end of correct frame (wrong length) it would be ommited
 	//In fact, user should care about things like that, and It would lower memory usage, so in future crc can be verified right here
 
-	uint8_t Error = 0;
+	uint8_t err = 0;
 
 	//Reset response frame status
 	MODBUSSlave.response.length = 0;
-	MODBUSSlave.Finished = 0;
+	MODBUSSlave.finished = 0;
 
 	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
 	if ( frameLength == 0 ) return MODBUS_ERROR_OTHER;
@@ -69,63 +69,63 @@ uint8_t modbusParseRequest( uint8_t *frame, uint8_t frameLength )
 	if ( ( *parser ).base.address != MODBUSSlave.address && ( *parser ).base.address != 0 )
 	{
 		free( parser );
-		MODBUSSlave.Finished = 1;
+		MODBUSSlave.finished = 1;
 		return 0;
 	}
 
 	switch ( ( *parser ).base.function )
 	{
 		case 1: //Read multiple coils
-			if ( LIGHTMODBUS_SLAVE_COILS ) Error = modbusParseRequest01( parser );
-			else Error = MODBUS_ERROR_PARSE;
+			if ( LIGHTMODBUS_SLAVE_COILS ) err = modbusParseRequest01( parser );
+			else err = MODBUS_ERROR_PARSE;
 			break;
 
 		case 2: //Read multiple discrete inputs
-			if ( LIGHTMODBUS_SLAVE_DISCRETE_INPUTS ) Error = modbusParseRequest02( parser );
-			else Error = MODBUS_ERROR_PARSE;
+			if ( LIGHTMODBUS_SLAVE_DISCRETE_INPUTS ) err = modbusParseRequest02( parser );
+			else err = MODBUS_ERROR_PARSE;
 			break;
 
 		case 3: //Read multiple holding registers
-			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = modbusParseRequest03( parser );
-			else Error = MODBUS_ERROR_PARSE;
+			if ( LIGHTMODBUS_SLAVE_REGISTERS ) err = modbusParseRequest03( parser );
+			else err = MODBUS_ERROR_PARSE;
 			break;
 
 		case 4: //Read multiple input registers
-			if ( LIGHTMODBUS_SLAVE_INPUT_REGISTERS ) Error = modbusParseRequest04( parser );
-			else Error = MODBUS_ERROR_PARSE;
+			if ( LIGHTMODBUS_SLAVE_INPUT_REGISTERS ) err = modbusParseRequest04( parser );
+			else err = MODBUS_ERROR_PARSE;
 			break;
 
 		case 5: //Write single coil
-			if ( LIGHTMODBUS_SLAVE_COILS ) Error = modbusParseRequest05( parser );
-			else Error = MODBUS_ERROR_PARSE;
+			if ( LIGHTMODBUS_SLAVE_COILS ) err = modbusParseRequest05( parser );
+			else err = MODBUS_ERROR_PARSE;
 			break;
 
 		case 6: //Write single holding reg
-			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = modbusParseRequest06( parser );
-			else Error = MODBUS_ERROR_PARSE;
+			if ( LIGHTMODBUS_SLAVE_REGISTERS ) err = modbusParseRequest06( parser );
+			else err = MODBUS_ERROR_PARSE;
 			break;
 
 		case 15: //Write multiple coils
-			if ( LIGHTMODBUS_SLAVE_COILS ) Error = modbusParseRequest15( parser );
-			else Error = MODBUS_ERROR_PARSE;
+			if ( LIGHTMODBUS_SLAVE_COILS ) err = modbusParseRequest15( parser );
+			else err = MODBUS_ERROR_PARSE;
 			break;
 
 		case 16: //Write multiple holding registers
-			if ( LIGHTMODBUS_SLAVE_REGISTERS ) Error = modbusParseRequest16( parser );
-			else Error = MODBUS_ERROR_PARSE;
+			if ( LIGHTMODBUS_SLAVE_REGISTERS ) err = modbusParseRequest16( parser );
+			else err = MODBUS_ERROR_PARSE;
 			break;
 
 		default:
-			Error = MODBUS_ERROR_PARSE;
+			err = MODBUS_ERROR_PARSE;
 			break;
 	}
 
-	if ( Error == MODBUS_ERROR_PARSE )
-		if ( ( *parser ).base.address != 0 ) Error = modbusBuildException( ( *parser ).base.function, 0x01 );
+	if ( err == MODBUS_ERROR_PARSE )
+		if ( ( *parser ).base.address != 0 ) err = modbusBuildException( ( *parser ).base.function, 0x01 );
 
 	free( parser );
 
-	return Error;
+	return err;
 }
 
 uint8_t modbusSlaveInit( uint8_t address )
@@ -136,7 +136,7 @@ uint8_t modbusSlaveInit( uint8_t address )
 	MODBUSSlave.address = address;
 
 	//Reset response frame status
-	MODBUSSlave.Finished = 0;
+	MODBUSSlave.finished = 0;
 	MODBUSSlave.response.length = 0;
 	MODBUSSlave.response.frame = (uint8_t *) malloc( 8 );
 

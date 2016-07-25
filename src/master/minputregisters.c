@@ -16,7 +16,7 @@ uint8_t modbusBuildRequest04( uint8_t address, uint16_t firstRegister, uint16_t 
 
 	//Set output frame length to 0 (in case of interrupts)
 	MODBUSMaster.request.length = 0;
-	MODBUSMaster.Finished = 0;
+	MODBUSMaster.finished = 0;
 
 	//Reallocate memory for final frame
 	MODBUSMaster.request.frame = (uint8_t *) realloc( MODBUSMaster.request.frame, frameLength );
@@ -36,54 +36,54 @@ uint8_t modbusBuildRequest04( uint8_t address, uint16_t firstRegister, uint16_t 
 	( *builder ).request04.crc = modbusCRC( ( *builder ).frame, frameLength - 2 );
 
 	MODBUSMaster.request.length = frameLength;
-	MODBUSMaster.Finished = 1;
+	MODBUSMaster.finished = 1;
 
 	return 0;
 }
 
-uint8_t modbusParseResponse04( union ModbusParser *parser, union ModbusParser *RequestParser )
+uint8_t modbusParseResponse04( union ModbusParser *parser, union ModbusParser *requestParser )
 {
 	//Parse slave response to request 04
 	//Read multiple input registers
 
 	//Update frame length
 	uint8_t frameLength = 5 + ( *parser ).response04.byteCount;
-	uint8_t DataOK = 1;
+	uint8_t dataok = 1;
 	uint8_t i = 0;
 
 	//Check frame crc
 	if ( modbusCRC( ( *parser ).frame, frameLength - 2 ) != ( *parser ).response04.values[ ( *parser ).response04.byteCount >> 1 ] )
 	{
-		MODBUSMaster.Finished = 1;
+		MODBUSMaster.finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
 	//Check between data sent to slave and received from slave
-	DataOK &= ( ( *parser ).response04.address == ( *RequestParser ).request04.address );
-	DataOK &= ( ( *parser ).response04.function == ( *RequestParser ).request04.function );
-	DataOK &= ( ( *parser ).response04.byteCount == modbusSwapEndian( ( *RequestParser ).request04.registerCount ) << 1 );
+	dataok &= ( ( *parser ).response04.address == ( *requestParser ).request04.address );
+	dataok &= ( ( *parser ).response04.function == ( *requestParser ).request04.function );
+	dataok &= ( ( *parser ).response04.byteCount == modbusSwapEndian( ( *requestParser ).request04.registerCount ) << 1 );
 
 	//If data is bad abort parsing, and set error flag
-	if ( !DataOK )
+	if ( !dataok )
 	{
-		MODBUSMaster.Finished = 1;
+		MODBUSMaster.finished = 1;
 		return MODBUS_ERROR_FRAME;
 	}
 
 	//Allocate memory for MODBUSData_t structures array
-	MODBUSMaster.Data = (MODBUSData_t *) realloc( MODBUSMaster.Data, ( ( *parser ).response04.byteCount >> 1 ) * sizeof( MODBUSData_t ) );
+	MODBUSMaster.data = (MODBUSData_t *) realloc( MODBUSMaster.data, ( ( *parser ).response04.byteCount >> 1 ) * sizeof( MODBUSData_t ) );
 
 	//Copy received data to output structures array
 	for ( i = 0; i < ( ( *parser ).response04.byteCount >> 1 ); i++ )
 	{
-		MODBUSMaster.Data[i].address = ( *parser ).base.address;
-		MODBUSMaster.Data[i].DataType = InputRegister;
-		MODBUSMaster.Data[i].reg = modbusSwapEndian( ( *RequestParser ).request04.firstRegister ) + i;
-		MODBUSMaster.Data[i].value = modbusSwapEndian( ( *parser ).response04.values[i] );
+		MODBUSMaster.data[i].address = ( *parser ).base.address;
+		MODBUSMaster.data[i].dataType = InputRegister;
+		MODBUSMaster.data[i].reg = modbusSwapEndian( ( *requestParser ).request04.firstRegister ) + i;
+		MODBUSMaster.data[i].value = modbusSwapEndian( ( *parser ).response04.values[i] );
 	}
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.DataLength = ( *parser ).response04.byteCount >> 1;
-	MODBUSMaster.Finished = 1;
+	MODBUSMaster.dataLength = ( *parser ).response04.byteCount >> 1;
+	MODBUSMaster.finished = 1;
 	return 0;
 }

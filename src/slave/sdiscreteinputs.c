@@ -19,14 +19,14 @@ uint8_t modbusParseRequest02( union ModbusParser *parser )
 	//Check frame crc
 	if ( modbusCRC( ( *parser ).frame, frameLength - 2 ) != ( *parser ).request02.crc )
 	{
-		MODBUSSlave.Finished = 1;
+		MODBUSSlave.finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
 	//Don't do anything when frame is broadcasted
 	if ( ( *parser ).base.address == 0 )
 	{
-		MODBUSSlave.Finished = 1;
+		MODBUSSlave.finished = 1;
 		return 0;
 	}
 
@@ -80,7 +80,7 @@ uint8_t modbusParseRequest02( union ModbusParser *parser )
 
 	//Set frame length - frame is ready
 	MODBUSSlave.response.length = frameLength;
-	MODBUSSlave.Finished = 1;
+	MODBUSSlave.finished = 1;
 
 	return 0;
 }
