@@ -1,6 +1,6 @@
 #include "../include/lightmodbus/core.h"
 
-uint8_t MODBUSReadMask( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit )
+uint8_t modbusMaskRead( uint8_t *Mask, uint16_t MaskLength, uint16_t Bit )
 {
 	//Return nth bit from uint8_t array
 	//When 255 value is returned, an error occured

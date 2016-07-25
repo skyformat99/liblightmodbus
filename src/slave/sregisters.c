@@ -111,7 +111,7 @@ uint8_t MODBUSParseRequest06( union MODBUSParser *Parser )
 	}
 
 	//Check if register is allowed to be written
-	if ( MODBUSReadMask( MODBUSSlave.RegisterMask, MODBUSSlave.RegisterMaskLength, ( *Parser ).Request06.Register ) == 1 )
+	if ( modbusMaskRead( MODBUSSlave.RegisterMask, MODBUSSlave.RegisterMaskLength, ( *Parser ).Request06.Register ) == 1 )
 	{
 		//Illegal data address exception
 		if ( ( *Parser ).Base.Address != 0 ) return MODBUSBuildException( 0x06, 0x02 );
@@ -211,7 +211,7 @@ uint8_t MODBUSParseRequest16( union MODBUSParser *Parser )
 
 	//Check for write protection
 	for ( i = 0; i < ( *Parser ).Request16.RegisterCount; i++ )
-		MaskSum += (  MODBUSReadMask( MODBUSSlave.RegisterMask, MODBUSSlave.RegisterMaskLength, ( *Parser ).Request16.FirstRegister + i ) == 1 ) ? 1 : 0;
+		MaskSum += (  modbusMaskRead( MODBUSSlave.RegisterMask, MODBUSSlave.RegisterMaskLength, ( *Parser ).Request16.FirstRegister + i ) == 1 ) ? 1 : 0;
 
 	if ( MaskSum > 0 )
 	{
