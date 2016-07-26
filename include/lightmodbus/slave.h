@@ -1,15 +1,10 @@
-#define _LIGHTMODBUS_SLAVE_BASE
+#ifndef LIGHTMODBUS_SLAVE_BASE_H
+#define LIGHTMODBUS_SLAVE_BASE_H
 
 #include <inttypes.h>
 
-#ifndef _LIGHTMODBUS_BASE
 #include "core.h"
-#endif
-
-#ifndef _LIGHTMODBUS_PARSER
 #include "parser.h"
-#endif
-
 #include "slave/stypes.h"
 #include "slave/sregisters.h"
 #include "slave/scoils.h"
@@ -37,3 +32,5 @@ extern ModbusSlaveStatus MODBUSSlave; //Slave configuration
 extern uint8_t modbusParseRequest( uint8_t *, uint8_t ); //Parse and interpret given modbus frame on slave-side
 extern uint8_t modbusSlaveInit( uint8_t ); //Very basic init of slave side
 extern void modbusSlaveEnd( ); //Free memory used by slave
+
+#endif

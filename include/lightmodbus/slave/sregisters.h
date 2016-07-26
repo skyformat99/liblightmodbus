@@ -1,4 +1,5 @@
-#define _LIGHTMODBUS_SLAVE_REGISTERS
+#ifndef LIGHTMODBUS_SLAVE_REGISTERS_H
+#define LIGHTMODBUS_SLAVE_REGISTERS_H
 
 #include <inttypes.h>
 
@@ -9,3 +10,5 @@ extern uint8_t modbusBuildException( uint8_t, uint8_t );
 extern uint8_t modbusParseRequest03( union ModbusParser *parser );
 extern uint8_t modbusParseRequest06( union ModbusParser *parser );
 extern uint8_t modbusParseRequest16( union ModbusParser *parser );
+
+#endif

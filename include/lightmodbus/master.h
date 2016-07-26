@@ -1,15 +1,10 @@
-#define _LIGHTMODBUS_MASTER_BASE
+#ifndef LIGHTMODBUS_MASTER_BASE_H
+#define LIGHTMODBUS_MASTER_BASE_H
 
 #include <inttypes.h>
 
-#ifndef _LIGHTMODBUS_BASE
 #include "core.h"
-#endif
-
-#ifndef _LIGHTMODBUS_PARSER
 #include "parser.h"
-#endif
-
 #include "master/mtypes.h"
 #include "master/mregisters.h"
 #include "master/mcoils.h"
@@ -36,3 +31,5 @@ extern ModbusMasterStatus MODBUSMaster; //Master configuration
 extern uint8_t modbusParseResponse( uint8_t *, uint8_t, uint8_t *, uint8_t );
 extern uint8_t modbusMasterInit( );
 extern void modbusMasterEnd( ); //Free memory used by master
+
+#endif

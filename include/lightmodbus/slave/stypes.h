@@ -1,4 +1,5 @@
-#define _LIGHTMODBUS_SLAVE_TYPES
+#ifndef LIGHTMODBUS_SLAVE_TYPES_H
+#define LIGHTMODBUS_SLAVE_TYPES_H
 
 #include <inttypes.h>
 
@@ -30,3 +31,5 @@ typedef struct
 	uint8_t finished; //Has slave finished building response for master?
 	ModbusFrame response; //Slave response formatting status
 } ModbusSlaveStatus; //Type containing slave device configuration data
+
+#endif

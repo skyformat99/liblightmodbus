@@ -1,4 +1,5 @@
-#define _LIGHTMODBUS_MASTER_COILS
+#ifndef LIGHTMODBUS_MASTER_COILS_H
+#define LIGHTMODBUS_MASTER_COILS_H
 
 #include <inttypes.h>
 
@@ -11,3 +12,5 @@ extern uint8_t modbusBuildRequest15( uint8_t, uint16_t, uint16_t, uint8_t * );
 extern uint8_t modbusParseResponse01( union ModbusParser *, union ModbusParser * );
 extern uint8_t modbusParseResponse05( union ModbusParser *, union ModbusParser * );
 extern uint8_t modbusParseResponse15( union ModbusParser *, union ModbusParser * );
+
+#endif

@@ -1,4 +1,5 @@
-#define _LIGHTMODBUS_SLAVE_COILS
+#ifndef LIGHTMODBUS_SLAVE_COILS_H
+#define LIGHTMODBUS_SLAVE_COILS_H
 
 #include <inttypes.h>
 
@@ -9,3 +10,5 @@ extern uint8_t modbusBuildException( uint8_t, uint8_t );
 extern uint8_t modbusParseRequest01( union ModbusParser * );
 extern uint8_t modbusParseRequest05( union ModbusParser * );
 extern uint8_t modbusParseRequest15( union ModbusParser * );
+
+#endif

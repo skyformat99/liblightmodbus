@@ -1,4 +1,5 @@
-#define _LIGHTMODBUS_PARSER
+#ifndef LIGHTMODBUS_PARSER_H
+#define LIGHTMODBUS_PARSER_H
 
 #include <inttypes.h>
 
@@ -168,3 +169,5 @@ union ModbusParser
         uint16_t crc;
     } response16; //Write multiple holding registers
 };
+
+#endif

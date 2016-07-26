@@ -1,4 +1,5 @@
-#define _LIGHTMODBUS_SLAVE_DISCRETE_INPUTS
+#ifndef LIGHTMODBUS_SLAVE_DISCRETE_INPUTS_H
+#define LIGHTMODBUS_SLAVE_DISCRETE_INPUTS_H
 
 #include <inttypes.h>
 
@@ -7,3 +8,5 @@ extern uint8_t modbusBuildException( uint8_t, uint8_t );
 
 //Functions for parsing requests
 extern uint8_t modbusParseRequest02( union ModbusParser * );
+
+#endif

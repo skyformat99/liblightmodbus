@@ -1,4 +1,5 @@
-#define _LIGHTMODBUS_MASTER_TYPES
+#ifndef LIGHTMODBUS_MASTER_TYPES_H
+#define LIGHTMODBUS_MASTER_TYPES_H
 
 #include <inttypes.h>
 
@@ -36,3 +37,5 @@ typedef struct
 	ModbusException exception; //Optional exception read
 	ModbusFrame request; //Formatted request for slave
 } ModbusMasterStatus; //Type containing master device configuration data
+
+#endif
