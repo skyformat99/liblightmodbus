@@ -36,8 +36,8 @@ void Test( )
 	//Dump frame
 	//TermRGB( 2, 4, 0 );
 	printf( "Dump the frame:\n\t" );
-	for ( i = 0; i < MODBUSMaster.request.length; i++ )
-		printf( "%.2x%s", MODBUSMaster.request.frame[i], ( i == MODBUSMaster.request.length - 1 ) ? "\n" : "-" );
+	for ( i = 0; i < status->request.length; i++ )
+		printf( "%.2x%s", status->request.frame[i], ( i == status->request.length - 1 ) ? "\n" : "-" );
 
 	//Dump slave registers
 	//TermRGB( 2, 4, 2 );
@@ -59,7 +59,7 @@ void Test( )
 
 	//Parse request
 	printf( "Let slave parse frame...\n" );
-	SlaveError = modbusParseRequest( MODBUSMaster.request.frame, MODBUSMaster.request.length );
+	SlaveError = modbusParseRequest( status->request.frame, status->request.length );
 	printf( "\tError - %d\n\tFinished - %d\n", SlaveError, MODBUSSlave.finished );
 
 	//Dump slave registers
@@ -86,18 +86,18 @@ void Test( )
 
 	//Process response
 	printf( "Let master process response...\n" );
-	MasterError = modbusParseResponse( MODBUSSlave.response.frame, MODBUSSlave.response.length, MODBUSMaster.request.frame, MODBUSMaster.request.length );
+	MasterError = modbusParseResponse( MODBUSSlave.response.frame, MODBUSSlave.response.length, status->request.frame, status->request.length );
 
 	//Dump parsed data
-	printf( "\tError - %d\n\tFinished - %d\n", MasterError, MODBUSMaster.finished );
-	for ( i = 0; i < MODBUSMaster.dataLength; i++ )
+	printf( "\tError - %d\n\tFinished - %d\n", MasterError, status->finished );
+	for ( i = 0; i < status->dataLength; i++ )
 	{
-		printf( "\t - { addr: 0x%x, type: 0x%x, reg: 0x%x, val: 0x%x }\n", MODBUSMaster.data[i].address, MODBUSMaster.data[i].dataType, MODBUSMaster.data[i].reg, MODBUSMaster.data[i].value );
+		printf( "\t - { addr: 0x%x, type: 0x%x, reg: 0x%x, val: 0x%x }\n", status->data[i].address, status->data[i].dataType, status->data[i].reg, status->data[i].value );
 	}
 	if ( MasterError == MODBUS_ERROR_EXCEPTION )
 	{
 		//TermRGB( 4, 1, 0 );
-		printf( "\t - ex addr: 0x%x, fun: 0x%x, code: 0x%x\n\r", MODBUSMaster.exception.address, MODBUSMaster.exception.function, MODBUSMaster.exception.Code );
+		printf( "\t - ex addr: 0x%x, fun: 0x%x, code: 0x%x\n\r", status->exception.address, status->exception.function, status->exception.Code );
 	}
 
 	printf( "----------------------------------------\n\n" );
@@ -113,7 +113,7 @@ void MainTest( )
 	//request03 - bad crc
 	printf( "\t\t03 - bad crc...\n" );
 	modbusBuildRequest03( 0x20, 0x00, 0x08 );
-	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
+	status->request.frame[status->request.length - 1]++;
 	Test( );
 
 	//request03 - bad first reg
@@ -149,7 +149,7 @@ void MainTest( )
 	//request06 - bad crc
 	printf( "\t\t06 - bad crc...\n" );
 	modbusBuildRequest06( 0x20, 0x06, 0xf6 );
-	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
+	status->request.frame[status->request.length - 1]++;
 	Test( );
 
 	//request06 - bad reg
@@ -175,7 +175,7 @@ void MainTest( )
 	//request16 - bad crc
 	printf( "\t\t16 - bad crc...\n" );
 	modbusBuildRequest16( 0x20, 0x00, 0x04, TestValues );
-	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
+	status->request.frame[status->request.length - 1]++;
 	Test( );
 
 	//request16 - bad start reg
@@ -221,7 +221,7 @@ void MainTest( )
 	//request02 - bad crc
 	printf( "\t\t02 - bad crc...\n" );
 	modbusBuildRequest02( 0x20, 0x00, 0x10 );
-	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
+	status->request.frame[status->request.length - 1]++;
 	Test( );
 
 	//request02 - bad first discrete input
@@ -257,7 +257,7 @@ void MainTest( )
 	//request01 - bad crc
 	printf( "\t\t01 - bad crc...\n" );
 	modbusBuildRequest01( 0x20, 0x00, 0x04 );
-	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
+	status->request.frame[status->request.length - 1]++;
 	Test( );
 
 	//request01 - bad first reg
@@ -293,7 +293,7 @@ void MainTest( )
 	//request05 - bad crc
 	printf( "\t\t05 - bad crc...\n" );
 	modbusBuildRequest05( 0x20, 0x03, 0xff00 );
-	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
+	status->request.frame[status->request.length - 1]++;
 	Test( );
 
 	//request05 - ok
@@ -324,7 +324,7 @@ void MainTest( )
 	//request15 - bad crc
 	printf( "\t\t15 - bad crc...\n" );
 	modbusBuildRequest15( 0x20, 0x00, 0x04, TestValues3 );
-	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
+	status->request.frame[status->request.length - 1]++;
 	Test( );
 
 	//request15 - bad start reg
@@ -370,7 +370,7 @@ void MainTest( )
 	//request04 - bad crc
 	printf( "\t\t04 - bad crc...\n" );
 	modbusBuildRequest04( 0x20, 0x00, 0x04 );
-	MODBUSMaster.request.frame[MODBUSMaster.request.length - 1]++;
+	status->request.frame[status->request.length - 1]++;
 	Test( );
 
 	//request04 - bad first reg

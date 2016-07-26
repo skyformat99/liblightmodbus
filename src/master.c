@@ -7,31 +7,28 @@
 #include "lightmodbus/master/mdiscreteinputs.h"
 #include "lightmodbus/master/minputregisters.h"
 
-//Master configurations
-ModbusMasterStatus MODBUSMaster;
-
-uint8_t modbusParseException( union ModbusParser *parser )
+uint8_t modbusParseException( ModbusMasterStatus *status, union ModbusParser *parser )
 {
 	//Parse exception frame and write data to MODBUSMaster structure
 
 	//Check crc
 	if ( modbusCRC( parser->frame, 3 ) != parser->exception.crc )
 	{
-		MODBUSMaster.finished = 1;
+		status->finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
 	//Copy data
-	MODBUSMaster.exception.address = parser->exception.address;
-	MODBUSMaster.exception.function = parser->exception.function;
-	MODBUSMaster.exception.Code = parser->exception.exceptionCode;
+	status->exception.address = parser->exception.address;
+	status->exception.function = parser->exception.function;
+	status->exception.Code = parser->exception.exceptionCode;
 
-	MODBUSMaster.finished = 1;
+	status->finished = 1;
 
 	return MODBUS_ERROR_EXCEPTION;
 }
 
-uint8_t modbusParseResponse( uint8_t *frame, uint8_t frameLength, uint8_t *RequestFrame, uint8_t RequestFrameLength )
+uint8_t modbusParseResponse( ModbusMasterStatus *status, uint8_t *frame, uint8_t frameLength, uint8_t *RequestFrame, uint8_t RequestFrameLength )
 {
 	//This function parses response from master
 	//Calling it will lead to losing all data and exceptions stored in MODBUSMaster (space will be reallocated)
@@ -43,11 +40,11 @@ uint8_t modbusParseResponse( uint8_t *frame, uint8_t frameLength, uint8_t *Reque
 	uint8_t err = 0;
 
 	//Reset output registers before parsing frame
-	MODBUSMaster.dataLength = 0;
-	MODBUSMaster.exception.address = 0;
-	MODBUSMaster.exception.function = 0;
-	MODBUSMaster.exception.Code = 0;
-	MODBUSMaster.finished = 0;
+	status->dataLength = 0;
+	status->exception.address = 0;
+	status->exception.function = 0;
+	status->exception.Code = 0;
+	status->finished = 0;
 
 	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
 	if ( frameLength == 0 ) return MODBUS_ERROR_OTHER;
@@ -74,49 +71,49 @@ uint8_t modbusParseResponse( uint8_t *frame, uint8_t frameLength, uint8_t *Reque
 	//Check if frame is exception response
 	if ( parser->base.function & 128 )
 	{
-		err = modbusParseException( parser );
+		err = modbusParseException( status, parser );
 	}
 	else
 	{
 		switch ( parser->base.function )
 		{
 			case 1: //Read multiple coils
-				if ( LIGHTMODBUS_MASTER_COILS ) err = modbusParseResponse01( parser, requestParser );
+				if ( LIGHTMODBUS_MASTER_COILS ) err = modbusParseResponse01( status, parser, requestParser );
 				else err = MODBUS_ERROR_PARSE;
 				break;
 
 			case 2: //Read multiple discrete inputs
-				if ( LIGHTMODBUS_MASTER_DISCRETE_INPUTS ) err = modbusParseResponse02( parser, requestParser );
+				if ( LIGHTMODBUS_MASTER_DISCRETE_INPUTS ) err = modbusParseResponse02( status, parser, requestParser );
 				else err = MODBUS_ERROR_PARSE;
 				break;
 
 			case 3: //Read multiple holding registers
-				if ( LIGHTMODBUS_MASTER_REGISTERS ) err = modbusParseResponse03( parser, requestParser );
+				if ( LIGHTMODBUS_MASTER_REGISTERS ) err = modbusParseResponse03( status, parser, requestParser );
 				else err = MODBUS_ERROR_PARSE;
 				break;
 
 			case 4: //Read multiple input registers
-				if ( LIGHTMODBUS_MASTER_INPUT_REGISTERS ) err = modbusParseResponse04( parser, requestParser );
+				if ( LIGHTMODBUS_MASTER_INPUT_REGISTERS ) err = modbusParseResponse04( status, parser, requestParser );
 				else err = MODBUS_ERROR_PARSE;
 				break;
 
 			case 5: //Write single coil
-				if ( LIGHTMODBUS_MASTER_COILS ) err = modbusParseResponse05( parser, requestParser );
+				if ( LIGHTMODBUS_MASTER_COILS ) err = modbusParseResponse05( status, parser, requestParser );
 				else err = MODBUS_ERROR_PARSE;
 				break;
 
 			case 6: //Write single holding reg
-				if ( LIGHTMODBUS_MASTER_REGISTERS ) err = modbusParseResponse06( parser, requestParser );
+				if ( LIGHTMODBUS_MASTER_REGISTERS ) err = modbusParseResponse06( status, parser, requestParser );
 				else err = MODBUS_ERROR_PARSE;
 				break;
 
 			case 15: //Write multiple coils
-				if ( LIGHTMODBUS_MASTER_COILS ) err = modbusParseResponse15( parser, requestParser );
+				if ( LIGHTMODBUS_MASTER_COILS ) err = modbusParseResponse15( status, parser, requestParser );
 				else err = MODBUS_ERROR_PARSE;
 				break;
 
 			case 16: //Write multiple holding registers
-				if ( LIGHTMODBUS_MASTER_REGISTERS ) err = modbusParseResponse16( parser, requestParser );
+				if ( LIGHTMODBUS_MASTER_REGISTERS ) err = modbusParseResponse16( status, parser, requestParser );
 				else err = MODBUS_ERROR_PARSE;
 				break;
 
@@ -133,25 +130,25 @@ uint8_t modbusParseResponse( uint8_t *frame, uint8_t frameLength, uint8_t *Reque
 	return err;
 }
 
-uint8_t modbusMasterInit( )
+uint8_t modbusMasterInit( ModbusMasterStatus *status )
 {
 	//Very basic init of master side
-	MODBUSMaster.request.frame = (uint8_t *) malloc( 8 );
-	MODBUSMaster.request.length = 0;
-	MODBUSMaster.data = (ModbusData *) malloc( sizeof( ModbusData ) );
-	MODBUSMaster.dataLength = 0;
-	MODBUSMaster.finished = 0;
+	status->request.frame = (uint8_t *) malloc( 8 );
+	status->request.length = 0;
+	status->data = (ModbusData *) malloc( sizeof( ModbusData ) );
+	status->dataLength = 0;
+	status->finished = 0;
 
-	MODBUSMaster.exception.address = 0;
-	MODBUSMaster.exception.function = 0;
-	MODBUSMaster.exception.Code = 0;
+	status->exception.address = 0;
+	status->exception.function = 0;
+	status->exception.Code = 0;
 
-	return ( ( MODBUSMaster.request.frame == NULL ) || ( MODBUSMaster.data == NULL ) ) * MODBUS_ERROR_ALLOC;
+	return ( ( status->request.frame == NULL ) || ( status->data == NULL ) ) * MODBUS_ERROR_ALLOC;
 }
 
-void modbusMasterEnd( )
+void modbusMasterEnd( ModbusMasterStatus *status )
 {
 	//Free memory
-	free( MODBUSMaster.request.frame );
-	free( MODBUSMaster.data );
+	free( status->request.frame );
+	free( status->data );
 }

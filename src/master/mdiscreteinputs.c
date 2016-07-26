@@ -3,10 +3,7 @@
 #include "lightmodbus/master/mtypes.h"
 #include "lightmodbus/master/mdiscreteinputs.h"
 
-//Use external master configuration
-extern ModbusMasterStatus MODBUSMaster;
-
-uint8_t modbusBuildRequest02( uint8_t address, uint16_t firstCoil, uint16_t coilCount )
+uint8_t modbusBuildRequest02( ModbusMasterStatus *status, uint8_t address, uint16_t firstCoil, uint16_t coilCount )
 {
 	//Build request02 frame, to send it so slave
 	//Read multiple discrete inputs
@@ -15,17 +12,17 @@ uint8_t modbusBuildRequest02( uint8_t address, uint16_t firstCoil, uint16_t coil
 	uint8_t frameLength = 8;
 
 	//Set output frame length to 0 (in case of interrupts)
-	MODBUSMaster.request.length = 0;
-	MODBUSMaster.finished = 0;
+	status->request.length = 0;
+	status->finished = 0;
 
 	//Reallocate memory for final frame
-	MODBUSMaster.request.frame = (uint8_t *) realloc( MODBUSMaster.request.frame, frameLength );
-	if ( MODBUSMaster.request.frame == NULL )
+	status->request.frame = (uint8_t *) realloc( status->request.frame, frameLength );
+	if ( status->request.frame == NULL )
 	{
-		free( MODBUSMaster.request.frame );
+		free( status->request.frame );
 		return MODBUS_ERROR_ALLOC;
 	}
-	union ModbusParser *builder = (union ModbusParser *) MODBUSMaster.request.frame;
+	union ModbusParser *builder = (union ModbusParser *) status->request.frame;
 
 	builder->base.address = address;
 	builder->base.function = 2;
@@ -35,13 +32,13 @@ uint8_t modbusBuildRequest02( uint8_t address, uint16_t firstCoil, uint16_t coil
 	//Calculate crc
 	builder->request02.crc = modbusCRC( builder->frame, frameLength - 2 );
 
-	MODBUSMaster.request.length = frameLength;
-	MODBUSMaster.finished = 1;
+	status->request.length = frameLength;
+	status->finished = 1;
 
 	return 0;
 }
 
-uint8_t modbusParseResponse02( union ModbusParser *parser, union ModbusParser *requestParser )
+uint8_t modbusParseResponse02( ModbusMasterStatus *status, union ModbusParser *parser, union ModbusParser *requestParser )
 {
 	//Parse slave response to request 02 (read multiple discrete inputs)
 
@@ -56,7 +53,7 @@ uint8_t modbusParseResponse02( union ModbusParser *parser, union ModbusParser *r
 
 	if ( !dataok )
 	{
-		MODBUSMaster.finished = 1;
+		status->finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
@@ -65,19 +62,19 @@ uint8_t modbusParseResponse02( union ModbusParser *parser, union ModbusParser *r
 	dataok &= ( parser->base.function == requestParser->base.function );
 
 
-	MODBUSMaster.data = (ModbusData *) realloc( MODBUSMaster.data, sizeof( ModbusData ) * modbusSwapEndian( requestParser->request02.inputCount ) );
+	status->data = (ModbusData *) realloc( status->data, sizeof( ModbusData ) * modbusSwapEndian( requestParser->request02.inputCount ) );
 	for ( i = 0; i < modbusSwapEndian( requestParser->request02.inputCount ); i++ )
 	{
-		MODBUSMaster.data[i].address = parser->base.address;
-		MODBUSMaster.data[i].dataType = discreteInput;
-		MODBUSMaster.data[i].reg = modbusSwapEndian( requestParser->request02.firstInput ) + i;
-		MODBUSMaster.data[i].value = modbusMaskRead( parser->response02.values, parser->response02.byteCount, i );
+		status->data[i].address = parser->base.address;
+		status->data[i].dataType = discreteInput;
+		status->data[i].reg = modbusSwapEndian( requestParser->request02.firstInput ) + i;
+		status->data[i].value = modbusMaskRead( parser->response02.values, parser->response02.byteCount, i );
 
 	}
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.dataLength = modbusSwapEndian( requestParser->request02.inputCount );
-	MODBUSMaster.finished = 1;
+	status->dataLength = modbusSwapEndian( requestParser->request02.inputCount );
+	status->finished = 1;
 
 	return 0;
 }

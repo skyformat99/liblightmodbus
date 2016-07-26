@@ -3,10 +3,7 @@
 #include "lightmodbus/master/mtypes.h"
 #include "lightmodbus/master/minputregisters.h"
 
-//Use external master configuration
-extern ModbusMasterStatus MODBUSMaster;
-
-uint8_t modbusBuildRequest04( uint8_t address, uint16_t firstRegister, uint16_t registerCount )
+uint8_t modbusBuildRequest04( ModbusMasterStatus *status, uint8_t address, uint16_t firstRegister, uint16_t registerCount )
 {
 	//Build request04 frame, to send it so slave
 	//Read multiple input registers
@@ -15,17 +12,17 @@ uint8_t modbusBuildRequest04( uint8_t address, uint16_t firstRegister, uint16_t 
 	uint8_t frameLength = 8;
 
 	//Set output frame length to 0 (in case of interrupts)
-	MODBUSMaster.request.length = 0;
-	MODBUSMaster.finished = 0;
+	status->request.length = 0;
+	status->finished = 0;
 
 	//Reallocate memory for final frame
-	MODBUSMaster.request.frame = (uint8_t *) realloc( MODBUSMaster.request.frame, frameLength );
-	if ( MODBUSMaster.request.frame == NULL )
+	status->request.frame = (uint8_t *) realloc( status->request.frame, frameLength );
+	if ( status->request.frame == NULL )
 	{
-		free( MODBUSMaster.request.frame );
+		free( status->request.frame );
 		return MODBUS_ERROR_ALLOC;
 	}
-	union ModbusParser *builder = (union ModbusParser *) MODBUSMaster.request.frame;
+	union ModbusParser *builder = (union ModbusParser *) status->request.frame;
 
 	builder->base.address = address;
 	builder->base.function = 4;
@@ -35,13 +32,13 @@ uint8_t modbusBuildRequest04( uint8_t address, uint16_t firstRegister, uint16_t 
 	//Calculate crc
 	builder->request04.crc = modbusCRC( builder->frame, frameLength - 2 );
 
-	MODBUSMaster.request.length = frameLength;
-	MODBUSMaster.finished = 1;
+	status->request.length = frameLength;
+	status->finished = 1;
 
 	return 0;
 }
 
-uint8_t modbusParseResponse04( union ModbusParser *parser, union ModbusParser *requestParser )
+uint8_t modbusParseResponse04( ModbusMasterStatus *status, union ModbusParser *parser, union ModbusParser *requestParser )
 {
 	//Parse slave response to request 04
 	//Read multiple input registers
@@ -54,7 +51,7 @@ uint8_t modbusParseResponse04( union ModbusParser *parser, union ModbusParser *r
 	//Check frame crc
 	if ( modbusCRC( parser->frame, frameLength - 2 ) != parser->response04.values[ parser->response04.byteCount >> 1 ] )
 	{
-		MODBUSMaster.finished = 1;
+		status->finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
@@ -66,24 +63,24 @@ uint8_t modbusParseResponse04( union ModbusParser *parser, union ModbusParser *r
 	//If data is bad abort parsing, and set error flag
 	if ( !dataok )
 	{
-		MODBUSMaster.finished = 1;
+		status->finished = 1;
 		return MODBUS_ERROR_FRAME;
 	}
 
 	//Allocate memory for ModbusData structures array
-	MODBUSMaster.data = (ModbusData *) realloc( MODBUSMaster.data, ( parser->response04.byteCount >> 1 ) * sizeof( ModbusData ) );
+	status->data = (ModbusData *) realloc( status->data, ( parser->response04.byteCount >> 1 ) * sizeof( ModbusData ) );
 
 	//Copy received data to output structures array
 	for ( i = 0; i < ( parser->response04.byteCount >> 1 ); i++ )
 	{
-		MODBUSMaster.data[i].address = parser->base.address;
-		MODBUSMaster.data[i].dataType = inputRegister;
-		MODBUSMaster.data[i].reg = modbusSwapEndian( requestParser->request04.firstRegister ) + i;
-		MODBUSMaster.data[i].value = modbusSwapEndian( parser->response04.values[i] );
+		status->data[i].address = parser->base.address;
+		status->data[i].dataType = inputRegister;
+		status->data[i].reg = modbusSwapEndian( requestParser->request04.firstRegister ) + i;
+		status->data[i].value = modbusSwapEndian( parser->response04.values[i] );
 	}
 
 	//Set up data length - response successfully parsed
-	MODBUSMaster.dataLength = parser->response04.byteCount >> 1;
-	MODBUSMaster.finished = 1;
+	status->dataLength = parser->response04.byteCount >> 1;
+	status->finished = 1;
 	return 0;
 }

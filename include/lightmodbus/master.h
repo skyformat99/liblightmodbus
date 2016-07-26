@@ -19,11 +19,8 @@
 #define LIGHTMODBUS_MASTER_INPUT_REGISTERS 0
 #endif
 
-//Variables declarations
-extern ModbusMasterStatus MODBUSMaster; //Master configuration
-
-extern uint8_t modbusParseResponse( uint8_t *, uint8_t, uint8_t *, uint8_t );
-extern uint8_t modbusMasterInit( );
-extern void modbusMasterEnd( ); //Free memory used by master
+extern uint8_t modbusParseResponse( ModbusMasterStatus *status, uint8_t *, uint8_t, uint8_t *, uint8_t );
+extern uint8_t modbusMasterInit( ModbusMasterStatus *status );
+extern void modbusMasterEnd( ModbusMasterStatus *status ); //Free memory used by master
 
 #endif
