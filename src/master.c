@@ -1,4 +1,11 @@
-#include "../include/lightmodbus/master.h"
+#include "lightmodbus/master.h"
+#include "lightmodbus/core.h"
+#include "lightmodbus/parser.h"
+#include "lightmodbus/master/mtypes.h"
+#include "lightmodbus/master/mregisters.h"
+#include "lightmodbus/master/mcoils.h"
+#include "lightmodbus/master/mdiscreteinputs.h"
+#include "lightmodbus/master/minputregisters.h"
 
 //Master configurations
 ModbusMasterStatus MODBUSMaster;

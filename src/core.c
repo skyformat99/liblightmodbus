@@ -1,4 +1,4 @@
-#include "../include/lightmodbus/core.h"
+#include "lightmodbus/core.h"
 
 uint8_t modbusMaskRead( uint8_t *mask, uint16_t maskLength, uint16_t bit )
 {

@@ -2,10 +2,7 @@
 #define LIGHTMODBUS_SLAVE_TYPES_H
 
 #include <inttypes.h>
-
-#ifndef _LIGHTMODBUS_BASE
-#include "../core.h"
-#endif
+#include "lightmodbus/core.h"
 
 //Declarations for slave types
 

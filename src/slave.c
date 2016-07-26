@@ -1,4 +1,11 @@
-#include "../include/lightmodbus/slave.h"
+#include "lightmodbus/core.h"
+#include "lightmodbus/slave.h"
+#include "lightmodbus/parser.h"
+#include "lightmodbus/slave/stypes.h"
+#include "lightmodbus/slave/sregisters.h"
+#include "lightmodbus/slave/scoils.h"
+#include "lightmodbus/slave/sdiscreteinputs.h"
+#include "lightmodbus/slave/sinputregisters.h"
 
  //Slave configuration
 ModbusSlaveStatus MODBUSSlave;

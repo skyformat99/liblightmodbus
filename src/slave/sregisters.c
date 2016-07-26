@@ -1,7 +1,7 @@
-#include "../../include/lightmodbus/core.h"
-#include "../../include/lightmodbus/parser.h"
-#include "../../include/lightmodbus/slave/stypes.h"
-#include "../../include/lightmodbus/slave/sregisters.h"
+#include "lightmodbus/core.h"
+#include "lightmodbus/parser.h"
+#include "lightmodbus/slave/stypes.h"
+#include "lightmodbus/slave/sregisters.h"
 
 //Use external slave configuration
 extern ModbusSlaveStatus MODBUSSlave;

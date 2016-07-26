@@ -3,13 +3,7 @@
 
 #include <inttypes.h>
 
-#include "core.h"
-#include "parser.h"
-#include "master/mtypes.h"
-#include "master/mregisters.h"
-#include "master/mcoils.h"
-#include "master/mdiscreteinputs.h"
-#include "master/minputregisters.h"
+#include "lightmodbus/master/mtypes.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
 #ifndef LIGHTMODBUS_MASTER_REGISTERS
