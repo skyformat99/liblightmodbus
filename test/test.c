@@ -445,8 +445,9 @@ int main( )
 
 	sstatus.inputRegisters = inputRegisters;
 	sstatus.inputRegisterCount = 4;
+	sstatus.address = 32;
 
-	modbusSlaveInit( &sstatus, 32 );
+	modbusSlaveInit( &sstatus );
 	modbusMasterInit( &mstatus );
 
 	MainTest( );
