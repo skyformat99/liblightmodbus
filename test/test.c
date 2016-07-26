@@ -195,13 +195,13 @@ void MainTest( )
 	modbusBuildRequest16( &mstatus, 0x20, 0x00, 0x20, TestValues2 );
 	Test( );
 
-	//request16 - confusing reg range
-	printf( "\t\t16 - confusing reg range...\n" );
+	//request16 - confusing register range
+	printf( "\t\t16 - confusing register range...\n" );
 	modbusBuildRequest16( &mstatus, 0x20, 0x00, 0x08, TestValues );
 	Test( );
 
-	//request16 - confusing reg range 2
-	printf( "\t\t16 - confusing reg range 2...\n" );
+	//request16 - confusing register range 2
+	printf( "\t\t16 - confusing register range 2...\n" );
 	modbusBuildRequest16( &mstatus, 0x20, 0x01, 0x08, TestValues );
 	Test( );
 
@@ -344,12 +344,12 @@ void MainTest( )
 	modbusBuildRequest15( &mstatus, 0x20, 0x00, 0x20, TestValues3 );
 	Test( );
 
-	//request15 - confusing reg range
+	//request15 - confusing register range
 	printf( "\t\t15 - confusing coil range...\n" );
 	modbusBuildRequest15( &mstatus, 0x20, 0x00, 0x40, TestValues3 );
 	Test( );
 
-	//request15 - confusing reg range 2
+	//request15 - confusing register range 2
 	printf( "\t\t15 - confusing coil range 2...\n" );
 	modbusBuildRequest15( &mstatus, 0x20, 0x01, 0x40, TestValues3 );
 	Test( );
