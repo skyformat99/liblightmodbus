@@ -25,7 +25,7 @@
 #define LIGHTMODBUS_SLAVE_INPUT_REGISTERS 0
 #endif
 
-//function prototypes
+//Function prototypes
 extern uint8_t modbusParseRequest( ModbusSlaveStatus *status, uint8_t *, uint8_t ); //Parse and interpret given modbus frame on slave-side
 extern uint8_t modbusSlaveInit( ModbusSlaveStatus *status, uint8_t ); //Very basic init of slave side
 extern void modbusSlaveEnd( ModbusSlaveStatus *status ); //Free memory used by slave

@@ -11,7 +11,7 @@ union ModbusParser
     {
         uint8_t address;
         uint8_t function;
-    } base; //base shared bytes, which have always same meaning
+    } base; //Base shared bytes, which have always same meaning
 
 	struct __attribute__( ( __packed__ ) )
 	{
@@ -64,7 +64,7 @@ union ModbusParser
         uint16_t firstRegister;
         uint16_t registerCount;
         uint16_t crc;
-    } request03; //Read multiple holding reg
+    } request03; //Read multiple holding registers
 
     struct __attribute__( ( __packed__ ) )
     {
@@ -82,7 +82,7 @@ union ModbusParser
         uint16_t firstRegister;
         uint16_t registerCount;
         uint16_t crc;
-    } request04; //Read multiple input reg
+    } request04; //Read multiple input registers
 
     struct __attribute__( ( __packed__ ) )
     {
@@ -118,7 +118,7 @@ union ModbusParser
         uint16_t reg;
         uint16_t value;
         uint16_t crc;
-    } request06; //Write single holding reg
+    } request06; //Write single holding register
 
     struct __attribute__( ( __packed__ ) )
     {
@@ -127,7 +127,7 @@ union ModbusParser
         uint16_t reg;
         uint16_t value;
         uint16_t crc;
-    } response06; //Write single holding reg
+    } response06; //Write single holding register
 
 	struct __attribute__( ( __packed__ ) )
     {

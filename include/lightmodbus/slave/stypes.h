@@ -11,7 +11,7 @@ typedef struct
 	uint8_t address; //Slave address
 
 	uint16_t *registers; //Slave holding registers
-	uint16_t registerCount; //Slave reg count
+	uint16_t registerCount; //Slave register count
 
 	uint8_t *coils; //Slave coils
 	uint16_t coilCount; //Slave coil count

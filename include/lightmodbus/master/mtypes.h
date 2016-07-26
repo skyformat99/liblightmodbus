@@ -8,8 +8,8 @@
 typedef struct
 {
 	uint8_t address; //Device address
-	uint8_t function; //function called, in which exception occured
-	uint8_t Code; //exception code
+	uint8_t function; //In which function exception occured
+	uint8_t Code; //Exception code
 } ModbusException; //Parsed exception data
 
 typedef struct
@@ -22,13 +22,13 @@ typedef struct
 		coil = 1,
 		discreteInput = 2
 	} dataType;
-	uint16_t reg; //reg, coil, input ID
-	uint16_t value; //value of data
+	uint16_t reg; //Register, coil, input ID
+	uint16_t value; //Value of data
 } ModbusData;
 
 typedef struct
 {
-	ModbusData *data; //data read from slave
+	ModbusData *data; //Data read from slave
 	uint8_t dataLength; //Count of data type instances read from slave
 	uint8_t finished; //Is parsing finished?
 	ModbusException exception; //Optional exception read
