@@ -42,51 +42,51 @@ void Test( )
 	//Dump slave registers
 	//TermRGB( 2, 4, 2 );
 	printf( "Dump registers:\n\t" );
-	for ( i = 0; i < MODBUSSlave.registerCount; i++ )
-		printf( "0x%.2x%s", Registers[i], ( i == MODBUSSlave.registerCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < status->registerCount; i++ )
+		printf( "0x%.2x%s", Registers[i], ( i == status->registerCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump input registers:\n\t" );
-	for ( i = 0; i < MODBUSSlave.InputRegisterCount; i++ )
-		printf( "0x%.2x%s", InputRegisters[i], ( i == MODBUSSlave.InputRegisterCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < status->InputRegisterCount; i++ )
+		printf( "0x%.2x%s", InputRegisters[i], ( i == status->InputRegisterCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump coils:\n\t" );
-	for ( i = 0; i < MODBUSSlave.coilCount; i++ )
-		printf( "%d%s", modbusMaskRead( Coils, MODBUSSlave.coilCount, i ), ( i == MODBUSSlave.coilCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < status->coilCount; i++ )
+		printf( "%d%s", modbusMaskRead( Coils, status->coilCount, i ), ( i == status->coilCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump discrete inputs:\n\t" );
-	for ( i = 0; i < MODBUSSlave.DiscreteInputCount; i++ )
-		printf( "%d%s", modbusMaskRead( DiscreteInputs, MODBUSSlave.DiscreteInputCount, i ), ( i == MODBUSSlave.DiscreteInputCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < status->DiscreteInputCount; i++ )
+		printf( "%d%s", modbusMaskRead( DiscreteInputs, status->DiscreteInputCount, i ), ( i == status->DiscreteInputCount - 1 ) ? "\n" : ", " );
 
 	//Parse request
 	printf( "Let slave parse frame...\n" );
 	SlaveError = modbusParseRequest( status->request.frame, status->request.length );
-	printf( "\tError - %d\n\tFinished - %d\n", SlaveError, MODBUSSlave.finished );
+	printf( "\tError - %d\n\tFinished - %d\n", SlaveError, status->finished );
 
 	//Dump slave registers
 	printf( "Dump registers:\n\t" );
-	for ( i = 0; i < MODBUSSlave.registerCount; i++ )
-		printf( "0x%.2x%s", Registers[i], ( i == MODBUSSlave.registerCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < status->registerCount; i++ )
+		printf( "0x%.2x%s", Registers[i], ( i == status->registerCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump input registers:\n\t" );
-	for ( i = 0; i < MODBUSSlave.InputRegisterCount; i++ )
-		printf( "0x%.2x%s", InputRegisters[i], ( i == MODBUSSlave.InputRegisterCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < status->InputRegisterCount; i++ )
+		printf( "0x%.2x%s", InputRegisters[i], ( i == status->InputRegisterCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump coils:\n\t" );
-	for ( i = 0; i < MODBUSSlave.coilCount; i++ )
-		printf( "%d%s", modbusMaskRead( Coils, MODBUSSlave.coilCount, i ), ( i == MODBUSSlave.coilCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < status->coilCount; i++ )
+		printf( "%d%s", modbusMaskRead( Coils, status->coilCount, i ), ( i == status->coilCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump discrete inputs:\n\t" );
-	for ( i = 0; i < MODBUSSlave.DiscreteInputCount; i++ )
-		printf( "%d%s", modbusMaskRead( DiscreteInputs, MODBUSSlave.DiscreteInputCount, i ), ( i == MODBUSSlave.DiscreteInputCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < status->DiscreteInputCount; i++ )
+		printf( "%d%s", modbusMaskRead( DiscreteInputs, status->DiscreteInputCount, i ), ( i == status->DiscreteInputCount - 1 ) ? "\n" : ", " );
 
 	//Dump response
-	printf( "Dump response - length = %d:\n\t", MODBUSSlave.response.length );
-	for ( i = 0; i < MODBUSSlave.response.length; i++ )
-		printf( "%x%s", MODBUSSlave.response.frame[i], ( i == MODBUSSlave.response.length - 1 ) ? "\n" : ", " );
+	printf( "Dump response - length = %d:\n\t", status->response.length );
+	for ( i = 0; i < status->response.length; i++ )
+		printf( "%x%s", status->response.frame[i], ( i == status->response.length - 1 ) ? "\n" : ", " );
 
 	//Process response
 	printf( "Let master process response...\n" );
-	MasterError = modbusParseResponse( MODBUSSlave.response.frame, MODBUSSlave.response.length, status->request.frame, status->request.length );
+	MasterError = modbusParseResponse( status->response.frame, status->response.length, status->request.frame, status->request.length );
 
 	//Dump parsed data
 	printf( "\tError - %d\n\tFinished - %d\n", MasterError, status->finished );
@@ -401,8 +401,8 @@ void MainTest( )
 	//WRITE PROTECTION TEST
 	printf( "\t\t--reg write protection test--\n" );
 	uint8_t mask[1] = { 0 };
-	MODBUSSlave.RegisterMask = mask;
-	MODBUSSlave.RegisterMaskLength = 1;
+	status->RegisterMask = mask;
+	status->RegisterMaskLength = 1;
 
 	modbusMaskWrite( mask, 1, 2, 1 );
 
@@ -422,7 +422,7 @@ void MainTest( )
 	printf( "Bitval: %d\r\n", modbusMaskRead( mask, 1, 3 ) );
 	printf( "Bitval: %d\r\n", modbusMaskRead( mask, 1, 4 ) );
 
-	MODBUSSlave.RegisterMaskLength = 0;
+	status->RegisterMaskLength = 0;
 }
 
 
@@ -432,17 +432,17 @@ int main( )
 	memset( TestValues2, 0xAA, 1024 );
 
 	//Init slave and master
-	MODBUSSlave.Registers = Registers;
-	MODBUSSlave.registerCount = 8;
+	status->Registers = Registers;
+	status->registerCount = 8;
 
-	MODBUSSlave.Coils = Coils;
-	MODBUSSlave.coilCount = 32;
+	status->Coils = Coils;
+	status->coilCount = 32;
 
-	MODBUSSlave.DiscreteInputs = DiscreteInputs;
-	MODBUSSlave.DiscreteInputCount = 16;
+	status->DiscreteInputs = DiscreteInputs;
+	status->DiscreteInputCount = 16;
 
-	MODBUSSlave.InputRegisters = InputRegisters;
-	MODBUSSlave.InputRegisterCount = 4;
+	status->InputRegisters = InputRegisters;
+	status->InputRegisterCount = 4;
 
 	modbusSlaveInit( 32 );
 	modbusMasterInit( );
