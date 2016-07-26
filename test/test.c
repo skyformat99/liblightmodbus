@@ -6,10 +6,10 @@ This is really simple test suite, it covers ~95% of library code
 
 ModbusMasterStatus mstatus;
 ModbusSlaveStatus sstatus;
-uint16_t Registers[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
-uint8_t Coils[4] = { 0, 0, 0, 0 };
-uint8_t DiscreteInputs[2] = { 255, 0 };
-uint16_t InputRegisters[4] = { 1, 2, 3, 4 };
+uint16_t registers[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };
+uint8_t coils[4] = { 0, 0, 0, 0 };
+uint8_t discreteInputs[2] = { 255, 0 };
+uint16_t inputRegisters[4] = { 1, 2, 3, 4 };
 uint16_t TestValues[8] = { 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF, 0xAAFF, 0xBBFF };
 uint16_t TestValues2[512];
 uint8_t TestValues3[2] = { 0b11001100, 0x00 };
@@ -26,10 +26,10 @@ void Test( )
 	uint8_t SlaveError, MasterError;
 
 	//Clear registers
-	memset( Registers, 0, 8 * 2 );
-	memset( InputRegisters, 0, 4 * 2 );
-	memset( Coils, 0, 4 );
-	memset( DiscreteInputs, 0, 2 );
+	memset( registers, 0, 8 * 2 );
+	memset( inputRegisters, 0, 4 * 2 );
+	memset( coils, 0, 4 );
+	memset( discreteInputs, 0, 2 );
 
 	//Start test
 	//TermRGB( 4, 2, 0 );
@@ -45,19 +45,19 @@ void Test( )
 	//TermRGB( 2, 4, 2 );
 	printf( "Dump registers:\n\t" );
 	for ( i = 0; i < sstatus.registerCount; i++ )
-		printf( "0x%.2x%s", Registers[i], ( i == sstatus.registerCount - 1 ) ? "\n" : ", " );
+		printf( "0x%.2x%s", registers[i], ( i == sstatus.registerCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump input registers:\n\t" );
-	for ( i = 0; i < sstatus.InputRegisterCount; i++ )
-		printf( "0x%.2x%s", InputRegisters[i], ( i == sstatus.InputRegisterCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < sstatus.inputRegisterCount; i++ )
+		printf( "0x%.2x%s", inputRegisters[i], ( i == sstatus.inputRegisterCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump coils:\n\t" );
 	for ( i = 0; i < sstatus.coilCount; i++ )
-		printf( "%d%s", modbusMaskRead( Coils, sstatus.coilCount, i ), ( i == sstatus.coilCount - 1 ) ? "\n" : ", " );
+		printf( "%d%s", modbusMaskRead( coils, sstatus.coilCount, i ), ( i == sstatus.coilCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump discrete inputs:\n\t" );
-	for ( i = 0; i < sstatus.DiscreteInputCount; i++ )
-		printf( "%d%s", modbusMaskRead( DiscreteInputs, sstatus.DiscreteInputCount, i ), ( i == sstatus.DiscreteInputCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < sstatus.discreteInputCount; i++ )
+		printf( "%d%s", modbusMaskRead( discreteInputs, sstatus.discreteInputCount, i ), ( i == sstatus.discreteInputCount - 1 ) ? "\n" : ", " );
 
 	//Parse request
 	printf( "Let slave parse frame...\n" );
@@ -67,19 +67,19 @@ void Test( )
 	//Dump slave registers
 	printf( "Dump registers:\n\t" );
 	for ( i = 0; i < sstatus.registerCount; i++ )
-		printf( "0x%.2x%s", Registers[i], ( i == sstatus.registerCount - 1 ) ? "\n" : ", " );
+		printf( "0x%.2x%s", registers[i], ( i == sstatus.registerCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump input registers:\n\t" );
-	for ( i = 0; i < sstatus.InputRegisterCount; i++ )
-		printf( "0x%.2x%s", InputRegisters[i], ( i == sstatus.InputRegisterCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < sstatus.inputRegisterCount; i++ )
+		printf( "0x%.2x%s", inputRegisters[i], ( i == sstatus.inputRegisterCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump coils:\n\t" );
 	for ( i = 0; i < sstatus.coilCount; i++ )
-		printf( "%d%s", modbusMaskRead( Coils, sstatus.coilCount, i ), ( i == sstatus.coilCount - 1 ) ? "\n" : ", " );
+		printf( "%d%s", modbusMaskRead( coils, sstatus.coilCount, i ), ( i == sstatus.coilCount - 1 ) ? "\n" : ", " );
 
 	printf( "Dump discrete inputs:\n\t" );
-	for ( i = 0; i < sstatus.DiscreteInputCount; i++ )
-		printf( "%d%s", modbusMaskRead( DiscreteInputs, sstatus.DiscreteInputCount, i ), ( i == sstatus.DiscreteInputCount - 1 ) ? "\n" : ", " );
+	for ( i = 0; i < sstatus.discreteInputCount; i++ )
+		printf( "%d%s", modbusMaskRead( discreteInputs, sstatus.discreteInputCount, i ), ( i == sstatus.discreteInputCount - 1 ) ? "\n" : ", " );
 
 	//Dump response
 	printf( "Dump response - length = %d:\n\t", sstatus.response.length );
@@ -403,8 +403,8 @@ void MainTest( )
 	//WRITE PROTECTION TEST
 	printf( "\t\t--reg write protection test--\n" );
 	uint8_t mask[1] = { 0 };
-	sstatus.RegisterMask = mask;
-	sstatus.RegisterMaskLength = 1;
+	sstatus.registerMask = mask;
+	sstatus.registerMaskLength = 1;
 
 	modbusMaskWrite( mask, 1, 2, 1 );
 
@@ -424,7 +424,7 @@ void MainTest( )
 	printf( "Bitval: %d\r\n", modbusMaskRead( mask, 1, 3 ) );
 	printf( "Bitval: %d\r\n", modbusMaskRead( mask, 1, 4 ) );
 
-	sstatus.RegisterMaskLength = 0;
+	sstatus.registerMaskLength = 0;
 }
 
 
@@ -434,17 +434,17 @@ int main( )
 	memset( TestValues2, 0xAA, 1024 );
 
 	//Init slave and master
-	sstatus.Registers = Registers;
+	sstatus.registers = registers;
 	sstatus.registerCount = 8;
 
-	sstatus.Coils = Coils;
+	sstatus.coils = coils;
 	sstatus.coilCount = 32;
 
-	sstatus.DiscreteInputs = DiscreteInputs;
-	sstatus.DiscreteInputCount = 16;
+	sstatus.discreteInputs = discreteInputs;
+	sstatus.discreteInputCount = 16;
 
-	sstatus.InputRegisters = InputRegisters;
-	sstatus.InputRegisterCount = 4;
+	sstatus.inputRegisters = inputRegisters;
+	sstatus.inputRegisterCount = 4;
 
 	modbusSlaveInit( &sstatus, 32 );
 	modbusMasterInit( &mstatus );

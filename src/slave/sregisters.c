@@ -68,7 +68,7 @@ uint8_t modbusParseRequest03( ModbusSlaveStatus *status, union ModbusParser *par
 
 	//Copy registers to response frame
 	for ( i = 0; i < parser->request03.registerCount; i++ )
-		builder->response03.values[i] = modbusSwapEndian( status->Registers[parser->request03.firstRegister + i] );
+		builder->response03.values[i] = modbusSwapEndian( status->registers[parser->request03.firstRegister + i] );
 
 	//Calculate crc
 	builder->response03.values[parser->request03.registerCount] = modbusCRC( builder->frame, frameLength - 2 );
@@ -108,7 +108,7 @@ uint8_t modbusParseRequest06( ModbusSlaveStatus *status, union ModbusParser *par
 	}
 
 	//Check if reg is allowed to be written
-	if ( modbusMaskRead( status->RegisterMask, status->RegisterMaskLength, parser->request06.reg ) == 1 )
+	if ( modbusMaskRead( status->registerMask, status->registerMaskLength, parser->request06.reg ) == 1 )
 	{
 		//Illegal data address exception
 		if ( parser->base.address != 0 ) return modbusBuildException( status, 0x06, 0x02 );
@@ -128,7 +128,7 @@ uint8_t modbusParseRequest06( ModbusSlaveStatus *status, union ModbusParser *par
 	union ModbusParser *builder = (union ModbusParser *) status->response.frame;
 
 	//After all possible exceptions, write reg
-	status->Registers[parser->request06.reg] = parser->request06.value;
+	status->registers[parser->request06.reg] = parser->request06.value;
 
 	//Do not respond when frame is broadcasted
 	if ( parser->base.address == 0 )
@@ -141,7 +141,7 @@ uint8_t modbusParseRequest06( ModbusSlaveStatus *status, union ModbusParser *par
 	builder->response06.address = status->address;
 	builder->response06.function = parser->request06.function;
 	builder->response06.reg = modbusSwapEndian( parser->request06.reg );
-	builder->response06.value = modbusSwapEndian( status->Registers[parser->request06.reg] );
+	builder->response06.value = modbusSwapEndian( status->registers[parser->request06.reg] );
 
 	//Calculate crc
 	builder->response06.crc = modbusCRC( builder->frame, frameLength - 2 );
@@ -208,7 +208,7 @@ uint8_t modbusParseRequest16( ModbusSlaveStatus *status, union ModbusParser *par
 
 	//Check for write protection
 	for ( i = 0; i < parser->request16.registerCount; i++ )
-		MaskSum += (  modbusMaskRead( status->RegisterMask, status->RegisterMaskLength, parser->request16.firstRegister + i ) == 1 ) ? 1 : 0;
+		MaskSum += (  modbusMaskRead( status->registerMask, status->registerMaskLength, parser->request16.firstRegister + i ) == 1 ) ? 1 : 0;
 
 	if ( MaskSum > 0 )
 	{
@@ -232,7 +232,7 @@ uint8_t modbusParseRequest16( ModbusSlaveStatus *status, union ModbusParser *par
 
 	//After all possible exceptions, write values to registers
 	for ( i = 0; i < parser->request16.registerCount; i++ )
-		status->Registers[parser->request16.firstRegister + i] = modbusSwapEndian( parser->request16.values[i] );
+		status->registers[parser->request16.firstRegister + i] = modbusSwapEndian( parser->request16.values[i] );
 
 	//Do not respond when frame is broadcasted
 	if ( parser->base.address == 0 )

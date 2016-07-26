@@ -37,13 +37,13 @@ uint8_t modbusParseRequest02( ModbusSlaveStatus *status, union ModbusParser *par
 		return modbusBuildException( status, 0x02, 0x03 );
 	}
 
-	if ( parser->request02.inputCount > status->DiscreteInputCount )
+	if ( parser->request02.inputCount > status->discreteInputCount )
 	{
 		//Illegal data address error
 		return modbusBuildException( status, 0x02, 0x02 );
 	}
 
-	if ( parser->request02.firstInput >= status->DiscreteInputCount || (uint32_t) parser->request02.firstInput + (uint32_t) parser->request02.inputCount > (uint32_t) status->DiscreteInputCount )
+	if ( parser->request02.firstInput >= status->discreteInputCount || (uint32_t) parser->request02.firstInput + (uint32_t) parser->request02.inputCount > (uint32_t) status->discreteInputCount )
 	{
 		//Illegal data address exception
 		return modbusBuildException( status, 0x02, 0x02 );
@@ -68,7 +68,7 @@ uint8_t modbusParseRequest02( ModbusSlaveStatus *status, union ModbusParser *par
 
 	//Copy registers to response frame
 	for ( i = 0; i < parser->request02.inputCount; i++ )
-		modbusMaskWrite( builder->response02.values, 32, i, modbusMaskRead( status->DiscreteInputs, 1 + ( ( status->DiscreteInputCount - 1 ) >> 3 ), i + parser->request02.firstInput ) );
+		modbusMaskWrite( builder->response02.values, 32, i, modbusMaskRead( status->discreteInputs, 1 + ( ( status->discreteInputCount - 1 ) >> 3 ), i + parser->request02.firstInput ) );
 
 	//Calculate crc
 	builder->frame[frameLength - 2] = modbusCRC( builder->frame, frameLength - 2 ) & 0x00FF;

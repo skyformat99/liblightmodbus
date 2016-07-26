@@ -10,20 +10,20 @@ typedef struct
 {
 	uint8_t address; //Slave address
 
-	uint16_t *Registers; //Slave holding registers
+	uint16_t *registers; //Slave holding registers
 	uint16_t registerCount; //Slave reg count
 
-	uint8_t *Coils; //Slave coils
+	uint8_t *coils; //Slave coils
 	uint16_t coilCount; //Slave coil count
 
-	uint8_t *DiscreteInputs; //Slave discrete input
-	uint16_t DiscreteInputCount; //Slave discrete input count
+	uint8_t *discreteInputs; //Slave discrete input
+	uint16_t discreteInputCount; //Slave discrete input count
 
-	uint8_t *RegisterMask; //Masks for write protection (bit of value 1 - write protection)
-	uint16_t RegisterMaskLength; //Masks length (each mask covers 8 registers)
+	uint8_t *registerMask; //Masks for write protection (bit of value 1 - write protection)
+	uint16_t registerMaskLength; //Masks length (each mask covers 8 registers)
 
-	uint16_t *InputRegisters; //Slave input registers
-	uint16_t InputRegisterCount; //Slave input count
+	uint16_t *inputRegisters; //Slave input registers
+	uint16_t inputRegisterCount; //Slave input count
 
 	uint8_t finished; //Has slave finished building response for master?
 	ModbusFrame response; //Slave response formatting status

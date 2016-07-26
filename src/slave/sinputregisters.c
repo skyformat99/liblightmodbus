@@ -37,13 +37,13 @@ uint8_t modbusParseRequest04( ModbusSlaveStatus *status, union ModbusParser *par
 		return modbusBuildException( status, 0x04, 0x03 );
 	}
 
-	if ( parser->request04.registerCount > status->InputRegisterCount )
+	if ( parser->request04.registerCount > status->inputRegisterCount )
 	{
 		//Illegal data address error
 		return modbusBuildException( status, 0x04, 0x02 );
 	}
 
-	if ( parser->request04.firstRegister >= status->InputRegisterCount || (uint32_t) parser->request04.firstRegister + (uint32_t) parser->request04.registerCount > (uint32_t) status->InputRegisterCount )
+	if ( parser->request04.firstRegister >= status->inputRegisterCount || (uint32_t) parser->request04.firstRegister + (uint32_t) parser->request04.registerCount > (uint32_t) status->inputRegisterCount )
 	{
 		//Illegal data address exception
 		return modbusBuildException( status, 0x04, 0x02 );
@@ -68,7 +68,7 @@ uint8_t modbusParseRequest04( ModbusSlaveStatus *status, union ModbusParser *par
 
 	//Copy registers to response frame
 	for ( i = 0; i < parser->request04.registerCount; i++ )
-		builder->response04.values[i] = modbusSwapEndian( status->InputRegisters[parser->request04.firstRegister + i] );
+		builder->response04.values[i] = modbusSwapEndian( status->inputRegisters[parser->request04.firstRegister + i] );
 
 	//Calculate crc
 	builder->response04.values[parser->request04.registerCount] = modbusCRC( builder->frame, frameLength - 2 );

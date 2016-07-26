@@ -37,11 +37,11 @@ Commands.append( "make -f makefile-avr FORCE MCU=\"" + MCU + "\" LDFLAGS=\"" + L
 Commands.append( "make -f makefile-avr core MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
 
 if ( raw_input( Colors.HEADER + "\nDo you need master module? [y/N] " + Colors.ENDC ).lower( ) == "y" ):
-    if ( raw_input( "  \t - Registers module? [y/N] " ).lower( ) == "y" ):
+    if ( raw_input( "  \t - registers module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr master-registers MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
         MasterFlags += " -DLIGHTMODBUS_MASTER_REGISTERS";
 
-    if ( raw_input( "\t - Coils module? [y/N] " ).lower( ) == "y" ):
+    if ( raw_input( "\t - coils module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr master-coils MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
         MasterFlags += " -DLIGHTMODBUS_MASTER_COILS";
 
@@ -57,11 +57,11 @@ if ( raw_input( Colors.HEADER + "\nDo you need master module? [y/N] " + Colors.E
     Commands.append( "make -f makefile-avr master-link MCU=\"" + MCU + "\" MASTERFLAGS=\"" + MasterFlags + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
 
 if ( raw_input( Colors.HEADER + "Do you need slave module? [y/N] " + Colors.ENDC ).lower( ) == "y" ):
-    if ( raw_input( "  \t - Registers module? [y/N] " ).lower( ) == "y" ):
+    if ( raw_input( "  \t - registers module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr slave-registers MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
         MasterFlags += " -DLIGHTMODBUS_SLAVE_REGISTERS";
 
-    if ( raw_input( "\t - Coils module? [y/N] " ).lower( ) == "y" ):
+    if ( raw_input( "\t - coils module? [y/N] " ).lower( ) == "y" ):
         Commands.append( "make -f makefile-avr slave-coils MCU=\"" + MCU + "\" LDFLAGS=\"" + LDFlags + "\" CFLAGS=\"" + CFlags + "\"" );
         MasterFlags += " -DLIGHTMODBUS_SLAVE_COILS";
 
