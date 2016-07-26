@@ -3,7 +3,7 @@
 #include "lightmodbus/master/mtypes.h"
 #include "lightmodbus/master/mdiscreteinputs.h"
 
-uint8_t modbusBuildRequest02( ModbusMasterStatus *status, uint8_t address, uint16_t firstCoil, uint16_t coilCount )
+uint8_t modbusBuildRequest02( ModbusMasterStatus *status, uint8_t address, uint16_t firstInput, uint16_t inputCount )
 {
 	//Build request02 frame, to send it so slave
 	//Read multiple discrete inputs
@@ -26,8 +26,8 @@ uint8_t modbusBuildRequest02( ModbusMasterStatus *status, uint8_t address, uint1
 
 	builder->base.address = address;
 	builder->base.function = 2;
-	builder->request02.firstInput = modbusSwapEndian( firstCoil );
-	builder->request02.inputCount = modbusSwapEndian( coilCount );
+	builder->request02.firstInput = modbusSwapEndian( firstInput );
+	builder->request02.inputCount = modbusSwapEndian( inputCount );
 
 	//Calculate crc
 	builder->request02.crc = modbusCRC( builder->frame, frameLength - 2 );

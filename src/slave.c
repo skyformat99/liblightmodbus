@@ -132,12 +132,10 @@ uint8_t modbusParseRequest( ModbusSlaveStatus *status, uint8_t *frame, uint8_t f
 	return err;
 }
 
-uint8_t modbusSlaveInit( ModbusSlaveStatus *status, uint8_t address )
+uint8_t modbusSlaveInit( ModbusSlaveStatus *status )
 {
 	//Very basic init of slave side
 	//User has to modify pointers etc. himself
-
-	status->address = address;
 
 	//Reset response frame status
 	status->finished = 0;

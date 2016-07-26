@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <inttypes.h>
 
-//err codes
+//Error codes
 #define MODBUS_ERROR_OK 0 //Everything went ok
 #define MODBUS_ERROR_PARSE 1 //Slave did not parse frame (eg. bad function code)
 #define MODBUS_ERROR_EXCEPTION 2 //Slave thrown an exception and it's stored in status->exception
@@ -24,10 +24,10 @@ typedef struct
 	uint8_t *frame; //Frame content
 } ModbusFrame; //Type containing information about generated frame
 
-//function prototypes
+//Function prototypes
 extern uint8_t modbusMaskRead( uint8_t *mask, uint16_t maskLength, uint16_t bit );
 extern uint8_t modbusMaskWrite( uint8_t *mask, uint16_t maskLength, uint16_t bit, uint8_t value );
-extern uint16_t modbusSwapEndian( uint16_t );
-extern uint16_t modbusCRC( uint8_t *, uint16_t );
+extern uint16_t modbusSwapEndian( uint16_t data );
+extern uint16_t modbusCRC( uint8_t *data, uint16_t length );
 
 #endif
