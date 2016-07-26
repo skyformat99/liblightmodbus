@@ -3,7 +3,13 @@
 
 #include <inttypes.h>
 
+#include "lightmodbus/core.h"
+#include "lightmodbus/parser.h"
 #include "lightmodbus/slave/stypes.h"
+#include "lightmodbus/slave/sregisters.h"
+#include "lightmodbus/slave/scoils.h"
+#include "lightmodbus/slave/sdiscreteinputs.h"
+#include "lightmodbus/slave/sinputregisters.h"
 
 //Enabling modules in compilation process (use makefile to automate this process)
 #ifndef LIGHTMODBUS_SLAVE_REGISTERS
