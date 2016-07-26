@@ -112,24 +112,24 @@ void MainTest( )
 	modbusBuildRequest03( &mstatus, 0x20, 0x00, 0x08 );
 	Test( );
 
-	//request03 - bad crc
-	printf( "\t\t03 - bad crc...\n" );
+	//request03 - bad CRC
+	printf( "\t\t03 - bad CRC...\n" );
 	modbusBuildRequest03( &mstatus, 0x20, 0x00, 0x08 );
 	mstatus.request.frame[mstatus.request.length - 1]++;
 	Test( );
 
-	//request03 - bad first reg
-	printf( "\t\t03 - bad first reg...\n" );
+	//request03 - bad first register
+	printf( "\t\t03 - bad first register...\n" );
 	modbusBuildRequest03( &mstatus,0x20, 0xff, 0x08 );
 	Test( );
 
-	//request03 - bad reg count
-	printf( "\t\t03 - bad reg count...\n" );
+	//request03 - bad register count
+	printf( "\t\t03 - bad register count...\n" );
 	modbusBuildRequest03( &mstatus, 0x20, 0x00, 0xff );
 	Test( );
 
-	//request03 - bad reg count and first reg
-	printf( "\t\t03 - bad reg count and first reg...\n" );
+	//request03 - bad register count and first register
+	printf( "\t\t03 - bad register count and first register...\n" );
 	modbusBuildRequest03( &mstatus,0x20, 0xffff, 0xffff );
 	Test( );
 
@@ -148,14 +148,14 @@ void MainTest( )
 	modbusBuildRequest06( &mstatus,0x20, 0x06, 0xf6 );
 	Test( );
 
-	//request06 - bad crc
-	printf( "\t\t06 - bad crc...\n" );
+	//request06 - bad CRC
+	printf( "\t\t06 - bad CRC...\n" );
 	modbusBuildRequest06( &mstatus,0x20, 0x06, 0xf6 );
 	mstatus.request.frame[mstatus.request.length - 1]++;
 	Test( );
 
-	//request06 - bad reg
-	printf( "\t\t06 - bad reg...\n" );
+	//request06 - bad register
+	printf( "\t\t06 - bad register...\n" );
 	modbusBuildRequest06( &mstatus,0x20, 0xf6, 0xf6 );
 	Test( );
 
@@ -174,24 +174,24 @@ void MainTest( )
 	modbusBuildRequest16( &mstatus, 0x20, 0x00, 0x04, TestValues );
 	Test( );
 
-	//request16 - bad crc
-	printf( "\t\t16 - bad crc...\n" );
+	//request16 - bad CRC
+	printf( "\t\t16 - bad CRC...\n" );
 	modbusBuildRequest16( &mstatus, 0x20, 0x00, 0x04, TestValues );
 	mstatus.request.frame[mstatus.request.length - 1]++;
 	Test( );
 
 	//request16 - bad start reg
-	printf( "\t\t16 - bad first reg...\n" );
+	printf( "\t\t16 - bad first register...\n" );
 	modbusBuildRequest16( &mstatus, 0x20, 0xFF, 0x04, TestValues );
 	Test( );
 
-	//request16 - bad reg range
-	printf( "\t\t16 - bad reg range...\n" );
+	//request16 - bad register range
+	printf( "\t\t16 - bad register range...\n" );
 	modbusBuildRequest16( &mstatus, 0x20, 0x00, 0xFF, TestValues2 );
 	Test( );
 
-	//request16 - bad reg range 2
-	printf( "\t\t16 - bad reg range 2...\n" );
+	//request16 - bad register range 2
+	printf( "\t\t16 - bad register range 2...\n" );
 	modbusBuildRequest16( &mstatus, 0x20, 0x00, 0x20, TestValues2 );
 	Test( );
 
@@ -220,8 +220,8 @@ void MainTest( )
 	modbusBuildRequest02( &mstatus, 0x20, 0x00, 0x10 );
 	Test( );
 
-	//request02 - bad crc
-	printf( "\t\t02 - bad crc...\n" );
+	//request02 - bad CRC
+	printf( "\t\t02 - bad CRC...\n" );
 	modbusBuildRequest02( &mstatus, 0x20, 0x00, 0x10 );
 	mstatus.request.frame[mstatus.request.length - 1]++;
 	Test( );
@@ -236,8 +236,8 @@ void MainTest( )
 	modbusBuildRequest02( &mstatus, 0x20, 0x00, 0xff );
 	Test( );
 
-	//request02 - bad reg count and first discrete input
-	printf( "\t\t02 - bad reg count and first discrete input...\n" );
+	//request02 - bad register count and first discrete input
+	printf( "\t\t02 - bad register count and first discrete input...\n" );
 	modbusBuildRequest02( &mstatus, 0x20, 0xffff, 0xffff );
 	Test( );
 
@@ -256,23 +256,23 @@ void MainTest( )
 	modbusBuildRequest01( &mstatus, 0x20, 0x00, 0x04 );
 	Test( );
 
-	//request01 - bad crc
-	printf( "\t\t01 - bad crc...\n" );
+	//request01 - bad CRC
+	printf( "\t\t01 - bad CRC...\n" );
 	modbusBuildRequest01( &mstatus, 0x20, 0x00, 0x04 );
 	mstatus.request.frame[mstatus.request.length - 1]++;
 	Test( );
 
-	//request01 - bad first reg
+	//request01 - bad first register
 	printf( "\t\t01 - bad first coil...\n" );
 	modbusBuildRequest01( &mstatus, 0x20, 0xff, 0x04 );
 	Test( );
 
-	//request01 - bad reg count
+	//request01 - bad register count
 	printf( "\t\t01 - bad coil count...\n" );
 	modbusBuildRequest01( &mstatus, 0x20, 0x00, 0xff );
 	Test( );
 
-	//request01 - bad reg count and first reg
+	//request01 - bad register count and first register
 	printf( "\t\t01 - bad coil count and first coil...\n" );
 	modbusBuildRequest01( &mstatus, 0x20, 0xffff, 0xffff );
 	Test( );
@@ -292,8 +292,8 @@ void MainTest( )
 	modbusBuildRequest05( &mstatus, 0x20, 0x03, 0xff00 );
 	Test( );
 
-	//request05 - bad crc
-	printf( "\t\t05 - bad crc...\n" );
+	//request05 - bad CRC
+	printf( "\t\t05 - bad CRC...\n" );
 	modbusBuildRequest05( &mstatus, 0x20, 0x03, 0xff00 );
 	mstatus.request.frame[mstatus.request.length - 1]++;
 	Test( );
@@ -303,7 +303,7 @@ void MainTest( )
 	modbusBuildRequest05( &mstatus, 0x20, 0x03, 1 );
 	Test( );
 
-	//request05 - bad reg
+	//request05 - bad register
 	printf( "\t\t05 - bad coil...\n" );
 	modbusBuildRequest05( &mstatus, 0x20, 0xf3, 0xff00 );
 	Test( );
@@ -323,8 +323,8 @@ void MainTest( )
 	modbusBuildRequest15( &mstatus, 0x20, 0x00, 0x04, TestValues3 );
 	Test( );
 
-	//request15 - bad crc
-	printf( "\t\t15 - bad crc...\n" );
+	//request15 - bad CRC
+	printf( "\t\t15 - bad CRC...\n" );
 	modbusBuildRequest15( &mstatus, 0x20, 0x00, 0x04, TestValues3 );
 	mstatus.request.frame[mstatus.request.length - 1]++;
 	Test( );
@@ -334,12 +334,12 @@ void MainTest( )
 	modbusBuildRequest15( &mstatus, 0x20, 0xFF, 0x04, TestValues3 );
 	Test( );
 
-	//request15 - bad reg range
+	//request15 - bad register range
 	printf( "\t\t15 - bad coil range...\n" );
 	modbusBuildRequest15( &mstatus, 0x20, 0x00, 0xFF, TestValues3 );
 	Test( );
 
-	//request15 - bad reg range 2
+	//request15 - bad register range 2
 	printf( "\t\t15 - bad coil range 2...\n" );
 	modbusBuildRequest15( &mstatus, 0x20, 0x00, 0x20, TestValues3 );
 	Test( );
@@ -369,24 +369,24 @@ void MainTest( )
 	modbusBuildRequest04( &mstatus, 0x20, 0x00, 0x04 );
 	Test( );
 
-	//request04 - bad crc
-	printf( "\t\t04 - bad crc...\n" );
+	//request04 - bad CRC
+	printf( "\t\t04 - bad CRC...\n" );
 	modbusBuildRequest04( &mstatus, 0x20, 0x00, 0x04 );
 	mstatus.request.frame[mstatus.request.length - 1]++;
 	Test( );
 
-	//request04 - bad first reg
-	printf( "\t\t04 - bad first reg...\n" );
+	//request04 - bad first register
+	printf( "\t\t04 - bad first register...\n" );
 	modbusBuildRequest04( &mstatus, 0x20, 0x05, 0x04 );
 	Test( );
 
-	//request04 - bad reg count
-	printf( "\t\t04 - bad reg count...\n" );
+	//request04 - bad register count
+	printf( "\t\t04 - bad register count...\n" );
 	modbusBuildRequest04( &mstatus, 0x20, 0x00, 0x05 );
 	Test( );
 
-	//request04 - bad reg count and first reg
-	printf( "\t\t04 - bad reg count and first reg...\n" );
+	//request04 - bad register count and first register
+	printf( "\t\t04 - bad register count and first register...\n" );
 	modbusBuildRequest04( &mstatus, 0x20, 0x01, 0x05 );
 	Test( );
 
@@ -401,7 +401,7 @@ void MainTest( )
 	Test( );
 
 	//WRITE PROTECTION TEST
-	printf( "\t\t--reg write protection test--\n" );
+	printf( "\t\t--Register write protection test--\n" );
 	uint8_t mask[1] = { 0 };
 	sstatus.registerMask = mask;
 	sstatus.registerMaskLength = 1;
