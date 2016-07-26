@@ -15,16 +15,16 @@ uint8_t modbusParseException( union ModbusParser *parser )
 	//Parse exception frame and write data to MODBUSMaster structure
 
 	//Check crc
-	if ( modbusCRC( ( *parser ).frame, 3 ) != ( *parser ).exception.crc )
+	if ( modbusCRC( parser->frame, 3 ) != parser->exception.crc )
 	{
 		MODBUSMaster.finished = 1;
 		return MODBUS_ERROR_CRC;
 	}
 
 	//Copy data
-	MODBUSMaster.exception.address = ( *parser ).exception.address;
-	MODBUSMaster.exception.function = ( *parser ).exception.function;
-	MODBUSMaster.exception.Code = ( *parser ).exception.exceptionCode;
+	MODBUSMaster.exception.address = parser->exception.address;
+	MODBUSMaster.exception.function = parser->exception.function;
+	MODBUSMaster.exception.Code = parser->exception.exceptionCode;
 
 	MODBUSMaster.finished = 1;
 
@@ -59,7 +59,7 @@ uint8_t modbusParseResponse( uint8_t *frame, uint8_t frameLength, uint8_t *Reque
 		free( parser );
 		return MODBUS_ERROR_ALLOC;
 	}
-	memcpy( ( *parser ).frame,  frame, frameLength );
+	memcpy( parser->frame,  frame, frameLength );
 
 	//Allocate memory for request union and copy frame to it
 	union ModbusParser *requestParser = (union ModbusParser *) malloc( RequestFrameLength );
@@ -69,16 +69,16 @@ uint8_t modbusParseResponse( uint8_t *frame, uint8_t frameLength, uint8_t *Reque
 		free( requestParser );
 		return MODBUS_ERROR_ALLOC;
 	}
-	memcpy( ( *requestParser ).frame,  RequestFrame, RequestFrameLength );
+	memcpy( requestParser->frame,  RequestFrame, RequestFrameLength );
 
 	//Check if frame is exception response
-	if ( ( *parser ).base.function & 128 )
+	if ( parser->base.function & 128 )
 	{
 		err = modbusParseException( parser );
 	}
 	else
 	{
-		switch ( ( *parser ).base.function )
+		switch ( parser->base.function )
 		{
 			case 1: //Read multiple coils
 				if ( LIGHTMODBUS_MASTER_COILS ) err = modbusParseResponse01( parser, requestParser );

@@ -70,17 +70,17 @@ uint8_t modbusParseRequest( uint8_t *frame, uint8_t frameLength )
 		return MODBUS_ERROR_ALLOC;
 	}
 
-	memcpy( ( *parser ).frame, frame, frameLength );
+	memcpy( parser->frame, frame, frameLength );
 
 	//If frame is not broadcasted and address doesn't match skip parsing
-	if ( ( *parser ).base.address != MODBUSSlave.address && ( *parser ).base.address != 0 )
+	if ( parser->base.address != MODBUSSlave.address && parser->base.address != 0 )
 	{
 		free( parser );
 		MODBUSSlave.finished = 1;
 		return 0;
 	}
 
-	switch ( ( *parser ).base.function )
+	switch ( parser->base.function )
 	{
 		case 1: //Read multiple coils
 			if ( LIGHTMODBUS_SLAVE_COILS ) err = modbusParseRequest01( parser );
@@ -128,7 +128,7 @@ uint8_t modbusParseRequest( uint8_t *frame, uint8_t frameLength )
 	}
 
 	if ( err == MODBUS_ERROR_PARSE )
-		if ( ( *parser ).base.address != 0 ) err = modbusBuildException( ( *parser ).base.function, 0x01 );
+		if ( parser->base.address != 0 ) err = modbusBuildException( parser->base.function, 0x01 );
 
 	free( parser );
 
