@@ -2,7 +2,7 @@
 #define LIGHTMODBUS_MASTER_DISCRETE_INPUTS_H
 
 #include <inttypes.h>
-#include "lightmodbus/master/mtypes.h"
+#include "mtypes.h"
 
 //Functions for building requests
 extern uint8_t modbusBuildRequest02( ModbusMasterStatus *status, uint8_t, uint16_t, uint16_t );

@@ -2,7 +2,7 @@
 #define LIGHTMODBUS_SLAVE_COILS_H
 
 #include <inttypes.h>
-#include "lightmodbus/slave/stypes.h"
+#include "stypes.h"
 
 //Functions needed from other modules
 extern uint8_t modbusBuildException( ModbusSlaveStatus *status, uint8_t, uint8_t );

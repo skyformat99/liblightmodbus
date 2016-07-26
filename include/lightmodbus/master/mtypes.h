@@ -2,7 +2,7 @@
 #define LIGHTMODBUS_MASTER_TYPES_H
 
 #include <inttypes.h>
-#include "lightmodbus/core.h"
+#include "../core.h"
 
 //Declarations for master types
 typedef struct
