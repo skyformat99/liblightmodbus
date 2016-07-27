@@ -1,15 +1,19 @@
 sudo: required
 language: c
+branches:
+    except:
+        - packaging
+        
 before_install:
-  - sudo apt-get update
+    - sudo apt-get update
 install:
-  - sudo apt-get install gcc-avr binutils-avr avr-libc valgrind pastebinit
-  - pip install --user cpp-coveralls
+    - sudo apt-get install gcc-avr binutils-avr avr-libc valgrind pastebinit
+    - pip install --user cpp-coveralls
 script:
-  - make all
-  - make -f makefile-coverage all
+    - make all
+    - make -f makefile-coverage all
 after_success:
-  - coveralls --verbose --exclude test/test.c
-  - pastebinit -i valgrind.xml
-  - pastebinit -i massif.out
-  - pastebinit -i coverage-test.log
+    - coveralls --verbose --exclude test/test.c
+    - pastebinit -i valgrind.xml
+    - pastebinit -i massif.out
+    - pastebinit -i coverage-test.log
