@@ -1,2 +1,1 @@
-include/lightmodbus usr/include
-lib/*.a usr/lib
+
