@@ -71,7 +71,7 @@ FORCE:
 	-mkdir lib
 
 clean:
-	$(call cleanHeader,build environment)
+	$(call infoHeader,cleaning up build environment)
 	-find . -name "*.gch" -type f -delete
 	-rm -rf obj
 	-rm -rf lib
