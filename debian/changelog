@@ -1,3 +1,13 @@
+liblightmodbus (1.2-1) trusty; urgency=low
+
+  * Change many function names.
+  * Remove global variables/structures. Now each function takes pointer to configuration structure.
+  * Improve header files management.
+  * More verbose function prototypes.
+  * Other minor changes. 
+
+ -- Jacek Wieczorek <mrjjot@gmail.com>  Wed, 27 July 2016 14:55:00 +0200
+
 liblightmodbus (1.1-1) trusty; urgency=low
 
   * Initial release after name change.

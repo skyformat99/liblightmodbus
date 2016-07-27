@@ -12,4 +12,4 @@ Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Description: Lightweight, multiplatform Modbus library.
  Liblightmodbus is aimed to run on personal computers as well as on smaller systems, like AVR micro-controllers.
- Library requires really minimal resources to run.
+ Library requires minimal resources to run.
