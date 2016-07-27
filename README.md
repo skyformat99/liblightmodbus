@@ -16,7 +16,7 @@ Library is aimed to run on AVR devices, but it runs on PC too.
 - Lightweight and easy to use
 - Supports all basic Modbus functions
 - Library can be installed as a `*.deb` package on computer
-- You can pick only modules, you want, when building library for AVR using very simple python assistant
+- You can pick only modules, you want, when building library for AVR using very simple python interface
 
 *Currently supported functions include: 01, 02, 03, 04, 05, 06, 15, 16*
 
