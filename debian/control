@@ -1,0 +1,15 @@
+Source: liblightmodbus
+Priority: optional
+Maintainer: Jacek Wieczorek <mrjjot@gmail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Section: libs
+Homepage: https://github.com/Jacajack/liblightmodbus
+
+Package: liblightmodbus-dev
+Section: libdevel
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Lightweight, multiplatform Modbus library.
+ Liblightmodbus is aimed to run on personal computers as well as on smaller systems, like AVR micro-controllers.
+ Library requires really minimal resources to run.

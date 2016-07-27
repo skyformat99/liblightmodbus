@@ -1,0 +1,5 @@
+liblightmodbus (1.1-1) trusty; urgency=low
+
+  * Initial release after name change.
+
+ -- Jacek Wieczorek <mrjjot@gmail.com>  Wed, 04 May 2016 18:23:00 +0200
