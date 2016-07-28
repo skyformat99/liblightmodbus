@@ -1,0 +1,36 @@
+.TH ModbusDataType 3LIGHTMODBUS "28 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBModbusDataType\fP \- enumeration type, describing what type Modbus data is (e.g. coil, register).
+.SH SYNOPSIS
+.PP
+\fB\fCtypedef enum //MODBUS data types enum (coil, reg, input, etc.)
+    {
+        holdingRegister = 0,
+        inputRegister = 1,
+        coil = 2,
+        discreteInput = 4
+    } ModbusDataType;\fR
+.SH DESCRIPTION
+.PP
+The \fBModbusDataType\fP describes what type given Modbus data is.
+.TS
+allbox;
+cb cb
+l l
+l l
+l l
+l l
+.
+value	data type
+0	holding register (16\-bit)
+1	input register (16\-bit)
+2	coil (1\-bit)
+4	discrete input (1\-bit)
+.TE
+.SH NOTES
+.PP
+\fBModbusDataType\fP is declared in \fBlightmodbus/master/mtypes.h\fP, although including \fBlightmodbus/master.h\fP is enough.
+.SH SEE ALSO
+.PP
+ModbusMasterStatus( 3LIGHTMODBUS ), ModbusData( 3LIGHTMODBUS )
