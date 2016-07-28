@@ -1,0 +1,18 @@
+.TH modbusMasterInit 3LIGHTMODBUS "29 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusMasterInit\fP \- setup \fBModbusMasterStatus\fP structure for use.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/master.h>\fR
+.PP
+\fB\fCuint8_t modbusMasterInit( ModbusMasterStatus *status );\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusMasterInit\fP function sets crucial members of \fBModbusMasterStatus\fP structure and allocates memory for necessary data. This function should always be called before using any other Modbus master\-side functions.
+Needless to say, when returned value is not equal 0 an error occured.
+.PP
+Memory can be later freed with \fBmodbusMasterEnd\fP\&.
+.SH SEE ALSO
+.PP
+ModbusMasterStatus( 3LIGHTMODBUS ), modbusMasterEnd( 3LIGHTMODBUS )
