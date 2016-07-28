@@ -1,0 +1,31 @@
+.TH ModbusFrame 3LIGHTMODBUS "28 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBModbusFrame\fP \- data type containing Modbus frame and information about it.
+.SH SYNOPSIS
+.PP
+\fB\fCtypedef struct
+    {
+        uint8_t length; //Length of frame, if it's equal to 0, frame is not ready
+        uint8_t *frame; //Frame content
+    } ModbusFrame; //Type containing information about generated frame\fR
+.SH DESCRIPTION
+.PP
+The \fBModbusFrame\fP contains pointer to frame data, and frame length expressed in bytes number.
+.TS
+allbox;
+cb cb
+l l
+l l
+.
+member name	description
+length	dynamically allocated array of type \fBuint8_t\fP, and length of \fIlength\fP containing Modbus frame
+frame	length of \fIframe\fP in bytes
+.TE
+.SH NOTES
+.PP
+\fBModbusFrame\fP is declared in \fBlightmodbus/core.h\fP\&.
+Also, maximum length of single frame is 256 bytes, as limited by 8\-bit unsigned integer and Modbus standard.
+.SH SEE ALSO
+.PP
+ModbusMasterStatus( 3LIGHTMODBUS )

@@ -1,0 +1,14 @@
+.TH modbusMaskRead 3LIGHTMODBUS "28 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusMaskRead\fP \- read single bit from an array.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/core.h>\fR
+.PP
+\fB\fCuint8_t modbusMaskRead( uint8_t *mask, uint16_t maskLength, uint16_t bit );\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusMaskRead\fP function returns \fIbit\fP bit from \fImask\fP little\-endian array of \fImaskLength\fP length. It's useful when whole array is
+ one long bit mask. When returned value is greater than 1, an error occurred.
+.SH SEE ALSO

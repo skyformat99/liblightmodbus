@@ -1,0 +1,14 @@
+.TH modbusMaskWrite 3LIGHTMODBUS "28 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusMaskWrite\fP \- write single bit to an array.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/core.h>\fR
+.PP
+\fB\fCuint8_t modbusMaskWrite( uint8_t *mask, uint16_t maskLength, uint16_t bit, uint8_t value );\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusMaskWrite\fP writes \fIbit\fP bit in \fImask\fP little\-endian array of \fImaskLength\fP length to \fIvalue\fP value. It's useful when whole array is
+ one long bit mask. When returned value is greater than 0, an error occurred.
+.SH SEE ALSO

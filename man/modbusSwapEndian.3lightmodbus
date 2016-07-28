@@ -1,0 +1,14 @@
+.TH modbusSwapEndian 3LIGHTMODBUS "28 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusSwapEndian\fP \- swap given 16\-bit integer's endianness.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/core.h>\fR
+.PP
+\fB\fCuint16_t modbusSwapEndian( uint16_t data );\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusSwapEndian\fP function returns same 16\-bit portion of data, but with bytes order swapped. Function is included, because most PCs
+are little\-endian, while Modbus protocol uses big\-endian data format.   
+.SH SEE ALSO

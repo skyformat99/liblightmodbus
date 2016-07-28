@@ -1,0 +1,14 @@
+.TH modbusParseException 3LIGHTMODBUS "28 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusParseException\fP \- parse exception frame returned by slave device.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/master.h>\fR
+.PP
+\fB\fCuint8_t modbusParseException( ModbusMasterStatus *status, union ModbusParser *parser );\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusParseException\fP function parses exception frame stored in \fIparser\fP union, and leaves results in \fIstatus\fP\&.
+If no error occurs, 0 value is returned.
+.SH SEE ALSO
