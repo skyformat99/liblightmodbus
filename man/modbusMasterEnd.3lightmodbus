@@ -1,0 +1,15 @@
+.TH modbusMasterEnd 3LIGHTMODBUS "29 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusMasterEnd\fP \- free memory used in \fBModbusMasterStatus\fP structure.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/master.h>\fR
+.PP
+\fB\fCvoid modbusMasterEnd( ModbusMasterStatus *status );\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusMasterEnd\fP frees data dynamically allocated by \fBmodbusMasterInit\fP\&.
+.SH SEE ALSO
+.PP
+ModbusMasterStatus( 3LIGHTMODBUS ), modbusMasterInit( 3LIGHTMODBUS )
