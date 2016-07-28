@@ -1,0 +1,18 @@
+.TH modbusSlaveInit 3LIGHTMODBUS "29 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusSlaveInit\fP \- setup \fBModbusSlaveStatus\fP structure for use.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/slave.h>\fR
+.PP
+\fB\fCuint8_t modbusSlaveInit( ModbusSlaveStatus *status );\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusSlaveInit\fP function sets crucial members of \fBModbuSlaveStatus\fP structure and allocates memory for necessary data. This function should always be called before using any other Modbus slave\-side functions.
+Needless to say, when returned value is not equal 0 an error occured.
+.PP
+Memory can be later freed with \fBmodbusSlaveEnd\fP\&.
+.SH SEE ALSO
+.PP
+ModbusSlaveStatus( 3LIGHTMODBUS ), modbusSlaveEnd( 3LIGHTMODBUS )

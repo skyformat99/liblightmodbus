@@ -1,0 +1,18 @@
+# modbusSlaveInit 3LIGHTMODBUS "29 July 2016" "v1.2"
+
+## NAME
+**modbusSlaveInit** - setup **ModbusSlaveStatus** structure for use.
+
+## SYNOPSIS
+`#include <lightmodbus/slave.h>`
+
+`uint8_t modbusSlaveInit( ModbusSlaveStatus *status );`
+
+## DESCRIPTION
+The **modbusSlaveInit** function sets crucial members of **ModbuSlaveStatus** structure and allocates memory for necessary data. This function should always be called before using any other Modbus slave-side functions.
+Needless to say, when returned value is not equal 0 an error occured.
+
+Memory can be later freed with **modbusSlaveEnd**.
+
+## SEE ALSO
+ModbusSlaveStatus( 3LIGHTMODBUS ), modbusSlaveEnd( 3LIGHTMODBUS )
