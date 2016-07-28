@@ -1,0 +1,15 @@
+.TH modbusSlaveEnd 3LIGHTMODBUS "29 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusSlaveEnd\fP \- free memory used in \fBModbusSlaveStatus\fP structure.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/slave.h>\fR
+.PP
+\fB\fCvoid modbusSlaveEnd( ModbusSlaveStatus *status );\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusSlaveEnd\fP frees data dynamically allocated by \fBmodbusSlaveInit\fP\&.
+.SH SEE ALSO
+.PP
+ModbusSlaveStatus( 3LIGHTMODBUS ), modbusSlaveInit( 3LIGHTMODBUS )
