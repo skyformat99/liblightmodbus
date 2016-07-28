@@ -32,7 +32,9 @@ uint8_t modbusBuildException( ModbusSlaveStatus *status, uint8_t function, uint8
 	status->response.length = 5;
 	status->finished = 1;
 
-	return 0;
+	//So, user should rather know, that master is retarted, right?
+	//That's the reason exception should be thrown - just like that, an information
+	return MODBUS_ERROR_EXCEPTION;
 }
 
 uint8_t modbusParseRequest( ModbusSlaveStatus *status, uint8_t *frame, uint8_t frameLength )
