@@ -19,7 +19,7 @@ cleanHeader = \
 	echo "[\033[36;1mcleaning up\033[0m] \033[03m$(1)\033[0m" >&2
 
 infoHeader = \
-	echo "[\033[34;1minfo\033[0m] \033[03m$(1)\033[0m" >&2
+	echo "[\033[36;1minfo\033[0m] \033[03m$(1)\033[0m" >&2
 
 CC = gcc
 CFLAGS = -Wall -I./include
