@@ -1,0 +1,37 @@
+.TH ModbusData 3LIGHTMODBUS "28 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBModbusData\fP \- data type containing single Modbus data unit (e.g. register, coil).
+.SH SYNOPSIS
+.PP
+\fB\fCtypedef struct
+    {
+        uint8_t address; //Device address
+        ModbusDataType dataType; //Data type
+        uint16_t reg; //Register, coil, input ID
+        uint16_t value; //Value of data
+    } ModbusData;\fR
+.SH DESCRIPTION
+.PP
+The \fBModbusData\fP contains single Modbus data unit (e.g. register, coil) and information about it.
+.TS
+allbox;
+cb cb
+l l
+l l
+l l
+l l
+.
+member name	description
+address	address of slave that sent this data (useful, when multiple slave devices are connected)
+dataType	\fBModbusDataType\fP data type enumerator
+reg	register/coil index
+value	value of register/coil
+.TE
+.SH NOTES
+.PP
+\fBModbusData\fP is declared in \fBlightmodbus/master/mtypes.h\fP, although including \fBlightmodbus/master.h\fP is enough.
+No multiple coil types are stored in the same instance of \fBModbusData\fP\&. Each coil type read is stored in another structure for simplicity.
+.SH SEE ALSO
+.PP
+ModbusMasterStatus( 3LIGHTMODBUS ), ModbusDataType( 3LIGHTMODBUS )
