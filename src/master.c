@@ -21,7 +21,7 @@ uint8_t modbusParseException( ModbusMasterStatus *status, union ModbusParser *pa
 	//Copy data
 	status->exception.address = parser->exception.address;
 	status->exception.function = parser->exception.function;
-	status->exception.Code = parser->exception.exceptionCode;
+	status->exception.code = parser->exception.exceptionCode;
 
 	status->finished = 1;
 
@@ -43,7 +43,7 @@ uint8_t modbusParseResponse( ModbusMasterStatus *status, uint8_t *frame, uint8_t
 	status->dataLength = 0;
 	status->exception.address = 0;
 	status->exception.function = 0;
-	status->exception.Code = 0;
+	status->exception.code = 0;
 	status->finished = 0;
 
 	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
@@ -141,7 +141,7 @@ uint8_t modbusMasterInit( ModbusMasterStatus *status )
 
 	status->exception.address = 0;
 	status->exception.function = 0;
-	status->exception.Code = 0;
+	status->exception.code = 0;
 
 	return ( ( status->request.frame == NULL ) || ( status->data == NULL ) ) * MODBUS_ERROR_ALLOC;
 }

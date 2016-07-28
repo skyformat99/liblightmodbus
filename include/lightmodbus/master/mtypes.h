@@ -9,7 +9,7 @@ typedef struct
 {
 	uint8_t address; //Device address
 	uint8_t function; //In which function exception occured
-	uint8_t Code; //Exception code
+	uint8_t code; //Exception code
 } ModbusException; //Parsed exception data
 
 typedef struct
