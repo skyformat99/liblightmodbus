@@ -1,0 +1,33 @@
+.TH ModbusException 3LIGHTMODBUS "28 July 2016" "v1.2"
+.SH NAME
+.PP
+\fBModbusExeption\fP \- data type containing information about exception frame returned by Modbus slave device.
+.SH SYNOPSIS
+.PP
+\fB\fCtypedef struct
+    {
+        uint8_t address; //Device address
+        uint8_t function; //In which function exception occured
+        uint8_t code; //Exception code
+    } ModbusException; //Parsed exception data\fR
+.SH DESCRIPTION
+.PP
+The \fBModbusException\fP contains information about exception frame returned by Modbus slave device.
+.TS
+allbox;
+cb cb
+l l
+l l
+l l
+.
+member name	description
+address	slave's address
+function	what function caused an exception to be thrown
+code	exception code described in Modbus standard
+.TE
+.SH NOTES
+.PP
+\fBModbusException\fP is declared in \fBlightmodbus/master/mtypes.h\fP, although including \fBlightmodbus/master.h\fP is enough.
+.SH SEE ALSO
+.PP
+ModbusMasterStatus( 3LIGHTMODBUS )
