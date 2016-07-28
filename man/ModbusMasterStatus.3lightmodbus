@@ -14,7 +14,8 @@
     } ModbusMasterStatus; //Type containing master device configuration data\fR
 .SH DESCRIPTION
 .PP
-The \fBModbusMasterStatus\fP contains information about master device configuration and status.
+The \fBModbusMasterStatus\fP contains information about master device configuration and status. To make sure, that structure is set up for use properly,
+remember to call \fBmodbusMasterInit\fP\&.
 .TS
 allbox;
 cb cb
@@ -36,4 +37,4 @@ request	\fBModbusFrame\fP structure, containing request frame built by master de
 \fBModbusMasterStatus\fP is declared in \fBlightmodbus/master/mtypes.h\fP, although including \fBlightmodbus/master.h\fP is enough.
 .SH SEE ALSO
 .PP
-ModbusFrame( 3LIGHTMODBUS ), ModbusException( 3LIGHTMODBUS ), ModbusData( 3LIGHTMODBUS )
+ModbusFrame( 3LIGHTMODBUS ), ModbusException( 3LIGHTMODBUS ), ModbusData( 3LIGHTMODBUS ), modbusMasterInit( 3LIGHTMODBUS ), modbusMasterEnd( 3LIGHTMODBUS )

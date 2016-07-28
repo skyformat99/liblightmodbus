@@ -67,4 +67,4 @@ response	\fBModbusFrame\fP structure, containing response frame for master devic
 \fBModbusSlaveStatus\fP is declared in \fBlightmodbus/slave/stypes.h\fP, although including \fBlightmodbus/slave.h\fP is enough.
 .SH SEE ALSO
 .PP
-ModbusFrame( 3LIGHTMODBUS )
+ModbusFrame( 3LIGHTMODBUS ), modbusSlaveInit( 3LIGHTMODBUS ), modbusSlaveEnd( 3LIGHTMODBUS )

@@ -14,7 +14,8 @@
 	} ModbusMasterStatus; //Type containing master device configuration data`
 
 ## DESCRIPTION
-The **ModbusMasterStatus** contains information about master device configuration and status.
+The **ModbusMasterStatus** contains information about master device configuration and status. To make sure, that structure is set up for use properly,
+remember to call **modbusMasterInit**.
 
 | member name    | description                                                                                          |
 |----------------|------------------------------------------------------------------------------------------------------|
@@ -28,4 +29,4 @@ The **ModbusMasterStatus** contains information about master device configuratio
 **ModbusMasterStatus** is declared in **lightmodbus/master/mtypes.h**, although including **lightmodbus/master.h** is enough.
 
 ## SEE ALSO
-ModbusFrame( 3LIGHTMODBUS ), ModbusException( 3LIGHTMODBUS ), ModbusData( 3LIGHTMODBUS )
+ModbusFrame( 3LIGHTMODBUS ), ModbusException( 3LIGHTMODBUS ), ModbusData( 3LIGHTMODBUS ), modbusMasterInit( 3LIGHTMODBUS ), modbusMasterEnd( 3LIGHTMODBUS )

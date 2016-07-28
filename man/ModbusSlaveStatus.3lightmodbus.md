@@ -49,4 +49,4 @@ remember to call **modbusSlaveInit**. Values like **registers**, **registerCount
 **ModbusSlaveStatus** is declared in **lightmodbus/slave/stypes.h**, although including **lightmodbus/slave.h** is enough.
 
 ## SEE ALSO
-ModbusFrame( 3LIGHTMODBUS )
+ModbusFrame( 3LIGHTMODBUS ), modbusSlaveInit( 3LIGHTMODBUS ), modbusSlaveEnd( 3LIGHTMODBUS )
