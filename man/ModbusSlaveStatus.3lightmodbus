@@ -1,4 +1,4 @@
-.TH ModbusSlaveStatus 3LIGHTMODBUS "28 July 2016" "v1.2"
+.TH ModbusSlaveStatus 3lightmodbus "28 July 2016" "v1.2"
 .SH NAME
 .PP
 \fBModbusSlaveStatus\fP \- data type containing all information about current slave device status and its configuration.
@@ -67,4 +67,4 @@ response	\fBModbusFrame\fP structure, containing response frame for master devic
 \fBModbusSlaveStatus\fP is declared in \fBlightmodbus/slave/stypes.h\fP, although including \fBlightmodbus/slave.h\fP is enough.
 .SH SEE ALSO
 .PP
-ModbusFrame( 3LIGHTMODBUS ), modbusSlaveInit( 3LIGHTMODBUS ), modbusSlaveEnd( 3LIGHTMODBUS )
+ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )

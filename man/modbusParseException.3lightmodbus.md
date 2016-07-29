@@ -1,4 +1,4 @@
-# modbusParseException 3LIGHTMODBUS "28 July 2016" "v1.2"
+# modbusParseException 3lightmodbus "28 July 2016" "v1.2"
 
 ## NAME
 **modbusParseException** - parse exception frame returned by slave device.

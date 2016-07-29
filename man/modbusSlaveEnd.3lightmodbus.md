@@ -1,4 +1,4 @@
-# modbusSlaveEnd 3LIGHTMODBUS "29 July 2016" "v1.2"
+# modbusSlaveEnd 3lightmodbus "29 July 2016" "v1.2"
 
 ## NAME
 **modbusSlaveEnd** - free memory used in **ModbusSlaveStatus** structure.
@@ -12,4 +12,4 @@
 The **modbusSlaveEnd** frees data dynamically allocated by **modbusSlaveInit**.
 
 ## SEE ALSO
-ModbusSlaveStatus( 3LIGHTMODBUS ), modbusSlaveInit( 3LIGHTMODBUS )
+ModbusSlaveStatus( 3lightmodbus ), modbusSlaveInit( 3lightmodbus )

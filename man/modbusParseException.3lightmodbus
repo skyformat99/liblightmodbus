@@ -1,4 +1,4 @@
-.TH modbusParseException 3LIGHTMODBUS "28 July 2016" "v1.2"
+.TH modbusParseException 3lightmodbus "28 July 2016" "v1.2"
 .SH NAME
 .PP
 \fBmodbusParseException\fP \- parse exception frame returned by slave device.

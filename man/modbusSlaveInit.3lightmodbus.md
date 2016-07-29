@@ -1,4 +1,4 @@
-# modbusSlaveInit 3LIGHTMODBUS "29 July 2016" "v1.2"
+# modbusSlaveInit 3lightmodbus "29 July 2016" "v1.2"
 
 ## NAME
 **modbusSlaveInit** - setup **ModbusSlaveStatus** structure for use.
@@ -15,4 +15,4 @@ Needless to say, when returned value is not equal 0 an error occured.
 Memory can be later freed with **modbusSlaveEnd**.
 
 ## SEE ALSO
-ModbusSlaveStatus( 3LIGHTMODBUS ), modbusSlaveEnd( 3LIGHTMODBUS )
+ModbusSlaveStatus( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )

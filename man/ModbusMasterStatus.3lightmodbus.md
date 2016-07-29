@@ -1,4 +1,4 @@
-# ModbusMasterStatus 3LIGHTMODBUS "28 July 2016" "v1.2"
+# ModbusMasterStatus 3lightmodbus "28 July 2016" "v1.2"
 
 ## NAME
 **ModbusMasterStatus** - data type containing all information about current master device status and its configuration.
@@ -29,4 +29,4 @@ remember to call **modbusMasterInit**.
 **ModbusMasterStatus** is declared in **lightmodbus/master/mtypes.h**, although including **lightmodbus/master.h** is enough.
 
 ## SEE ALSO
-ModbusFrame( 3LIGHTMODBUS ), ModbusException( 3LIGHTMODBUS ), ModbusData( 3LIGHTMODBUS ), modbusMasterInit( 3LIGHTMODBUS ), modbusMasterEnd( 3LIGHTMODBUS )
+ModbusFrame( 3lightmodbus ), ModbusException( 3lightmodbus ), ModbusData( 3lightmodbus ), modbusMasterInit( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )

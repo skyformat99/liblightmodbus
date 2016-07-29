@@ -1,4 +1,4 @@
-# modbusSwapEndian 3LIGHTMODBUS "28 July 2016" "v1.2"
+# modbusSwapEndian 3lightmodbus "28 July 2016" "v1.2"
 
 ## NAME
 **modbusSwapEndian** - swap given 16-bit integer's endianness.

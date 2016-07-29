@@ -1,4 +1,4 @@
-# ModbusFrame 3LIGHTMODBUS "28 July 2016" "v1.2"
+# ModbusFrame 3lightmodbus "28 July 2016" "v1.2"
 
 ## NAME
 **ModbusFrame** - data type containing Modbus frame and information about it.
@@ -24,4 +24,4 @@ The **ModbusFrame** contains pointer to frame data, and frame length expressed i
 Also, maximum length of single frame is 256 bytes, as limited by 8-bit unsigned integer and Modbus standard.
 
 ## SEE ALSO
-ModbusMasterStatus( 3LIGHTMODBUS )
+ModbusMasterStatus( 3lightmodbus )

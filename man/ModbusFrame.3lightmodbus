@@ -1,4 +1,4 @@
-.TH ModbusFrame 3LIGHTMODBUS "28 July 2016" "v1.2"
+.TH ModbusFrame 3lightmodbus "28 July 2016" "v1.2"
 .SH NAME
 .PP
 \fBModbusFrame\fP \- data type containing Modbus frame and information about it.
@@ -28,4 +28,4 @@ frame	length of \fIframe\fP in bytes
 Also, maximum length of single frame is 256 bytes, as limited by 8\-bit unsigned integer and Modbus standard.
 .SH SEE ALSO
 .PP
-ModbusMasterStatus( 3LIGHTMODBUS )
+ModbusMasterStatus( 3lightmodbus )

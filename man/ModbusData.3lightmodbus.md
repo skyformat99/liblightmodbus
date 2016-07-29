@@ -1,4 +1,4 @@
-# ModbusData 3LIGHTMODBUS "28 July 2016" "v1.2"
+# ModbusData 3lightmodbus "28 July 2016" "v1.2"
 
 ## NAME
 **ModbusData** - data type containing single Modbus data unit (e.g. register, coil).
@@ -27,4 +27,4 @@ The **ModbusData** contains single Modbus data unit (e.g. register, coil) and in
 No multiple coil types are stored in the same instance of **ModbusData**. Each coil type read is stored in another structure for simplicity.
 
 ## SEE ALSO
-ModbusMasterStatus( 3LIGHTMODBUS ), ModbusDataType( 3LIGHTMODBUS )
+ModbusMasterStatus( 3lightmodbus ), ModbusDataType( 3lightmodbus )

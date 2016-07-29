@@ -1,4 +1,4 @@
-# modbusMasterEnd 3LIGHTMODBUS "29 July 2016" "v1.2"
+# modbusMasterEnd 3lightmodbus "29 July 2016" "v1.2"
 
 ## NAME
 **modbusMasterEnd** - free memory used in **ModbusMasterStatus** structure.
@@ -12,4 +12,4 @@
 The **modbusMasterEnd** frees data dynamically allocated by **modbusMasterInit**.
 
 ## SEE ALSO
-ModbusMasterStatus( 3LIGHTMODBUS ), modbusMasterInit( 3LIGHTMODBUS )
+ModbusMasterStatus( 3lightmodbus ), modbusMasterInit( 3lightmodbus )

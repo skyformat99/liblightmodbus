@@ -1,4 +1,4 @@
-# modbusCRC 3LIGHTMODBUS "28 July 2016" "v1.2"
+# modbusCRC 3lightmodbus "28 July 2016" "v1.2"
 
 ## NAME
 **modbusCRC** - calculate Modbus CRC checksum of given data

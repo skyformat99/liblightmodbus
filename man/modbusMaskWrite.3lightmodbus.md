@@ -1,4 +1,4 @@
-# modbusMaskWrite 3LIGHTMODBUS "28 July 2016" "v1.2"
+# modbusMaskWrite 3lightmodbus "28 July 2016" "v1.2"
 
 ## NAME
 **modbusMaskWrite** - write single bit to an array.

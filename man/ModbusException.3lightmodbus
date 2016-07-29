@@ -1,4 +1,4 @@
-.TH ModbusException 3LIGHTMODBUS "28 July 2016" "v1.2"
+.TH ModbusException 3lightmodbus "28 July 2016" "v1.2"
 .SH NAME
 .PP
 \fBModbusExeption\fP \- data type containing information about exception frame returned by Modbus slave device.
@@ -30,4 +30,4 @@ code	exception code described in Modbus standard
 \fBModbusException\fP is declared in \fBlightmodbus/master/mtypes.h\fP, although including \fBlightmodbus/master.h\fP is enough.
 .SH SEE ALSO
 .PP
-ModbusMasterStatus( 3LIGHTMODBUS )
+ModbusMasterStatus( 3lightmodbus )

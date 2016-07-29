@@ -1,4 +1,4 @@
-.TH modbusSlaveInit 3LIGHTMODBUS "29 July 2016" "v1.2"
+.TH modbusSlaveInit 3lightmodbus "29 July 2016" "v1.2"
 .SH NAME
 .PP
 \fBmodbusSlaveInit\fP \- setup \fBModbusSlaveStatus\fP structure for use.
@@ -15,4 +15,4 @@ Needless to say, when returned value is not equal 0 an error occured.
 Memory can be later freed with \fBmodbusSlaveEnd\fP\&.
 .SH SEE ALSO
 .PP
-ModbusSlaveStatus( 3LIGHTMODBUS ), modbusSlaveEnd( 3LIGHTMODBUS )
+ModbusSlaveStatus( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )

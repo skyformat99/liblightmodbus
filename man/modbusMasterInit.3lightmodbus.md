@@ -1,4 +1,4 @@
-# modbusMasterInit 3LIGHTMODBUS "29 July 2016" "v1.2"
+# modbusMasterInit 3lightmodbus "29 July 2016" "v1.2"
 
 ## NAME
 **modbusMasterInit** - setup **ModbusMasterStatus** structure for use.
@@ -15,4 +15,4 @@ Needless to say, when returned value is not equal 0 an error occured.
 Memory can be later freed with **modbusMasterEnd**.
 
 ## SEE ALSO
-ModbusMasterStatus( 3LIGHTMODBUS ), modbusMasterEnd( 3LIGHTMODBUS )
+ModbusMasterStatus( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )

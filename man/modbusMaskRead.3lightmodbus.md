@@ -1,4 +1,4 @@
-# modbusMaskRead 3LIGHTMODBUS "28 July 2016" "v1.2"
+# modbusMaskRead 3lightmodbus "28 July 2016" "v1.2"
 
 ## NAME
 **modbusMaskRead** - read single bit from an array.

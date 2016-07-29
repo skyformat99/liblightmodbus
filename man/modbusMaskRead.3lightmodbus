@@ -1,4 +1,4 @@
-.TH modbusMaskRead 3LIGHTMODBUS "28 July 2016" "v1.2"
+.TH modbusMaskRead 3lightmodbus "28 July 2016" "v1.2"
 .SH NAME
 .PP
 \fBmodbusMaskRead\fP \- read single bit from an array.

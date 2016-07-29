@@ -1,4 +1,4 @@
-# ModbusDataType 3LIGHTMODBUS "28 July 2016" "v1.2"
+# ModbusDataType 3lightmodbus "28 July 2016" "v1.2"
 
 ## NAME
 **ModbusDataType** - enumeration type, describing what type Modbus data is (e.g. coil, register).
@@ -27,4 +27,4 @@ The **ModbusDataType** describes what type given Modbus data is.
 **ModbusDataType** is declared in **lightmodbus/master/mtypes.h**, although including **lightmodbus/master.h** is enough.
 
 ## SEE ALSO
-ModbusMasterStatus( 3LIGHTMODBUS ), ModbusData( 3LIGHTMODBUS )
+ModbusMasterStatus( 3lightmodbus ), ModbusData( 3lightmodbus )

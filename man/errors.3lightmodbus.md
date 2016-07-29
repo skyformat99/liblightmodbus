@@ -1,4 +1,4 @@
-# errors 3LIGHTMODBUS "29 July 2016" "v1.2"
+# errors 3lightmodbus "29 July 2016" "v1.2"
 
 ## NAME
 **errors** - standard error values returned by liblightmodbus functions.

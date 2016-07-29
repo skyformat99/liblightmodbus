@@ -1,4 +1,4 @@
-# ModbusSlaveStatus 3LIGHTMODBUS "28 July 2016" "v1.2"
+# ModbusSlaveStatus 3lightmodbus "28 July 2016" "v1.2"
 
 ## NAME
 **ModbusSlaveStatus** - data type containing all information about current slave device status and its configuration.
@@ -49,4 +49,4 @@ remember to call **modbusSlaveInit**. Values like **registers**, **registerCount
 **ModbusSlaveStatus** is declared in **lightmodbus/slave/stypes.h**, although including **lightmodbus/slave.h** is enough.
 
 ## SEE ALSO
-ModbusFrame( 3LIGHTMODBUS ), modbusSlaveInit( 3LIGHTMODBUS ), modbusSlaveEnd( 3LIGHTMODBUS )
+ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )
