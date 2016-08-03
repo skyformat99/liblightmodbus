@@ -9,6 +9,6 @@
 \fB\fCuint8_t modbusParseException( ModbusMasterStatus *status, union ModbusParser *parser );\fR
 .SH DESCRIPTION
 .PP
-The \fBmodbusParseException\fP function parses exception frame stored in \fIparser\fP union, and leaves results in \fIstatus\fP\&.
+The \fBmodbusParseException\fP function parses exception frame stored in \fBparser\fP union, and leaves results in \fBstatus\fP\&.
 If no error occurs, 0 value is returned.
 .SH SEE ALSO

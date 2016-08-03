@@ -25,10 +25,10 @@ l l
 l l
 .
 member name	description
-address	address of slave that sent this data (useful, when multiple slave devices are connected)
-dataType	\fBModbusDataType\fP data type enumerator
-reg	register/coil index
-value	value of register/coil
+\fB\fCaddress\fR	address of slave that sent this data
+\fB\fCdataType\fR	\fBModbusDataType\fP data type enumerator
+\fB\fCreg\fR	register/coil index
+\fB\fCvalue\fR	value of register/coil
 .TE
 .SH NOTES
 .PP

@@ -7,7 +7,7 @@
 \fB\fC
     typedef struct
     {
-        uint8_t length; //Length of frame, if it's equal to 0, frame is not ready
+        uint8_t length; //Length of frame
         uint8_t *frame; //Frame content
     } ModbusFrame; //Type containing information about generated frame
 \fR
@@ -21,13 +21,14 @@ l l
 l l
 .
 member name	description
-length	dynamically allocated array of type \fBuint8_t\fP, and length of \fIlength\fP containing Modbus frame
-frame	length of \fIframe\fP in bytes
+\fB\fClength\fR	dynamically allocated array containing Modbus frame
+\fB\fCframe\fR	length of \fIframe\fP in bytes
 .TE
 .SH NOTES
 .PP
 \fBModbusFrame\fP is declared in \fBlightmodbus/core.h\fP\&.
-Also, maximum length of single frame is 256 bytes, as limited by 8\-bit unsigned integer and Modbus standard.
+Maximum length of single frame is 256 bytes, as limited by 8\-bit unsigned integer and Modbus standard.
+If \fB\fClength\fR is set to 0, frame is not ready yet, or doesn't need to be send.
 .SH SEE ALSO
 .PP
 ModbusMasterStatus( 3lightmodbus )

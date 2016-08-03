@@ -8,11 +8,11 @@
     typedef struct
     {
         ModbusData *data; //Data read from slave
-        uint8_t dataLength; //Count of data type instances read from slave
+        uint8_t dataLength; //Count of data read from slave
         uint8_t finished; //Is parsing finished?
         ModbusException exception; //Optional exception read
         ModbusFrame request; //Formatted request for slave
-    } ModbusMasterStatus; //Type containing master device configuration data
+    } ModbusMasterStatus; //Master device configuration
 \fR
 .SH DESCRIPTION
 .PP
@@ -28,12 +28,17 @@ l l
 l l
 .
 member name	description
-data	dynamically allocated array of type \fBModbusData\fP, and length of \fIdataLength\fP containing data read from salve device
-dataLength	length of \fIdata\fP array
-finished	If not equal to 0, data processing has finished, and results can be read. Useful when multiple threads are present.
-exception	\fBModbusException\fP structure, containing information about exception returned by slave, if any
-request	\fBModbusFrame\fP structure, containing request frame built by master device, after one of \fBmodbusBuildRequest\fP functions was called
+\fB\fCdata\fR	data from slave device
+\fB\fCdataLength\fR	length of \fIdata\fP array
+\fB\fCfinished\fR	has processing finished?
+\fB\fCexception\fR	information about exception returned by slave
+\fB\fCrequest\fR	request frame
 .TE
+.PP
+\fB\fCdata\fR points to dynamically allocated array of type \fBModbusData\fP, and length of \fB\fCdataLength\fR containing data read from salve device.
+\fB\fCfinished\fR is set to non\-zero value, when parsing frame is finished, and results are available.
+\fB\fCexception\fR contains exception information, if any.
+\fB\fCrequest\fR contains request frame, ought to be send to slave device.
 .SH NOTES
 .PP
 \fBModbusMasterStatus\fP is declared in \fBlightmodbus/master/mtypes.h\fP, although including \fBlightmodbus/master.h\fP is enough.

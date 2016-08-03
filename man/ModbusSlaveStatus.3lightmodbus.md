@@ -8,47 +8,43 @@
 	typedef struct
 	{
 		uint8_t address; //Slave address
-
 		uint16_t *registers; //Slave holding registers
 		uint16_t registerCount; //Slave register count
-
 		uint8_t *coils; //Slave coils
 		uint16_t coilCount; //Slave coil count
-
 		uint8_t *discreteInputs; //Slave discrete input
 		uint16_t discreteInputCount; //Slave discrete input count
-
-		uint8_t *registerMask; //Masks for write protection (bit of value 1 - write protection)
-		uint16_t registerMaskLength; //Masks length (each mask covers 8 registers)
-
+		uint8_t *registerMask; //Masks for write protection
+		uint16_t registerMaskLength; //Masks length
 		uint16_t *inputRegisters; //Slave input registers
 		uint16_t inputRegisterCount; //Slave input count
-
-		uint8_t finished; //Has slave finished building response for master?
+		uint8_t finished; //Has slave finished building response?
 		ModbusFrame response; //Slave response formatting status
-	} ModbusSlaveStatus; //Type containing slave device configuration data
+	} ModbusSlaveStatus; //Slave device configuration data
 `
 
 ## DESCRIPTION
 The **ModbusSlaveStatus** contains information about slave device configuration and status. To make sure, that structure is set up for use properly,
 remember to call **modbusSlaveInit**. Values like **registers**, **registerCount**, etc. are ought to be set beforehand though.
 
-| member name       | description                                                                                          |
-|-------------------|------------------------------------------------------------------------------------------------------|
-| address           | slave device address                                                                                 |
-| registers         | holding registers array                                                                              |
-| registerCount     | length of holding registers array                                                                    |
-| coils             | coils array (each *bit* corresponds to one coil)                                                     |
-| coilCount         | number of coils (not the length of **coils** array)                                                  |
-| discreteInputs    | discrete inputs array (each *bit* corresponds to one input)                                          |
-| discreteInputCount| number of discrete inputs (not the length of **discreteInputs** array)                               |
-| inputRegisters    | input registers array                                                                                |
-| inputRegisterCount| length of input registers array                                                                      |
-| finished          | has slave finished parsing request and formatted response (useful when multiple threads are present) |
-| response          | **ModbusFrame** structure, containing response frame for master device                               |
+| member name         | description                                               |
+|---------------------|-----------------------------------------------------------|
+| `address`           | slave device address                                      |
+| `registers`         | holding registers array                                   |
+| `registerCount`     | length of holding registers array                         |
+| `coils`             | coils array                                               |
+| `coilCount`         | number of coils                                           |
+| `discreteInputs`    | discrete inputs array                                     |
+| `discreteInputCount`| number of discrete inputs                                 |
+| `inputRegisters`    | input registers array                                     |
+| `inputRegisterCount`| length of input registers array                           |
+| `finished`          | has processing finished                                   |
+| `response`          | response frame for master device                          |
 
 ## NOTES
 **ModbusSlaveStatus** is declared in **lightmodbus/slave/stypes.h**, although including **lightmodbus/slave.h** is enough.
+In `coils` and `discreteInputs` each bit matches one input/output, and
+`discreteInputCount` and `coilCount` correspond to actual input/output count, not the array length!
 
 ## SEE ALSO
 ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )

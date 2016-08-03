@@ -15,17 +15,36 @@
 \fR
 .PP
 Error code macros are defined in \fBlightmodbus/core.h\fP\&.
+.TS
+allbox;
+cb cb cb
+l l l
+l l l
+l l l
+l l l
+l l l
+l l l
+l l l
+.
+macro	value	description
+\fB\fCMODBUS_ERROR_OK\fR	0	no error occured, everything is fine
+\fB\fCMODBUS_ERROR_PARSE\fR	1	frame parsing error
+\fB\fCMODBUS_ERROR_EXCEPTION\fR	2	exception was eiher thrown or parsed
+\fB\fCMODBUS_ERROR_CRC\fR	4	frame CRC invalid (frame ignored)
+\fB\fCMODBUS_ERROR_ALLOC\fR	8	memory allocation error
+\fB\fCMODBUS_ERROR_OTHER\fR	16	function was exited for other reason
+\fB\fCMODBUS_ERROR_FRAME\fR	32	frame contains incorrect data
+.TE
 .PP
-\fB\fCMODBUS_ERROR_OK\fR \- no error occured, everything is fine
+\fB\fCMODBUS_ERROR_PARSE\fR is usually thrown when function code is not supported (library module missing?)
 .PP
-\fB\fCMODBUS_ERROR_PARSE\fR \- frame parsing error occured (function code not supported)
+\fB\fCMODBUS_ERROR_EXCEPTION\fR is returned either when:
+    \- (on slave side) slave had to return exception frame
+    \- (on master side) exception frame was parsed
+    In both cases it's not an actual error, but an information for user.
 .PP
-\fB\fCMODBUS_ERROR_EXCEPTION\fR \- frame parsed successfully, but slave threw an exception for some reason
+\fB\fCMODBUS_ERROR_ALLOC\fR is returned when \fBmalloc\fP or \fBrealloc\fP call has failed.
 .PP
-\fB\fCMODBUS_ERROR_CRC\fR \- frame CRC invalid (frame ignored)
+\fB\fCMODBUS_ERROR_OTHER\fR is thrown when e.g. user tries to parse frame of 0\-length, or slave was initialized with address 0.
 .PP
-\fB\fCMODBUS_ERROR_ALLOC\fR \- memory allocation error
-.PP
-\fB\fCMODBUS_ERROR_OTHER\fR \- function was exited for another reason (e.g. tried to parse frame of 0 length, slave set up with address 0)
-.PP
-\fB\fCMODBUS_ERROR_FRAME\fR \- frame contains incorrect data (e.g byte count does not match register count)
+\fB\fCMODBUS_ERROR_FRAME\fR can be returned by master\-side parsing function, when error was found in given frame (e.g. byte count doesn't match register count)

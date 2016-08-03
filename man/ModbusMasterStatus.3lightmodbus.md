@@ -8,24 +8,30 @@
 	typedef struct
 	{
 		ModbusData *data; //Data read from slave
-		uint8_t dataLength; //Count of data type instances read from slave
+		uint8_t dataLength; //Count of data read from slave
 		uint8_t finished; //Is parsing finished?
 		ModbusException exception; //Optional exception read
 		ModbusFrame request; //Formatted request for slave
-	} ModbusMasterStatus; //Type containing master device configuration data
+	} ModbusMasterStatus; //Master device configuration
 `
 
 ## DESCRIPTION
 The **ModbusMasterStatus** contains information about master device configuration and status. To make sure, that structure is set up for use properly,
 remember to call **modbusMasterInit**.
 
-| member name    | description                                                                                          |
-|----------------|------------------------------------------------------------------------------------------------------|
-| data           | dynamically allocated array of type **ModbusData**, and length of *dataLength* containing data read from salve device |
-| dataLength     | length of *data* array                                                                               |
-| finished       | If not equal to 0, data processing has finished, and results can be read. Useful when multiple threads are present. |
-| exception      | **ModbusException** structure, containing information about exception returned by slave, if any      |
-| request        | **ModbusFrame** structure, containing request frame built by master device, after one of **modbusBuildRequest** functions was called |
+| member name  | description                                                  |
+|--------------|--------------------------------------------------------------|
+| `data`       | data from slave device                                       |
+| `dataLength` | length of *data* array                                       |
+| `finished`   | has processing finished?                                     |
+| `exception`  | information about exception returned by slave                |
+| `request`    | request frame                                                |
+
+`data` points to dynamically allocated array of type **ModbusData**, and length of `dataLength` containing data read from salve device.
+`finished` is set to non-zero value, when parsing frame is finished, and results are available.
+`exception` contains exception information, if any.
+`request` contains request frame, ought to be send to slave device.
+
 
 ## NOTES
 **ModbusMasterStatus** is declared in **lightmodbus/master/mtypes.h**, although including **lightmodbus/master.h** is enough.

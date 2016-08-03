@@ -23,9 +23,9 @@ l l
 l l
 .
 member name	description
-address	slave's address
-function	what function caused an exception to be thrown
-code	exception code described in Modbus standard
+\fB\fCaddress\fR	slave's address
+\fB\fCfunction\fR	what function caused an exception to be thrown
+\fB\fCcode\fR	exception code described in Modbus standard
 .TE
 .SH NOTES
 .PP

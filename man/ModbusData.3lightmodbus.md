@@ -17,12 +17,12 @@
 ## DESCRIPTION
 The **ModbusData** contains single Modbus data unit (e.g. register, coil) and information about it.
 
-| member name    | description                                                                                          |
-|----------------|------------------------------------------------------------------------------------------------------|
-| address        | address of slave that sent this data (useful, when multiple slave devices are connected)             |
-| dataType       | **ModbusDataType** data type enumerator                                                              |
-| reg            | register/coil index                                                                                  |
-| value          | value of register/coil                                                                               |
+| member name      | description                               |
+|------------------|-------------------------------------------|
+| `address`        | address of slave that sent this data      |
+| `dataType`       | **ModbusDataType** data type enumerator   |
+| `reg`            | register/coil index                       |
+| `value`          | value of register/coil                    |
 
 ## NOTES
 **ModbusData** is declared in **lightmodbus/master/mtypes.h**, although including **lightmodbus/master.h** is enough.
