@@ -4,14 +4,16 @@
 \fBModbusMasterStatus\fP \- data type containing all information about current master device status and its configuration.
 .SH SYNOPSIS
 .PP
-\fB\fCtypedef struct
+\fB\fC
+    typedef struct
     {
         ModbusData *data; //Data read from slave
         uint8_t dataLength; //Count of data type instances read from slave
         uint8_t finished; //Is parsing finished?
         ModbusException exception; //Optional exception read
         ModbusFrame request; //Formatted request for slave
-    } ModbusMasterStatus; //Type containing master device configuration data\fR
+    } ModbusMasterStatus; //Type containing master device configuration data
+\fR
 .SH DESCRIPTION
 .PP
 The \fBModbusMasterStatus\fP contains information about master device configuration and status. To make sure, that structure is set up for use properly,

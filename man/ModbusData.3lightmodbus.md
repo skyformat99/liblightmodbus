@@ -4,13 +4,15 @@
 **ModbusData** - data type containing single Modbus data unit (e.g. register, coil).
 
 ## SYNOPSIS
-`typedef struct
+`  
+	typedef struct
 	{
 		uint8_t address; //Device address
 		ModbusDataType dataType; //Data type
 		uint16_t reg; //Register, coil, input ID
 		uint16_t value; //Value of data
-	} ModbusData;`
+	} ModbusData;
+`
 
 ## DESCRIPTION
 The **ModbusData** contains single Modbus data unit (e.g. register, coil) and information about it.

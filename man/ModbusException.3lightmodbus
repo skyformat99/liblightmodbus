@@ -4,12 +4,14 @@
 \fBModbusExeption\fP \- data type containing information about exception frame returned by Modbus slave device.
 .SH SYNOPSIS
 .PP
-\fB\fCtypedef struct
+\fB\fC
+    typedef struct
     {
         uint8_t address; //Device address
         uint8_t function; //In which function exception occured
         uint8_t code; //Exception code
-    } ModbusException; //Parsed exception data\fR
+    } ModbusException; //Parsed exception data
+\fR
 .SH DESCRIPTION
 .PP
 The \fBModbusException\fP contains information about exception frame returned by Modbus slave device.

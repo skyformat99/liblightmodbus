@@ -4,12 +4,14 @@
 **ModbusExeption** - data type containing information about exception frame returned by Modbus slave device.
 
 ## SYNOPSIS
-`typedef struct
+`  
+	typedef struct
 	{
 		uint8_t address; //Device address
 		uint8_t function; //In which function exception occured
 		uint8_t code; //Exception code
-	} ModbusException; //Parsed exception data`
+	} ModbusException; //Parsed exception data
+`
 
 ## DESCRIPTION
 The **ModbusException** contains information about exception frame returned by Modbus slave device.

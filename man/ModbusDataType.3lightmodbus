@@ -4,13 +4,15 @@
 \fBModbusDataType\fP \- enumeration type, describing what type Modbus data is (e.g. coil, register).
 .SH SYNOPSIS
 .PP
-\fB\fCtypedef enum //MODBUS data types enum (coil, reg, input, etc.)
+\fB\fC
+    typedef enum //MODBUS data types enum (coil, reg, input, etc.)
     {
         holdingRegister = 0,
         inputRegister = 1,
         coil = 2,
         discreteInput = 4
-    } ModbusDataType;\fR
+    } ModbusDataType;
+\fR
 .SH DESCRIPTION
 .PP
 The \fBModbusDataType\fP describes what type given Modbus data is.

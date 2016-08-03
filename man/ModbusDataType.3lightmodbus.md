@@ -4,13 +4,15 @@
 **ModbusDataType** - enumeration type, describing what type Modbus data is (e.g. coil, register).
 
 ## SYNOPSIS
-`typedef enum //MODBUS data types enum (coil, reg, input, etc.)
+`  
+	typedef enum //MODBUS data types enum (coil, reg, input, etc.)
 	{
 		holdingRegister = 0,
 		inputRegister = 1,
 		coil = 2,
 		discreteInput = 4
-	} ModbusDataType;`
+	} ModbusDataType;
+`
 
 ## DESCRIPTION
 The **ModbusDataType** describes what type given Modbus data is.

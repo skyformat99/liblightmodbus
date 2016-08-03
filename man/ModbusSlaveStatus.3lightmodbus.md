@@ -4,7 +4,8 @@
 **ModbusSlaveStatus** - data type containing all information about current slave device status and its configuration.
 
 ## SYNOPSIS
-`typedef struct
+`  
+	typedef struct
 	{
 		uint8_t address; //Slave address
 
@@ -25,7 +26,8 @@
 
 		uint8_t finished; //Has slave finished building response for master?
 		ModbusFrame response; //Slave response formatting status
-	} ModbusSlaveStatus; //Type containing slave device configuration data`
+	} ModbusSlaveStatus; //Type containing slave device configuration data
+`
 
 ## DESCRIPTION
 The **ModbusSlaveStatus** contains information about slave device configuration and status. To make sure, that structure is set up for use properly,

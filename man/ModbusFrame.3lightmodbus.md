@@ -4,11 +4,13 @@
 **ModbusFrame** - data type containing Modbus frame and information about it.
 
 ## SYNOPSIS
-`typedef struct
+`  
+	typedef struct
 	{
 		uint8_t length; //Length of frame, if it's equal to 0, frame is not ready
 		uint8_t *frame; //Frame content
-	} ModbusFrame; //Type containing information about generated frame`
+	} ModbusFrame; //Type containing information about generated frame
+`
 
 ## DESCRIPTION
 The **ModbusFrame** contains pointer to frame data, and frame length expressed in bytes number.

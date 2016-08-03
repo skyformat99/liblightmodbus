@@ -4,14 +4,16 @@
 **ModbusMasterStatus** - data type containing all information about current master device status and its configuration.
 
 ## SYNOPSIS
-`typedef struct
+`  
+	typedef struct
 	{
 		ModbusData *data; //Data read from slave
 		uint8_t dataLength; //Count of data type instances read from slave
 		uint8_t finished; //Is parsing finished?
 		ModbusException exception; //Optional exception read
 		ModbusFrame request; //Formatted request for slave
-	} ModbusMasterStatus; //Type containing master device configuration data`
+	} ModbusMasterStatus; //Type containing master device configuration data
+`
 
 ## DESCRIPTION
 The **ModbusMasterStatus** contains information about master device configuration and status. To make sure, that structure is set up for use properly,

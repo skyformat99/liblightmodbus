@@ -4,32 +4,28 @@
 \fBlightmodbus\fP \- a lightweight, multiplatform Modbus RTU library.
 .SH ERRORS
 .PP
-`#define MODBUS\fIERROR\fPOK 0
-.SH define MODBUS\fIERROR\fPPARSE 1
-.SH define MODBUS\fIERROR\fPEXCEPTION 2
-.SH define MODBUS\fIERROR\fPCRC 4
-.SH define MODBUS\fIERROR\fPALLOC 8
-.SH define MODBUS\fIERROR\fPOTHER 16
-.SH define MODBUS\fIERROR\fPFRAME 32`
+\fB\fC
+    #define MODBUS_ERROR_OK 0
+    #define MODBUS_ERROR_PARSE 1
+    #define MODBUS_ERROR_EXCEPTION 2
+    #define MODBUS_ERROR_CRC 4
+    #define MODBUS_ERROR_ALLOC 8
+    #define MODBUS_ERROR_OTHER 16
+    #define MODBUS_ERROR_FRAME 32
+\fR
 .PP
 Error code macros are defined in \fBlightmodbus/core.h\fP\&.
-.TS
-allbox;
-cb cb cb
-l l l
-l l l
-l l l
-l l l
-l l l
-l l l
-l l l
-.
-macro	value	description
-\fBMODBUS\fIERROR\fPOK\fP	0	no error occured, everything is fine
-\fBMODBUS\fIERROR\fPPARSE\fP	1	frame parsing error occured (function code not supported)
-\fBMODBUS\fIERROR\fPEXCEPTION\fP	2	frame parsed successfully, but slave threw an exception for some reason
-\fBMODBUS\fIERROR\fPCRC\fP	4	frame CRC invalid (frame ignored)
-\fBMODBUS\fIERROR\fPALLOC\fP	8	memory allocation error
-\fBMODBUS\fIERROR\fPOTHER\fP	16	function was exited for another reason (e.g. tried to parse frame of 0 length, slave set up with address 0)
-\fBMODBUS\fIERROR\fPFRAME\fP	32	frame contains incorrect data (e.g byte count does not match register count)
-.TE
+.PP
+\fB\fCMODBUS_ERROR_OK\fR \- no error occured, everything is fine
+.PP
+\fB\fCMODBUS_ERROR_PARSE\fR \- frame parsing error occured (function code not supported)
+.PP
+\fB\fCMODBUS_ERROR_EXCEPTION\fR \- frame parsed successfully, but slave threw an exception for some reason
+.PP
+\fB\fCMODBUS_ERROR_CRC\fR \- frame CRC invalid (frame ignored)
+.PP
+\fB\fCMODBUS_ERROR_ALLOC\fR \- memory allocation error
+.PP
+\fB\fCMODBUS_ERROR_OTHER\fR \- function was exited for another reason (e.g. tried to parse frame of 0 length, slave set up with address 0)
+.PP
+\fB\fCMODBUS_ERROR_FRAME\fR \- frame contains incorrect data (e.g byte count does not match register count)
