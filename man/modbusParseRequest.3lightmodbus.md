@@ -21,7 +21,7 @@
 ## DESCRIPTION
 The **modbusParseRequest** function parses request frame located in *status.request*. Response is automatically written to *status.response*, unless request
 was broadcast.
-When finished, an error code is returned (described in lightmodbus(3lightmodbus)).
+When finished, an error code is returned (described in lightmodbus(3lightmodbus)) and *status.finished* is set to 1.
 
 **modbusParseRequest01**, **modbusParseRequest02**, and so on can only parse specific requests, while **modbusParseRequest** automatically picks one of them. Keep in mind, that calling them directly is unsafe.
 

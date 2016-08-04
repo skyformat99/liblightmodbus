@@ -22,7 +22,8 @@
 The \fBmodbusParseRequest\fP function parses request frame located in \fIstatus.request\fP\&. Response is automatically written to \fIstatus.response\fP, unless request
 was broadcast.
 When finished, an error code is returned (described in 
-.BR lightmodbus (3lightmodbus)).
+.BR lightmodbus (3lightmodbus)) 
+and \fIstatus.finished\fP is set to 1.
 .PP
 \fBmodbusParseRequest01\fP, \fBmodbusParseRequest02\fP, and so on can only parse specific requests, while \fBmodbusParseRequest\fP automatically picks one of them. Keep in mind, that calling them directly is unsafe.
 .SH SEE ALSO

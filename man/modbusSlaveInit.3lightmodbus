@@ -10,6 +10,7 @@
 .SH DESCRIPTION
 .PP
 The \fBmodbusSlaveInit\fP function sets crucial members of \fBModbuSlaveStatus\fP structure and allocates memory for necessary data. This function should always be called before using any other Modbus slave\-side functions.
+It is also worth mentioning, that memory for \fIstatus.request\fP is \fBnot\fP allocated (user should perform simple pointer assignment, not data copying).
 Needless to say, when returned value is not equal 0 an error occured.
 .PP
 Memory can be later freed with \fBmodbusSlaveEnd\fP\&.

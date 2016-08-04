@@ -20,7 +20,7 @@
 ## DESCRIPTION
 The **modbusBuildRequest** functions build request frame later located in *status.request*, ought to be sent to slave device.
 Function prototypes are rather self-explanatory.
-An error code is returned (described in lightmodbus(3lightmodbus)).
+An error code is returned (described in lightmodbus(3lightmodbus)) and *status.finished* is set to 1 when function exits.
 
 ## SEE ALSO
 lightmodbus(3lightmodbus), ModbusMasterStatus(3lightmodbus)

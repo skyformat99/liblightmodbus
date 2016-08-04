@@ -21,7 +21,8 @@
 The \fBmodbusBuildRequest\fP functions build request frame later located in \fIstatus.request\fP, ought to be sent to slave device.
 Function prototypes are rather self\-explanatory.
 An error code is returned (described in 
-.BR lightmodbus (3lightmodbus)).
+.BR lightmodbus (3lightmodbus)) 
+and \fIstatus.finished\fP is set to 1 when function exits.
 .SH SEE ALSO
 .PP
 .BR lightmodbus (3lightmodbus), 
