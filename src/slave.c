@@ -16,7 +16,7 @@ uint8_t modbusBuildException( ModbusSlaveStatus *status, uint8_t function, uint8
 	status->response.frame = (uint8_t *) realloc( status->response.frame, 5 );
 	if ( status->response.frame == NULL )
 	{
-		free( status->response.frame );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	memset( status->response.frame, 0, 5 );
@@ -58,14 +58,23 @@ uint8_t modbusParseRequest( ModbusSlaveStatus *status )
 	status->finished = 0;
 
 	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
-	if ( status->request.length == 0 ) return MODBUS_ERROR_OTHER;
+	if ( status->request.length == 0 )
+	{
+		status->finished = 1;
+		return MODBUS_ERROR_OTHER;
+	}
+	if ( status->request.frame == NULL )
+	{
+		status->finished = 1;
+		return MODBUS_ERROR_OTHER;
+	}
 
 	//This part right there, below should be optimized, but currently I'm not 100% sure, that parsing doesn't malform given frame
 	//In this case it's just much easier to allocate new frame
 	union ModbusParser *parser = (union ModbusParser *) malloc( status->request.length );
 	if ( parser == NULL )
 	{
-		free( parser );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 
@@ -130,6 +139,7 @@ uint8_t modbusParseRequest( ModbusSlaveStatus *status )
 		if ( parser->base.address != 0 ) err = modbusBuildException( status, parser->base.function, 0x01 );
 
 	free( parser );
+	status->finished = 1;
 
 	return err;
 }
@@ -142,6 +152,7 @@ uint8_t modbusSlaveInit( ModbusSlaveStatus *status )
 	//Reset response frame status
 	status->finished = 0;
 	status->request.length = 0;
+	status->request.frame = NULL;
 	status->response.length = 0;
 	status->response.frame = (uint8_t *) malloc( 8 );
 

@@ -19,7 +19,7 @@ uint8_t modbusBuildRequest01( ModbusMasterStatus *status, uint8_t address, uint1
 	status->request.frame = (uint8_t *) realloc( status->request.frame, frameLength );
 	if ( status->request.frame == NULL )
 	{
-		free( status->request.frame );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	union ModbusParser *builder = (union ModbusParser *) status->request.frame;
@@ -54,7 +54,7 @@ uint8_t modbusBuildRequest05( ModbusMasterStatus *status, uint8_t address, uint1
 	status->request.frame = (uint8_t *) realloc( status->request.frame, frameLength );
 	if ( status->request.frame == NULL )
 	{
-		free( status->request.frame );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	union ModbusParser *builder = (union ModbusParser *) status->request.frame;
@@ -94,7 +94,7 @@ uint8_t modbusBuildRequest15( ModbusMasterStatus *status, uint8_t address, uint1
 	status->request.frame = (uint8_t *) realloc( status->request.frame, frameLength );
 	if ( status->request.frame == NULL )
 	{
-		free( status->request.frame );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	union ModbusParser *builder = (union ModbusParser *) status->request.frame;
@@ -144,7 +144,7 @@ uint8_t modbusParseResponse01( ModbusMasterStatus *status, union ModbusParser *p
 	status->data = (ModbusData *) realloc( status->data, sizeof( ModbusData ) * modbusSwapEndian( requestParser->request01.coilCount ) );
 	if ( status->data == NULL )
 	{
-		free( status->data );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 
@@ -187,7 +187,7 @@ uint8_t modbusParseResponse05( ModbusMasterStatus *status, union ModbusParser *p
 	status->data = (ModbusData *) realloc( status->data, sizeof( ModbusData ) );
 	if ( status->data == NULL )
 	{
-		free( status->data );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 

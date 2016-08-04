@@ -19,7 +19,7 @@ uint8_t modbusBuildRequest02( ModbusMasterStatus *status, uint8_t address, uint1
 	status->request.frame = (uint8_t *) realloc( status->request.frame, frameLength );
 	if ( status->request.frame == NULL )
 	{
-		free( status->request.frame );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	union ModbusParser *builder = (union ModbusParser *) status->request.frame;
@@ -63,13 +63,18 @@ uint8_t modbusParseResponse02( ModbusMasterStatus *status, union ModbusParser *p
 
 
 	status->data = (ModbusData *) realloc( status->data, sizeof( ModbusData ) * modbusSwapEndian( requestParser->request02.inputCount ) );
+	if ( status->data == NULL )
+	{
+		status->finished = 1;
+		return MODBUS_ERROR_ALLOC;
+	}
+
 	for ( i = 0; i < modbusSwapEndian( requestParser->request02.inputCount ); i++ )
 	{
 		status->data[i].address = parser->base.address;
 		status->data[i].dataType = discreteInput;
 		status->data[i].reg = modbusSwapEndian( requestParser->request02.firstInput ) + i;
 		status->data[i].value = modbusMaskRead( parser->response02.values, parser->response02.byteCount, i );
-
 	}
 
 	//Set up data length - response successfully parsed

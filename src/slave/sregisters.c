@@ -55,7 +55,7 @@ uint8_t modbusParseRequest03( ModbusSlaveStatus *status, union ModbusParser *par
 	status->response.frame = (uint8_t *) realloc( status->response.frame, frameLength ); //Reallocate response frame memory to needed memory
 	if ( status->response.frame == NULL )
 	{
-		free( status->response.frame );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	memset( status->response.frame, 0, frameLength ); //Empty response frame
@@ -104,6 +104,7 @@ uint8_t modbusParseRequest06( ModbusSlaveStatus *status, union ModbusParser *par
 	{
 		//Illegal data address exception
 		if ( parser->base.address != 0 ) return modbusBuildException( status, 0x06, 0x02 );
+		status->finished = 1;
 		return 0;
 	}
 
@@ -112,6 +113,7 @@ uint8_t modbusParseRequest06( ModbusSlaveStatus *status, union ModbusParser *par
 	{
 		//Illegal data address exception
 		if ( parser->base.address != 0 ) return modbusBuildException( status, 0x06, 0x02 );
+		status->finished = 1;
 		return 0;
 	}
 
@@ -121,7 +123,7 @@ uint8_t modbusParseRequest06( ModbusSlaveStatus *status, union ModbusParser *par
 	status->response.frame = (uint8_t *) realloc( status->response.frame, frameLength ); //Reallocate response frame memory to needed memory
 	if ( status->response.frame == NULL )
 	{
-		free( status->response.frame );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	memset( status->response.frame, 0, frameLength ); //Empty response frame
@@ -176,6 +178,7 @@ uint8_t modbusParseRequest16( ModbusSlaveStatus *status, union ModbusParser *par
 	{
 		//Illegal data value error
 		if ( parser->base.address != 0 ) return modbusBuildException( status, 0x10, 0x03 );
+		status->finished = 1;
 		return 0;
 	}
 
@@ -188,6 +191,7 @@ uint8_t modbusParseRequest16( ModbusSlaveStatus *status, union ModbusParser *par
 	{
 		//Illegal data value error
 		if ( parser->base.address != 0 ) return modbusBuildException( status, 0x10, 0x03 );
+		status->finished = 1;
 		return 0;
 	}
 
@@ -196,6 +200,7 @@ uint8_t modbusParseRequest16( ModbusSlaveStatus *status, union ModbusParser *par
 	{
 		//Illegal data address error
 		if ( parser->base.address != 0 ) return modbusBuildException( status, 0x10, 0x02 );
+		status->finished = 1;
 		return 0;
 	}
 
@@ -203,6 +208,7 @@ uint8_t modbusParseRequest16( ModbusSlaveStatus *status, union ModbusParser *par
 	{
 		//Illegal data address error
 		if ( parser->base.address != 0 ) return modbusBuildException( status, 0x10, 0x02 );
+		status->finished = 1;
 		return 0;
 	}
 
@@ -214,6 +220,7 @@ uint8_t modbusParseRequest16( ModbusSlaveStatus *status, union ModbusParser *par
 	{
 		//Illegal data address exception
 		if ( parser->base.address != 0 ) return modbusBuildException( status, 0x10, 0x02 );
+		status->finished = 1;
 		return 0;
 	}
 
@@ -223,7 +230,7 @@ uint8_t modbusParseRequest16( ModbusSlaveStatus *status, union ModbusParser *par
 	status->response.frame = (uint8_t *) realloc( status->response.frame, frameLength ); //Reallocate response frame memory to needed memory
 	if ( status->response.frame == NULL )
 	{
-		free( status->response.frame );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	memset( status->response.frame, 0, frameLength ); //Empty response frame

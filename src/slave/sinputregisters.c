@@ -55,7 +55,7 @@ uint8_t modbusParseRequest04( ModbusSlaveStatus *status, union ModbusParser *par
 	status->response.frame = (uint8_t *) realloc( status->response.frame, frameLength ); //Reallocate response frame memory to needed memory
 	if ( status->response.frame == NULL )
 	{
-		free( status->response.frame );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	memset( status->response.frame, 0, frameLength ); //Empty response frame

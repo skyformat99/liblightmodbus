@@ -47,13 +47,23 @@ uint8_t modbusParseResponse( ModbusMasterStatus *status )
 	status->finished = 0;
 
 	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
-	if ( status->response.length == 0 ) return MODBUS_ERROR_OTHER;
+	if ( status->response.length == 0 )
+	{
+		status->finished = 1;
+		return MODBUS_ERROR_OTHER;
+	}
+
+	if ( status->response.frame == NULL )
+	{
+		status->finished = 1;
+		return MODBUS_ERROR_OTHER;
+	}
 
 	//Allocate memory for union and copy frame to it
 	union ModbusParser *parser = (union ModbusParser *) malloc( status->response.length );
 	if ( parser == NULL )
 	{
-		free( parser );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	memcpy( parser->frame, status->response.frame, status->response.length );
@@ -63,7 +73,7 @@ uint8_t modbusParseResponse( ModbusMasterStatus *status )
 	if ( requestParser == NULL )
 	{
 		free( parser );
-		free( requestParser );
+		status->finished = 1;
 		return MODBUS_ERROR_ALLOC;
 	}
 	memcpy( requestParser->frame,  status->request.frame, status->request.length );
@@ -126,6 +136,7 @@ uint8_t modbusParseResponse( ModbusMasterStatus *status )
 	//Free used memory
 	free( parser );
 	free( requestParser );
+	status->finished = 1;
 
 	return err;
 }
