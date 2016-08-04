@@ -12,7 +12,5 @@
 The **modbusMaskRead** function returns *bit* bit from *mask* little-endian array of *maskLength* length. It's useful when whole array is
  one long bit mask. When returned value is greater than 1, an error occurred.
 
-## SEE ALSO
-
 ## AUTHORS
 Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

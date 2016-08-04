@@ -11,7 +11,5 @@
 ## DESCRIPTION
 The **modbusCRC** function calculates and returns cyclic redundancy checksum of *length* bytes starting from *data* pointer.
 
-## SEE ALSO
-
 ## AUTHORS
 Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
