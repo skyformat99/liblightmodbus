@@ -22,7 +22,7 @@
 The **modbusParseResponse** function parses request frame located in *status.response*. Results are written into *status.data*, and *status.finished* is set to 1, when function exits.
 Also, an error code is returned (described in lightmodbus(3lightmodbus)).
 
-**modbusParseResponse01**, **modbusParseResponse02**, and so on can only parse specific function responses, while **modbusParseResponse** automatically picks on of them. Keep in mind, that calling them directly is unsafe.
+**modbusParseResponse01**, **modbusParseResponse02**, and so on can only parse specific function responses, while **modbusParseResponse** automatically picks one of them. Keep in mind, that calling them directly is unsafe.
 
 ## SEE ALSO
 lightmodbus(3lightmodbus), ModbusMasterStatus(3lightmodbus)

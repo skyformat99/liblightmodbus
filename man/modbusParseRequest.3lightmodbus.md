@@ -23,7 +23,7 @@ The **modbusParseRequest** function parses request frame located in *status.requ
 was broadcast.
 When finished, an error code is returned (described in lightmodbus(3lightmodbus)).
 
-**modbusParseRequest01**, **modbusParseRequest02**, and so on can only parse specific requests, while **modbusParseRequest** automatically picks on of them. Keep in mind, that calling them directly is unsafe.
+**modbusParseRequest01**, **modbusParseRequest02**, and so on can only parse specific requests, while **modbusParseRequest** automatically picks one of them. Keep in mind, that calling them directly is unsafe.
 
 ## SEE ALSO
 lightmodbus(3lightmodbus)

@@ -23,7 +23,7 @@ The \fBmodbusParseResponse\fP function parses request frame located in \fIstatus
 Also, an error code is returned (described in 
 .BR lightmodbus (3lightmodbus)).
 .PP
-\fBmodbusParseResponse01\fP, \fBmodbusParseResponse02\fP, and so on can only parse specific function responses, while \fBmodbusParseResponse\fP automatically picks on of them. Keep in mind, that calling them directly is unsafe.
+\fBmodbusParseResponse01\fP, \fBmodbusParseResponse02\fP, and so on can only parse specific function responses, while \fBmodbusParseResponse\fP automatically picks one of them. Keep in mind, that calling them directly is unsafe.
 .SH SEE ALSO
 .PP
 .BR lightmodbus (3lightmodbus), 

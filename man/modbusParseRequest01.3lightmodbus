@@ -24,7 +24,7 @@ was broadcast.
 When finished, an error code is returned (described in 
 .BR lightmodbus (3lightmodbus)).
 .PP
-\fBmodbusParseRequest01\fP, \fBmodbusParseRequest02\fP, and so on can only parse specific requests, while \fBmodbusParseRequest\fP automatically picks on of them. Keep in mind, that calling them directly is unsafe.
+\fBmodbusParseRequest01\fP, \fBmodbusParseRequest02\fP, and so on can only parse specific requests, while \fBmodbusParseRequest\fP automatically picks one of them. Keep in mind, that calling them directly is unsafe.
 .SH SEE ALSO
 .PP
 .BR lightmodbus (3lightmodbus)
