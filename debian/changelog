@@ -1,14 +1,21 @@
+liblightmodbus (1.2-2) trusty; urgency=low
+
+  * Minor changes.
+
+ -- Jacek Wieczorek <mrjjot@gmail.com>  Thu, 04 Aug 2016 23:19:00 +0200
+
 liblightmodbus (1.2-1) trusty; urgency=low
 
   * Change many function names.
-  * Remove global variables/structures. Now each function takes pointer to configuration structure.
+  * Remove global variables/structures.
+  * Now each function takes pointer to status structure.
   * Improve header files management.
   * More verbose function prototypes.
   * Fix critical makefile problems
-  * Add manual
+  * Added manual.
   * Other minor changes.
 
- -- Jacek Wieczorek <mrjjot@gmail.com>  Thu, 04 August 2016 21:04:00 +0200
+ -- Jacek Wieczorek <mrjjot@gmail.com>  Thu, 04 Aug 2016 21:04:00 +0200
 
 liblightmodbus (1.1-1) trusty; urgency=low
 
