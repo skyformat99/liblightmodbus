@@ -36,6 +36,7 @@ clean:
 	-find . -name "*.gch" -type f -delete
 	-rm -rf obj
 	-rm -rf lib
+	-rm -rf mmodules.tmp smodules.tmp
 	-rm -f *.gcno
 	-rm -f *.gcda
 	-rm -f *.o
@@ -95,7 +96,7 @@ slave-coils: src/slave/scoils.c include/lightmodbus/slave/scoils.h
 
 slave-discrete-inputs: src/slave/sdiscreteinputs.c include/lightmodbus/slave/sdiscreteinputs.h
 	echo "COMPILING Slave discrete inputs module (obj/slave/sdiscreteinputs.o)" >> build.log
-	echo " -LIGHTDMODBUS_SLAVE_DISCRETE_INPUTS=1" >> smodules.tmp
+	echo " -DLIGHTMODBUS_SLAVE_DISCRETE_INPUTS=1" >> smodules.tmp
 	$(CC) $(CCF) -mmcu=$(MCU) -c src/slave/sdiscreteinputs.c -o obj/slave/sdiscreteinputs.o
 
 slave-input-registers: src/slave/sinputregisters.c include/lightmodbus/slave/sinputregisters.h
