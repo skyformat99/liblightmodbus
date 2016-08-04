@@ -13,3 +13,6 @@ The **modbusSlaveEnd** frees data dynamically allocated by **modbusSlaveInit**.
 
 ## SEE ALSO
 ModbusSlaveStatus( 3lightmodbus ), modbusSlaveInit( 3lightmodbus )
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

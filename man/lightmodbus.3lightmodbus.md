@@ -151,3 +151,6 @@ Error code macros are defined in **lightmodbus/core.h**.
 `MODBUS_ERROR_OTHER` is returned when e.g. user tries to parse frame of 0-length, or slave was initialized with address 0.
 
 `MODBUS_ERROR_FRAME` is returned by master-side parsing function, when error was found in given frame (e.g. byte count doesn't match register count)
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

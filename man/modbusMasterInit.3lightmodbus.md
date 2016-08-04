@@ -16,3 +16,6 @@ Memory can be later freed with **modbusMasterEnd**.
 
 ## SEE ALSO
 ModbusMasterStatus( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

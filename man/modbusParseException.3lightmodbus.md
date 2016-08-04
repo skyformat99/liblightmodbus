@@ -9,7 +9,10 @@
 `uint8_t modbusParseException( ModbusMasterStatus *status, union ModbusParser *parser );`
 
 ## DESCRIPTION
-The **modbusParseException** function parses exception frame stored in **parser** union, and leaves results in **status**.
+The **modbusParseException** function parses exception frame stored in *parser* union, and leaves results in *status*.
 If no error occurs, 0 value is returned.
 
 ## SEE ALSO
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

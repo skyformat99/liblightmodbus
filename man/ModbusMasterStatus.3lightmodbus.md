@@ -29,18 +29,21 @@ remember to call **modbusMasterInit**.
 | `request`    | request frame                                                |
 | `response`   | response frame from slave should be put here                 |
 
-`data` points to dynamically allocated array of type **ModbusData**, and length of `dataLength` containing data read from salve device.
+*data* points to dynamically allocated array of type **ModbusData**, and length of *dataLength* containing data read from salve device.
 
-`finished` is set to non-zero value, when parsing frame is finished, and results are available.
+*finished* is set to non-zero value, when parsing frame is finished, and results are available.
 
-`exception` contains exception information, if any.
+*exception* contains exception information, if any.
 
-`request` contains request frame, ought to be send to slave device.
+*request* contains request frame, ought to be send to slave device.
 
-`response` should contain response frame from slave.
+*response* should contain response frame from slave.
 
 ## NOTES
 **ModbusMasterStatus** is declared in **lightmodbus/master/mtypes.h**, although including **lightmodbus/master.h** is enough.
 
 ## SEE ALSO
 ModbusFrame( 3lightmodbus ), ModbusException( 3lightmodbus ), ModbusData( 3lightmodbus ), modbusMasterInit( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

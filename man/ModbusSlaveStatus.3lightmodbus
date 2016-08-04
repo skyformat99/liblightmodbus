@@ -26,7 +26,7 @@
 .SH DESCRIPTION
 .PP
 The \fBModbusSlaveStatus\fP contains information about slave device configuration and status. To make sure, that structure is set up for use properly,
-remember to call \fBmodbusSlaveInit\fP\&. Values like \fBregisters\fP, \fBregisterCount\fP, etc. are ought to be set beforehand though.
+remember to call \fBmodbusSlaveInit\fP\&. Values like \fIregisters\fP, \fIregisterCount\fP, etc. are ought to be set beforehand though.
 .TS
 allbox;
 cb cb
@@ -60,9 +60,12 @@ member name	description
 .SH NOTES
 .PP
 \fBModbusSlaveStatus\fP is declared in \fBlightmodbus/slave/stypes.h\fP, although including \fBlightmodbus/slave.h\fP is enough.
-In \fB\fCcoils\fR and \fB\fCdiscreteInputs\fR each bit matches one input/output, and
-\fB\fCdiscreteInputCount\fR and \fB\fCcoilCount\fR correspond to actual input/output count, not the array length!
-When some request\-parsing function is called, make sure that valid frame pointer is set inside \fB\fCrequest\fR\&.
+In \fIcoils\fP and \fIdiscreteInputs\fP each bit matches one input/output, and
+\fIdiscreteInputCount\fP and \fIcoilCount\fP correspond to actual input/output count, not the array length!
+When some request\-parsing function is called, make sure that valid frame pointer is set inside \fIrequest\fP\&.
 .SH SEE ALSO
 .PP
 ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

@@ -23,7 +23,10 @@ The **ModbusFrame** contains pointer to frame data, and frame length expressed i
 ## NOTES
 **ModbusFrame** is declared in **lightmodbus/core.h**.
 Maximum length of single frame is 256 bytes, as limited by 8-bit unsigned integer and Modbus standard.
-If `length` is set to 0, frame is not ready yet, or doesn't need to be send.
+If *length* is set to 0, frame is not ready yet, or doesn't need to be send.
 
 ## SEE ALSO
 ModbusMasterStatus( 3lightmodbus )
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

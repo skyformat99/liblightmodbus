@@ -9,6 +9,9 @@
 `uint16_t modbusCRC( uint8_t *data, uint16_t length );`
 
 ## DESCRIPTION
-The **modbusCRC** function calculates and returns cyclic redundancy checksum of **length** bytes starting from **data** pointer.
+The **modbusCRC** function calculates and returns cyclic redundancy checksum of *length* bytes starting from *data* pointer.
 
 ## SEE ALSO
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

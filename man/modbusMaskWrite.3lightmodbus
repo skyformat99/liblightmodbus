@@ -9,6 +9,9 @@
 \fB\fCuint8_t modbusMaskWrite( uint8_t *mask, uint16_t maskLength, uint16_t bit, uint8_t value );\fR
 .SH DESCRIPTION
 .PP
-The \fBmodbusMaskWrite\fP writes \fBbit\fP bit in \fBmask\fP little\-endian array of \fBmaskLength\fP length to \fBvalue\fP value. It's useful when whole array is
+The \fBmodbusMaskWrite\fP writes \fIbit\fP bit in \fImask\fP little\-endian array of \fImaskLength\fP length to \fIvalue\fP value. It's useful when whole array is
  one long bit mask. When returned value is greater than 0, an error occurred.
 .SH SEE ALSO
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

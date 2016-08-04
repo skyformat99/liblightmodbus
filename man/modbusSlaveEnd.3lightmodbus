@@ -13,3 +13,6 @@ The \fBmodbusSlaveEnd\fP frees data dynamically allocated by \fBmodbusSlaveInit\
 .SH SEE ALSO
 .PP
 ModbusSlaveStatus( 3lightmodbus ), modbusSlaveInit( 3lightmodbus )
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

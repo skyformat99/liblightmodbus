@@ -33,3 +33,6 @@ member name	description
 .SH SEE ALSO
 .PP
 ModbusMasterStatus( 3lightmodbus )
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

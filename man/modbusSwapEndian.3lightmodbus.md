@@ -13,3 +13,6 @@ The **modbusSwapEndian** function returns same 16-bit portion of data, but with 
 are little-endian, while Modbus protocol uses big-endian data format.   
 
 ## SEE ALSO
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

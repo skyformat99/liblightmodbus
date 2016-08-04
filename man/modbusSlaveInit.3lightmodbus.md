@@ -16,3 +16,6 @@ Memory can be later freed with **modbusSlaveEnd**.
 
 ## SEE ALSO
 ModbusSlaveStatus( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

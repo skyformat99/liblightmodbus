@@ -38,18 +38,21 @@ member name	description
 \fB\fCresponse\fR	response frame from slave should be put here
 .TE
 .PP
-\fB\fCdata\fR points to dynamically allocated array of type \fBModbusData\fP, and length of \fB\fCdataLength\fR containing data read from salve device.
+\fIdata\fP points to dynamically allocated array of type \fBModbusData\fP, and length of \fIdataLength\fP containing data read from salve device.
 .PP
-\fB\fCfinished\fR is set to non\-zero value, when parsing frame is finished, and results are available.
+\fIfinished\fP is set to non\-zero value, when parsing frame is finished, and results are available.
 .PP
-\fB\fCexception\fR contains exception information, if any.
+\fIexception\fP contains exception information, if any.
 .PP
-\fB\fCrequest\fR contains request frame, ought to be send to slave device.
+\fIrequest\fP contains request frame, ought to be send to slave device.
 .PP
-\fB\fCresponse\fR should contain response frame from slave.
+\fIresponse\fP should contain response frame from slave.
 .SH NOTES
 .PP
 \fBModbusMasterStatus\fP is declared in \fBlightmodbus/master/mtypes.h\fP, although including \fBlightmodbus/master.h\fP is enough.
 .SH SEE ALSO
 .PP
 ModbusFrame( 3lightmodbus ), ModbusException( 3lightmodbus ), ModbusData( 3lightmodbus ), modbusMasterInit( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

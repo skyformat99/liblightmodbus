@@ -37,3 +37,6 @@ No multiple coil types are stored in the same instance of \fBModbusData\fP\&. Ea
 .SH SEE ALSO
 .PP
 ModbusMasterStatus( 3lightmodbus ), ModbusDataType( 3lightmodbus )
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

@@ -30,3 +30,6 @@ The **ModbusDataType** describes what type given Modbus data is.
 
 ## SEE ALSO
 ModbusMasterStatus( 3lightmodbus ), ModbusData( 3lightmodbus )
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

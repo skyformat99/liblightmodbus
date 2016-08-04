@@ -36,3 +36,6 @@ value	data type
 .SH SEE ALSO
 .PP
 ModbusMasterStatus( 3lightmodbus ), ModbusData( 3lightmodbus )
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

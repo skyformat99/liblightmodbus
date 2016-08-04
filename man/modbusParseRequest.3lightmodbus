@@ -1,0 +1,21 @@
+.TH modbusParseRequest 3lightmodbus "4 August 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusParseRequest\fP \- parse request frame sent in by master device.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/slave.h>\fR
+.PP
+\fB\fCuint8_t modbusParseRequest( ModbusSlaveStatus *status );\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusParseRequest\fP function parses request frame located in \fIstatus.request\fP\&. Response is automatically written to \fIstatus.response\fP, unless request
+was broadcast.
+When finished, an error code is returned (described in 
+.BR lightmodbus (3lightmodbus)).
+.SH SEE ALSO
+.PP
+.BR lightmodbus (3lightmodbus)
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

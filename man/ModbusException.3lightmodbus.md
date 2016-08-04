@@ -28,3 +28,6 @@ The **ModbusException** contains information about exception frame returned by M
 
 ## SEE ALSO
 ModbusMasterStatus( 3lightmodbus )
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

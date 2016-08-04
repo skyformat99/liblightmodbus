@@ -196,3 +196,6 @@ macro	value	description
 \fB\fCMODBUS_ERROR_OTHER\fR is returned when e.g. user tries to parse frame of 0\-length, or slave was initialized with address 0.
 .PP
 \fB\fCMODBUS_ERROR_FRAME\fR is returned by master\-side parsing function, when error was found in given frame (e.g. byte count doesn't match register count)
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

@@ -12,3 +12,6 @@
 The \fBmodbusSwapEndian\fP function returns same 16\-bit portion of data, but with bytes order swapped. Function is included, because most PCs
 are little\-endian, while Modbus protocol uses big\-endian data format.   
 .SH SEE ALSO
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

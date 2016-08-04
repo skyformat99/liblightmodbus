@@ -26,7 +26,7 @@
 
 ## DESCRIPTION
 The **ModbusSlaveStatus** contains information about slave device configuration and status. To make sure, that structure is set up for use properly,
-remember to call **modbusSlaveInit**. Values like **registers**, **registerCount**, etc. are ought to be set beforehand though.
+remember to call **modbusSlaveInit**. Values like *registers*, *registerCount*, etc. are ought to be set beforehand though.
 
 | member name         | description                                               |
 |---------------------|-----------------------------------------------------------|
@@ -45,9 +45,12 @@ remember to call **modbusSlaveInit**. Values like **registers**, **registerCount
 
 ## NOTES
 **ModbusSlaveStatus** is declared in **lightmodbus/slave/stypes.h**, although including **lightmodbus/slave.h** is enough.
-In `coils` and `discreteInputs` each bit matches one input/output, and
-`discreteInputCount` and `coilCount` correspond to actual input/output count, not the array length!
-When some request-parsing function is called, make sure that valid frame pointer is set inside `request`.
+In *coils* and *discreteInputs* each bit matches one input/output, and
+*discreteInputCount* and *coilCount* correspond to actual input/output count, not the array length!
+When some request-parsing function is called, make sure that valid frame pointer is set inside *request*.
 
 ## SEE ALSO
 ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

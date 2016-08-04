@@ -13,3 +13,6 @@ The **modbusMasterEnd** frees data dynamically allocated by **modbusMasterInit**
 
 ## SEE ALSO
 ModbusMasterStatus( 3lightmodbus ), modbusMasterInit( 3lightmodbus )
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>

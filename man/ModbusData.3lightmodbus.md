@@ -30,3 +30,6 @@ No multiple coil types are stored in the same instance of **ModbusData**. Each c
 
 ## SEE ALSO
 ModbusMasterStatus( 3lightmodbus ), ModbusDataType( 3lightmodbus )
+
+## AUTHORS
+Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
