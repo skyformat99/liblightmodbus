@@ -1,0 +1,23 @@
+.TH modbusBuildException 3lightmodbus "4 August 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusBuildException\fP \- build Modbus exception frame.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/slave.h>\fR
+.PP
+\fB\fCuint8_t modbusBuildException( ModbusSlaveStatus *status, uint8_t function, uint8_t exceptionCode )\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusBuildException\fP function builds Modbus exception frame, later located in \fIstatus.response\fP\&.
+Argument \fIfunction\fP should be the number of function that throws an exception. \fIexceptionCode\fP is the exception code to be thrown.
+Function returns an error value on exit (described in 
+.BR lightmodbus (3lightmodbus)), 
+and sets \fIstatus.finished\fP to 1.
+.SH SEE ALSO
+.PP
+.BR modbusParseException (3lightmodbus), 
+.BR ModbusException (3lightmodbus)
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \- \[la]mrjjot@gmail.com\[ra]
