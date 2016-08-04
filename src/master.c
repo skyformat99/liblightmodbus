@@ -135,6 +135,7 @@ uint8_t modbusMasterInit( ModbusMasterStatus *status )
 	//Very basic init of master side
 	status->request.frame = (uint8_t *) malloc( 8 );
 	status->request.length = 0;
+	status->response.length = 0;
 	status->data = (ModbusData *) malloc( sizeof( ModbusData ) );
 	status->dataLength = 0;
 	status->finished = 0;

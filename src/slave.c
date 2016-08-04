@@ -141,6 +141,7 @@ uint8_t modbusSlaveInit( ModbusSlaveStatus *status )
 
 	//Reset response frame status
 	status->finished = 0;
+	status->request.length = 0;
 	status->response.length = 0;
 	status->response.frame = (uint8_t *) malloc( 8 );
 
