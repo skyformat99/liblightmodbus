@@ -117,6 +117,11 @@ Request frame will be stored in \fB\fCmstatus.request.frame\fR\&. To know more, 
 .BR modbusBuildRequest (3lightmodbus).
 .PP
 Parsing frames is done like this:
+.PP
+\fB\fCmodbusParseResponse( &mstatus );\fR
+.PP
+Beforehand, though, response frame from slave should be put into \fB\fCmstatus.response\fR\&. Simple pointer assignment, and setting up length will do fine.
+This assumes, that user did not change \fB\fCmstatus.request\fR, because original request frame is needed to parse slave's response.
 .SS Slave
 .SH RETURN VALUES
 .PP

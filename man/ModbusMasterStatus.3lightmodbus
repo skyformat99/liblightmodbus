@@ -12,6 +12,7 @@
         uint8_t finished; //Is parsing finished?
         ModbusException exception; //Optional exception read
         ModbusFrame request; //Formatted request for slave
+        ModbusFrame response; //Response from slave
     } ModbusMasterStatus; //Master device configuration
 \fR
 .SH DESCRIPTION
@@ -26,6 +27,7 @@ l l
 l l
 l l
 l l
+l l
 .
 member name	description
 \fB\fCdata\fR	data from slave device
@@ -33,12 +35,18 @@ member name	description
 \fB\fCfinished\fR	has processing finished?
 \fB\fCexception\fR	information about exception returned by slave
 \fB\fCrequest\fR	request frame
+\fB\fCresponse\fR	response frame from slave should be put here
 .TE
 .PP
 \fB\fCdata\fR points to dynamically allocated array of type \fBModbusData\fP, and length of \fB\fCdataLength\fR containing data read from salve device.
+.PP
 \fB\fCfinished\fR is set to non\-zero value, when parsing frame is finished, and results are available.
+.PP
 \fB\fCexception\fR contains exception information, if any.
+.PP
 \fB\fCrequest\fR contains request frame, ought to be send to slave device.
+.PP
+\fB\fCresponse\fR should contain response frame from slave.
 .SH NOTES
 .PP
 \fBModbusMasterStatus\fP is declared in \fBlightmodbus/master/mtypes.h\fP, although including \fBlightmodbus/master.h\fP is enough.

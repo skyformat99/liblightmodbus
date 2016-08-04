@@ -20,6 +20,7 @@
         uint16_t inputRegisterCount; //Slave input count
         uint8_t finished; //Has slave finished building response?
         ModbusFrame response; //Slave response formatting status
+        ModbusFrame request; //Request frame from master
     } ModbusSlaveStatus; //Slave device configuration data
 \fR
 .SH DESCRIPTION
@@ -29,6 +30,7 @@ remember to call \fBmodbusSlaveInit\fP\&. Values like \fBregisters\fP, \fBregist
 .TS
 allbox;
 cb cb
+l l
 l l
 l l
 l l
@@ -53,12 +55,14 @@ member name	description
 \fB\fCinputRegisterCount\fR	length of input registers array
 \fB\fCfinished\fR	has processing finished
 \fB\fCresponse\fR	response frame for master device
+\fB\fCrequest\fR	request frame from master
 .TE
 .SH NOTES
 .PP
 \fBModbusSlaveStatus\fP is declared in \fBlightmodbus/slave/stypes.h\fP, although including \fBlightmodbus/slave.h\fP is enough.
 In \fB\fCcoils\fR and \fB\fCdiscreteInputs\fR each bit matches one input/output, and
 \fB\fCdiscreteInputCount\fR and \fB\fCcoilCount\fR correspond to actual input/output count, not the array length!
+When some request\-parsing function is called, make sure that valid frame pointer is set inside \fB\fCrequest\fR\&.
 .SH SEE ALSO
 .PP
 ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )
