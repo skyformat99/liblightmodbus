@@ -1,4 +1,6 @@
 #!/bin/bash
 
 sh man-build.sh
-find man -name "*.3lightmodbus" | xargs man
+for f in man/*.3lightmodbus; do
+  man ./"$f"
+done
