@@ -9,5 +9,7 @@ lib
 *.gch
 *.log
 coverage-test
+examples/example
 massif.out
 valgrind.xml
+*.tmp
