@@ -4,9 +4,11 @@ liblightmodbus (1.2-1) trusty; urgency=low
   * Remove global variables/structures. Now each function takes pointer to configuration structure.
   * Improve header files management.
   * More verbose function prototypes.
-  * Other minor changes. 
+  * Fix critical makefile problems
+  * Add manual
+  * Other minor changes.
 
- -- Jacek Wieczorek <mrjjot@gmail.com>  Wed, 27 July 2016 14:55:00 +0200
+ -- Jacek Wieczorek <mrjjot@gmail.com>  Thu, 04 August 2016 21:04:00 +0200
 
 liblightmodbus (1.1-1) trusty; urgency=low
 
