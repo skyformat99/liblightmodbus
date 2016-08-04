@@ -13,4 +13,4 @@ The \fBmodbusParseException\fP function parses exception frame stored in \fIpars
 If no error occurs, 0 value is returned.
 .SH AUTHORS
 .PP
-Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]
+Jacek Wieczorek (Jacajack) \- \[la]mrjjot@gmail.com\[ra]

@@ -29,7 +29,7 @@ The **ModbusDataType** describes what type given Modbus data is.
 **ModbusDataType** is declared in **lightmodbus/master/mtypes.h**, although including **lightmodbus/master.h** is enough.
 
 ## SEE ALSO
-ModbusMasterStatus( 3lightmodbus ), ModbusData( 3lightmodbus )
+ModbusMasterStatus(3lightmodbus), ModbusData(3lightmodbus)
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

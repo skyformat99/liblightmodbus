@@ -13,4 +13,4 @@ The **modbusParseException** function parses exception frame stored in *parser* 
 If no error occurs, 0 value is returned.
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

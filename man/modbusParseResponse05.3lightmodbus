@@ -30,4 +30,4 @@ Also, an error code is returned (described in
 .BR ModbusMasterStatus (3lightmodbus)
 .SH AUTHORS
 .PP
-Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]
+Jacek Wieczorek (Jacajack) \- \[la]mrjjot@gmail.com\[ra]

@@ -15,7 +15,7 @@ Needless to say, when returned value is not equal 0 an error occured.
 Memory can be later freed with **modbusSlaveEnd**.
 
 ## SEE ALSO
-ModbusSlaveStatus( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )
+ModbusSlaveStatus(3lightmodbus), modbusSlaveEnd(3lightmodbus)
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

@@ -29,4 +29,4 @@ When finished, an error code is returned (described in lightmodbus(3lightmodbus)
 lightmodbus(3lightmodbus)
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

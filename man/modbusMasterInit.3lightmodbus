@@ -15,7 +15,8 @@ Needless to say, when returned value is not equal 0 an error occured.
 Memory can be later freed with \fBmodbusMasterEnd\fP\&.
 .SH SEE ALSO
 .PP
-ModbusMasterStatus( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )
+.BR ModbusMasterStatus (3lightmodbus), 
+.BR modbusMasterEnd (3lightmodbus)
 .SH AUTHORS
 .PP
-Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]
+Jacek Wieczorek (Jacajack) \- \[la]mrjjot@gmail.com\[ra]

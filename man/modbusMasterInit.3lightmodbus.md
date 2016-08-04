@@ -15,7 +15,7 @@ Needless to say, when returned value is not equal 0 an error occured.
 Memory can be later freed with **modbusMasterEnd**.
 
 ## SEE ALSO
-ModbusMasterStatus( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )
+ModbusMasterStatus(3lightmodbus), modbusMasterEnd(3lightmodbus)
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

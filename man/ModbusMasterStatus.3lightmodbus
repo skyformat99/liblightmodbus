@@ -55,7 +55,11 @@ Important thing is, \fIresponse\fP is not an array, just a pointer. \fBIt does n
 Please, simply put address of your data there, and do not attempt copying it.
 .SH SEE ALSO
 .PP
-ModbusFrame( 3lightmodbus ), ModbusException( 3lightmodbus ), ModbusData( 3lightmodbus ), modbusMasterInit( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )
+.BR ModbusFrame (3lightmodbus), 
+.BR ModbusException (3lightmodbus), 
+.BR ModbusData (3lightmodbus), 
+.BR modbusMasterInit (3lightmodbus), 
+.BR modbusMasterEnd (3lightmodbus)
 .SH AUTHORS
 .PP
-Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]
+Jacek Wieczorek (Jacajack) \- \[la]mrjjot@gmail.com\[ra]

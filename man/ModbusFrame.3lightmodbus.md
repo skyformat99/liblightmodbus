@@ -26,7 +26,7 @@ Maximum length of single frame is 256 bytes, as limited by 8-bit unsigned intege
 If *length* is set to 0, frame is not ready yet, or doesn't need to be send.
 
 ## SEE ALSO
-ModbusMasterStatus( 3lightmodbus )
+ModbusMasterStatus(3lightmodbus)
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

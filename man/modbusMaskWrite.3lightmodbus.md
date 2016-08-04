@@ -13,4 +13,4 @@ The **modbusMaskWrite** writes *bit* bit in *mask* little-endian array of *maskL
  one long bit mask. When returned value is greater than 0, an error occurred.
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

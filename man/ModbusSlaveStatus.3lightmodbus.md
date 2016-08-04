@@ -58,7 +58,7 @@ Important thing is, *request* is not an array, just a pointer. **It does not poi
 Please, simply put address of your data there, and do not attempt copying it.
 
 ## SEE ALSO
-ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )
+ModbusFrame(3lightmodbus), modbusSlaveInit(3lightmodbus), modbusSlaveEnd(3lightmodbus)
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

@@ -12,7 +12,8 @@
 The \fBmodbusMasterEnd\fP frees data dynamically allocated by \fBmodbusMasterInit\fP\&.
 .SH SEE ALSO
 .PP
-ModbusMasterStatus( 3lightmodbus ), modbusMasterInit( 3lightmodbus )
+.BR ModbusMasterStatus (3lightmodbus), 
+.BR modbusMasterInit (3lightmodbus)
 .SH AUTHORS
 .PP
-Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]
+Jacek Wieczorek (Jacajack) \- \[la]mrjjot@gmail.com\[ra]

@@ -12,4 +12,4 @@
 The \fBmodbusCRC\fP function calculates and returns cyclic redundancy checksum of \fIlength\fP bytes starting from \fIdata\fP pointer.
 .SH AUTHORS
 .PP
-Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]
+Jacek Wieczorek (Jacajack) \- \[la]mrjjot@gmail.com\[ra]

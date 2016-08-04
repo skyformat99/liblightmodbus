@@ -29,7 +29,7 @@ The **ModbusData** contains single Modbus data unit (e.g. register, coil) and in
 No multiple coil types are stored in the same instance of **ModbusData**. Each coil type read is stored in another structure for simplicity.
 
 ## SEE ALSO
-ModbusMasterStatus( 3lightmodbus ), ModbusDataType( 3lightmodbus )
+ModbusMasterStatus(3lightmodbus), ModbusDataType(3lightmodbus)
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

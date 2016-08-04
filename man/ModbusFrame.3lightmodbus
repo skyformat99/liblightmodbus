@@ -31,7 +31,7 @@ Maximum length of single frame is 256 bytes, as limited by 8\-bit unsigned integ
 If \fIlength\fP is set to 0, frame is not ready yet, or doesn't need to be send.
 .SH SEE ALSO
 .PP
-ModbusMasterStatus( 3lightmodbus )
+.BR ModbusMasterStatus (3lightmodbus)
 .SH AUTHORS
 .PP
-Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]
+Jacek Wieczorek (Jacajack) \- \[la]mrjjot@gmail.com\[ra]

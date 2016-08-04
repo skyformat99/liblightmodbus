@@ -223,4 +223,4 @@ Modbus exception codes meanings:
 | 8 		| memory parity error												|
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

@@ -76,7 +76,9 @@ Important thing is, \fIrequest\fP is not an array, just a pointer. \fBIt does no
 Please, simply put address of your data there, and do not attempt copying it.
 .SH SEE ALSO
 .PP
-ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )
+.BR ModbusFrame (3lightmodbus), 
+.BR modbusSlaveInit (3lightmodbus), 
+.BR modbusSlaveEnd (3lightmodbus)
 .SH AUTHORS
 .PP
-Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]
+Jacek Wieczorek (Jacajack) \- \[la]mrjjot@gmail.com\[ra]

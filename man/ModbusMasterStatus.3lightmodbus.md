@@ -46,7 +46,7 @@ Important thing is, *response* is not an array, just a pointer. **It does not po
 Please, simply put address of your data there, and do not attempt copying it.
 
 ## SEE ALSO
-ModbusFrame( 3lightmodbus ), ModbusException( 3lightmodbus ), ModbusData( 3lightmodbus ), modbusMasterInit( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )
+ModbusFrame(3lightmodbus), ModbusException(3lightmodbus), ModbusData(3lightmodbus), modbusMasterInit(3lightmodbus), modbusMasterEnd(3lightmodbus)
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com

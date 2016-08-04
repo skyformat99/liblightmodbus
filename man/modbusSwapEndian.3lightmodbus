@@ -13,4 +13,4 @@ The \fBmodbusSwapEndian\fP function returns same 16\-bit portion of data, but wi
 are little\-endian, while Modbus protocol uses big\-endian data format.   
 .SH AUTHORS
 .PP
-Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]
+Jacek Wieczorek (Jacajack) \- \[la]mrjjot@gmail.com\[ra]

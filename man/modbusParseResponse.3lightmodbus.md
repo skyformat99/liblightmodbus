@@ -28,4 +28,4 @@ Also, an error code is returned (described in lightmodbus(3lightmodbus)).
 lightmodbus(3lightmodbus), ModbusMasterStatus(3lightmodbus)
 
 ## AUTHORS
-Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
+Jacek Wieczorek (Jacajack) - mrjjot@gmail.com
