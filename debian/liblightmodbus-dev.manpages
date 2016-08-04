@@ -15,6 +15,7 @@ man/modbusBuildRequest01.3lightmodbus
 man/modbusParseRequest02.3lightmodbus
 man/modbusMaskRead.3lightmodbus
 man/modbusSlaveInit.3lightmodbus
+man/modbusBuildException.3lightmodbus
 man/modbusParseRequest16.3lightmodbus
 man/modbusParseResponse16.3lightmodbus
 man/modbusBuildRequest06.3lightmodbus
