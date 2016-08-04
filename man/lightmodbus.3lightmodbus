@@ -58,6 +58,87 @@ l l
 l l
 l l
 l l
+l l
+l l
+l l
+.
+function name	module
+\fBmodbusCRC\fP	core
+\fBmodbusSwapEndian\fP	core
+\fBmodbusMaskRead\fP	core
+\fBmodbusMaskWrite\fP	core
+\fBmodbusMasterInit\fP	master\-base
+\fBmodbusMasterEnd\fP	master\-base
+\fBmodbusParseResponse\fP	master\-base
+\fBmodbusParseException\fP	master\-base
+\fBmodbusSlaveInit\fP	slave\-base
+\fBmodbusSlaveEnd\fP	slave\-base
+\fBmodbusBuildException\fP	slave\-base
+\fBmodbusParseRequest\fP	slave\-base
+\fBmodbusBuildRequest01\fP	master\-coils
+\fBmodbusBuildRequest02\fP	master\-discrete\-inputs
+\fBmodbusBuildRequest03\fP	master\-registers
+\fBmodbusBuildRequest04\fP	master\-input\-registers
+\fBmodbusBuildRequest05\fP	master\-coils
+\fBmodbusParseRequest06\fP	master\-registers
+\fBmodbusBuildRequest15\fP	master\-coils
+\fBmodbusBuildRequest16\fP	master\-registers
+\fBmodbusParseRequest01\fP	slave\-coils
+\fBmodbusParseRequest02\fP	slave\-discrete\-inputs
+\fBmodbusParseRequest03\fP	slave\-registers
+\fBmodbusParseRequest04\fP	slave\-input\-registers
+\fBmodbusParseRequest05\fP	slave\-coils
+\fBmodbusParseRequest06\fP	slave\-registers
+\fBmodbusParseRequest15\fP	slave\-coils
+\fBmodbusParseRequest16\fP	slave\-registers
+\fBmodbusParseResponse01\fP	master\-coils
+\fBmodbusParseResponse02\fP	master\-discrete\-inputs
+\fBmodbusParseResponse03\fP	master\-registers
+\fBmodbusParseResponse04\fP	master\-input\-registers
+\fBmodbusParseResponse05\fP	master\-coils
+\fBmodbusParseResponse06\fP	master\-registers
+\fBmodbusParseResponse15\fP	master\-coils
+\fBmodbusParseResponse16\fP	master\-registers
+.TE
+.TS
+allbox;
+cb cb
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
 .
 function name	manpage
 \fBmodbusCRC\fP	modbusCRC( 3lightmodbus )
@@ -77,6 +158,7 @@ function name	manpage
 \fBmodbusBuildRequest03\fP	modbusBuildRequest( 3lightmodbus )
 \fBmodbusBuildRequest04\fP	modbusBuildRequest( 3lightmodbus )
 \fBmodbusBuildRequest05\fP	modbusBuildRequest( 3lightmodbus )
+\fBmodbusBuildRequest06\fP	modbusBuildRequest( 3lightmodbus )
 \fBmodbusBuildRequest15\fP	modbusBuildRequest( 3lightmodbus )
 \fBmodbusBuildRequest16\fP	modbusBuildRequest( 3lightmodbus )
 \fBmodbusParseRequest01\fP	modbusParseRequest( 3lightmodbus )
@@ -84,6 +166,7 @@ function name	manpage
 \fBmodbusParseRequest03\fP	modbusParseRequest( 3lightmodbus )
 \fBmodbusParseRequest04\fP	modbusParseRequest( 3lightmodbus )
 \fBmodbusParseRequest05\fP	modbusParseRequest( 3lightmodbus )
+\fBmodbusParseRequest06\fP	modbusParseRequest( 3lightmodbus )
 \fBmodbusParseRequest15\fP	modbusParseRequest( 3lightmodbus )
 \fBmodbusParseRequest16\fP	modbusParseRequest( 3lightmodbus )
 \fBmodbusParseResponse01\fP	modbusParseResponse( 3lightmodbus )
@@ -91,6 +174,7 @@ function name	manpage
 \fBmodbusParseResponse03\fP	modbusParseResponse( 3lightmodbus )
 \fBmodbusParseResponse04\fP	modbusParseResponse( 3lightmodbus )
 \fBmodbusParseResponse05\fP	modbusParseResponse( 3lightmodbus )
+\fBmodbusParseResponse06\fP	modbusParseResponse( 3lightmodbus )
 \fBmodbusParseResponse15\fP	modbusParseResponse( 3lightmodbus )
 \fBmodbusParseResponse16\fP	modbusParseResponse( 3lightmodbus )
 .TE
@@ -196,6 +280,31 @@ macro	value	description
 \fB\fCMODBUS_ERROR_OTHER\fR is returned when e.g. user tries to parse frame of 0\-length, or slave was initialized with address 0.
 .PP
 \fB\fCMODBUS_ERROR_FRAME\fR is returned by master\-side parsing function, when error was found in given frame (e.g. byte count doesn't match register count)
+.SH MODBUS FUNCTION CODES
+.PP
+Modbus function codes meanings:
+.TS
+allbox;
+cb cb
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+.
+function	description
+1	read multiple coils
+2	read multiple discrete inputs
+3	read multiple holding registers
+4	read multiple input registers
+5	write single coil
+6	write single holding register
+15	write multiple coils
+16	write multiple holding registers
+.TE
 .SH AUTHORS
 .PP
 Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

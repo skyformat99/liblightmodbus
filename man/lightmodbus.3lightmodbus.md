@@ -23,6 +23,45 @@ Take a look at its content, to get a hint about how it works, and what you can c
 ## ROUTINES
 Full listing of functions included in `lightmodbus` library.
 
+| function name                 | module                  		 	            |
+|-------------------------------|-----------------------------------------------|
+| **modbusCRC**                 |  core                   						|
+| **modbusSwapEndian**          |  core           								|
+| **modbusMaskRead**            |  core               							|
+| **modbusMaskWrite**           |  core              							|
+| **modbusMasterInit**       	|  master-base          						|
+| **modbusMasterEnd**       	|  master-base          						|
+| **modbusParseResponse**       |  master-base          						|
+| **modbusParseException**      |  master-base         							|
+| **modbusSlaveInit**      		|  slave-base     		    					|
+| **modbusSlaveEnd**     		|  slave-base     		    					|
+| **modbusBuildException**      |  slave-base         							|
+| **modbusParseRequest**   	   	|  slave-base         							|
+| **modbusBuildRequest01**   	|  master-coils         						|
+| **modbusBuildRequest02**   	|  master-discrete-inputs         				|
+| **modbusBuildRequest03**   	|  master-registers         					|
+| **modbusBuildRequest04**   	|  master-input-registers         				|
+| **modbusBuildRequest05**   	|  master-coils         						|
+| **modbusParseRequest06**   	|  master-registers         					|
+| **modbusBuildRequest15**   	|  master-coils         						|
+| **modbusBuildRequest16**   	|  master-registers         					|
+| **modbusParseRequest01**   	|  slave-coils         							|
+| **modbusParseRequest02**   	|  slave-discrete-inputs         				|
+| **modbusParseRequest03**   	|  slave-registers         						|
+| **modbusParseRequest04**   	|  slave-input-registers         				|
+| **modbusParseRequest05**   	|  slave-coils         							|
+| **modbusParseRequest06**   	|  slave-registers          					|
+| **modbusParseRequest15**   	|  slave-coils         							|
+| **modbusParseRequest16**   	|  slave-registers          					|
+| **modbusParseResponse01**   	|  master-coils         						|
+| **modbusParseResponse02**   	|  master-discrete-inputs         				|
+| **modbusParseResponse03**   	|  master-registers         					|
+| **modbusParseResponse04**   	|  master-input-registers         				|
+| **modbusParseResponse05**   	|  master-coils         						|
+| **modbusParseResponse06**   	|  master-registers        						|
+| **modbusParseResponse15**   	|  master-coils         						|
+| **modbusParseResponse16**   	|  master-registers         					|
+
 | function name                 | manpage                  		 	            |
 |-------------------------------|-----------------------------------------------|
 | **modbusCRC**                 |  modbusCRC( 3lightmodbus )                    |
@@ -42,6 +81,7 @@ Full listing of functions included in `lightmodbus` library.
 | **modbusBuildRequest03**   	|  modbusBuildRequest( 3lightmodbus )         	|
 | **modbusBuildRequest04**   	|  modbusBuildRequest( 3lightmodbus )         	|
 | **modbusBuildRequest05**   	|  modbusBuildRequest( 3lightmodbus )         	|
+| **modbusBuildRequest06**   	|  modbusBuildRequest( 3lightmodbus )         	|
 | **modbusBuildRequest15**   	|  modbusBuildRequest( 3lightmodbus )         	|
 | **modbusBuildRequest16**   	|  modbusBuildRequest( 3lightmodbus )         	|
 | **modbusParseRequest01**   	|  modbusParseRequest( 3lightmodbus )         	|
@@ -49,6 +89,7 @@ Full listing of functions included in `lightmodbus` library.
 | **modbusParseRequest03**   	|  modbusParseRequest( 3lightmodbus )         	|
 | **modbusParseRequest04**   	|  modbusParseRequest( 3lightmodbus )         	|
 | **modbusParseRequest05**   	|  modbusParseRequest( 3lightmodbus )         	|
+| **modbusParseRequest06**   	|  modbusParseRequest( 3lightmodbus )         	|
 | **modbusParseRequest15**   	|  modbusParseRequest( 3lightmodbus )         	|
 | **modbusParseRequest16**   	|  modbusParseRequest( 3lightmodbus )         	|
 | **modbusParseResponse01**   	|  modbusParseResponse( 3lightmodbus )         	|
@@ -56,6 +97,7 @@ Full listing of functions included in `lightmodbus` library.
 | **modbusParseResponse03**   	|  modbusParseResponse( 3lightmodbus )         	|
 | **modbusParseResponse04**   	|  modbusParseResponse( 3lightmodbus )         	|
 | **modbusParseResponse05**   	|  modbusParseResponse( 3lightmodbus )         	|
+| **modbusParseResponse06**   	|  modbusParseResponse( 3lightmodbus )         	|
 | **modbusParseResponse15**   	|  modbusParseResponse( 3lightmodbus )         	|
 | **modbusParseResponse16**   	|  modbusParseResponse( 3lightmodbus )         	|
 
@@ -151,6 +193,20 @@ Error code macros are defined in **lightmodbus/core.h**.
 `MODBUS_ERROR_OTHER` is returned when e.g. user tries to parse frame of 0-length, or slave was initialized with address 0.
 
 `MODBUS_ERROR_FRAME` is returned by master-side parsing function, when error was found in given frame (e.g. byte count doesn't match register count)
+
+## MODBUS FUNCTION CODES
+Modbus function codes meanings:
+
+| function 	| description														|
+|-----------|-------------------------------------------------------------------|
+| 1			| read multiple coils												|
+| 2			| read multiple discrete inputs										|
+| 3			| read multiple holding registers									|
+| 4			| read multiple input registers										|
+| 5			| write single coil 												|
+| 6			| write single holding register										|
+| 15		| write multiple coils												|
+| 16		| write multiple holding registers									|
 
 ## AUTHORS
 Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
