@@ -20,6 +20,7 @@
 		uint16_t inputRegisterCount; //Slave input count
 		uint8_t finished; //Has slave finished building response?
 		ModbusFrame response; //Slave response formatting status
+		ModbusFrame request; //Request frame from master
 	} ModbusSlaveStatus; //Slave device configuration data
 `
 
@@ -40,11 +41,13 @@ remember to call **modbusSlaveInit**. Values like **registers**, **registerCount
 | `inputRegisterCount`| length of input registers array                           |
 | `finished`          | has processing finished                                   |
 | `response`          | response frame for master device                          |
+| `request`           | request frame from master                                 |
 
 ## NOTES
 **ModbusSlaveStatus** is declared in **lightmodbus/slave/stypes.h**, although including **lightmodbus/slave.h** is enough.
 In `coils` and `discreteInputs` each bit matches one input/output, and
 `discreteInputCount` and `coilCount` correspond to actual input/output count, not the array length!
+When some request-parsing function is called, make sure that valid frame pointer is set inside `request`.
 
 ## SEE ALSO
 ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )

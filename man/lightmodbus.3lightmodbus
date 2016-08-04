@@ -1,8 +1,128 @@
-.TH lightmodbus 3lightmodbus "30 July 2016" "v1.2"
+.TH lightmodbus 3lightmodbus "4 August 2016" "v1.2"
 .SH NAME
 .PP
 \fBlightmodbus\fP \- a lightweight, multiplatform Modbus RTU library.
-.SH ERRORS
+.SH DESCRIPTION
+.PP
+The \fBlightmodbus\fP library allows communication with use of Modbus RTU protocol. \fBlightmodbus\fP contains
+functions for parsing and creating Modbus frames, but \fBit is not\fP sending or receiving them.
+Modbus functions supported by library include: 01, 02, 03, 04, 05, 06, 15 and 16.
+Library itself, is easy to compile and modular \- only necessary modules can be included while building. Default version available for
+PC is complete, and contains all modules. Needless to say, the library is possible to build at any little\-endian platform.
+.SH BUILDING
+.PP
+There are three makefiles attached to the library.
+Usual \fB\fCmakefile\fR simply compiles source code, creating object files (\fB\fCobj\fR directory), as well as static library files in \fB\fClib\fR directory.
+Take a look at its content, to get a hint about how it works, and what you can change, during build process.
+\fB\fCmakefile\-coverage\fR compiles library for source code coverage testing (you probably don't need this, go on).
+.SH BUILDING FOR AVR
+.PP
+\fB\fCmakefile\-avr\fR is not automated, and each step should be called separately. To compile library for AVR more easily, use
+\fB\fCmake\-avr.py\fR script, that will guide you through build process.
+.SH ROUTINES
+.PP
+Full listing of functions included in \fB\fClightmodbus\fR library.
+.TS
+allbox;
+cb cb
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+.
+function name	manpage
+\fBmodbusCRC\fP	modbusCRC( 3lightmodbus )
+\fBmodbusSwapEndian\fP	modbusSwapEndian( 3lightmodbus )
+\fBmodbusMaskRead\fP	modbusMaskRead( 3lightmodbus )
+\fBmodbusMaskWrite\fP	modbusMaskWrite( 3lightmodbus )
+\fBmodbusMasterInit\fP	modbusMasterInit( 3lightmodbus )
+\fBmodbusMasterEnd\fP	modbusMasterEnd( 3lightmodbus )
+\fBmodbusParseResponse\fP	modbusParseResponse( 3lightmodbus )
+\fBmodbusParseException\fP	modbusParseException( 3lightmodbus )
+\fBmodbusSlaveInit\fP	modbusSlaveInit( 3lightmodbus )
+\fBmodbusSlaveEnd\fP	modbusSlaveEnd( 3lightmodbus )
+\fBmodbusBuildException\fP	modbusBuildException( 3lightmodbus )
+\fBmodbusParseRequest\fP	modbusParseRequest( 3lightmodbus )
+\fBmodbusBuildRequest01\fP	modbusBuildRequest( 3lightmodbus )
+\fBmodbusBuildRequest02\fP	modbusBuildRequest( 3lightmodbus )
+\fBmodbusBuildRequest03\fP	modbusBuildRequest( 3lightmodbus )
+\fBmodbusBuildRequest04\fP	modbusBuildRequest( 3lightmodbus )
+\fBmodbusBuildRequest05\fP	modbusBuildRequest( 3lightmodbus )
+\fBmodbusBuildRequest15\fP	modbusBuildRequest( 3lightmodbus )
+\fBmodbusBuildRequest16\fP	modbusBuildRequest( 3lightmodbus )
+\fBmodbusParseRequest01\fP	modbusParseRequest( 3lightmodbus )
+\fBmodbusParseRequest02\fP	modbusParseRequest( 3lightmodbus )
+\fBmodbusParseRequest03\fP	modbusParseRequest( 3lightmodbus )
+\fBmodbusParseRequest04\fP	modbusParseRequest( 3lightmodbus )
+\fBmodbusParseRequest05\fP	modbusParseRequest( 3lightmodbus )
+\fBmodbusParseRequest15\fP	modbusParseRequest( 3lightmodbus )
+\fBmodbusParseRequest16\fP	modbusParseRequest( 3lightmodbus )
+\fBmodbusParseResponse01\fP	modbusParseResponse( 3lightmodbus )
+\fBmodbusParseResponse02\fP	modbusParseResponse( 3lightmodbus )
+\fBmodbusParseResponse03\fP	modbusParseResponse( 3lightmodbus )
+\fBmodbusParseResponse04\fP	modbusParseResponse( 3lightmodbus )
+\fBmodbusParseResponse05\fP	modbusParseResponse( 3lightmodbus )
+\fBmodbusParseResponse15\fP	modbusParseResponse( 3lightmodbus )
+\fBmodbusParseResponse16\fP	modbusParseResponse( 3lightmodbus )
+.TE
+.SH USAGE
+.SS Master
+.PP
+First of all, you need to make sure, that master module is included to the library. After that,
+\fB\fClightmodbus/master.h\fR and all of its dependences header files are needed.
+.PP
+First step is to declare \fBModbusMasterStatus\fP type variable, to contain Modbus configuration data. Later, it needs to be passed
+to almost every master\-side function you call.
+.PP
+\fB\fCModbusMasterStatus mstatus;\fR
+.PP
+Later, somewhere in your init function, remember to initiate master module with:
+.PP
+\fB\fCmodbusMasterInit( &mstatus );\fR
+.PP
+Then, you are free to do whatever you want. You can parse and build frames etc. Like this:
+.PP
+\fB\fCmodbusBuildRequest06( &mstatus, 32, 3, 1024 );\fR
+.PP
+Request frame will be stored in \fB\fCmstatus.request.frame\fR\&. To know more, read 
+.BR modbusBuildRequest (3lightmodbus).
+.PP
+Parsing frames is done like this:
+.SS Slave
+.SH RETURN VALUES
+.PP
+\fBmodbusSlaveInit\fP, \fBmodbusSlaveEnd\fP, \fBmodbusMasterInit\fP, \fBmodbusMasterEnd\fP, \fBmodbusParseRequest\fP, \fBmodbusParseResponse\fP, \fBmodbusBuildRequest\fP and the rest of parsing/building functions return an error code when they exit. Below you'll find description of those.
+.PP
+Error code macros are defined in \fBlightmodbus/core.h\fP\&.
 .PP
 \fB\fC
     #define MODBUS_ERROR_OK 0
@@ -13,8 +133,6 @@
     #define MODBUS_ERROR_OTHER 16
     #define MODBUS_ERROR_FRAME 32
 \fR
-.PP
-Error code macros are defined in \fBlightmodbus/core.h\fP\&.
 .TS
 allbox;
 cb cb cb
@@ -36,15 +154,19 @@ macro	value	description
 \fB\fCMODBUS_ERROR_FRAME\fR	32	frame contains incorrect data
 .TE
 .PP
-\fB\fCMODBUS_ERROR_PARSE\fR is usually thrown when function code is not supported (library module missing?)
+\fB\fCMODBUS_ERROR_OK\fR is returned when no error occurred.
+.PP
+\fB\fCMODBUS_ERROR_PARSE\fR is returned when function code is not supported (library module missing?)
 .PP
 \fB\fCMODBUS_ERROR_EXCEPTION\fR is returned either when:
     \- (on slave side) slave had to return exception frame
     \- (on master side) exception frame was parsed
     In both cases it's not an actual error, but an information for user.
 .PP
+\fB\fCMODBUS_ERROR_CRC\fR is returned when CRC attached to frame was incorrect. Obviously frame is ignored in such a case.
+.PP
 \fB\fCMODBUS_ERROR_ALLOC\fR is returned when \fBmalloc\fP or \fBrealloc\fP call has failed.
 .PP
-\fB\fCMODBUS_ERROR_OTHER\fR is thrown when e.g. user tries to parse frame of 0\-length, or slave was initialized with address 0.
+\fB\fCMODBUS_ERROR_OTHER\fR is returned when e.g. user tries to parse frame of 0\-length, or slave was initialized with address 0.
 .PP
-\fB\fCMODBUS_ERROR_FRAME\fR can be returned by master\-side parsing function, when error was found in given frame (e.g. byte count doesn't match register count)
+\fB\fCMODBUS_ERROR_FRAME\fR is returned by master\-side parsing function, when error was found in given frame (e.g. byte count doesn't match register count)

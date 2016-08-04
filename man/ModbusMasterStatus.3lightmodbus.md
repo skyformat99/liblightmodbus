@@ -12,6 +12,7 @@
 		uint8_t finished; //Is parsing finished?
 		ModbusException exception; //Optional exception read
 		ModbusFrame request; //Formatted request for slave
+		ModbusFrame response; //Response from slave
 	} ModbusMasterStatus; //Master device configuration
 `
 
@@ -26,12 +27,17 @@ remember to call **modbusMasterInit**.
 | `finished`   | has processing finished?                                     |
 | `exception`  | information about exception returned by slave                |
 | `request`    | request frame                                                |
+| `response`   | response frame from slave should be put here                 |
 
 `data` points to dynamically allocated array of type **ModbusData**, and length of `dataLength` containing data read from salve device.
+
 `finished` is set to non-zero value, when parsing frame is finished, and results are available.
+
 `exception` contains exception information, if any.
+
 `request` contains request frame, ought to be send to slave device.
 
+`response` should contain response frame from slave.
 
 ## NOTES
 **ModbusMasterStatus** is declared in **lightmodbus/master/mtypes.h**, although including **lightmodbus/master.h** is enough.
