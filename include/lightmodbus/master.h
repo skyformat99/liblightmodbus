@@ -26,7 +26,7 @@
 #endif
 
 extern uint8_t modbusParseException( ModbusMasterStatus *status, union ModbusParser *parser );
-extern uint8_t modbusParseResponse( ModbusMasterStatus *status, uint8_t *frame, uint8_t frameLength, uint8_t *RequestFrame, uint8_t RequestFrameLength );
+extern uint8_t modbusParseResponse( ModbusMasterStatus *status );
 extern uint8_t modbusMasterInit( ModbusMasterStatus *status );
 extern void modbusMasterEnd( ModbusMasterStatus *status ); //Free memory used by master
 

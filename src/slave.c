@@ -37,7 +37,7 @@ uint8_t modbusBuildException( ModbusSlaveStatus *status, uint8_t function, uint8
 	return MODBUS_ERROR_EXCEPTION;
 }
 
-uint8_t modbusParseRequest( ModbusSlaveStatus *status, uint8_t *frame, uint8_t frameLength )
+uint8_t modbusParseRequest( ModbusSlaveStatus *status )
 {
 	//Parse and interpret given modbus frame on slave-side
 
@@ -58,18 +58,18 @@ uint8_t modbusParseRequest( ModbusSlaveStatus *status, uint8_t *frame, uint8_t f
 	status->finished = 0;
 
 	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
-	if ( frameLength == 0 ) return MODBUS_ERROR_OTHER;
+	if ( status->request.length == 0 ) return MODBUS_ERROR_OTHER;
 
 	//This part right there, below should be optimized, but currently I'm not 100% sure, that parsing doesn't malform given frame
 	//In this case it's just much easier to allocate new frame
-	union ModbusParser *parser = (union ModbusParser *) malloc( frameLength );
+	union ModbusParser *parser = (union ModbusParser *) malloc( status->request.length );
 	if ( parser == NULL )
 	{
 		free( parser );
 		return MODBUS_ERROR_ALLOC;
 	}
 
-	memcpy( parser->frame, frame, frameLength );
+	memcpy( parser->frame, status->request.frame, status->request.length );
 
 	//If frame is not broadcasted and address doesn't match skip parsing
 	if ( parser->base.address != status->address && parser->base.address != 0 )

@@ -35,6 +35,7 @@ typedef struct
 	uint8_t finished; //Is parsing finished?
 	ModbusException exception; //Optional exception read
 	ModbusFrame request; //Formatted request for slave
+	ModbusFrame response; //Response from slave should be put here
 } ModbusMasterStatus; //Type containing master device configuration data
 
 #endif

@@ -28,7 +28,7 @@ uint8_t modbusParseException( ModbusMasterStatus *status, union ModbusParser *pa
 	return MODBUS_ERROR_EXCEPTION;
 }
 
-uint8_t modbusParseResponse( ModbusMasterStatus *status, uint8_t *frame, uint8_t frameLength, uint8_t *RequestFrame, uint8_t RequestFrameLength )
+uint8_t modbusParseResponse( ModbusMasterStatus *status )
 {
 	//This function parses response from master
 	//Calling it will lead to losing all data and exceptions stored in MODBUSMaster (space will be reallocated)
@@ -47,26 +47,26 @@ uint8_t modbusParseResponse( ModbusMasterStatus *status, uint8_t *frame, uint8_t
 	status->finished = 0;
 
 	//If user tries to parse an empty frame return error (to avoid problems with memory allocation)
-	if ( frameLength == 0 ) return MODBUS_ERROR_OTHER;
+	if ( status->response.length == 0 ) return MODBUS_ERROR_OTHER;
 
 	//Allocate memory for union and copy frame to it
-	union ModbusParser *parser = (union ModbusParser *) malloc( frameLength );
+	union ModbusParser *parser = (union ModbusParser *) malloc( status->response.length );
 	if ( parser == NULL )
 	{
 		free( parser );
 		return MODBUS_ERROR_ALLOC;
 	}
-	memcpy( parser->frame,  frame, frameLength );
+	memcpy( parser->frame, status->response.frame, status->response.length );
 
 	//Allocate memory for request union and copy frame to it
-	union ModbusParser *requestParser = (union ModbusParser *) malloc( RequestFrameLength );
+	union ModbusParser *requestParser = (union ModbusParser *) malloc( status->request.length );
 	if ( requestParser == NULL )
 	{
 		free( parser );
 		free( requestParser );
 		return MODBUS_ERROR_ALLOC;
 	}
-	memcpy( requestParser->frame,  RequestFrame, RequestFrameLength );
+	memcpy( requestParser->frame,  status->request.frame, status->request.length );
 
 	//Check if frame is exception response
 	if ( parser->base.function & 128 )
