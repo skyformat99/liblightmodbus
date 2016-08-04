@@ -1,0 +1,33 @@
+.TH modbusParseResponse 3lightmodbus "4 August 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusParseResponse\fP \- parse response frame returned by slave device.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/master.h>\fR
+.PP
+\fB\fC
+    uint8_t modbusParseResponse( ModbusMasterStatus *status );
+    uint8_t modbusParseResponse01( ModbusMasterStatus *status, union ModbusParser *parser, union ModbusParser *requestParser );
+    uint8_t modbusParseResponse02( ModbusMasterStatus *status, union ModbusParser *parser, union ModbusParser *requestParser );
+    uint8_t modbusParseResponse03( ModbusMasterStatus *status, union ModbusParser *parser, union ModbusParser *requestParser );
+    uint8_t modbusParseResponse04( ModbusMasterStatus *status, union ModbusParser *parser, union ModbusParser *requestParser );
+    uint8_t modbusParseResponse05( ModbusMasterStatus *status, union ModbusParser *parser, union ModbusParser *requestParser );
+    uint8_t modbusParseResponse06( ModbusMasterStatus *status, union ModbusParser *parser, union ModbusParser *requestParser );
+    uint8_t modbusParseResponse15( ModbusMasterStatus *status, union ModbusParser *parser, union ModbusParser *requestParser );
+    uint8_t modbusParseResponse16( ModbusMasterStatus *status, union ModbusParser *parser, union ModbusParser *requestParser );
+\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusParseResponse\fP function parses request frame located in \fIstatus.response\fP\&. Results are written into \fIstatus.data\fP, and \fIstatus.finished\fP is set to 1, when function exits.
+Also, an error code is returned (described in 
+.BR lightmodbus (3lightmodbus)).
+.PP
+\fBmodbusParseResponse01\fP, \fBmodbusParseResponse02\fP and so on can only parse specific function responses, while \fBmodbusParseResponse\fP automatically picks on of them. Keep in mind, that calling them directly is unsafe.
+.SH SEE ALSO
+.PP
+.BR lightmodbus (3lightmodbus), 
+.BR ModbusMasterStatus (3lightmodbus)
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

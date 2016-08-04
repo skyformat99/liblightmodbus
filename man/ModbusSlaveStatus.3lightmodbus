@@ -63,6 +63,10 @@ member name	description
 In \fIcoils\fP and \fIdiscreteInputs\fP each bit matches one input/output, and
 \fIdiscreteInputCount\fP and \fIcoilCount\fP correspond to actual input/output count, not the array length!
 When some request\-parsing function is called, make sure that valid frame pointer is set inside \fIrequest\fP\&.
+After setting structure up manually, \fBmodbusSlaveInit\fP should be called.
+.PP
+Important thing is, \fIrequest\fP is not an array, just a pointer. \fBIt does not point to allocated memory by default!\fP
+Please, simply put address of your data there, and do not attempt copying it.
 .SH SEE ALSO
 .PP
 ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )

@@ -50,6 +50,9 @@ member name	description
 .SH NOTES
 .PP
 \fBModbusMasterStatus\fP is declared in \fBlightmodbus/master/mtypes.h\fP, although including \fBlightmodbus/master.h\fP is enough.
+.PP
+Important thing is, \fIresponse\fP is not an array, just a pointer. \fBIt does not point to allocated memory by default!\fP
+Please, simply put address of your data there, and do not attempt copying it.
 .SH SEE ALSO
 .PP
 ModbusFrame( 3lightmodbus ), ModbusException( 3lightmodbus ), ModbusData( 3lightmodbus ), modbusMasterInit( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )

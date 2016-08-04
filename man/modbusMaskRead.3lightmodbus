@@ -11,7 +11,6 @@
 .PP
 The \fBmodbusMaskRead\fP function returns \fIbit\fP bit from \fImask\fP little\-endian array of \fImaskLength\fP length. It's useful when whole array is
  one long bit mask. When returned value is greater than 1, an error occurred.
-.SH SEE ALSO
 .SH AUTHORS
 .PP
 Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

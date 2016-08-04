@@ -11,7 +11,6 @@
 .PP
 The \fBmodbusMaskWrite\fP writes \fIbit\fP bit in \fImask\fP little\-endian array of \fImaskLength\fP length to \fIvalue\fP value. It's useful when whole array is
  one long bit mask. When returned value is greater than 0, an error occurred.
-.SH SEE ALSO
 .SH AUTHORS
 .PP
 Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

@@ -48,6 +48,10 @@ remember to call **modbusSlaveInit**. Values like *registers*, *registerCount*, 
 In *coils* and *discreteInputs* each bit matches one input/output, and
 *discreteInputCount* and *coilCount* correspond to actual input/output count, not the array length!
 When some request-parsing function is called, make sure that valid frame pointer is set inside *request*.
+After setting structure up manually, **modbusSlaveInit** should be called.
+
+Important thing is, *request* is not an array, just a pointer. **It does not point to allocated memory by default!**
+Please, simply put address of your data there, and do not attempt copying it.
 
 ## SEE ALSO
 ModbusFrame( 3lightmodbus ), modbusSlaveInit( 3lightmodbus ), modbusSlaveEnd( 3lightmodbus )

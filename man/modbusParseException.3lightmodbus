@@ -11,7 +11,6 @@
 .PP
 The \fBmodbusParseException\fP function parses exception frame stored in \fIparser\fP union, and leaves results in \fIstatus\fP\&.
 If no error occurs, 0 value is returned.
-.SH SEE ALSO
 .SH AUTHORS
 .PP
 Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

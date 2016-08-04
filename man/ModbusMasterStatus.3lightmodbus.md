@@ -42,6 +42,9 @@ remember to call **modbusMasterInit**.
 ## NOTES
 **ModbusMasterStatus** is declared in **lightmodbus/master/mtypes.h**, although including **lightmodbus/master.h** is enough.
 
+Important thing is, *response* is not an array, just a pointer. **It does not point to allocated memory by default!**
+Please, simply put address of your data there, and do not attempt copying it.
+
 ## SEE ALSO
 ModbusFrame( 3lightmodbus ), ModbusException( 3lightmodbus ), ModbusData( 3lightmodbus ), modbusMasterInit( 3lightmodbus ), modbusMasterEnd( 3lightmodbus )
 
