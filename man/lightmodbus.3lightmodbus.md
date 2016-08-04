@@ -188,7 +188,7 @@ Error code macros are defined in **lightmodbus/core.h**.
 
 `MODBUS_ERROR_CRC` is returned when CRC attached to frame was incorrect. Obviously frame is ignored in such a case.
 
-`MODBUS_ERROR_ALLOC` is returned when **malloc** or **realloc** call has failed.
+`MODBUS_ERROR_ALLOC` is returned when **malloc** or **realloc** call has failed. This also means, you should probably reinitialize the library if you don't want either your cat or hamster to die, or your motherboard to get burnt. 
 
 `MODBUS_ERROR_OTHER` is returned when e.g. user tries to parse frame of 0-length, or slave was initialized with address 0.
 

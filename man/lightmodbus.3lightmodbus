@@ -275,7 +275,7 @@ macro	value	description
 .PP
 \fB\fCMODBUS_ERROR_CRC\fR is returned when CRC attached to frame was incorrect. Obviously frame is ignored in such a case.
 .PP
-\fB\fCMODBUS_ERROR_ALLOC\fR is returned when \fBmalloc\fP or \fBrealloc\fP call has failed.
+\fB\fCMODBUS_ERROR_ALLOC\fR is returned when \fBmalloc\fP or \fBrealloc\fP call has failed. This also means, you should probably reinitialize the library if you don't want either your cat or hamster to die, or your motherboard to get burnt. 
 .PP
 \fB\fCMODBUS_ERROR_OTHER\fR is returned when e.g. user tries to parse frame of 0\-length, or slave was initialized with address 0.
 .PP
