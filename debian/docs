@@ -17,4 +17,5 @@ man/modbusMaskWrite.3lightmodbus.md
 man/modbusMaskRead.3lightmodbus.md
 man/modbusMasterInit.3lightmodbus.md
 man/modbusMasterEnd.3lightmodbus.md
+man/modbusBuildException.3lightmodbus.md
 man/ModbusDataType.3lightmodbus.md
