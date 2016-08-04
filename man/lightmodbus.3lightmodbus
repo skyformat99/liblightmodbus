@@ -305,6 +305,31 @@ function	description
 15	write multiple coils
 16	write multiple holding registers
 .TE
+.SH MODBUS EXCEPTIONS
+.PP
+Modbus exception codes meanings:
+.TS
+allbox;
+cb cb
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+l l
+.
+exception	description
+1	illegal function code
+2	illegal data address
+3	illegal data value
+4	slave device failure
+5	acknowledge
+6	slave device busy
+7	negative acknowledge
+8	memory parity error
+.TE
 .SH AUTHORS
 .PP
 Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

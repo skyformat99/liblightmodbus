@@ -208,5 +208,19 @@ Modbus function codes meanings:
 | 15		| write multiple coils												|
 | 16		| write multiple holding registers									|
 
+## MODBUS EXCEPTIONS
+Modbus exception codes meanings:
+
+| exception | description														|
+|-----------|-------------------------------------------------------------------|
+| 1			| illegal function code 											|
+| 2 		| illegal data address												|
+| 3			| illegal data value												|
+| 4			| slave device failure												|
+| 5			| acknowledge														|
+| 6 		| slave device busy													|
+| 7			| negative acknowledge												|
+| 8 		| memory parity error												|
+
 ## AUTHORS
 Jacek Wieczorek (Jacajack) <mrjjot@gmail.com>
