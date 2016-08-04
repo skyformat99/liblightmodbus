@@ -136,5 +136,52 @@ int main( )
 	masterdump( );
 
 
+
+
+
+	/* COILS */
+
+	//Build frame to write single coil
+	modbusBuildRequest05( &mstatus, 27, 07, 1 );
+
+	//Pretend frame is being sent to slave
+	sstatus.request.frame = mstatus.request.frame;
+	sstatus.request.length = mstatus.request.length;
+
+	//Let slave parse frame
+	sec = modbusParseRequest( &sstatus );
+
+	//Pretend frame is being sent to master
+	mstatus.response.frame = sstatus.response.frame;
+	mstatus.response.length = sstatus.response.length;
+
+	mec = modbusParseResponse( &mstatus );
+
+	//Dump status again
+	slavedump( );
+	masterdump( );
+
+	/* READ VALUE */
+
+	//Build frame to read 4 coils
+	modbusBuildRequest01( &mstatus, 27, 0, 8 );
+
+	//Pretend frame is being sent to slave
+	sstatus.request.frame = mstatus.request.frame;
+	sstatus.request.length = mstatus.request.length;
+
+	//Let slave parse frame
+	sec = modbusParseRequest( &sstatus );
+
+	//Pretend frame is being sent to master
+	mstatus.response.frame = sstatus.response.frame;
+	mstatus.response.length = sstatus.response.length;
+
+	mec = modbusParseResponse( &mstatus );
+
+	//Dump status again
+	slavedump( );
+	masterdump( );
+
 	return 0;
 }
