@@ -61,7 +61,9 @@ void Test( )
 
 	//Parse request
 	printf( "Let slave parse frame...\n" );
-	SlaveError = modbusParseRequest( &sstatus, mstatus.request.frame, mstatus.request.length );
+	sstatus.request.frame = mstatus.request.frame;
+	sstatus.request.length = mstatus.request.length;
+	SlaveError = modbusParseRequest( &sstatus );
 	printf( "\tError - %d\n\tFinished - %d\n", SlaveError, sstatus.finished );
 
 	//Dump slave registers
@@ -88,7 +90,9 @@ void Test( )
 
 	//Process response
 	printf( "Let master process response...\n" );
-	MasterError = modbusParseResponse( &mstatus, sstatus.response.frame, sstatus.response.length, mstatus.request.frame, mstatus.request.length );
+	mstatus.response.frame = sstatus.response.frame;
+	mstatus.response.length = sstatus.response.length;
+	MasterError = modbusParseResponse( &mstatus );
 
 	//Dump parsed data
 	printf( "\tError - %d\n\tFinished - %d\n", MasterError, mstatus.finished );
