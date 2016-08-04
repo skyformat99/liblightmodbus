@@ -50,6 +50,10 @@ In *coils* and *discreteInputs* each bit matches one input/output, and
 When some request-parsing function is called, make sure that valid frame pointer is set inside *request*.
 After setting structure up manually, **modbusSlaveInit** should be called.
 
+Holding registers can be write-protected. To achieve that, accordingly set **bits** to 1 in *registerMask* array (of *registerMaskLength*).
+For example, setting 17th bit to 1, will result in 17th register being read-only.
+To write and read masks more easily see modbusMaskRead(3lightmodbus) and modbusMaskWrite(3lightmodbus).
+
 Important thing is, *request* is not an array, just a pointer. **It does not point to allocated memory by default!**
 Please, simply put address of your data there, and do not attempt copying it.
 

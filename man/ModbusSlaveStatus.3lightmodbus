@@ -65,6 +65,13 @@ In \fIcoils\fP and \fIdiscreteInputs\fP each bit matches one input/output, and
 When some request\-parsing function is called, make sure that valid frame pointer is set inside \fIrequest\fP\&.
 After setting structure up manually, \fBmodbusSlaveInit\fP should be called.
 .PP
+Holding registers can be write\-protected. To achieve that, accordingly set \fBbits\fP to 1 in \fIregisterMask\fP array (of \fIregisterMaskLength\fP).
+For example, setting 17th bit to 1, will result in 17th register being read\-only.
+To write and read masks more easily see 
+.BR modbusMaskRead (3lightmodbus) 
+and 
+.BR modbusMaskWrite (3lightmodbus).
+.PP
 Important thing is, \fIrequest\fP is not an array, just a pointer. \fBIt does not point to allocated memory by default!\fP
 Please, simply put address of your data there, and do not attempt copying it.
 .SH SEE ALSO
