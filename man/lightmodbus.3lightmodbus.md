@@ -65,7 +65,7 @@ Full listing of functions included in `lightmodbus` library.
 First of all, you need to make sure, that master module is included to the library. After that,
 `lightmodbus/master.h` and all of its dependences header files are needed.
 
-First step is to declare **ModbusMasterStatus** type variable, to contain Modbus configuration data. Later, it needs to be passed
+First step is to declare **ModbusMasterStatus** type variable, to contain Modbus configuration data. Later it needs to be passed
 to almost every master-side function you call.
 
 `ModbusMasterStatus mstatus;`
@@ -89,10 +89,29 @@ This assumes, that user did not change `mstatus.request`, because original reque
 
 
 ### Slave
+Like on master side, first declare **ModbusSlaveStatus** type variable, to contain Modbus configuration data. Later it needs to be passed
+to almost every slave-side function.
 
+`ModbusSlaveStatus sstatus;`
+
+Now, let's set up some basic important values inside.
+
+`  
+	uint16_t regs[16];
+	sstatus.registers = regs;
+	sstatus.registerCount = 16;
+	sstatus.address = 27; //Slave device address
+`
+
+After this, we can finally call **modbusSlaveInit**.
+
+`modbusSlaveInit( &sstatus );`
+
+Then, slave is ready to work. Each frame received should be put in `sstatus.request`, then **modbusParseRequest** should be called, and finally
+`sstatus.response` are ought to be sent to master.
 
 ## RETURN VALUES
-**modbusSlaveInit**, **modbusSlaveEnd**, **modbusMasterInit**, **modbusMasterEnd**, **modbusParseRequest**, **modbusParseResponse**, **modbusBuildRequest** and the rest of parsing/building functions return an error code when they exit. Below you'll find description of those.
+**modbusSlaveInit**, **modbusSlaveEnd**, **modbusMasterInit**, **modbusMasterEnd**, **modbusParseRequest**, **modbusParseResponse**, **modbusParseException**, **modbusBuildRequest**, **modbusBuildException** and the rest of parsing/building functions return an error code when they exit. Below you'll find description of those.
 
 Error code macros are defined in **lightmodbus/core.h**.
 
