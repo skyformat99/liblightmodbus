@@ -1,0 +1,31 @@
+.TH modbusBuildRequest 3lightmodbus "4 August 2016" "v1.2"
+.SH NAME
+.PP
+\fBmodbusBuildRequest\fP, \fBmodbusBuildRequest01\fP, \fBmodbusBuildRequest02\fP, \fBmodbusBuildRequest03\fP, \fBmodbusBuildRequest04\fP, \fBmodbusBuildRequest05\fP, \fBmodbusBuildRequest06\fP, \fBmodbusBuildRequest15\fP, \fBmodbusBuildRequest16\fP \- build request for slave device.
+.SH SYNOPSIS
+.PP
+\fB\fC#include <lightmodbus/master.h>\fR
+.PP
+\fB\fC
+    uint8_t modbusBuildRequest01( ModbusMasterStatus *status, uint8_t address, uint16_t firstCoil, uint16_t coilCount );
+    uint8_t modbusBuildRequest02( ModbusMasterStatus *status, uint8_t address, uint16_t firstInput, uint16_t inputCount );
+    uint8_t modbusBuildRequest03( ModbusMasterStatus *status, uint8_t address, uint16_t firstRegister, uint16_t registerCount );
+    uint8_t modbusBuildRequest04( ModbusMasterStatus *status, uint8_t address, uint16_t firstRegister, uint16_t registerCount );
+    uint8_t modbusBuildRequest05( ModbusMasterStatus *status, uint8_t address, uint16_t coil, uint16_t value );
+    uint8_t modbusBuildRequest06( ModbusMasterStatus *status, uint8_t address, uint16_t reg, uint16_t value );
+    uint8_t modbusBuildRequest15( ModbusMasterStatus *status, uint8_t address, uint16_t firstCoil, uint16_t coilCount, uint8_t *values );
+    uint8_t modbusBuildRequest16( ModbusMasterStatus *status, uint8_t address, uint16_t firstRegister, uint16_t registerCount, uint16_t *values );
+\fR
+.SH DESCRIPTION
+.PP
+The \fBmodbusBuildRequest\fP functions build request frame later located in \fIstatus.request\fP, ought to be sent to slave device.
+Function prototypes are rather self\-explanatory.
+An error code is returned (described in 
+.BR lightmodbus (3lightmodbus)).
+.SH SEE ALSO
+.PP
+.BR lightmodbus (3lightmodbus), 
+.BR ModbusMasterStatus (3lightmodbus)
+.SH AUTHORS
+.PP
+Jacek Wieczorek (Jacajack) \[la]mrjjot@gmail.com\[ra]

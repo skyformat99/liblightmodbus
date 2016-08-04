@@ -1,7 +1,7 @@
 # modbusParseRequest 3lightmodbus "4 August 2016" "v1.2"
 
 ## NAME
-**modbusParseRequest** - parse request frame sent in by master device.
+**modbusParseRequest**, **modbusParseRequest01**, **modbusParseRequest02**, **modbusParseRequest03**, **modbusParseRequest04**, **modbusParseRequest05**, **modbusParseRequest06**, **modbusParseRequest15**, **modbusParseRequest16** - parse request frame sent in by master device.
 
 ## SYNOPSIS
 `#include <lightmodbus/slave.h>`

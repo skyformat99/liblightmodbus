@@ -1,7 +1,7 @@
 # modbusParseResponse 3lightmodbus "4 August 2016" "v1.2"
 
 ## NAME
-**modbusParseResponse** - parse response frame returned by slave device.
+**modbusParseResponse**, **modbusParseResponse01**, **modbusParseResponse02**, **modbusParseResponse03**, **modbusParseResponse04**, **modbusParseResponse05**, **modbusParseResponse06**, **modbusParseResponse15**, **modbusParseResponse16** - parse response frame returned by slave device.
 
 ## SYNOPSIS
 `#include <lightmodbus/master.h>`
