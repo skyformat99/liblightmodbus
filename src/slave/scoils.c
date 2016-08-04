@@ -215,6 +215,7 @@ uint8_t modbusParseRequest15( ModbusSlaveStatus *status, union ModbusParser *par
 	{
 		//Illegal data address error
 		if ( parser->base.address != 0 ) return modbusBuildException( status, 0x0F, 0x02 );
+		status->finished = 1;
 		return 0;
 	}
 
